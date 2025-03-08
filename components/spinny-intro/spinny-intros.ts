@@ -40,6 +40,7 @@ import video_2025_02_17_desktop from "./videos/2025-02-17-desktop.webm";
 import video_2025_02_17_mobile from "./videos/2025-02-17-mobile.webm";
 import video_2025_02_27_desktop from "./videos/2025-02-27-desktop.webm";
 import video_2025_02_27_mobile from "./videos/2025-02-27-mobile.webm";
+import frames_2025_03_08 from "./frames/2025-03-08.tar";
 
 // TODO: move above into api
 
@@ -47,6 +48,7 @@ export interface ISpinnyIntro {
 	date: [number, number, number];
 	desktop?: string;
 	mobile?: string;
+	frames?: string;
 	changes: string[];
 	version: 0 | 1;
 }
@@ -60,6 +62,7 @@ export interface ISpinnyIntroWithIndex extends ISpinnyIntro {
 export const SpinnyIntros: ISpinnyIntro[] = [
 	{
 		date: [2025, 3, 8],
+		frames: frames_2025_03_08,
 		changes: [
 			"use avif images to render instead of a webm. file size about 2.2x smaller",
 		],

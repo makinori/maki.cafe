@@ -5,7 +5,6 @@ import UAParser from "ua-parser-js";
 import * as url from "url";
 import { config } from "../utils/config";
 import { DataSources, LatestData } from "./data-sources";
-import { SpinnyIntroServer } from "./spinny-intro";
 
 const port = process.env.PORT ?? 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -41,8 +40,6 @@ export interface ServerData {
 		}
 	});
 
-	await new SpinnyIntroServer(expressApp).init();
-
 	// init next
 
 	const nextApp = next({ dev });
@@ -61,6 +58,16 @@ export interface ServerData {
 		) {
 			expressApp(req, res);
 		} else {
+			// disable compression for tar files
+			// otherwise content-length doesn't get sent
+			// TODO: does actually lower size slightly for spinny intros
+
+			if (parsedUrl.pathname.toLowerCase().endsWith(".tar")) {
+				delete req.headers["accept-encoding"];
+			}
+
+			// get server data and send to next.js
+
 			const ua = new UAParser(req.headers["user-agent"]);
 
 			const isMobile = ua.getDevice().type == "mobile";

@@ -96,19 +96,13 @@ const nextConfig = {
 		// 	use: ["@svgr/webpack"],
 		// });
 
+		// TODO: replace above with type: "asset/inline"
+		// https://webpack.js.org/guides/asset-modules/
+
 		// add more files to file loading via url
 		config.module.rules.push({
 			test: extsRegExp(["mp4", "webm", "tar"]),
-			use: [
-				{
-					loader: "file-loader",
-					options: {
-						publicPath: `${prefix}/_next/static/media/`,
-						outputPath: `${isServer ? "../" : ""}static/media/`,
-						name: "[name].[hash:8].[ext]",
-					},
-				},
-			],
+			type: "asset/resource",
 		});
 
 		return config;

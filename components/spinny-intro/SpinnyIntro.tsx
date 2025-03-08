@@ -1,4 +1,5 @@
 import { BoxProps, Flex, Text } from "@chakra-ui/react";
+import * as nanotar from "nanotar";
 import { Component, createRef, CSSProperties } from "react";
 import { PerspectiveCamera } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -107,57 +108,39 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 
 	updating = false;
 
-	private async getVideo(signal?: AbortSignal) {
-		// get video loading progress
+	private async getFileWithProgress(url: string, signal?: AbortSignal) {
+		const res = await fetch(url, {
+			cache: "force-cache",
+			signal,
+		});
 
-		if (this.props.client.isSafari) {
-			// TODO: safari is awful. transparency doesnt work either and cant scrub
-			this.v0videoRef.current.src = this.props.client.isMobile
-				? this.props.intro.mobile
-				: this.props.intro.desktop;
-		} else {
-			const res = await fetch(
-				this.props.client.isMobile
-					? this.props.intro.mobile
-					: this.props.intro.desktop,
-				{
-					cache: "force-cache",
-					signal,
-				},
-			);
+		if (res.body == null) return;
 
-			if (res.body == null) return;
+		const reader = res.body.getReader();
 
-			const reader = res.body.getReader();
+		const contentLength = Number(res.headers.get("Content-Length") ?? 0);
+		console.log(contentLength);
+		if (contentLength == null) return;
 
-			const contentLength = Number(
-				res.headers.get("Content-Length") ?? 0,
-			);
-			if (contentLength == null) return;
+		let receivedLength = 0;
+		let chunks: Uint8Array[] = [];
 
-			let receivedLength = 0;
-			let chunks: Uint8Array[] = [];
+		while (true) {
+			const { done, value } = await reader.read();
 
-			while (true) {
-				const { done, value } = await reader.read();
-
-				if (done) {
-					break;
-				}
-
-				chunks.push(value);
-				receivedLength += value.length;
-
-				this.setState({
-					progress: (receivedLength / contentLength) * 100,
-				});
+			if (done) {
+				break;
 			}
 
-			const blob = new Blob(chunks);
+			chunks.push(value);
+			receivedLength += value.length;
 
-			var vid = URL.createObjectURL(blob);
-			this.v0videoRef.current.src = vid;
+			this.setState({
+				progress: (receivedLength / contentLength) * 100,
+			});
 		}
+
+		return new Blob(chunks);
 	}
 
 	private ensurePlayPause() {
@@ -209,7 +192,19 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 		let v1ctx: CanvasRenderingContext2D;
 
 		if (intro.version == 0) {
-			await this.getVideo();
+			const videoUrl = this.props.client.isMobile
+				? intro.mobile
+				: intro.desktop;
+
+			if (this.props.client.isSafari) {
+				// TODO: safari is awful. transparency doesnt work either and cant scrub
+				this.v0videoRef.current.src = videoUrl;
+			} else {
+				this.v0videoRef.current.src = URL.createObjectURL(
+					await this.getFileWithProgress(videoUrl),
+				);
+			}
+
 			this.ensurePlayPause();
 		} else if (intro.version == 1) {
 			this.v1canvasRef.current.width = 1000;
@@ -217,25 +212,16 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 
 			v1ctx = this.v1canvasRef.current.getContext("2d");
 
-			const dateString = [
-				intro.date[0],
-				String(intro.date[1]).padStart(2, "0"),
-				String(intro.date[2]).padStart(2, "0"),
-			].join("-");
+			const tarFile = await this.getFileWithProgress(intro.frames);
+			const tar = nanotar.parseTar(await tarFile.arrayBuffer());
 
 			v1frames = await Promise.all(
-				new Array(1000).fill(null).map(async (_, i) => {
-					const image = await preloadImage(
-						[
-							"/api/spinny-intro/",
-							dateString,
-							"/",
-							String(i).padStart(4, "0"),
-							".avif",
-						].join(""),
+				new Array(1000).fill(null).map((_, i) => {
+					const filename = String(i).padStart(4, "0") + ".avif";
+					const frameFile = tar.find(f => f.name.endsWith(filename));
+					return preloadImage(
+						URL.createObjectURL(new Blob([frameFile.data])),
 					);
-
-					return image;
 				}),
 			);
 		}
@@ -367,28 +353,28 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 
 	async componentDidUpdate(prevProps: SpinnyIntroProps, prevState: any) {
 		if (this.props.intro !== prevProps.intro) {
-			// this.componentWillUnmount();
-			// this.componentDidMount();
+			this.componentWillUnmount();
+			this.componentDidMount();
 
-			if (this.props.onUnready) this.props.onUnready();
+			// if (this.props.onUnready) this.props.onUnready();
 
-			this.setState({
-				progress: 0,
-				loadingOpacity: 1,
-				opacity: 0.2,
-				unsupportedOpacity: 0,
-			});
+			// this.setState({
+			// 	progress: 0,
+			// 	loadingOpacity: 1,
+			// 	opacity: 0.2,
+			// 	unsupportedOpacity: 0,
+			// });
 
-			// abortController = new AbortController();
-			await this.getVideo();
+			// // abortController = new AbortController();
+			// await this.getVideo();
 
-			this.setState({
-				loadingOpacity: 0,
-				opacity: 1,
-				unsupportedOpacity: 1,
-			});
+			// this.setState({
+			// 	loadingOpacity: 0,
+			// 	opacity: 1,
+			// 	unsupportedOpacity: 1,
+			// });
 
-			if (this.props.onReady) this.props.onReady();
+			// if (this.props.onReady) this.props.onReady();
 		}
 	}
 
@@ -498,13 +484,7 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 					opacity={this.state.loadingOpacity}
 					// zIndex={30}
 				>
-					<HomeCardLoading
-						size={16}
-						progress={
-							intro.version == 0 ? this.state.progress : null
-							// this.state.progress
-						}
-					/>
+					<HomeCardLoading size={16} progress={this.state.progress} />
 				</Flex>
 			</Flex>
 		);
