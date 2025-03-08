@@ -118,3 +118,27 @@ export function hsvToHex(h: number, s: number, v: number) {
 			.join("")
 	);
 }
+
+export const preloadImage = (src: string): Promise<HTMLImageElement> =>
+	new Promise((resolve, reject) => {
+		const image = new Image();
+		image.onload = () => {
+			resolve(image);
+		};
+		image.onerror = reject;
+		image.src = src;
+	});
+
+export const mergeRefs = <T>(
+	refs: Array<React.MutableRefObject<T> | React.LegacyRef<T> | null>,
+): React.RefCallback<T> => {
+	return value => {
+		refs.forEach(ref => {
+			if (typeof ref === "function") {
+				ref(value);
+			} else if (ref != null) {
+				(ref as React.MutableRefObject<T | null>).current = value;
+			}
+		});
+	};
+};

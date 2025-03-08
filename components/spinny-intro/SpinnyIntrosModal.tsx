@@ -139,6 +139,8 @@ export default function SpinnyIntrosModal(props: {
 				<ModalBody>
 					<VStack spacing={0}>
 						<SpinnyIntro
+							// forces remount when switching
+							key={selectedIntroIndex}
 							w={600}
 							h={600}
 							mx={0}

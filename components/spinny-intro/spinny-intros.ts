@@ -41,12 +41,14 @@ import video_2025_02_17_mobile from "./videos/2025-02-17-mobile.webm";
 import video_2025_02_27_desktop from "./videos/2025-02-27-desktop.webm";
 import video_2025_02_27_mobile from "./videos/2025-02-27-mobile.webm";
 
+// TODO: move above into api
+
 export interface ISpinnyIntro {
 	date: [number, number, number];
-	desktop: string;
-	mobile: string;
+	desktop?: string;
+	mobile?: string;
 	changes: string[];
-	// removed: string[];
+	version: 0 | 1;
 }
 
 export interface ISpinnyIntroWithIndex extends ISpinnyIntro {
@@ -57,10 +59,18 @@ export interface ISpinnyIntroWithIndex extends ISpinnyIntro {
 
 export const SpinnyIntros: ISpinnyIntro[] = [
 	{
+		date: [2025, 3, 8],
+		changes: [
+			"use avif images to render instead of a webm. file size about 2.2x smaller",
+		],
+		version: 1,
+	},
+	{
 		date: [2025, 2, 27],
 		desktop: video_2025_02_27_desktop,
 		mobile: video_2025_02_27_mobile,
 		changes: ["update pony colors", "update pony cutie mark"],
+		version: 0,
 	},
 	{
 		date: [2025, 2, 17],
@@ -76,6 +86,7 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"+ add finn and jake sticker",
 			"+ add mouth and nose to pony. it's subtle",
 		],
+		version: 0,
 	},
 	{
 		date: [2025, 2, 13],
@@ -87,12 +98,14 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"+ add sigma hypersphere",
 			"+ add boykisser, vortigaunt and princess bubblegum stickers",
 		],
+		version: 0,
 	},
 	{
 		date: [2025, 1, 16],
 		desktop: video_2025_01_16_desktop,
 		mobile: video_2025_01_16_mobile,
 		changes: ["update keyboard to femboy flag"],
+		version: 0,
 	},
 	{
 		date: [2025, 1, 15],
@@ -102,6 +115,7 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"rotate huel slightly",
 			"move blahaj back to original position",
 		],
+		version: 0,
 	},
 	{
 		date: [2025, 1, 12],
@@ -113,6 +127,7 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"accidentally move blahaj a little",
 			"+ add huel, mercy staff and rubiks cube",
 		],
+		version: 0,
 	},
 	{
 		date: [2024, 10, 24],
@@ -123,12 +138,14 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"+ add hoof frogs",
 			"+ add cheerilee sticker",
 		],
+		version: 0,
 	},
 	{
 		date: [2024, 8, 31],
 		desktop: video_2024_08_31_desktop,
 		mobile: video_2024_08_31_mobile,
 		changes: ["- remove rounded hooves", "update mane to anonfilly"],
+		version: 0,
 	},
 	{
 		date: [2024, 8, 4],
@@ -141,6 +158,7 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"+ add kirby figure",
 			"+ add apple bloom and /mlp/ stickers",
 		],
+		version: 0,
 	},
 	{
 		date: [2024, 7, 19],
@@ -150,6 +168,7 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"replace vscode sticker with vscodium",
 			"+ add anonfilly sticker",
 		],
+		version: 0,
 	},
 	{
 		date: [2024, 7, 9],
@@ -160,6 +179,7 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"increase neck length",
 			"+ add minuette, nurse redheart, blahaj and linux stickers",
 		],
+		version: 0,
 	},
 	{
 		date: [2024, 6, 12],
@@ -170,12 +190,14 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"update mane to be tied up",
 			"+ add seedling to cutie mark",
 		],
+		version: 0,
 	},
 	{
 		date: [2024, 5, 14],
 		desktop: video_2024_05_14_desktop,
 		mobile: video_2024_05_14_mobile,
 		changes: ["...i dont know, maybe just some video encoding?"],
+		version: 0,
 	},
 	{
 		date: [2024, 5, 11],
@@ -186,6 +208,7 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"update screen texture",
 			"+ add twilight sparkle sticker",
 		],
+		version: 0,
 	},
 	{
 		date: [2024, 4, 20],
@@ -198,18 +221,21 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"+ add more color to gradient on body",
 			"+ add marble pie, lain and sona stickers",
 		],
+		version: 0,
 	},
 	{
 		date: [2024, 3, 31],
 		desktop: video_2024_03_31_desktop,
 		mobile: video_2024_03_31_mobile,
 		changes: ["update mane gradients so it's linear"],
+		version: 0,
 	},
 	{
 		date: [2024, 3, 30],
 		desktop: video_2024_03_30_desktop,
 		mobile: video_2024_03_30_mobile,
 		changes: ["become a pony!", "+ add fluttershy sticker"],
+		version: 0,
 	},
 	{
 		date: [2024, 1, 31],
@@ -220,6 +246,7 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"update screen plastic material to be shinier",
 			"+ add metroid floating above screen",
 		],
+		version: 0,
 	},
 	{
 		date: [2024, 1, 16],
@@ -235,12 +262,14 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"+ add more lights to the fox lamp",
 			"+ add miku, palutena, metroid, deno stickers",
 		],
+		version: 0,
 	},
 	{
 		date: [2023, 10, 23],
 		desktop: video_2023_10_23_desktop,
 		mobile: video_2023_10_23_mobile,
 		changes: ["shrink fez figure and move", "+ add big blahaj"],
+		version: 0,
 	},
 	{
 		date: [2023, 10, 10],
@@ -251,6 +280,7 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"resize plushies a little",
 			"+ add minecraft fox lamp",
 		],
+		version: 0,
 	},
 	{
 		date: [2023, 9, 21],
@@ -260,6 +290,7 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 			"start using webm for spinny intro",
 			"...there are more spinny intros, but those used three.js",
 		],
+		version: 0,
 	},
 ];
 

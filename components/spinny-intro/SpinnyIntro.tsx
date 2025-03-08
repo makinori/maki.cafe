@@ -1,11 +1,17 @@
 import { BoxProps, Flex, Text } from "@chakra-ui/react";
-import { Component, createRef } from "react";
+import { Component, createRef, CSSProperties } from "react";
 import { PerspectiveCamera } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import type { ClientInfo } from "../../server/main";
 import { Easing } from "../../utils/easing-functions";
 import { TweenManager } from "../../utils/tween-manager";
-import { glslMod, invLerp, sleep } from "../../utils/utils";
+import {
+	glslMod,
+	invLerp,
+	mergeRefs,
+	preloadImage,
+	sleep,
+} from "../../utils/utils";
 import HomeCardLoading from "../ui/home-card/HomeCardLoading";
 import { ISpinnyIntro } from "./spinny-intros";
 
@@ -52,6 +58,11 @@ const endScale = 1;
 // > aah it never ends. im constantly tweaking this
 // > find make-video.sh in components/assets
 
+// ------
+
+// v1 does something different
+// TODO: share script to generate tar with avifs
+
 function isElementInFrame(el: HTMLElement) {
 	const rect = el.getBoundingClientRect();
 	const w = window.innerWidth || document.documentElement.clientWidth;
@@ -77,7 +88,10 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 	};
 
 	parentRef = createRef<HTMLDivElement>();
-	videoRef = createRef<HTMLVideoElement>();
+
+	mainRef = createRef<HTMLElement>();
+	v0videoRef = createRef<HTMLVideoElement>();
+	v1canvasRef = createRef<HTMLCanvasElement>();
 
 	onMouseDown = () => {
 		if (this.parentRef.current == null) return;
@@ -93,12 +107,12 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 
 	updating = false;
 
-	async getVideo(signal?: AbortSignal) {
+	private async getVideo(signal?: AbortSignal) {
 		// get video loading progress
 
 		if (this.props.client.isSafari) {
 			// TODO: safari is awful. transparency doesnt work either and cant scrub
-			this.videoRef.current.src = this.props.client.isMobile
+			this.v0videoRef.current.src = this.props.client.isMobile
 				? this.props.intro.mobile
 				: this.props.intro.desktop;
 		} else {
@@ -142,14 +156,13 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 			const blob = new Blob(chunks);
 
 			var vid = URL.createObjectURL(blob);
-			this.videoRef.current.src = vid;
+			this.v0videoRef.current.src = vid;
 		}
 	}
 
-	async componentDidMount() {
-		await this.getVideo();
-
+	private ensurePlayPause() {
 		// play and pause when user clicked
+		// for firefox??
 
 		let hasPlayPaused = false;
 
@@ -166,9 +179,9 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 
 		const onClickForPlayPaused = (e: Event) => {
 			if (hasPlayPaused) return;
-			if (this.videoRef.current) {
-				this.videoRef.current.play;
-				this.videoRef.current.pause();
+			if (this.v0videoRef.current) {
+				this.v0videoRef.current.play();
+				this.v0videoRef.current.pause();
 			}
 			hasPlayPaused = true;
 			removePlayPausedEventListeners();
@@ -183,6 +196,49 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 			"mousedown",
 			onClickForPlayPaused,
 		);
+	}
+
+	async componentDidMount() {
+		const { intro } = this.props;
+
+		// TODO: what if v1canvas ref is null
+		// TODO: should rewrite this and make it more legible
+		// TODO: add progress bar for v1
+
+		let v1frames: HTMLImageElement[] = [];
+		let v1ctx: CanvasRenderingContext2D;
+
+		if (intro.version == 0) {
+			await this.getVideo();
+			this.ensurePlayPause();
+		} else if (intro.version == 1) {
+			this.v1canvasRef.current.width = 1000;
+			this.v1canvasRef.current.height = 800;
+
+			v1ctx = this.v1canvasRef.current.getContext("2d");
+
+			const dateString = [
+				intro.date[0],
+				String(intro.date[1]).padStart(2, "0"),
+				String(intro.date[2]).padStart(2, "0"),
+			].join("-");
+
+			v1frames = await Promise.all(
+				new Array(1000).fill(null).map(async (_, i) => {
+					const image = await preloadImage(
+						[
+							"/api/spinny-intro/",
+							dateString,
+							"/",
+							String(i).padStart(4, "0"),
+							".avif",
+						].join(""),
+					);
+
+					return image;
+				}),
+			);
+		}
 
 		// init tweeners
 
@@ -194,7 +250,7 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 
 		const scaleTweener = this.tweenMangager.newTweener(
 			(s: number) => {
-				this.videoRef.current.style.transform = `scale(${s})`;
+				this.mainRef.current.style.transform = `scale(${s})`;
 			},
 			this.props.disableScaleTween ? endScale : startScale,
 		);
@@ -224,6 +280,8 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 		parent.addEventListener("mousedown", this.onMouseDown);
 		parent.addEventListener("mouseup", this.onMouseUp);
 
+		let v1lastFrameIndex = -1;
+
 		const update = () => {
 			if (this.parentRef.current == null || controls == null) return;
 			controls.update();
@@ -231,16 +289,17 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 
 			// update frames
 
-			if (this.videoRef.current == null) return;
-			if (!isElementInFrame(this.videoRef.current)) return;
-			if (
-				Number.isNaN(this.videoRef.current.duration) ||
-				this.videoRef.current.duration == 0
-			) {
-				return;
-			}
+			if (this.mainRef.current == null) return;
+			if (!isElementInFrame(this.mainRef.current)) return;
 
-			// if (ctx == null) return;
+			if (intro.version == 0) {
+				if (
+					Number.isNaN(this.v0videoRef.current.duration) ||
+					this.v0videoRef.current.duration == 0
+				) {
+					return;
+				}
+			}
 
 			const azimuthalAngle = controls.getAzimuthalAngle();
 			const rotation = glslMod(
@@ -248,13 +307,21 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 				1,
 			);
 
-			// const frame = frames[Math.floor(rotation * frames.length)];
+			if (intro.version == 0) {
+				this.v0videoRef.current.currentTime =
+					rotation * this.v0videoRef.current.duration;
+			} else if (intro.version == 1) {
+				const frameIndex = Math.floor(rotation * v1frames.length);
 
-			// ctx.clearRect(0, 0, size, size);
-			// ctx.drawImage(frame, 0, 0, frameSize, frameSize, 0, 0, size, size);'
+				if (v1lastFrameIndex == frameIndex) {
+					return;
+				}
 
-			this.videoRef.current.currentTime =
-				rotation * this.videoRef.current.duration;
+				v1lastFrameIndex = frameIndex;
+
+				v1ctx.clearRect(0, 0, 1000, 800);
+				v1ctx.drawImage(v1frames[v1lastFrameIndex], 0, 0, 1000, 800);
+			}
 		};
 
 		const updateLoop = () => {
@@ -339,6 +406,46 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 		// const width = (flexProps.w ?? flexProps.width ?? 0) as number;
 		// const height = (flexProps.h ?? flexProps.height ?? 0) as number;
 
+		let mainEl: React.ReactElement;
+
+		const mainElStyle: CSSProperties = {
+			position: "absolute",
+			transition: "opacity 0.1s linear",
+			// zIndex: 20,
+			// opacity: 0.1,
+			opacity: this.state.opacity,
+			width: "100%",
+			height: "100%",
+			objectFit: "contain",
+			pointerEvents: "none",
+			userSelect: "none",
+			transformOrigin: "50% 70%",
+		};
+
+		if (intro.version == 0) {
+			mainEl = (
+				<video
+					ref={mergeRefs([this.mainRef, this.v0videoRef])}
+					style={mainElStyle}
+					playsInline={true}
+					preload={"auto"}
+					muted={true}
+				>
+					{/* <source
+						src={isMobile ? ponyMobile : ponyDesktop}
+						type="video/webm"
+					></source> */}
+				</video>
+			);
+		} else if (intro.version == 1) {
+			mainEl = (
+				<canvas
+					ref={mergeRefs([this.mainRef, this.v1canvasRef])}
+					style={mainElStyle}
+				/>
+			);
+		}
+
 		return (
 			<Flex
 				// w={width + "px"}
@@ -378,29 +485,7 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 						your browser doesn't support it :(
 					</Text>
 				</Flex>
-				<video
-					ref={this.videoRef}
-					style={{
-						position: "absolute",
-						transition: "opacity 0.1s linear",
-						// zIndex: 20,
-						// opacity: 0.1,
-						opacity: this.state.opacity,
-						width: "100%",
-						height: "100%",
-						pointerEvents: "none",
-						userSelect: "none",
-						transformOrigin: "50% 70%",
-					}}
-					playsInline={true}
-					preload={"auto"}
-					muted={true}
-				>
-					{/* <source
-						src={isMobile ? ponyMobile : ponyDesktop}
-						type="video/webm"
-					></source> */}
-				</video>
+				{mainEl}
 				<Flex
 					position={"absolute"}
 					w={"100%"}
@@ -413,7 +498,13 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 					opacity={this.state.loadingOpacity}
 					// zIndex={30}
 				>
-					<HomeCardLoading size={16} progress={this.state.progress} />
+					<HomeCardLoading
+						size={16}
+						progress={
+							intro.version == 0 ? this.state.progress : null
+							// this.state.progress
+						}
+					/>
 				</Flex>
 			</Flex>
 		);
