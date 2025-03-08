@@ -19,6 +19,9 @@ const sheetHeight = 5;
 
 type Albums = { image: string; url: string }[];
 
+// TODO: add nujabes luv(sic)
+// theres so much more to add..
+
 const c418: Albums = [
 	{
 		image: "music/minecraft-volume-alpha.jpg",
