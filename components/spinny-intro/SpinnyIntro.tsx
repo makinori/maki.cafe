@@ -119,7 +119,6 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 		const reader = res.body.getReader();
 
 		const contentLength = Number(res.headers.get("Content-Length") ?? 0);
-		console.log(contentLength);
 		if (contentLength == null) return;
 
 		let receivedLength = 0;
@@ -186,44 +185,49 @@ export default class SpinnyIntro extends Component<SpinnyIntroProps> {
 
 		// TODO: what if v1canvas ref is null
 		// TODO: should rewrite this and make it more legible
-		// TODO: add progress bar for v1
 
 		let v1frames: HTMLImageElement[] = [];
 		let v1ctx: CanvasRenderingContext2D;
 
-		if (intro.version == 0) {
-			const videoUrl = this.props.client.isMobile
-				? intro.mobile
-				: intro.desktop;
+		try {
+			if (intro.version == 0) {
+				const videoUrl = this.props.client.isMobile
+					? intro.mobile
+					: intro.desktop;
 
-			if (this.props.client.isSafari) {
-				// TODO: safari is awful. transparency doesnt work either and cant scrub
-				this.v0videoRef.current.src = videoUrl;
-			} else {
-				this.v0videoRef.current.src = URL.createObjectURL(
-					await this.getFileWithProgress(videoUrl),
+				if (this.props.client.isSafari) {
+					// TODO: safari is awful. transparency doesnt work either and cant scrub
+					this.v0videoRef.current.src = videoUrl;
+				} else {
+					this.v0videoRef.current.src = URL.createObjectURL(
+						await this.getFileWithProgress(videoUrl),
+					);
+				}
+
+				this.ensurePlayPause();
+			} else if (intro.version == 1) {
+				this.v1canvasRef.current.width = 1000;
+				this.v1canvasRef.current.height = 800;
+
+				v1ctx = this.v1canvasRef.current.getContext("2d");
+
+				const tarFile = await this.getFileWithProgress(intro.frames);
+				const tar = nanotar.parseTar(await tarFile.arrayBuffer());
+
+				v1frames = await Promise.all(
+					new Array(1000).fill(null).map((_, i) => {
+						const filename = String(i).padStart(4, "0") + ".avif";
+						const frameFile = tar.find(f =>
+							f.name.endsWith(filename),
+						);
+						return preloadImage(
+							URL.createObjectURL(new Blob([frameFile.data])),
+						);
+					}),
 				);
 			}
-
-			this.ensurePlayPause();
-		} else if (intro.version == 1) {
-			this.v1canvasRef.current.width = 1000;
-			this.v1canvasRef.current.height = 800;
-
-			v1ctx = this.v1canvasRef.current.getContext("2d");
-
-			const tarFile = await this.getFileWithProgress(intro.frames);
-			const tar = nanotar.parseTar(await tarFile.arrayBuffer());
-
-			v1frames = await Promise.all(
-				new Array(1000).fill(null).map((_, i) => {
-					const filename = String(i).padStart(4, "0") + ".avif";
-					const frameFile = tar.find(f => f.name.endsWith(filename));
-					return preloadImage(
-						URL.createObjectURL(new Blob([frameFile.data])),
-					);
-				}),
-			);
+		} catch (error) {
+			console.error(error);
 		}
 
 		// init tweeners
