@@ -64,7 +64,7 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 		date: [2025, 3, 8],
 		frames: frames_2025_03_08,
 		changes: [
-			"use avif images to render instead of a webm. file size about 2.2x smaller",
+			"use avif images instead of a webm. file size about 2.2x smaller and works on safari now",
 		],
 		version: 1,
 	},
