@@ -94,20 +94,28 @@ export default function WebringCard() {
 			url: "https://kneesox.moe",
 		},
 		{
-			name: "ironsm4sh.nl",
-			url: "https://ironsm4sh.nl",
-		},
-		{
-			name: "0x0a.de",
-			url: "https://0x0a.de",
-		},
-		{
 			name: "cmtaz.net",
 			url: "https://cmtaz.net",
 		},
 		{
 			name: "lemon.horse",
 			url: "https://lemon.horse",
+		},
+		{
+			name: "dbuild.xyz",
+			url: "https://dbuild.xyz",
+		},
+		{
+			name: "micae.la",
+			url: "https://micae.la",
+		},
+		{
+			name: "ironsm4sh.nl",
+			url: "https://ironsm4sh.nl",
+		},
+		{
+			name: "0x0a.de",
+			url: "https://0x0a.de",
 		},
 	];
 
