@@ -40,9 +40,11 @@ function GameGridItem(props: { game: Game }) {
 				imageRendering: "optimizeQuality" as any,
 				aspectRatio: steamHorizontalAspectRatio,
 				backgroundImage: `url(${gamesSpritesheet.src})`,
-				backgroundPosition: props.game.pos,
 				backgroundRepeat: "no-repeat",
 				backgroundSize: gamesInfo.size,
+			}}
+			style={{
+				backgroundPosition: props.game.pos,
 			}}
 		></a>
 	);
