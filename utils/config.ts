@@ -20,7 +20,7 @@ const socialIds = {
 	kofi: "maki_nori",
 	codewars: "maki_nori",
 	xmpp: "maki@hotmilk.space",
-	twitch: "maki_pony",
+	twitch: "maki_nori_",
 	secondLife: {
 		name: "norimaki.resident",
 		uuid: "b7c5f366-7a39-4289-8157-d3a8ae6d57f4",
