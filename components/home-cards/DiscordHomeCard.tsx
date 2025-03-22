@@ -1,14 +1,5 @@
 /** @jsxImportSource @emotion/react */
 
-import {
-	Box,
-	Center,
-	Flex,
-	HStack,
-	Link,
-	Text,
-	VStack,
-} from "@chakra-ui/react";
 import { CSSObject, keyframes } from "@emotion/react";
 import { formatDistance } from "date-fns";
 import Image from "next/image";
@@ -16,13 +7,14 @@ import { IoGameController } from "react-icons/io5";
 import { MdHelp } from "react-icons/md";
 import { discordStatusMap, useLanyard } from "../../hooks/UseLanyard";
 import { config } from "../../utils/config";
-import { clamp } from "../../utils/utils";
+import { clamp01 } from "../../utils/utils";
 import { DancingLetters } from "../ui/DancingLetters";
 import { DiscordUserImage } from "../ui/DiscordUserImage";
-import { SubHeading } from "../ui/SubHeading";
 import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 import { HomeCardLoading } from "../ui/home-card/HomeCardLoading";
+import { HStack, VStack } from "../ui/Stack";
+import { SubHeading } from "../ui/SubHeading";
 
 const msToTimeStr = (ms: number) => {
 	let s = Math.floor(ms / 1000);
@@ -59,54 +51,64 @@ export function DiscordHomeCard() {
 
 	const activityCard = (
 		<VStack
-			backgroundColor={
-				activity == null
-					? "rgba(255,255,255,0.15)"
-					: activity.backgroundColor
-			}
-			color="white"
-			padding={2}
-			borderRadius={12}
-			spacing={1}
-			mt={4}
-			textShadow={"2px 2px 0 rgba(0,0,0,0.1)"}
+			spacing={4}
+			css={{
+				backgroundColor:
+					activity == null
+						? "rgba(255,255,255,0.15)"
+						: activity.backgroundColor,
+				color: "white",
+				padding: 8,
+				borderRadius: 12,
+				marginTop: 16,
+				textShadow: "2px 2px 0 rgba(0,0,0,0.1)",
+			}}
 		>
-			<HStack>
+			<HStack spacing={8}>
 				{!activity?.imageUrl ? (
-					<Center
-						width={16}
-						height={16}
-						borderRadius={6}
-						background="rgba(255, 255, 255, 0.3)"
+					<div
+						css={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+							width: 64,
+							height: 64,
+							borderRadius: 6,
+							background: "rgba(255, 255, 255, 0.3)",
+						}}
 					>
 						{activity == null || activity.type == "other" ? (
-							<Text
-								fontSize="32px"
-								color="white"
-								opacity={0.333}
-								textShadow={"none"}
-								fontWeight={600}
+							<p
+								css={{
+									fontSize: 32,
+									color: "white",
+									opacity: 1 / 3,
+									textShadow: "none",
+									fontWeight: 600,
+								}}
 							>
 								#!
-							</Text>
+							</p>
 						) : (
 							<IoGameController
 								size={32}
 								color="rgba(255, 255, 255, 0.5)"
 							/>
 						)}
-					</Center>
+					</div>
 				) : (
-					<Link
+					<a
 						href={activity?.activityUrl}
 						title={activity?.imageAlt}
-						width={64 + "px"}
-						height={64 + "px"}
-						position={"relative"}
-						background="rgba(255, 255, 255, 0.5)"
-						borderRadius={6 + "px"}
-						overflow={"hidden"}
-						css={animateActivityImageCss}
+						css={{
+							width: 64,
+							height: 64,
+							position: "relative",
+							background: "rgba(255, 255, 255, 0.5)",
+							borderRadius: 6,
+							overflow: "hidden",
+							css: animateActivityImageCss,
+						}}
 					>
 						<Image
 							src={activity?.imageUrl ?? ""}
@@ -116,19 +118,23 @@ export function DiscordHomeCard() {
 							// height={64}
 							style={{ objectFit: "cover" }}
 						/>
-					</Link>
+					</a>
 				)}
-				<Flex
-					flexDir="column"
-					width="225px"
-					maxWidth="225px"
-					whiteSpace="nowrap"
-					overflow="hidden"
+				<VStack
+					css={{
+						width: 225,
+						maxWidth: 225,
+						whiteSpace: "nowrap",
+						overflow: "hidden",
+						alignItems: "flex-start",
+					}}
 				>
 					<HStack
-						opacity={activity == null ? 0.4 : 0.6}
-						spacing={1}
-						pb={0.5}
+						spacing={4}
+						css={{
+							opacity: activity == null ? 0.4 : 0.6,
+							paddingBottom: 2,
+						}}
 					>
 						{activity == null ? (
 							<MdHelp color="#fff" size={14} />
@@ -180,7 +186,7 @@ export function DiscordHomeCard() {
 							  )
 							: ""}
 					</SubHeading>
-				</Flex>
+				</VStack>
 			</HStack>
 			{activity == null ||
 			activityTime == null ||
@@ -188,46 +194,51 @@ export function DiscordHomeCard() {
 				<></>
 			) : (
 				<HStack
-					width="100%"
-					spacing={0}
-					style={{ marginBottom: "-3px" }}
+					css={{
+						width: "100%",
+						marginBottom: -3,
+					}}
 				>
-					<Text fontSize="13px" width="42px" overflow={"hidden"}>
+					<p css={{ fontSize: 13, width: 42, overflow: "hidden" }}>
 						{msToTimeStr(activityTime.current)}
-					</Text>
-					<Box
-						flexGrow={1}
-						background="rgba(255, 255, 255, 0.4)"
-						height="6px"
-						borderRadius={999}
-						overflow="hidden"
+					</p>
+					<div
+						css={{
+							flexGrow: 1,
+							background: "rgba(255, 255, 255, 0.4)",
+							height: 6,
+							borderRadius: 999,
+							overflow: "hidden",
+						}}
 					>
-						<Box
-							height="100%"
+						<div
+							css={{
+								height: "100%",
+								background: "white",
+								borderTopRightRadius: 999,
+								borderBottomRightRadius: 999,
+							}}
 							style={{
 								width:
-									clamp(
-										0,
-										1,
+									clamp01(
 										activityTime.current /
 											activityTime.length,
 									) *
 										100 +
 									"%",
 							}}
-							background="white"
-							borderTopRightRadius={999}
-							borderBottomRightRadius={999}
-						></Box>
-					</Box>
-					<Text
-						fontSize="13px"
-						width="42px"
-						overflow={"hidden"}
-						textAlign="right"
+						/>
+					</div>
+					<p
+						css={{
+							fontSize: 13,
+							width: 42,
+							overflow: "hidden",
+							textAlign: "right",
+						}}
 					>
 						{msToTimeStr(activityTime.length)}
-					</Text>
+					</p>
 				</HStack>
 			)}
 		</VStack>
@@ -235,9 +246,9 @@ export function DiscordHomeCard() {
 
 	return (
 		<HomeCard>
-			<HStack>
-				<Link href={config.socialLinks.discord} color="#fff">
-					<HStack>
+			<HStack css={{ justifyContent: "flex-start" }}>
+				<a href={config.socialLinks.discord} color="#fff">
+					<HStack spacing={8}>
 						<DiscordUserImage
 							size={48}
 							url={
@@ -251,9 +262,10 @@ export function DiscordHomeCard() {
 							mobile={data?.active_on_discord_mobile}
 						/>
 						<VStack
-							paddingLeft={2}
-							spacing={0}
-							alignItems={"start"}
+							css={{
+								paddingLeft: 8,
+								alignItems: "flex-start",
+							}}
 						>
 							<SubHeading
 								css={{
@@ -282,7 +294,7 @@ export function DiscordHomeCard() {
 							</SubHeading>
 						</VStack>
 					</HStack>
-				</Link>
+				</a>
 				{/* <SubHeading
 					opacity={0.4}
 					fontWeight={200}

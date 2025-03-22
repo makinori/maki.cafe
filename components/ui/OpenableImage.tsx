@@ -7,19 +7,14 @@ import {
 import Image, { ImageProps } from "next/image";
 
 export function OpenableImage(
-	_props: ImageProps & {
+	props: ImageProps & {
 		modalW?: string;
 		modalH?: string;
 	},
 ) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
-	const { modalW, modalH } = _props;
-
-	// TODO: there has got to be a better way to do this
-	const imageProps = { ..._props } as ImageProps;
-	delete (imageProps as any).modalW;
-	delete (imageProps as any).modalH;
+	const { modalW, modalH, ...imageProps } = props;
 
 	return (
 		<>

@@ -1,4 +1,5 @@
-import { Flex, HStack, Link, Text } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
 import { formatDistance } from "date-fns";
 import { AurDataResponse } from "../../server/sources/aur";
 import { config } from "../../utils/config";
@@ -8,6 +9,7 @@ import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { ArchLinuxIcon } from "../ui/social-icons/ArchLinuxIcon";
+import { HStack, VStack } from "../ui/Stack";
 
 export function AurHomeCard(props: { data: AurDataResponse }) {
 	if (props.data == null) {
@@ -23,22 +25,31 @@ export function AurHomeCard(props: { data: AurDataResponse }) {
 			<HomeCardHeading icon={ArchLinuxIcon} href={config.socialLinks.aur}>
 				aur packages
 			</HomeCardHeading>
-			<Flex flexDir={"column"} w={350}>
+			<VStack css={{ width: 350, alignItems: "flex-start" }}>
 				{props.data.map((pkg, i) => (
-					<Link
+					<a
 						key={i}
-						mb={i == (props.data ?? []).length - 1 ? 0 : 3}
-						fontSize={11}
-						lineHeight={1.1}
-						color={"white"}
+						css={{
+							marginBottom:
+								i == (props.data ?? []).length - 1 ? 0 : 10,
+							fontSize: 11,
+							lineHeight: 1.2,
+							color: "white",
+						}}
 						href={"https://aur.archlinux.org/packages/" + pkg.name}
 					>
-						<HStack spacing={3}>
-							<Text color={"brand.500"} fontWeight={600}>
+						<HStack
+							spacing={12}
+							css={{
+								alignItems: "flex-start",
+								justifyContent: "flex-start",
+							}}
+						>
+							<p css={{ color: "#ff1744", fontWeight: 600 }}>
 								{pkg.name.toLowerCase()}
-							</Text>
+							</p>
 							{/* <Text opacity={0.5}>{pkg.version}</Text> */}
-							<Text opacity={0.5}>
+							<p css={{ opacity: 0.5 }}>
 								{formatDistance(
 									new Date(pkg.lastModified * 1000),
 									new Date(),
@@ -46,18 +57,18 @@ export function AurHomeCard(props: { data: AurDataResponse }) {
 										addSuffix: true,
 									},
 								)}
-							</Text>
-							<Text opacity={0.4}>
+							</p>
+							<p css={{ opacity: 0.4 }}>
 								{plural(pkg.votes, "vote")}
-							</Text>
+							</p>
 						</HStack>
-						<Text>{pkg.description.toLowerCase()}</Text>
-					</Link>
+						<p>{pkg.description.toLowerCase()}</p>
+					</a>
 				))}
-				<HomeCardFooterLink href={config.socialLinks.aur}>
-					view more
-				</HomeCardFooterLink>
-			</Flex>
+			</VStack>
+			<HomeCardFooterLink href={config.socialLinks.aur}>
+				view more
+			</HomeCardFooterLink>
 		</HomeCard>
 	);
 }
