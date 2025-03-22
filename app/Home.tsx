@@ -28,10 +28,10 @@ import { Logo } from "../components/ui/Logo";
 import { VStack } from "../components/ui/Stack";
 import type { LatestData } from "../server/data-sources";
 import { ClientInfo } from "../server/main";
+import { config } from "../utils/config";
 import { cssScreenSizes } from "../utils/utils";
 import styles from "./Home.module.scss";
 import gnomeDarkImage from "./gnome-dark.svg";
-import { config } from "../utils/config";
 
 export function Home(props: { client: ClientInfo; data: LatestData }) {
 	const [ready, setReady] = useState(false);
@@ -90,10 +90,12 @@ export function Home(props: { client: ClientInfo; data: LatestData }) {
 					<div css={{ width: 600, height: 600 }} />
 				) : (
 					<SpinnyIntro
-						w={600}
-						h={500}
-						mt={50}
-						mb={50}
+						css={{
+							width: 600,
+							height: 500,
+							marginTop: 50,
+							marginBottom: 50,
+						}}
 						client={props.client}
 						intro={SpinnyIntros[0]}
 						onReady={() => {

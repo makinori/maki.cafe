@@ -1,4 +1,6 @@
-import { BoxProps, Flex, Text } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
+import { CSSObject } from "@emotion/react";
 import * as nanotar from "nanotar";
 import { Component, createRef, CSSProperties } from "react";
 import { PerspectiveCamera } from "three";
@@ -71,13 +73,15 @@ function isElementInFrame(el: HTMLElement) {
 	return rect.top < h && rect.bottom > 0 && rect.left < w && rect.right > 0;
 }
 
-type SpinnyIntroProps = BoxProps & {
+type SpinnyIntroProps = {
 	onReady?: () => any;
 	onUnready?: () => any;
 	client: ClientInfo;
 	intro: ISpinnyIntro;
 	disableScaleTween?: boolean;
 	disableAutoSpin?: boolean;
+	css?: CSSObject;
+	className?: string;
 };
 
 export class SpinnyIntro extends Component<SpinnyIntroProps> {
@@ -437,60 +441,71 @@ export class SpinnyIntro extends Component<SpinnyIntroProps> {
 		}
 
 		return (
-			<Flex
-				// w={width + "px"}
-				// minW={width + "px"}
-				// h={height + "px"}
-				{...flexProps}
-				position={"relative"}
+			<div
 				ref={this.parentRef}
-				alignItems={"center"}
-				justifyContent={"center"}
-				// pointerEvents={"none"}
-				userSelect={"none"}
+				className={this.props.className}
+				css={{
+					position: "relative",
+					alignItems: "center",
+					justifyContent: "center",
+					// pointerEvents: "none"
+					userSelect: "none",
+				}}
 			>
-				<Flex
-					position={"absolute"}
-					w={"100%"}
-					h={"60%"}
-					left={0}
-					bottom={0}
-					alignItems={"center"}
-					justifyContent={"center"}
-					transition={"opacity 0.1s linear"}
-					opacity={this.state.unsupportedOpacity}
-					// zIndex={10}
+				<div
+					css={{
+						display: "flex",
+						position: "absolute",
+						width: "100%",
+						height: "60%",
+						left: 0,
+						bottom: 0,
+						alignItems: "center",
+						justifyContent: "center",
+						transition: "opacity 100ms linear",
+						// zIndex: 10
+					}}
+					style={{
+						opacity: this.state.unsupportedOpacity,
+					}}
 				>
-					<Text
-						fontSize={"large"}
-						fontWeight={600}
-						opacity={0.3}
-						textAlign={"center"}
-						lineHeight={"1.3em"}
+					<p
+						css={{
+							fontSize: 18,
+							fontWeight: 600,
+							lineHeight: 1.3,
+							opacity: 0.3,
+							textAlign: "center",
+						}}
 					>
 						there's supposed to be a cute
 						<br />
 						3d model here but unfortunately
 						<br />
 						your browser doesn't support it :(
-					</Text>
-				</Flex>
+					</p>
+				</div>
 				{mainEl}
-				<Flex
-					position={"absolute"}
-					w={"100%"}
-					h={"100%"}
-					top={0}
-					left={0}
-					alignItems={"center"}
-					justifyContent={"center"}
-					transition={"opacity 0.1s linear"}
-					opacity={this.state.loadingOpacity}
-					// zIndex={30}
+				<div
+					css={{
+						display: "flex",
+						position: "absolute",
+						width: "100%",
+						height: "100%",
+						top: 0,
+						left: 0,
+						alignItems: "center",
+						justifyContent: "center",
+						transition: "opacity 100ms linear",
+						// zIndex: 30
+					}}
+					style={{
+						opacity: this.state.loadingOpacity,
+					}}
 				>
-					<HomeCardLoading size={16} progress={this.state.progress} />
-				</Flex>
-			</Flex>
+					<HomeCardLoading size={64} progress={this.state.progress} />
+				</div>
+			</div>
 		);
 	}
 }

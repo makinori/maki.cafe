@@ -104,7 +104,7 @@ export const config = {
 	socialIds,
 	socialLinks,
 	styles: {
-		hoverTransition: "all .1s ease-in-out",
+		hoverTransition: "all 100ms ease-in-out",
 	},
 	selfHostedLinkTooltipMap: {
 		// "maki.cafe": "or makidoll.io",
