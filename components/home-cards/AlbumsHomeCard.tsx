@@ -1,4 +1,5 @@
-import { Box, Grid, GridItem, Link } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
 import { FaBandcamp, FaSpotify } from "react-icons/fa6";
 import { config } from "../../utils/config";
 import { albumsInfo } from "../assets/albums-info";
@@ -10,26 +11,26 @@ import { AnilistIcon } from "../ui/social-icons/AnilistIcon";
 
 function AlbumGridItem(props: { album: { url: string; position: string } }) {
 	return (
-		<GridItem
-			transition={config.styles.hoverTransition}
-			_hover={{
-				transform: "scale(1.05)",
+		<a
+			aria-label="Game"
+			href={props.album.url}
+			css={{
+				transition: config.styles.hoverTransition,
+				":hover": {
+					transform: "scale(1.05)",
+				},
+				display: "block",
+				imageRendering: "optimizeQuality" as any,
+				aspectRatio: 1,
+				borderRadius: 4,
+				backgroundImage: `url(${albumsSpritesheet.src})`,
+				backgroundRepeat: "no-repeat",
+				backgroundSize: albumsInfo.cssSize,
 			}}
-		>
-			<Link aria-label="Game" href={props.album.url}>
-				<Box
-					borderRadius={4}
-					sx={{
-						imageRendering: "optimizeQuality",
-						aspectRatio: 1,
-					}}
-					backgroundImage={albumsSpritesheet.src}
-					backgroundPosition={props.album.position}
-					backgroundRepeat={"no-repeat"}
-					backgroundSize={albumsInfo.cssSize}
-				/>
-			</Link>
-		</GridItem>
+			style={{
+				backgroundPosition: props.album.position,
+			}}
+		/>
 	);
 }
 
@@ -37,11 +38,29 @@ export function AlbumsHomeCard() {
 	return (
 		<HomeCard>
 			<HomeCardHeading>favorite music</HomeCardHeading>
-			<Grid templateColumns="repeat(5, 1fr)" gap={1} w={350} maxW={350}>
+			<div
+				css={{
+					display: "grid",
+					gridTemplateColumns: "repeat(5, 1fr)",
+					gap: 4,
+					width: 350,
+					maxWidth: 350,
+				}}
+			>
 				{albumsInfo.albums.map((album, i) => (
 					<AlbumGridItem album={album} key={i} />
 				))}
-			</Grid>
+			</div>
+			<p
+				css={{
+					textAlign: "center",
+					opacity: 0.3,
+					fontWeight: 500,
+					marginTop: 6,
+				}}
+			>
+				...and many more i haven't listed yet
+			</p>
 			<HomeCardFooterLink
 				multi={[
 					{

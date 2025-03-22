@@ -1,19 +1,12 @@
-import {
-	Box,
-	chakra,
-	Flex,
-	Link,
-	ListItem,
-	Text,
-	UnorderedList,
-	VStack,
-} from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
 import { Fragment } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { config } from "../../utils/config";
 import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { OpenableImage } from "../ui/OpenableImage";
+import { HStack, VStack } from "../ui/Stack";
 import imageBlahajInside from "./homelab/cutelab-blahaj-inside.jpg";
 import imageBlahajRack from "./homelab/cutelab-blahaj-rack.jpg";
 
@@ -74,34 +67,36 @@ const blahajAi = [
 	],
 ];
 
-function linksToListItem(name: string, links: string[][]) {
+function linksToli(name: string, links: string[][]) {
 	return (
-		<ListItem>
+		<li>
 			{name == "" ? "" : name + ": "}
 			{links.map((link, i) => (
 				<Fragment key={i}>
-					<Link href={link[1]}>{link[0]}</Link>
+					<a href={link[1]} css={{ color: "#ff1744" }}>
+						{link[0]}
+					</a>
 					{i == links.length - 1 ? "" : ", "}
 				</Fragment>
 			))}
-		</ListItem>
+		</li>
 	);
 }
 
 export function HomelabCutelabBlahajHomeCard(props: { onNewer: () => any }) {
 	return (
 		<HomeCard>
-			<Flex flexDir={"row"}>
-				<VStack width="100px" mr={4}>
+			<HStack css={{ alignItems: "flex-start" }}>
+				<VStack css={{ width: 100, marginRight: 16 }} spacing={8}>
 					<HomeCardHeading mt={-12} mb={0}>
-						<chakra.span fontSize={14}>cutelab blahaj</chakra.span>{" "}
+						<span css={{ fontSize: 14 }}>cutelab blahaj</span>{" "}
 						homelab
 					</HomeCardHeading>
 					{/* <Box
 						borderRadius={4}
 						overflow="hidden"
 						w="100%"
-						fontFamily={"var(--chakra-fonts-monospace)"}
+						fontFamily={"monospace"}
 						fontSize="0.7em"
 						fontWeight={500}
 					>
@@ -115,23 +110,23 @@ export function HomelabCutelabBlahajHomeCard(props: { onNewer: () => any }) {
 						>
 							{uptimeRobot.data ? (
 								<>
-									<chakra.span fontWeight={800}>
+									<span css={{ fontWeight: 800 }}>
 										{(
 											(uptimeRobot.data?.uptime == 100
 												? 99.9999
 												: uptimeRobot.data?.uptime) ?? 0
 										).toFixed(2)}
 										%
-									</chakra.span>{" "}
+									</span>{" "}
 									uptime
 									<br />
-									<chakra.span fontWeight={800}>
+									<span css={{ fontWeight: 800 }}>
 										{uptimeRobot.data?.up}
-									</chakra.span>{" "}
+									</span>{" "}
 									up{" "}
-									<chakra.span fontWeight={800}>
+									<span css={{ fontWeight: 800 }}>
 										{uptimeRobot.data?.down}
-									</chakra.span>{" "}
+									</span>{" "}
 									down
 									<br />
 								</>
@@ -156,36 +151,49 @@ export function HomelabCutelabBlahajHomeCard(props: { onNewer: () => any }) {
 							</Box>
 						</Link>
 					</Box> */}
-					<Box
-						borderRadius={4}
-						overflow="hidden"
-						transition={config.styles.hoverTransition}
-						_hover={{
-							transform: "scale(1.05)",
+					<div
+						css={{
+							borderRadius: 4,
+							overflow: "hidden",
+							transition: config.styles.hoverTransition,
+							":hover": {
+								transform: "scale(1.05)",
+							},
 						}}
 					>
 						<OpenableImage
 							src={imageBlahajRack}
 							alt="Blahaj Rack"
 						></OpenableImage>
-					</Box>
-					<Box
-						borderRadius={4}
-						overflow="hidden"
-						transition={config.styles.hoverTransition}
-						_hover={{
-							transform: "scale(1.05)",
+					</div>
+					<div
+						css={{
+							borderRadius: 4,
+							overflow: "hidden",
+							transition: config.styles.hoverTransition,
+							":hover": {
+								transform: "scale(1.05)",
+							},
 						}}
 					>
 						<OpenableImage
 							src={imageBlahajInside}
 							alt="Blahaj Inside"
 						></OpenableImage>
-					</Box>
+					</div>
 				</VStack>
-				<Box fontSize="0.65em" lineHeight={1.2} width="280px">
-					<Text fontWeight={600}>
-						<Link onClick={props.onNewer}>
+				<div
+					css={{
+						fontSize: "0.65em",
+						lineHeight: 1.2,
+						width: 280,
+					}}
+				>
+					<p css={{ fontWeight: 600 }}>
+						<a
+							onClick={props.onNewer}
+							css={{ color: "#ff1744", cursor: "pointer" }}
+						>
 							<MdArrowBack
 								size={16}
 								style={{
@@ -196,65 +204,61 @@ export function HomelabCutelabBlahajHomeCard(props: { onNewer: () => any }) {
 								}}
 							/>
 							Return to current homelab
-						</Link>
+						</a>
 						<br />
 						<br />
 						Last updated:{" "}
-						<chakra.span fontWeight={800}>
-							November 11, 2022
-						</chakra.span>
+						<span css={{ fontWeight: 800 }}>November 11, 2022</span>
 						<br />
 						<br />
-					</Text>
-					<Text>From top to bottom...</Text>
-					<UnorderedList listStyleType={"disc"}>
-						<ListItem>
+					</p>
+					<p>From top to bottom...</p>
+					<ul css={{ marginLeft: 10 }}>
+						<li>
 							Protectli Vault 6 Port, i7 quad core
-							<UnorderedList listStyleType={"circle"}>
-								<ListItem fontStyle={"italic"}>
+							<ul css={{ marginLeft: 10 }}>
+								<li css={{ fontStyle: "italic" }}>
 									Currently turned off. I&apos;ve been playing
 									with OPNsense every once in a while
-								</ListItem>
-							</UnorderedList>
-						</ListItem>
-						<ListItem>
+								</li>
+							</ul>
+						</li>
+						<li>
 							Ubiquiti Dream Machine Pro
-							<UnorderedList listStyleType={"circle"}>
-								<ListItem>Network router and IPS</ListItem>
-								<ListItem>
+							<ul css={{ marginLeft: 10 }}>
+								<li>Network router and IPS</li>
+								<li>
 									NVR for 3 x G4 Pro cameras and a G3 Instant
-								</ListItem>
-							</UnorderedList>
-						</ListItem>
-						<ListItem>Ubiquiti Switch 16 PoE</ListItem>
-						<ListItem>
+								</li>
+							</ul>
+						</li>
+						<li>Ubiquiti Switch 16 PoE</li>
+						<li>
 							Mac Mini M1, 16 GB
-							<UnorderedList listStyleType={"circle"}>
-								<ListItem>Personal build server</ListItem>
-								{linksToListItem("", macMini)}
-							</UnorderedList>
-						</ListItem>
-						<ListItem>
+							<ul css={{ marginLeft: 10 }}>
+								<li>Personal build server</li>
+								{linksToli("", macMini)}
+							</ul>
+						</li>
+						<li>
 							Blåhaj - Ryzen Threadripper 2970WX,
 							<br />
 							128 GB DDR4 3200MHz, RTX 3090 Ti,
 							<br />4 TB SSD, 256 GB SSD, 14 TB HDD
-							<UnorderedList listStyleType={"circle"}>
-								{linksToListItem("Social", blahajSocial)}
-								{linksToListItem("Media", blahajMedia)}
-								{linksToListItem("Home", blahajHome)}
-								{linksToListItem("Dev", blahajDev)}
-								{linksToListItem("Personal", blahajPersonal)}
-								{linksToListItem("Games", blahajGames)}
-								{linksToListItem("AI", blahajAi)}
-							</UnorderedList>
-						</ListItem>
-						<ListItem>
-							CyberPower OR1500LCDRM1U UPS, 1500VA/900W
-						</ListItem>
-					</UnorderedList>
-				</Box>
-			</Flex>
+							<ul css={{ marginLeft: 10 }}>
+								{linksToli("Social", blahajSocial)}
+								{linksToli("Media", blahajMedia)}
+								{linksToli("Home", blahajHome)}
+								{linksToli("Dev", blahajDev)}
+								{linksToli("Personal", blahajPersonal)}
+								{linksToli("Games", blahajGames)}
+								{linksToli("AI", blahajAi)}
+							</ul>
+						</li>
+						<li>CyberPower OR1500LCDRM1U UPS, 1500VA/900W</li>
+					</ul>
+				</div>
+			</HStack>
 		</HomeCard>
 	);
 }

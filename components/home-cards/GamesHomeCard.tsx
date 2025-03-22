@@ -1,4 +1,5 @@
-import { Box, Link, Text } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
 import { useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { config } from "../../utils/config";
@@ -24,29 +25,26 @@ interface Game {
 
 function GameGridItem(props: { game: Game }) {
 	return (
-		<Link
-			width={gameGridWidth + "px"}
-			display={"inline-block"}
-			aria-label="Game"
+		<a
 			href={props.game.url}
-			transition={config.styles.hoverTransition}
-			_hover={{
-				transform: "scale(1.05)",
+			aria-label="Game"
+			css={{
+				width: gameGridWidth,
+				display: "inline-block",
+				margin: gameGridMargin,
+				transition: config.styles.hoverTransition,
+				":hover": {
+					transform: "scale(1.05)",
+				},
+				borderRadius: 4,
+				imageRendering: "optimizeQuality" as any,
+				aspectRatio: steamHorizontalAspectRatio,
+				backgroundImage: `url(${gamesSpritesheet.src})`,
+				backgroundPosition: props.game.pos,
+				backgroundRepeat: "no-repeat",
+				backgroundSize: gamesInfo.size,
 			}}
-			m={gameGridMargin + "px"}
-		>
-			<Box
-				borderRadius={4}
-				sx={{
-					imageRendering: "optimizeQuality",
-					aspectRatio: steamHorizontalAspectRatio,
-				}}
-				backgroundImage={gamesSpritesheet.src}
-				backgroundPosition={props.game.pos}
-				backgroundRepeat={"no-repeat"}
-				backgroundSize={gamesInfo.size}
-			/>
-		</Link>
+		></a>
 	);
 }
 
@@ -54,61 +52,69 @@ function GenreGamesGrid(props: { genre: string; games: Game[]; i: number }) {
 	const hue = props.i / Object.keys(gamesInfo.games).length;
 
 	return (
-		<Box
-			border={`solid 2px ${hsvToHex(hue, 0.5, 0.3)}`}
-			padding={gameGridMargin + "px"}
-			borderRadius={8}
-			position={"relative"}
-			mt={2.5}
-			width={"fit-content"}
+		<div
+			css={{
+				border: `solid 2px ${hsvToHex(hue, 0.5, 0.3)}`,
+				padding: gameGridMargin + "px",
+				borderRadius: 8,
+				position: "relative",
+				marginTop: 10,
+				width: "fit-content",
+			}}
 		>
-			<Text
-				fontWeight={800}
-				fontSize={12}
-				lineHeight={1}
-				width={"fit-content"}
-				// ml={1.5}
-				// mb={1}
-				// mt={1}
-				color={hsvToHex(hue, 0.6, 0.8)}
-				position={"absolute"}
-				background={"#111"}
-				margin={"auto"}
-				top={-2.5}
-				left={2}
-				px={1}
+			<p
+				css={{
+					fontWeight: 800,
+					fontSize: 12,
+					lineHeight: 1,
+					width: "fit-content",
+					// marginLeft: 6,
+					// marginBottom: 4,
+					// marginTop: 4,
+					color: hsvToHex(hue, 0.6, 0.8),
+					position: "absolute",
+					background: "#111",
+					margin: "auto",
+					top: -10,
+					left: 8,
+					paddingLeft: 4,
+					paddingRight: 4,
+				}}
 			>
 				{props.genre}
-			</Text>
-			<Box
-				w={
-					(gameGridWidth + gameGridMargin * 2) * gameGridColumns +
-					"px"
-				}
-				maxW={"fit-content"}
-				lineHeight={0}
+			</p>
+			<div
+				css={{
+					width:
+						(gameGridWidth + gameGridMargin * 2) * gameGridColumns,
+					maxWidth: "fit-content",
+					lineHeight: 0,
+				}}
 			>
 				{props.games.map((game, i) => (
 					<GameGridItem game={game} key={i} />
 				))}
-			</Box>
-		</Box>
+			</div>
+		</div>
 	);
 }
 
 export function GamesHomeCard() {
 	const [showAll, setShowAll] = useState(false);
 
-	const maxH = 500;
+	const maxHeight = 500;
 
 	return (
 		<HomeCard>
 			<HomeCardHeading>favorite games</HomeCardHeading>
-			<Box
-				{...(showAll ? {} : { h: maxH, maxH })}
-				overflow={"hidden"}
-				position={"relative"}
-				mt={-4}
+			<div
+				css={{
+					overflow: "hidden",
+					position: "relative",
+					marginTop: -16,
+				}}
+				style={showAll ? {} : { height: maxHeight, maxHeight }}
+				{...(showAll ? {} : { h: maxHeight, maxH: maxHeight })}
 			>
 				{Object.entries(gamesInfo.games).map(([genre, games], i) => (
 					<GenreGamesGrid
@@ -122,42 +128,46 @@ export function GamesHomeCard() {
 					<></>
 				) : (
 					<>
-						<Box
-							position={"absolute"}
-							margin={"auto"}
-							top={0}
-							left={0}
-							right={0}
-							bottom={0}
-							userSelect={"none"}
-							pointerEvents={"none"}
-							background={`linear-gradient(180deg, ${[
-								"transparent",
-								"transparent",
-								"transparent",
-								"transparent",
-								"transparent",
-								"transparent",
-								"transparent",
-								"transparent",
-								`rgba(${hexColorToRgb("#111")}, 0.9)`,
-								"#111",
-							].join(", ")})`}
-						></Box>
-						<Box
-							position={"absolute"}
-							margin={"auto"}
-							left={0}
-							right={0}
-							bottom={0}
-							height={90}
-							display={"flex"}
-							alignItems={"center"}
-							justifyContent={"center"}
-							fontWeight={500}
-							gap={1}
-							cursor={"pointer"}
-							userSelect={"none"}
+						<div
+							css={{
+								position: "absolute",
+								margin: "auto",
+								top: 0,
+								left: 0,
+								right: 0,
+								bottom: 0,
+								userSelect: "none",
+								pointerEvents: "none",
+								background: `linear-gradient(180deg, ${[
+									"transparent",
+									"transparent",
+									"transparent",
+									"transparent",
+									"transparent",
+									"transparent",
+									"transparent",
+									"transparent",
+									`rgba(${hexColorToRgb("#111")}, 0.9)`,
+									"#111",
+								].join(", ")})`,
+							}}
+						/>
+						<div
+							css={{
+								position: "absolute",
+								margin: "auto",
+								left: 0,
+								right: 0,
+								bottom: 0,
+								height: 90,
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								fontWeight: 500,
+								gap: 4,
+								cursor: "pointer",
+								userSelect: "none",
+							}}
 							onClick={() => {
 								setShowAll(true);
 							}}
@@ -170,10 +180,10 @@ export function GamesHomeCard() {
 							>
 								view more
 							</HomeCardFooterLink>
-						</Box>
+						</div>
 					</>
 				)}
-			</Box>
+			</div>
 			{showAll ? (
 				<>
 					<HomeCardFooterLink

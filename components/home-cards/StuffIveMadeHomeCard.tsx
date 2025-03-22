@@ -1,4 +1,5 @@
-import { Box, Grid, GridItem, Link, Text, chakra } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
 import { config } from "../../utils/config";
 import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
@@ -21,6 +22,61 @@ interface Thing {
 	image: string;
 	color: string;
 	fontSize?: number;
+}
+
+function ThingButton(props: { thing: Thing; thin?: boolean }) {
+	return (
+		<a
+			href={props.thing.link}
+			css={{
+				height: props.thin ? 24 : 48,
+				borderRadius: 8,
+				lineHeight: 1,
+				fontSize: props.thing.fontSize ?? (props.thin ? 12 : 18),
+				fontWeight: 700,
+				backgroundImage: `url(${props.thing.image})`,
+				backgroundColor:
+					props.thing.image == "" ? props.thing.color : "",
+				backgroundPosition: "center",
+				backgroundSize: "cover",
+				backgroundRepeat: "no-repeat",
+				overflow: "hidden",
+				display: "flex",
+				flexDirection: "row",
+				color: "white",
+				textShadow: "2px 2px 0 rgba(0,0,0,0.1)",
+				transition: config.styles.hoverTransition,
+				":hover": {
+					transform: `scale(${props.thin ? 1.03 : 1.05})`,
+				},
+			}}
+		>
+			<div
+				css={{
+					width: 6,
+					height: "100%",
+					background: props.thing.color,
+				}}
+			/>
+			<div
+				css={{
+					width: "100%",
+					height: "100%",
+					backgroundImage: `linear-gradient(90deg, ${props.thing.color}, transparent)`,
+					display: "flex",
+					flexDirection: "column",
+
+					justifyContent: "center",
+				}}
+			>
+				{props.thin
+					? props.thing.name.replace(/\n/g, " ")
+					: props.thing.name
+							.split("\n")
+							.map((t, i) => <p key={i}>{t}</p>)}
+			</div>
+		</a>
+	);
 }
 
 export function StuffIveMadeHomeCard() {
@@ -116,77 +172,51 @@ export function StuffIveMadeHomeCard() {
 		},
 	];
 
-	function makeButton(thing: Thing, i: number, thin = false) {
-		return (
-			<GridItem key={i}>
-				<Link
-					h={thin ? 6 : 12}
-					borderRadius={8}
-					lineHeight={1}
-					fontSize={thing.fontSize ?? (thin ? 12 : 18)}
-					fontWeight={700}
-					backgroundImage={thing.image}
-					backgroundColor={thing.image == "" ? thing.color : ""}
-					backgroundPosition={"center"}
-					backgroundSize={"cover"}
-					backgroundRepeat={"no-repeat"}
-					overflow={"hidden"}
-					display={"flex"}
-					flexDir={"row"}
-					_hover={{
-						transform: `scale(${thin ? 1.03 : 1.05})`,
-					}}
-					href={thing.link}
-					color={"white"}
-					textShadow={"2px 2px 0 rgba(0,0,0,0.1)"}
-				>
-					<Box w={1.5} h="100%" bg={thing.color} />
-					<Box
-						w="100%"
-						h="100%"
-						backgroundImage={`linear-gradient(90deg, ${thing.color}, transparent)`}
-						display={"flex"}
-						flexDir={"column"}
-						justifyContent={"center"}
-					>
-						{thin
-							? thing.name.replace(/\n/g, " ")
-							: thing.name
-									.split("\n")
-									.map((t, i) => <Text key={i}>{t}</Text>)}
-					</Box>
-				</Link>
-			</GridItem>
-		);
-	}
-
 	return (
 		<HomeCard>
 			<HomeCardHeading mb={12}>stuff ive made</HomeCardHeading>
-			<Text
-				textAlign={"left"}
-				fontSize={12}
-				fontWeight={500}
-				lineHeight={1.2}
-				mb={3}
+			<p
+				css={{
+					textAlign: "left",
+					fontSize: 12,
+					fontWeight: 500,
+					lineHeight: 1.2,
+					marginBottom: 12,
+				}}
 			>
 				i just kinda keep to myself now a days. would recommend looking
-				through my <chakra.span fontWeight={700}>mastodon</chakra.span>{" "}
-				or <chakra.span fontWeight={700}>github</chakra.span> if you
-				wanna see what i might be up to
-			</Text>
-			<Grid templateColumns="repeat(4, 1fr)" gap={1} mb={1}>
-				{stuff.map((thing, i) => makeButton(thing, i))}
-			</Grid>
-			<Grid templateColumns="repeat(3, 1fr)" gap={1} mb={1}>
+				through my <span css={{ fontWeight: 700 }}>mastodon</span> or{" "}
+				<span css={{ fontWeight: 700 }}>github</span> if you wanna see
+				what i might be up to
+			</p>
+			<div
+				css={{
+					display: "grid",
+					gridTemplateColumns: "repeat(4, 1fr)",
+					gap: 4,
+					marginBottom: 4,
+				}}
+			>
+				{stuff.map((thing, i) => (
+					<ThingButton key={i} thing={thing} />
+				))}
+			</div>
+			<div
+				css={{
+					display: "grid",
+					gridTemplateColumns: "repeat(3, 1fr)",
+					gap: 4,
+					marginBottom: 4,
+				}}
+			>
 				{stuffThinner.map((thing, i) =>
 					thing == null ? (
-						<GridItem key={i} />
+						<div key={i} />
 					) : (
-						makeButton(thing, i, true)
+						<ThingButton key={i} thing={thing} thin />
 					),
 				)}
-			</Grid>
+			</div>
 			{/* <Text
 				textAlign={"center"}
 				fontSize={12}

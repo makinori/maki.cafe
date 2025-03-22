@@ -1,18 +1,10 @@
-import {
-	Box,
-	Center,
-	Flex,
-	HStack,
-	Link,
-	Text,
-	Tooltip,
-	VStack,
-	chakra,
-} from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
 import { MdArrowForward } from "react-icons/md";
 import { UptimeDataResponse, UptimeService } from "../../server/sources/uptime";
 import { config } from "../../utils/config";
 import { OpenableImage } from "../ui/OpenableImage";
+import { HStack, VStack } from "../ui/Stack";
 import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
 import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
@@ -30,19 +22,21 @@ export function HomelabHotmilkBlahajHomeCard(props: {
 	data: UptimeDataResponse;
 }) {
 	const serviceTr = (service: UptimeService, i: number) => {
-		const serviceTooltip = config.selfHostedLinkTooltipMap[service.name];
+		// const serviceTooltip = config.selfHostedLinkTooltipMap[service.name];
 
 		const serviceLabel = (
-			<Flex pr={3} pl={1}>
+			<div css={{ paddingRight: 12, paddingLeft: 4 }}>
 				{service.url == null ? (
 					service.name.toLowerCase()
 				) : (
-					<Link
+					<a
 						href={service.url}
-						display={"flex"}
-						flexDir={"row"}
-						alignItems={"center"}
-						color={"#fff"}
+						css={{
+							display: "flex",
+							flexDirection: "row",
+							alignItems: "center",
+							color: "#fff",
+						}}
 					>
 						<MdArrowForward
 							size={12}
@@ -51,43 +45,48 @@ export function HomelabHotmilkBlahajHomeCard(props: {
 							}}
 						/>
 						{service.name.toLowerCase()}
-					</Link>
+					</a>
 				)}
-			</Flex>
+			</div>
 		);
 
 		return (
-			<chakra.tr
+			<tr
 				key={i}
-				backgroundColor={
-					i % 2 == 1 ? "rgba(255,255,255,0.05)" : "transparent"
-				}
+				css={{
+					backgroundColor:
+						i % 2 == 1 ? "rgba(255,255,255,0.05)" : "transparent",
+				}}
 			>
-				<chakra.td>
-					{serviceTooltip == null ? (
+				<td>
+					{/* {serviceTooltip == null ? (
 						serviceLabel
 					) : (
 						<Tooltip label={serviceTooltip}>{serviceLabel}</Tooltip>
-					)}
-				</chakra.td>
-				<chakra.td>
-					<Center
-						w={9}
-						h={3}
-						backgroundColor={
-							service.up
+					)} */}
+					{serviceLabel}
+				</td>
+				<td>
+					<div
+						css={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+							width: 36,
+							height: 12,
+							backgroundColor: service.up
 								? "#689F38" // light green 700
-								: "#F44336" // red 500
-						}
-						borderRadius={999}
-						mr={0.5}
-						fontWeight={600}
+								: "#F44336", // red 500
+							borderRadius: 999,
+							marginRight: 2,
+							fontWeight: 600,
+						}}
 					>
 						{service.uptimeWeek.toFixed(1).replace(/100\.0/, "100")}
-						<chakra.span fontWeight={700}>%</chakra.span>
-					</Center>
-				</chakra.td>
-			</chakra.tr>
+						<span css={{ fontWeight: 700 }}>%</span>
+					</div>
+				</td>
+			</tr>
 		);
 	};
 
@@ -96,53 +95,65 @@ export function HomelabHotmilkBlahajHomeCard(props: {
 			<HomeCardFailedToLoad />
 		) : (
 			<>
-				<HStack alignItems={"flex-start"}>
-					<chakra.table style={{ borderCollapse: "collapse" }}>
-						<chakra.tbody>
+				<HStack css={{ alignItems: "flex-start" }} spacing={8}>
+					<table css={{ borderCollapse: "collapse" }}>
+						<tbody>
 							{props.data
 								.slice(0, Math.ceil(props.data.length / 2))
 								.map((service, i) => serviceTr(service, i))}
-						</chakra.tbody>
-					</chakra.table>
-					<chakra.table style={{ borderCollapse: "collapse" }}>
-						<chakra.tbody>
+						</tbody>
+					</table>
+					<table css={{ borderCollapse: "collapse" }}>
+						<tbody>
 							{props.data
 								.slice(Math.ceil(props.data.length / 2))
 								.map((service, i) => serviceTr(service, i))}
-						</chakra.tbody>
-					</chakra.table>
+						</tbody>
+					</table>
 				</HStack>
-				<Flex
-					backgroundColor={"brand.500"}
-					// fontFamily={"var(--chakra-fonts-monospace)"}
-					display={"inline-flex"}
-					flexDir={"row"}
-					mt={4}
-					borderRadius={"999px"}
-					overflow={"hidden"}
-					// fontWeight={500}
+				<div
+					css={{
+						backgroundColor: "#ff1744",
+						// fontFamily: cascadiaMono.style.fontFamily,
+						display: "inline-flex",
+						flexDirection: "row",
+						marginTop: 16,
+						borderRadius: 999,
+						overflow: "hidden",
+						// fontWeight: 500
+						lineHeight: 0.9,
+					}}
 				>
-					<Box pl={2} pr={1.5} py={0.5} fontWeight={700}>
+					<div
+						css={{
+							paddingLeft: 8,
+							paddingRight: 6,
+							paddingTop: 4,
+							paddingBottom: 4,
+							fontWeight: 700,
+						}}
+					>
 						{(
 							props.data.reduce(
 								(prev, curr) => prev + curr.uptimeWeek,
 								0,
 							) / props.data.length
 						).toFixed(2)}
-						<chakra.span fontWeight={800}>%</chakra.span> uptime
-						this week
-					</Box>
-					<Link
-						pl={1.5}
-						pr={2}
-						py={0.5}
-						background={"#444"}
-						color={"white"}
+						<span css={{ fontWeight: 800 }}>%</span> uptime this
+						week
+					</div>
+					<a
 						href={config.socialLinks.uptime}
-						fontWeight={500}
-						display={"flex"}
-						alignItems={"center"}
-						justifyContent={"center"}
+						css={{
+							paddingLeft: 6,
+							paddingRight: 8,
+							background: "#444",
+							color: "white",
+							fontWeight: 500,
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+						}}
 					>
 						see more here
 						<MdArrowForward
@@ -151,58 +162,68 @@ export function HomelabHotmilkBlahajHomeCard(props: {
 								marginLeft: "2px",
 							}}
 						/>
-					</Link>
-				</Flex>
+					</a>
+				</div>
 			</>
 		);
 
 	return (
 		<HomeCard>
-			<Flex flexDir={"row"}>
-				<VStack width="100px" mr={4}>
+			<HStack css={{ alignItems: "flex-start" }}>
+				<VStack css={{ width: 100, marginRight: 16 }} spacing={8}>
 					<HomeCardHeading mt={-12} mb={0}>
-						<chakra.span fontSize={14}>hotmilk blahaj</chakra.span>{" "}
+						<span css={{ fontSize: 14 }}>hotmilk blahaj</span>{" "}
 						homelab
 					</HomeCardHeading>
-					<Box
-						borderRadius={4}
-						overflow="hidden"
-						transition={config.styles.hoverTransition}
-						_hover={{
-							transform: "scale(1.05)",
+					<div
+						css={{
+							borderRadius: 4,
+							overflow: "hidden",
+							transition: config.styles.hoverTransition,
+							":hover": {
+								transform: "scale(1.05)",
+							},
 						}}
 					>
 						<OpenableImage
 							src={blahajOutside}
 							alt="Blahaj Outside"
 						></OpenableImage>
-					</Box>
-					<Box
-						borderRadius={4}
-						overflow="hidden"
-						transition={config.styles.hoverTransition}
-						_hover={{
-							transform: "scale(1.05)",
+					</div>
+					<div
+						css={{
+							borderRadius: 4,
+							overflow: "hidden",
+							transition: config.styles.hoverTransition,
+							":hover": {
+								transform: "scale(1.05)",
+							},
 						}}
 					>
 						<OpenableImage
 							src={blahajInside}
 							alt="Blahaj Inside"
 						></OpenableImage>
-					</Box>
+					</div>
 				</VStack>
-				<Box fontSize="0.65em" lineHeight={1.2}>
-					<Text fontWeight={600}>
+				<div
+					css={{
+						fontSize: "0.65em",
+						lineHeight: 1.2,
+					}}
+				>
+					<p css={{ fontWeight: 600 }}>
 						site is hosted on this machine
 						{/* <br />
 						last updated:{" "}
-						<chakra.span fontWeight={800}>feb 11, 2024</chakra.span> */}
+						<span css={{ fontWeight: 800 }}>feb 11, 2024</span> */}
 						<br />
 						<br />
 						older homelab:
-					</Text>
-					<Flex flexDir={"column"}>
-						<Link
+					</p>
+					<VStack css={{ alignItems: "flex-start" }}>
+						<p
+							css={{ cursor: "pointer", color: "#ff1744" }}
 							onClick={() =>
 								props.onOlder(
 									OlderHomelab.Cutelab_Blahaj_Nov_11_2022,
@@ -219,8 +240,9 @@ export function HomelabHotmilkBlahajHomeCard(props: {
 								}}
 							/>
 							cutelab blahaj (nov 11, 2022)
-						</Link>
-						<Link
+						</p>
+						<p
+							css={{ cursor: "pointer", color: "#ff1744" }}
 							onClick={() =>
 								props.onOlder(
 									OlderHomelab.Cutelab_Yeti_Feb_21_2022,
@@ -237,12 +259,12 @@ export function HomelabHotmilkBlahajHomeCard(props: {
 								}}
 							/>
 							cutelab yeti (feb 21, 2022)
-						</Link>
-					</Flex>
+						</p>
+					</VStack>
 					<br />
 					{What}
-				</Box>
-			</Flex>
+				</div>
+			</HStack>
 		</HomeCard>
 	);
 }

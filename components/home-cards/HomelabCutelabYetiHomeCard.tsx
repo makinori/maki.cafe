@@ -1,19 +1,12 @@
-import {
-	Box,
-	chakra,
-	Flex,
-	Link,
-	ListItem,
-	Text,
-	UnorderedList,
-	VStack,
-} from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
 import { Fragment } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { config } from "../../utils/config";
 import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { OpenableImage } from "../ui/OpenableImage";
+import { HStack, VStack } from "../ui/Stack";
 import imageYetiRack from "./homelab/cutelab-yeti-rack.jpg";
 import imageYetiRam from "./homelab/cutelab-yeti-ram.jpg";
 
@@ -53,7 +46,9 @@ const personalYeti = [
 function formatLinks(links: string[][]) {
 	return links.map((link, i) => (
 		<Fragment key={i}>
-			<Link href={link[1]}>{link[0]}</Link>
+			<a href={link[1]} css={{ color: "#ff1744" }}>
+				{link[0]}
+			</a>
 			{i == links.length - 1 ? "" : ", "}
 		</Fragment>
 	));
@@ -62,42 +57,54 @@ function formatLinks(links: string[][]) {
 export function HomelabCutelabYetiHomeCard(props: { onNewer: () => any }) {
 	return (
 		<HomeCard>
-			<Flex flexDir={"row"}>
-				<VStack width="100px" mr={4}>
+			<HStack css={{ alignItems: "flex-start" }}>
+				<VStack css={{ width: 100, marginRight: 16 }} spacing={8}>
 					<HomeCardHeading mt={-12} mb={0}>
-						<chakra.span fontSize={14}>cutelab yeti</chakra.span>{" "}
-						homelab
+						<span css={{ fontSize: 14 }}>cutelab yeti</span> homelab
 					</HomeCardHeading>
-					<Box
-						borderRadius={4}
-						overflow="hidden"
-						transition={config.styles.hoverTransition}
-						_hover={{
-							transform: "scale(1.05)",
+					<div
+						css={{
+							borderRadius: 4,
+							overflow: "hidden",
+							transition: config.styles.hoverTransition,
+							":hover": {
+								transform: "scale(1.05)",
+							},
 						}}
 					>
 						<OpenableImage
 							src={imageYetiRack}
 							alt="Blahaj Rack"
 						></OpenableImage>
-					</Box>
-					<Box
-						borderRadius={4}
-						overflow="hidden"
-						transition={config.styles.hoverTransition}
-						_hover={{
-							transform: "scale(1.05)",
+					</div>
+					<div
+						css={{
+							borderRadius: 4,
+							overflow: "hidden",
+							transition: config.styles.hoverTransition,
+							":hover": {
+								transform: "scale(1.05)",
+							},
 						}}
 					>
 						<OpenableImage
 							src={imageYetiRam}
 							alt="Blahaj Inside"
 						></OpenableImage>
-					</Box>
+					</div>
 				</VStack>
-				<Box fontSize="0.65em" lineHeight={1.2} width="280px">
-					<Text fontWeight={600}>
-						<Link onClick={props.onNewer}>
+				<div
+					css={{
+						fontSize: "0.65em",
+						lineHeight: 1.2,
+						width: 280,
+					}}
+				>
+					<p css={{ fontWeight: 600 }}>
+						<a
+							onClick={props.onNewer}
+							css={{ color: "#ff1744", cursor: "pointer" }}
+						>
 							<MdArrowBack
 								size={16}
 								style={{
@@ -108,93 +115,91 @@ export function HomelabCutelabYetiHomeCard(props: { onNewer: () => any }) {
 								}}
 							/>
 							Return to current homelab
-						</Link>
+						</a>
 						<br />
 						<br />
 						Last updated:{" "}
-						<chakra.span fontWeight={800}>Feb 21, 2022</chakra.span>
+						<span css={{ fontWeight: 800 }}>Feb 21, 2022</span>
 						<br />
 						<br />
-					</Text>
-					<Text>From top to bottom...</Text>
-					<UnorderedList listStyleType={"disc"}>
-						<ListItem>
+					</p>
+					<p>From top to bottom...</p>
+					<ul css={{ marginLeft: 10 }}>
+						<li>
 							Ubiquiti Dream Machine Pro
-							<UnorderedList listStyleType={"circle"}>
-								<ListItem>Network router and IPS</ListItem>
-								<ListItem>NVR for 2 x G4 Pro cameras</ListItem>
-							</UnorderedList>
-						</ListItem>
-						<ListItem>Ubiquiti Switch 16 PoE</ListItem>
-						<ListItem>
+							<ul css={{ marginLeft: 10 }}>
+								<li>Network router and IPS</li>
+								<li>NVR for 2 x G4 Pro cameras</li>
+							</ul>
+						</li>
+						<li>Ubiquiti Switch 16 PoE</li>
+						<li>
 							MSI GS66 Stealth i7-10750H, 12 cores (6 physical),
 							32 GB
 							<i>(flopstje)</i>
-							<UnorderedList listStyleType={"circle"}>
-								<ListItem>
+							<ul css={{ marginLeft: 10 }}>
+								<li>
 									Hosting high CPU/GPU related things:
 									<br />
 									{formatLinks(flopstje)}
-								</ListItem>
-							</UnorderedList>
-						</ListItem>
-						<ListItem>
+								</li>
+							</ul>
+						</li>
+						<li>
 							Protectli Vault 6 Port, i7 quad core
-							<UnorderedList listStyleType={"circle"}>
-								<ListItem fontStyle={"italic"}>
+							<ul css={{ marginLeft: 10 }}>
+								<li css={{ fontStyle: "italic" }}>
 									Currently nothing, used to be our PfSense
 									server before we switched to Ubiquiti
-								</ListItem>
-							</UnorderedList>
-						</ListItem>
-						<ListItem>
+								</li>
+							</ul>
+						</li>
+						<li>
 							Intel NUC i7-10710U, 12 cores (6 physical), 24 GB
 							{/* <i>(cutenuc)</i> */}
-							<UnorderedList listStyleType={"circle"}>
-								<ListItem>
+							<ul css={{ marginLeft: 10 }}>
+								<li>
 									Currently nothing, used to host Tivoli
 									worlds
-								</ListItem>
-							</UnorderedList>
-						</ListItem>
-						<ListItem>
+								</li>
+							</ul>
+						</li>
+						<li>
 							Intel NUC i7-10710U, 12 cores (6 physical), 24 GB
-							<UnorderedList listStyleType={"circle"}>
-								<ListItem>
+							<ul css={{ marginLeft: 10 }}>
+								<li>
 									Currently nothing, used to be Tivoli build
 									server
-								</ListItem>
-							</UnorderedList>
-						</ListItem>
-						<ListItem>
+								</li>
+							</ul>
+						</li>
+						<li>
 							Mac Mini M1, 16 GB
-							<UnorderedList listStyleType={"circle"}>
-								<ListItem>
+							<ul css={{ marginLeft: 10 }}>
+								<li>
 									Currently nothing, used to host Tivoli say
 									and build server
-								</ListItem>
-								<ListItem>
+								</li>
+								<li>
 									Otherwise personal use as remote machine
-								</ListItem>
-							</UnorderedList>
-						</ListItem>
-						<ListItem>
+								</li>
+							</ul>
+						</li>
+						<li>
 							Supermicro H8QG6-F, 64 cores (4 x 16),
 							<br />
 							128 GB <i>(Yeti)</i>
-							<UnorderedList listStyleType={"circle"}>
-								<ListItem>
+							<ul css={{ marginLeft: 10 }}>
+								<li>
 									Personal servers:{" "}
 									{formatLinks(personalYeti)}
-								</ListItem>
-							</UnorderedList>
-						</ListItem>
-						<ListItem>
-							CyberPower OR1500LCDRM1U UPS, 1500VA/900W
-						</ListItem>
-					</UnorderedList>
-				</Box>
-			</Flex>
+								</li>
+							</ul>
+						</li>
+						<li>CyberPower OR1500LCDRM1U UPS, 1500VA/900W</li>
+					</ul>
+				</div>
+			</HStack>
 		</HomeCard>
 	);
 }

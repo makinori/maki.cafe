@@ -86,6 +86,7 @@ export function HomeCardFooterLink(props: {
 				marginTop: props.mt,
 				marginBottom: props.mb,
 				fontSize: props.fontSize,
+				cursor: "pointer",
 			}}
 		>
 			{makeButton(
