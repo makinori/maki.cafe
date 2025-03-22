@@ -3,8 +3,8 @@ import Image from "next/image";
 import { SketchfabDataResponse } from "../../server/sources/sketchfab";
 import { config } from "../../utils/config";
 import HomeCard from "../ui/home-card/HomeCard";
-import HomeCardFailedToLoad from "../ui/home-card/HomeCardFailedToLoad";
-import HomeCardFooterLink from "../ui/home-card/HomeCardFooterLink";
+import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
+import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 import HomeCardHeading from "../ui/home-card/HomeCardHeading";
 import { SketchfabIcon } from "../ui/social-icons/SketchfabIcon";
 

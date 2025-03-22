@@ -4,7 +4,7 @@ import { config } from "../../utils/config";
 import { albumsInfo } from "../assets/albums-info";
 import albumsSpritesheet from "../assets/albums-spritesheet.png";
 import HomeCard from "../ui/home-card/HomeCard";
-import HomeCardFooterLink from "../ui/home-card/HomeCardFooterLink";
+import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 import HomeCardHeading from "../ui/home-card/HomeCardHeading";
 import { AnilistIcon } from "../ui/social-icons/AnilistIcon";
 

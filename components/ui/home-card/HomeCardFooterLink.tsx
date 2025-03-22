@@ -1,8 +1,11 @@
-import { Flex, HStack, Link, Text } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
+// import { Flex, HStack, Link, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import { FaArrowRight } from "react-icons/fa6";
+import { HStack } from "../Stack";
 
-export default function HomeCardFooterLink(props: {
+export function HomeCardFooterLink(props: {
 	href?: string;
 	children?: string;
 	multi?: {
@@ -24,58 +27,67 @@ export default function HomeCardFooterLink(props: {
 		afterIcon?: JSX.Element,
 	) {
 		return (
-			<Flex
-				width="100%"
-				alignItems="center"
-				justifyContent="center"
-				opacity={props.opacity ?? 0.4}
-				mt={2}
-				mb={-3}
+			<HStack
+				css={{
+					width: "100%",
+					opacity: props.opacity ?? 0.4,
+					marginTop: 8,
+					marginBottom: -12,
+				}}
 			>
 				{beforeIcon}
-				<Text
-					ml={beforeIcon == null ? 0 : 1.5}
-					mr={afterIcon == null ? 0 : 1.5}
-					fontWeight={props.fontWeight ?? 500}
+				<p
+					css={{
+						marginLeft: beforeIcon == null ? 0 : 6,
+						marginRight: afterIcon == null ? 0 : 6,
+						fontWeight: props.fontWeight ?? 500,
+					}}
 				>
 					{text}
-				</Text>
+				</p>
 				{afterIcon}
-			</Flex>
+			</HStack>
 		);
 	}
 
 	if (props.multi != null) {
 		return (
 			<HStack
-				spacing={6}
-				justifyContent={"center"}
-				mt={props.mt}
-				mb={props.mb}
+				spacing={24}
+				css={{
+					marginTop: props.mt,
+					marginBottom: props.mb,
+				}}
 			>
 				{props.multi.map((link, i) => (
-					<Link key={i} href={link.url} textDecor="none" color="#fff">
+					<a
+						key={i}
+						href={link.url}
+						css={{ textDecoration: "none", color: "#fff" }}
+					>
 						{makeButton(
 							link.name,
 							<link.icon size={18} color="#fff" />,
 							undefined,
 						)}
-					</Link>
+					</a>
 				))}
 			</HStack>
 		);
 	}
 
 	return (
-		<Link
-			display={"block"}
+		<a
 			href={props.href}
-			textDecor="none"
-			color="#fff"
 			onClick={props.onClick}
-			mt={props.mt}
-			mb={props.mb}
-			fontSize={props.fontSize}
+			css={{
+				display: "block",
+				textDecoration: "none",
+				color: "#fff",
+				marginTop: props.mt,
+				marginBottom: props.mb,
+				fontSize: props.fontSize,
+			}}
 		>
 			{makeButton(
 				props.children as string,
@@ -86,6 +98,6 @@ export default function HomeCardFooterLink(props: {
 					<FaArrowRight size={14} color="#fff" />
 				),
 			)}
-		</Link>
+		</a>
 	);
 }

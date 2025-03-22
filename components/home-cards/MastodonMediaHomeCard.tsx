@@ -12,10 +12,10 @@ import Image from "next/image";
 import { MastodonDataResponse } from "../../server/sources/mastodon";
 import { config } from "../../utils/config";
 import HomeCard from "../ui/home-card/HomeCard";
-import HomeCardFailedToLoad from "../ui/home-card/HomeCardFailedToLoad";
+import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
 import HomeCardHeading from "../ui/home-card/HomeCardHeading";
 import { MastodonIcon } from "../ui/social-icons/MastodonIcon";
-import HomeCardFooterLink from "../ui/home-card/HomeCardFooterLink";
+import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 
 export default function MastodonMediaHomeCard(props: {
 	data: MastodonDataResponse;

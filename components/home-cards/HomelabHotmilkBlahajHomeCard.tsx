@@ -14,7 +14,7 @@ import { UptimeDataResponse, UptimeService } from "../../server/sources/uptime";
 import { config } from "../../utils/config";
 import OpenableImage from "../ui/OpenableImage";
 import HomeCard from "../ui/home-card/HomeCard";
-import HomeCardFailedToLoad from "../ui/home-card/HomeCardFailedToLoad";
+import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
 import HomeCardHeading from "../ui/home-card/HomeCardHeading";
 import blahajInside from "./homelab/blahaj-inside.jpg";
 import blahajOutside from "./homelab/blahaj-outside-2.jpg";

@@ -4,8 +4,8 @@ import { AurDataResponse } from "../../server/sources/aur";
 import { config } from "../../utils/config";
 import { plural } from "../../utils/utils";
 import HomeCard from "../ui/home-card/HomeCard";
-import HomeCardFailedToLoad from "../ui/home-card/HomeCardFailedToLoad";
-import HomeCardFooterLink from "../ui/home-card/HomeCardFooterLink";
+import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
+import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 import HomeCardHeading from "../ui/home-card/HomeCardHeading";
 import { ArchLinuxIcon } from "../ui/social-icons/ArchLinuxIcon";
 

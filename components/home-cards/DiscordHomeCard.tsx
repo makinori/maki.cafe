@@ -18,7 +18,7 @@ import DancingLetters from "../ui/DancingLetters";
 import DiscordUserImage from "../ui/DiscordUserImage";
 import SubHeading from "../ui/SubHeading";
 import HomeCard from "../ui/home-card/HomeCard";
-import HomeCardFooterLink from "../ui/home-card/HomeCardFooterLink";
+import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 import HomeCardLoading from "../ui/home-card/HomeCardLoading";
 import styles from "./DiscordHomeCard.module.scss";
 

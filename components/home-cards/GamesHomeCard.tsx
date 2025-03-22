@@ -3,7 +3,7 @@ import { config } from "../../utils/config";
 import { gamesInfo } from "../assets/games-info";
 import gamesSpritesheet from "../assets/games-spritesheet.png";
 import HomeCard from "../ui/home-card/HomeCard";
-import HomeCardFooterLink from "../ui/home-card/HomeCardFooterLink";
+import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 import HomeCardHeading from "../ui/home-card/HomeCardHeading";
 import { BackloggdIcon } from "../ui/social-icons/BackloggdIcon";
 import { OverwatchIcon } from "../ui/social-icons/OverwatchIcon";
@@ -180,7 +180,7 @@ export default function GamesHomeCard() {
 					<HomeCardFooterLink
 						altIcon={FaArrowUp}
 						onClick={() => setShowAll(false)}
-						mb={3}
+						mb={12}
 						fontSize={"1.15em"}
 						fontWeight={700}
 						opacity={0.6}
@@ -192,7 +192,7 @@ export default function GamesHomeCard() {
 				<></>
 			)}
 			<HomeCardFooterLink
-				mt={-3}
+				mt={-12}
 				multi={[
 					{
 						name: "steam",

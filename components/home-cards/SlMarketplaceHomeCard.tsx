@@ -2,8 +2,8 @@ import { Box, Grid, GridItem, Link } from "@chakra-ui/react";
 import { SlMarketplaceDataResponse } from "../../server/sources/sl-marketplace";
 import { config } from "../../utils/config";
 import HomeCard from "../ui/home-card/HomeCard";
-import HomeCardFailedToLoad from "../ui/home-card/HomeCardFailedToLoad";
-import HomeCardFooterLink from "../ui/home-card/HomeCardFooterLink";
+import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
+import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 import HomeCardHeading from "../ui/home-card/HomeCardHeading";
 import { SecondLifeIcon } from "../ui/social-icons/SecondLifeIcon";
 
