@@ -82,7 +82,7 @@ const socialLinks = {
 };
 
 const title = "Maki";
-const description = ""; // cute mare site
+const description = "sushi pony";
 
 const domain = "maki.cafe";
 const url = "https://" + domain;
