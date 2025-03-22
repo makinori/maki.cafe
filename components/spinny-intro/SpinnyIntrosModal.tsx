@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import {
 	Grid,
 	GridItem,
@@ -45,6 +47,7 @@ const fullMonths = [
 	"November",
 	"December",
 ];
+HStack;
 
 function SpinnyIntroSelector(props: {
 	spinnyIntroReady: boolean;
@@ -62,6 +65,7 @@ function SpinnyIntroSelector(props: {
 						{intros.map(intro => (
 							<GridItem key={intro.index}>
 								<Button
+									css={{ margin: "4px", padding: "4px 8px" }}
 									disabled={
 										!props.spinnyIntroReady ||
 										props.selectedIntroIndex == intro.index

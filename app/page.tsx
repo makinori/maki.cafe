@@ -1,8 +1,11 @@
 import { headers } from "next/headers";
 import type { ServerData } from "../server/main";
 import Home from "./Home";
+import { unstable_noStore as noStore } from "next/cache";
 
 export default async function Page() {
+	noStore();
+
 	const headersList = headers();
 
 	let serverData: ServerData = null;
@@ -12,6 +15,8 @@ export default async function Page() {
 	} catch (error) {
 		console.error("Failed to get server data");
 	}
+
+	// TODO: use initial={} instead
 
 	return <Home client={serverData.client} data={serverData.data} />;
 }

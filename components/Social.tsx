@@ -1,27 +1,21 @@
+/** @jsxImportSource @emotion/react */
+
 import {
-	Box,
-	Button,
-	Code,
-	Flex,
-	HStack,
-	Heading,
-	Link,
-	Modal,
-	ModalContent,
-	ModalHeader,
-	ModalOverlay,
-	Text,
-	VStack,
-	useDisclosure,
-	useToast,
+	Code as ChakraCode,
+	Heading as ChakraHeading,
+	Modal as ChakraModal,
+	ModalContent as ChakraModalContent,
+	ModalHeader as ChakraModalHeader,
+	ModalOverlay as ChakraModalOverlay,
+	useDisclosure as useChakraDisclosure,
+	useToast as useChakraToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { IconType } from "react-icons";
 import { FaArrowRight, FaArrowsRotate, FaCode } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { config } from "../utils/config";
-import { colorMix } from "../utils/utils";
-import rainbowShaderGif from "./assets/rainbow-shader.gif";
+import { Button } from "./ui/Button";
 import Emoji from "./ui/Emoji";
 import { ArchLinuxIcon } from "./ui/social-icons/ArchLinuxIcon";
 import { DiscordIcon } from "./ui/social-icons/DiscordIcon";
@@ -32,6 +26,7 @@ import { SecondLifeIcon } from "./ui/social-icons/SecondLifeIcon";
 import { SteamIcon } from "./ui/social-icons/SteamIcon";
 import { ToxIcon } from "./ui/social-icons/ToxIcon";
 import { XmppIcon } from "./ui/social-icons/XmppIcon";
+import { HStack, VStack } from "./ui/Stack";
 
 interface PopupButton {
 	text: string;
@@ -55,7 +50,7 @@ interface Social {
 	href?: string;
 	name: string;
 	color: string;
-	small: boolean;
+	// small: boolean;
 	rel?: string;
 	rainbow?: boolean;
 	iconSize?: number;
@@ -64,14 +59,14 @@ interface Social {
 }
 
 export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
-	const toast = useToast();
+	const toast = useChakraToast();
 
 	const [popupInfo, setPopupInfo] = useState<Popup>();
 	const {
 		isOpen: popupIsOpen,
 		onOpen: popupOnOpen,
 		onClose: popupOnClose,
-	} = useDisclosure();
+	} = useChakraDisclosure();
 
 	// {
 	// 	icon: TwitterIcon,
@@ -96,7 +91,7 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 	// 	small: true,
 	// },
 
-	const socialsSpacing = 2;
+	const socialsSpacing = 8;
 	const socialsRows: Social[][] = [
 		[
 			{
@@ -104,21 +99,18 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 				href: config.socialLinks.github,
 				name: "GitHub",
 				color: "#333",
-				small: true,
 			},
 			{
 				icon: MastodonIcon,
 				href: config.socialLinks.mastodon,
 				name: "Mastodon",
 				color: "#6364FF",
-				small: true,
 				rel: "me",
 			},
 			{
 				icon: XmppIcon,
 				name: "XMPP",
 				color: "#227ee1", // e96d1f or d9541e
-				small: true,
 				openPopup: {
 					title: "XMPP",
 					text: config.socialIds.xmpp,
@@ -132,7 +124,6 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 				name: "Tox",
 				// #f5a500: #ffba2b -10 lightness
 				color: "#ff8f00", // amber 800
-				small: true,
 				openPopup: {
 					title: "Tox",
 					text: config.socialIds.tox.match(/.{1,38}/g).join("\n"),
@@ -145,7 +136,6 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 				href: config.socialLinks.matrix,
 				name: "Matrix",
 				color: "#0dbd8b", // element color
-				small: true,
 				openPopup: {
 					title: "Matrix",
 					text: config.socialIds.matrix,
@@ -156,7 +146,6 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 				icon: SecondLifeIcon,
 				name: "Second Life",
 				color: "#00bfff",
-				small: true,
 				openPopup: {
 					title: "Second Life",
 					text: config.socialIds.secondLife.name,
@@ -176,20 +165,17 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 				href: config.socialLinks.discord,
 				name: "Discord",
 				color: "#5865F2",
-				small: true,
 			},
 			{
 				icon: SteamIcon,
 				href: config.socialLinks.steam,
 				name: "Steam",
 				color: "#333",
-				small: true,
 			},
 			{
 				icon: MdEmail,
 				name: "Email",
 				color: "#222",
-				small: true,
 				openPopup: {
 					title: "Email",
 					text: config.socialIds.email,
@@ -200,7 +186,6 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 			// 	icon: MdLock,
 			// 	name: "PGP",
 			// 	color: "#222",
-			// 	small: true,
 			// 	openPopup: {
 			// 		title: "Maki's Public Key",
 			// 		text: config.pgpPublicKey,
@@ -214,7 +199,6 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 			// 	href: config.socialLinks.kofi,
 			// 	name: "Support me",
 			// 	color: "#13C3FF",
-			// 	small: true,
 			// 	rainbow: true,
 			// 	iconSize: 26,
 			// },
@@ -226,9 +210,21 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 			{row.map((social, i) => (
 				<Button
 					key={"social-button-" + i}
+					// size={social.small ? "sm" : "md"}
+					color={social.color}
+					css={{
+						fontWeight: 800,
+					}}
+					icon={
+						<social.icon
+							color={"#fff"}
+							// size={social.iconSize ?? (social.small ? 16 : 18)}
+							size={social.iconSize ?? 16}
+						/>
+					}
+					rel={social.rel}
 					{...(social.openPopup || social.openWithJs
 						? {
-								as: "button",
 								onClick: () => {
 									if (social.openPopup) {
 										setPopupInfo(social.openPopup);
@@ -238,85 +234,64 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 									}
 								},
 						  }
-						: {
-								as: "a",
-								href: social.href,
-						  })}
-					size={social.small ? "sm" : "md"}
-					opacity={1}
-					leftIcon={
-						<social.icon
-							color={"#fff"}
-							size={social.iconSize ?? (social.small ? 16 : 18)}
-						/>
-					}
-					color={"#fff"}
-					background={social.color}
-					_hover={{
-						background: colorMix(social.color, "#ffffff", 0.1),
-						opacity: 1,
-						transform: "scale(1.05)",
-					}}
-					rel={social.rel}
-					position={"relative"}
-					overflow={social.rainbow ? "hidden" : "auto"}
-					fontWeight={800}
+						: { href: social.href })}
 				>
-					{social.rainbow ? (
-						<>
-							<Box
-								position={"absolute"}
-								top={0}
-								bottom={0}
-								left={0}
-								right={0}
-								margin={"auto"}
-								opacity={1}
-								backgroundSize={"cover"}
-								backgroundImage={`url(${rainbowShaderGif.src})`}
-								style={{
-									imageRendering: "pixelated",
-								}}
-							></Box>
-							<Box
-								position={"absolute"}
-								top={0}
-								bottom={0}
-								left={0}
-								right={0}
-								margin={"auto"}
-								opacity={1}
-								display={"flex"}
-								alignItems={"center"}
-								justifyContent={"center"}
-								backgroundColor={"rgba(20,20,20,0.3)"}
-								_hover={{
-									backgroundColor: "rgba(20,20,20,0.15)",
-								}}
-								transition={config.styles.hoverTransition}
-								// transitionProperty={
-								// 	"var(--chakra-transition-property-common)"
-								// }
-								// transitionDuration={
-								// 	"var(--chakra-transition-duration-normal)"
-								// }
-							>
-								<social.icon
-									color={"#fff"}
-									size={
-										social.iconSize ??
-										(social.small ? 16 : 18)
-									}
-									style={{ marginRight: "8px" }}
-								/>
-								{social.name.toLowerCase()}
-							</Box>
-						</>
-					) : (
-						<></>
-					)}
 					{social.name.toLowerCase()}
 				</Button>
+				// for rainbow
+				//
+				// position={"relative"}
+				// overflow={social.rainbow ? "hidden" : "auto"}
+				//
+				// <>
+				// 	<Box
+				// 		position={"absolute"}
+				// 		top={0}
+				// 		bottom={0}
+				// 		left={0}
+				// 		right={0}
+				// 		margin={"auto"}
+				// 		opacity={1}
+				// 		backgroundSize={"cover"}
+				// 		backgroundImage={`url(${rainbowShaderGif.src})`}
+				// 		style={{
+				// 			imageRendering: "pixelated",
+				// 		}}
+				// 	></Box>
+				// 	<Box
+				// 		position={"absolute"}
+				// 		top={0}
+				// 		bottom={0}
+				// 		left={0}
+				// 		right={0}
+				// 		margin={"auto"}
+				// 		opacity={1}
+				// 		display={"flex"}
+				// 		alignItems={"center"}
+				// 		justifyContent={"center"}
+				// 		backgroundColor={"rgba(20,20,20,0.3)"}
+				// 		_hover={{
+				// 			backgroundColor: "rgba(20,20,20,0.15)",
+				// 		}}
+				// 		transition={config.styles.hoverTransition}
+				// 		// transitionProperty={
+				// 		// 	"var(--chakra-transition-property-common)"
+				// 		// }
+				// 		// transitionDuration={
+				// 		// 	"var(--chakra-transition-duration-normal)"
+				// 		// }
+				// 	>
+				// 		<social.icon
+				// 			color={"#fff"}
+				// 			size={
+				// 				social.iconSize ??
+				// 				(social.small ? 16 : 18)
+				// 			}
+				// 			style={{ marginRight: "8px" }}
+				// 		/>
+				// 		{social.name.toLowerCase()}
+				// 	</Box>
+				// </>
 			))}
 		</HStack>
 	));
@@ -335,7 +310,7 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 
 	return (
 		<>
-			<Flex flexDir="column" alignItems="center" justifyContent="center">
+			<VStack>
 				{/* <HStack spacing={2}>
 					<Emoji size={24} font="noto" mr={-0.5}>
 						🎀
@@ -353,7 +328,7 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 					</SubHeading>
 					<Emoji size={24} custom="cyber-heart"></Emoji>
 				</HStack> */}
-				<VStack spacing={0} mt={-2}>
+				<VStack css={{ marginTop: -8 }}>
 					{/* <HStack spacing={1}>
 						<Emoji size={24} font="noto">
 							🌱
@@ -368,31 +343,35 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 							creator of virtual worlds
 						</Text>
 					</HStack> */}
-					<HStack spacing={1}>
+					<HStack spacing={4}>
 						<Emoji size={24} custom="shaderlab"></Emoji>
-						<Text
-							opacity={primaryTextOpacity}
-							fontWeight={primaryFontWeight}
-							fontSize="xl"
-							pl={1}
-							letterSpacing={primaryLetterSpacing}
+						<p
+							css={{
+								opacity: primaryTextOpacity,
+								fontWeight: primaryFontWeight,
+								fontSize: 20,
+								paddingLeft: 4,
+								letterSpacing: primaryLetterSpacing,
+							}}
 						>
 							play and make video games
-						</Text>
+						</p>
 					</HStack>
-					<HStack spacing={1}>
+					<HStack spacing={4}>
 						<Emoji size={24} custom="codium"></Emoji>
-						<Text
-							opacity={primaryTextOpacity}
-							fontWeight={primaryFontWeight}
-							fontSize="xl"
-							pl={1}
-							letterSpacing={primaryLetterSpacing}
+						<p
+							css={{
+								opacity: primaryTextOpacity,
+								fontWeight: primaryFontWeight,
+								fontSize: 20,
+								paddingLeft: 4,
+								letterSpacing: primaryLetterSpacing,
+							}}
 						>
 							programming and running servers
-						</Text>
+						</p>
 					</HStack>
-					{/* <Text
+					{/* <Text0.5
 						opacity={tertiaryTextOpacity}
 						fontWeight={secondaryFontWeight}
 						fontSize="md"
@@ -401,7 +380,7 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 					>
 						idk i just kinda exist. yay look cute aminals
 					</Text> */}
-					<HStack spacing={0.5} mt={2}>
+					<HStack spacing={2} css={{ marginTop: 8 }}>
 						{[
 							"🦄",
 							"🦐",
@@ -443,7 +422,7 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 							fontWeight={secondaryFontWeight}
 							fontSize="xl"
 							px={1}
-							letterSpacing={secondaryLetterSpacing}
+							letterSpacing={secondaryLetterS>pacing}
 						>
 							neurodivergent/sensitive
 						</Text>
@@ -485,108 +464,118 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 						</Text>
 					</HStack> */}
 				</VStack>
-				<VStack mt={10} spacing={socialsSpacing}>
+				<VStack spacing={socialsSpacing} css={{ marginTop: 40 }}>
 					{SocialsRows}
 				</VStack>
-				<VStack spacing={0} mt={6}>
-					<Link
-						fontWeight={secondaryFontWeight}
-						fontSize="lg"
-						letterSpacing={secondaryLetterSpacing}
-						color="white"
-						opacity={secondaryTextOpacity}
-						as={"button"}
+				<VStack css={{ marginTop: 24 }}>
+					<div
+						css={{
+							fontWeight: secondaryFontWeight,
+							fontSize: 18,
+							letterSpacing: secondaryLetterSpacing,
+							opacity: secondaryTextOpacity,
+							transformOrigin: "center",
+							// transition: config.styles.hoverTransition,
+							// ":hover": {
+							// 	transform: "scale(1.05)",
+							// },
+							cursor: "pointer",
+						}}
 						onClick={props.onSpinnyIntrosOpen}
-						// href={config.socialLinks.github + "/dots"}
-						// transformOrigin="center"
-						// transition={config.styles.hoverTransition}
-						// _hover={{ transform: "scale(1.05)" }}
 					>
-						<HStack spacing={2}>
+						<HStack spacing={8}>
 							<FaArrowsRotate
 								size={16}
 								fill="#fff"
 								style={{ marginBottom: -2 }}
 							/>
-							<Text mb={0}>see all spinny intros</Text>
+							<p>see all spinny intros</p>
 							<FaArrowRight
 								size={14}
 								color="#fff"
 								style={{ marginBottom: "0px" }}
 							/>
 						</HStack>
-					</Link>
-					<Link
-						fontWeight={tertiaryFontWeight}
-						fontSize="lg"
-						letterSpacing={tertiaryLetterSpacing}
-						fontStyle={"italic"}
-						color="white"
-						opacity={tertiaryTextOpacity}
+					</div>
+					<a
+						css={{
+							fontWeight: tertiaryFontWeight,
+							fontSize: 18,
+							letterSpacing: tertiaryLetterSpacing,
+							opacity: tertiaryTextOpacity,
+							transformOrigin: "center",
+							// transition: config.styles.hoverTransition,
+							// ":hover": {
+							// 	transform: "scale(1.05)",
+							// },
+							marginTop: 12,
+							fontStyle: "italic",
+						}}
 						href={config.socialLinks.github + "/dots"}
-						// transformOrigin="center"
-						// transition={config.styles.hoverTransition}
-						// _hover={{ transform: "scale(1.05)" }}
-						mt={3}
 					>
-						<HStack spacing={2}>
+						<HStack spacing={8}>
 							<ArchLinuxIcon
 								size={16}
 								// fill="#1793d1"
 								fill="#fff"
 							/>
-							<Text>i use arch btw lmao</Text>
+							<p>i use arch btw lmao</p>
 							<FaArrowRight
 								size={14}
 								color="#fff"
 								style={{ marginBottom: "0px" }}
 							/>
 						</HStack>
-					</Link>
-					<Link
-						fontWeight={tertiaryFontWeight}
-						fontSize="md"
-						letterSpacing={tertiaryLetterSpacing}
-						color="#fff"
-						opacity={tertiaryTextOpacity}
+					</a>
+					<a
+						css={{
+							fontWeight: tertiaryFontWeight,
+							fontSize: 16,
+							letterSpacing: tertiaryLetterSpacing,
+							opacity: tertiaryTextOpacity,
+							transformOrigin: "center",
+							// transition: config.styles.hoverTransition,
+							// ":hover": {
+							// 	transform: "scale(1.05)",
+							// },
+						}}
 						href={config.socialLinks.github + "/maki.cafe"}
-						// transformOrigin="center"
-						// transition={config.styles.hoverTransition}
-						// _hover={{ transform: "scale(1.05)" }}
 					>
-						<HStack spacing={1.5}>
+						<HStack spacing={6}>
 							<FaCode size={16} fill="#fff" />
-							<Text letterSpacing={0}>see site&apos;s code</Text>
+							<p css={{ letterSpacing: 0 }}>
+								see site&apos;s code
+							</p>
 							<FaArrowRight
 								size={14}
 								color="#fff"
 								style={{ marginBottom: "0px" }}
 							/>
 						</HStack>
-					</Link>
+					</a>
 				</VStack>
-			</Flex>
-			<Modal
+			</VStack>
+			<ChakraModal
 				isOpen={popupIsOpen && popupInfo != null}
 				onClose={popupOnClose}
 				isCentered
 				colorScheme="brand"
 			>
-				<ModalOverlay background={"rgba(17,17,17,0.7)"} />
-				<ModalContent
+				<ChakraModalOverlay background={"rgba(17,17,17,0.7)"} />
+				<ChakraModalContent
 					background={"#222"}
 					width={"fit-content"}
 					maxWidth={"fit-content"}
 					borderRadius={16}
 				>
-					<ModalHeader
+					<ChakraModalHeader
 						my={1.5}
 						display={"flex"}
 						flexDir={"column"}
 						alignItems={"center"}
 						gap={2}
 					>
-						<Heading
+						<ChakraHeading
 							size={"md"}
 							fontSize={"1.2em"}
 							fontWeight={800}
@@ -594,10 +583,10 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 						>
 							{popupInfo?.title.toLowerCase()}
 							{/* <chakra.span fontWeight={700}>add at</chakra.span> */}
-						</Heading>
-						<HStack spacing={3}>
+						</ChakraHeading>
+						<HStack spacing={12}>
 							{/* <Heading size={"md"}>Add me</Heading> */}
-							<Code
+							<ChakraCode
 								px={1.5}
 								py={0.5}
 								borderRadius={4}
@@ -635,9 +624,9 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 								fontFamily={"var(--chakra-fonts-monospace)"}
 							>
 								{popupInfo?.text}
-							</Code>
+							</ChakraCode>
 						</HStack>
-						<HStack spacing={4}>
+						<HStack spacing={16}>
 							{(
 								[
 									{
@@ -651,34 +640,18 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 								] as PopupButton[]
 							).map((button, i) => (
 								<Button
-									as="a"
 									key={i}
 									href={button.href}
 									onClick={popupOnClose}
-									background={
-										button.main
-											? "brand.500"
-											: "makiGray.400"
-									}
-									size={"sm"}
-									mt={4}
-									_hover={{
-										background: button.main
-											? "brand.400"
-											: "makiGray.300",
-									}}
-									_active={{
-										background: button.main
-											? "brand.300"
-											: "makiGray.200",
-									}}
-									fontWeight={700}
+									color={button.main ? "#ff1744" : "#444444"}
+									css={{ marginTop: 16 }}
+									// noHoverScale
 								>
 									{button.text?.toLowerCase()}
 								</Button>
 							))}
 						</HStack>
-					</ModalHeader>
+					</ChakraModalHeader>
 					{/* <ModalCloseButton /> */}
 					{/* <ModalBody>
 						<Code px={1.5}>{config.socialIds.xmpp}</Code>
@@ -699,8 +672,8 @@ export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
 							Open using client
 						</Button>
 					</ModalFooter> */}
-				</ModalContent>
-			</Modal>
+				</ChakraModalContent>
+			</ChakraModal>
 		</>
 	);
 }

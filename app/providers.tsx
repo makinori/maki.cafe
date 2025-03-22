@@ -3,6 +3,7 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { cascadiaMono, snPro } from "../fonts/fonts";
 import { colorMix } from "../utils/utils";
+import { RootStyleRegistry } from "./emotion";
 
 if (globalThis.localStorage != null) {
 	globalThis.localStorage.setItem("chakra-ui-color-mode", "dark");
@@ -81,5 +82,9 @@ const theme = extendTheme({
 });
 
 export function Providers({ children }: { children: React.ReactNode }) {
-	return <ChakraProvider theme={theme}>{children}</ChakraProvider>;
+	return (
+		<ChakraProvider theme={theme}>
+			<RootStyleRegistry>{children}</RootStyleRegistry>
+		</ChakraProvider>
+	);
 }
