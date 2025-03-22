@@ -1,3 +1,5 @@
+import { LayoutWidth } from "../app/Home";
+
 export function getBackgroundPositionsForSpritesheet(
 	width: number,
 	height: number,
@@ -142,3 +144,23 @@ export const mergeRefs = <T>(
 		});
 	};
 };
+
+export function cssScreenSizes(
+	key: string,
+	oneCol: any,
+	twoCol: any,
+	threeCol: any,
+): any {
+	return {
+		[key]: oneCol,
+		[`@media (min-width: ${LayoutWidth.column2}px)`]: {
+			[key]: twoCol,
+		},
+		[`@media (min-width: ${LayoutWidth.column3}px)`]: {
+			[key]: threeCol,
+		},
+		// [`@media (min-width: ${LayoutWidth.column4}px)`]: {
+		// 	[key]: fourCol,
+		// },
+	};
+}

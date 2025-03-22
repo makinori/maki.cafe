@@ -1,4 +1,4 @@
-import { HStack, Img } from "@chakra-ui/react";
+import { HStack } from "../ui/Stack";
 import Pony0 from "./assets/0.png";
 import Pony1 from "./assets/1.png";
 import Pony2 from "./assets/2.png";
@@ -10,7 +10,7 @@ import Pony7 from "./assets/7.png";
 import Pony8 from "./assets/8.png";
 import Pony9 from "./assets/9.png";
 
-let ponies = [
+const ponies = [
 	Pony0,
 	Pony1,
 	Pony2,
@@ -28,8 +28,8 @@ export function PonyCounter({ n }: { n: number }) {
 
 	return (
 		<HStack>
-			{nString.map(n => (
-				<Img src={ponies[Number(n)].src} height={"40px"} />
+			{nString.map((n, i) => (
+				<img key={i} src={ponies[Number(n)].src} height={"40px"} />
 			))}
 		</HStack>
 	);

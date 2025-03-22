@@ -1,4 +1,5 @@
-import { Box } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
 import { DotMap } from "../ui/DotMap";
 import { Emoji } from "../ui/Emoji";
 import { HomeCard } from "../ui/home-card/HomeCard";
@@ -7,26 +8,26 @@ import { SubHeading } from "../ui/SubHeading";
 export function WhereHomeCard() {
 	return (
 		<HomeCard>
-			<Box marginBottom={3} textAlign="center">
-				<SubHeading fontWeight={500} fontSize="20px">
+			<div css={{ marginBottom: 12, textAlign: "center" }}>
+				<SubHeading css={{ fontWeight: 500, fontSize: 20 }}>
 					<Emoji size={20} mr={1.5}>
 						🇧🇪
 					</Emoji>
 					born in belgium
 				</SubHeading>
-				<SubHeading fontWeight={500} fontSize="20px">
+				<SubHeading css={{ fontWeight: 500, fontSize: 20 }}>
 					<Emoji size={20} mr={1.5}>
 						🇮🇨
 					</Emoji>
 					lived in tenerife
 				</SubHeading>
-				<SubHeading fontWeight={500} fontSize="20px">
+				<SubHeading css={{ fontWeight: 500, fontSize: 20 }}>
 					<Emoji size={20} mr={1.5}>
 						🇺🇸
 					</Emoji>
 					living in the usa
 				</SubHeading>
-			</Box>
+			</div>
 			<DotMap
 				pins={[
 					[49.5, 37], // belgium

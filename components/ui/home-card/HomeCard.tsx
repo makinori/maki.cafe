@@ -1,4 +1,7 @@
-import { Box, Flex } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
+import { cssScreenSizes } from "../../../utils/utils";
+import { HStack } from "../Stack";
 
 export function HomeCard(props: { children?: any }) {
 	// let rgb = hexColorToRgb("fff").join(",");
@@ -7,27 +10,29 @@ export function HomeCard(props: { children?: any }) {
 	const borderOpacity = 0.06;
 
 	return (
-		<Flex
-			width={450}
-			alignItems="center"
-			justifyContent="center"
-			marginBottom={[8, 8, 8, 0]}
+		<HStack
+			css={{
+				width: 450,
+				marginBottom: 32,
+				...cssScreenSizes("marginBottom", 32, 0, 0),
+			}}
 		>
-			<Box
-				// boxShadow="0 0 64px #0000001a, 0 0 32px #0000001a"
-				// boxShadow={`0 0 96px rgba(0,0,0,${opacity}), 0 0 64px rgba(0,0,0,${opacity}), 0 0 32px rgba(0,0,0,${opacity})`}
-				boxShadow={[
-					`0 0 96px rgba(${rgb},${shadowOpacity})`,
-					`0 0 64px rgba(${rgb},${shadowOpacity})`,
-					`0 0 32px rgba(${rgb},${shadowOpacity})`,
-				].join(", ")}
-				border={`solid 2px rgba(${rgb},${borderOpacity})`}
-				borderRadius={16}
-				padding={6}
-				display="inline-block"
+			<div
+				css={{
+					// boxShadow: "0 0 64px #0000001a, 0 0 32px #0000001a",
+					boxShadow: [
+						`0 0 96px rgba(${rgb},${shadowOpacity})`,
+						`0 0 64px rgba(${rgb},${shadowOpacity})`,
+						`0 0 32px rgba(${rgb},${shadowOpacity})`,
+					].join(", "),
+					border: `solid 2px rgba(${rgb},${borderOpacity})`,
+					borderRadius: 16,
+					padding: 24,
+					display: "inline-block",
+				}}
 			>
 				{props.children}
-			</Box>
-		</Flex>
+			</div>
+		</HStack>
 	);
 }

@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 
 import { CSSObject } from "@emotion/react";
-import { LayoutWidth } from "../app/Home";
 import polkaDotPatternImage from "../tools/polka-dot-pattern/polka-dot-pattern.svg";
+import { cssScreenSizes } from "../utils/utils";
 import hexagonsImage from "./assets/hexagons.svg";
 import militarismImage from "./assets/militarism.svg";
 import pinesBackground from "./assets/pines-lighter.jpg";
@@ -55,14 +55,13 @@ export function HomeBackground(props: {
 		case "pines":
 			css = {
 				backgroundImage: `url(${pinesBackground.src})`,
-				backgroundSize: "800px auto",
 				backgroundRepeat: "no-repeat",
-				[`@media (min-width: ${LayoutWidth.column2}px)`]: {
-					backgroundSize: "1200px auto",
-				},
-				[`@media (min-width: ${LayoutWidth.column3}px)`]: {
-					backgroundSize: "1600px auto",
-				},
+				...cssScreenSizes(
+					"backgroundSize",
+					"800px auto",
+					"1200px auto",
+					"1600px auto",
+				),
 			};
 			break;
 	}

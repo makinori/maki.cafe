@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 
-// import { Flex, HStack, Link, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import { FaArrowRight } from "react-icons/fa6";
 import { HStack } from "../Stack";

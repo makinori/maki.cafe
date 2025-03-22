@@ -1,4 +1,5 @@
-import { Box } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
 import Image from "next/image";
 // import worldMapSvg from "raw-loader!./world-map.txt";
 import styles from "./DotMap.module.scss";
@@ -142,7 +143,7 @@ export function DotMap(props: { pins: [number, number][] }) {
 	// return <chakra.img src={finalRender} />;
 
 	return (
-		<Box className={styles["dot-map"]}>
+		<div className={styles["dot-map"]}>
 			<Image
 				alt="World map"
 				width={width * 3 - 1}
@@ -150,7 +151,7 @@ export function DotMap(props: { pins: [number, number][] }) {
 				src="data:image/png;base64,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"
 			/>
 			{props.pins.map((pin, i) => (
-				<Box
+				<div
 					key={i}
 					className={`${styles["pin"]} ${styles["pin-" + i]}`}
 					style={{
@@ -158,8 +159,8 @@ export function DotMap(props: { pins: [number, number][] }) {
 						left: pin[0] + "%",
 						top: pin[1] + "%",
 					}}
-				></Box>
+				></div>
 			))}
-		</Box>
+		</div>
 	);
 }

@@ -1,2 +1,6 @@
--   Stop using Chakra UI
--   Drop PerspectiveCamera/OrbitControls in SpinnyIntro
+-   stop using chakra
+-   drop PerspectiveCamera/OrbitControls in SpinnyIntro
+-   bring back where map?
+-   go through todos
+-   add website counter maybe
+-   remove modules.css files for css in js

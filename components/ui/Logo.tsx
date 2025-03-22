@@ -1,4 +1,5 @@
-import { chakra } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
 import { useEffect, useState } from "react";
 import { sleep } from "../../utils/utils";
 import styles from "./Logo.module.scss";
@@ -69,7 +70,7 @@ export function Logo(props: { ready: boolean }) {
 	}, [props.ready]);
 
 	return (
-		<chakra.svg
+		<svg
 			className={[
 				styles.logo,
 				animateForward ? styles["animate-forward"] : null,
@@ -80,7 +81,7 @@ export function Logo(props: { ready: boolean }) {
 				.join(" ")}
 			onClick={playBackward}
 			viewBox="0 0 630 380"
-			cursor={animating ? "default" : "pointer"}
+			style={{ cursor: animating ? "default" : "pointer" }}
 		>
 			<LogoPiece
 				letter="m"
@@ -99,6 +100,6 @@ export function Logo(props: { ready: boolean }) {
 				letter="i-dot"
 				d="M645.688,92.031c-0,-3.125 -1.042,-3.125 3.125,-3.125"
 			/>
-		</chakra.svg>
+		</svg>
 	);
 }

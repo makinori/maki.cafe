@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import {
 	Box,
 	Center,
@@ -7,6 +9,7 @@ import {
 	Text,
 	VStack,
 } from "@chakra-ui/react";
+import { CSSObject, keyframes } from "@emotion/react";
 import { formatDistance } from "date-fns";
 import Image from "next/image";
 import { IoGameController } from "react-icons/io5";
@@ -20,13 +23,25 @@ import { SubHeading } from "../ui/SubHeading";
 import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 import { HomeCardLoading } from "../ui/home-card/HomeCardLoading";
-import styles from "./DiscordHomeCard.module.scss";
 
 const msToTimeStr = (ms: number) => {
 	let s = Math.floor(ms / 1000);
 	const m = Math.floor(s / 60);
 	s -= m * 60;
 	return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+};
+
+const tiltingActivityImageAnimation = keyframes({
+	"0%": { transform: "rotate(-2deg)" },
+	"50%": { transform: "rotate(2deg)" },
+	"100%": { transform: "rotate(-2deg)" },
+});
+
+const animateActivityImageCss: CSSObject = {
+	animationName: tiltingActivityImageAnimation,
+	animationDuration: "2s",
+	animationTimingFunction: "ease-in-out",
+	animationIterationCount: "infinite",
 };
 
 export function DiscordHomeCard() {
@@ -91,7 +106,7 @@ export function DiscordHomeCard() {
 						background="rgba(255, 255, 255, 0.5)"
 						borderRadius={6 + "px"}
 						overflow={"hidden"}
-						className={styles["animate-activity-image"]}
+						css={animateActivityImageCss}
 					>
 						<Image
 							src={activity?.imageUrl ?? ""}
@@ -120,13 +135,22 @@ export function DiscordHomeCard() {
 						) : (
 							<activity.activityIcon color="#fff" size={12} />
 						)}
-						<SubHeading size={"xs"} fontWeight={500}>
+						<SubHeading
+							css={{
+								fontSize: 14,
+								fontWeight: 500,
+							}}
+						>
 							{activity == null
 								? "no activity"
 								: activity.activityName}
 						</SubHeading>
 					</HStack>
-					<SubHeading size={"sm"}>
+					<SubHeading
+						css={{
+							fontSize: 16,
+						}}
+					>
 						{activity == null ? (
 							"not listening to anything"
 						) : (
@@ -135,7 +159,12 @@ export function DiscordHomeCard() {
 							</DancingLetters>
 						)}
 					</SubHeading>
-					<SubHeading size={"sm"} fontWeight={400}>
+					<SubHeading
+						css={{
+							fontSize: 16,
+							fontWeight: 400,
+						}}
+					>
 						{activity == null
 							? "or playing any games"
 							: activity.secondLine != null &&
@@ -227,17 +256,21 @@ export function DiscordHomeCard() {
 							alignItems={"start"}
 						>
 							<SubHeading
-								fontSize={"1.5em"}
-								fontWeight={900}
-								letterSpacing={-0.5}
+								css={{
+									fontSize: "1.5em",
+									fontWeight: 900,
+									letterSpacing: -0.5,
+								}}
 							>
 								{data.discord_user.global_name.toLowerCase()}
 							</SubHeading>
 							<SubHeading
-								opacity={0.6}
-								fontSize={"1em"}
-								fontWeight={600}
-								mt={-1}
+								css={{
+									opacity: 0.6,
+									fontSize: "1em",
+									fontWeight: 600,
+									marginTop: -4,
+								}}
 							>
 								{/* {data.discord_user.discriminator == "0"
 								? `@${data.discord_user.username}`

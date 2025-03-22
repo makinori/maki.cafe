@@ -28,6 +28,7 @@ import { Logo } from "../components/ui/Logo";
 import { VStack } from "../components/ui/Stack";
 import type { LatestData } from "../server/data-sources";
 import { ClientInfo } from "../server/main";
+import { cssScreenSizes } from "../utils/utils";
 import styles from "./Home.module.scss";
 import gnomeDarkImage from "./gnome-dark.svg";
 
@@ -166,16 +167,13 @@ export function Home(props: { client: ClientInfo; data: LatestData }) {
 					justifyContent: "center",
 					marginTop: 48,
 					marginBottom: 128,
-					gridTemplateColumns: `repeat(1, ${LayoutWidth.item}px)`,
-					[`@media (min-width: ${LayoutWidth.column2}px)`]: {
-						gridTemplateColumns: `repeat(2, ${LayoutWidth.item}px)`,
-					},
-					[`@media (min-width: ${LayoutWidth.column3}px)`]: {
-						gridTemplateColumns: `repeat(3, ${LayoutWidth.item}px)`,
-					},
-					// [`@media (min-width: ${layout4Wide}px)`]: {
-					// 	gridTemplateColumns: "repeat(4, 450px)",
-					// },
+					...cssScreenSizes(
+						"gridTemplateColumns",
+						`repeat(1, ${LayoutWidth.item}px)`,
+						`repeat(2, ${LayoutWidth.item}px)`,
+						`repeat(3, ${LayoutWidth.item}px)`,
+						// `repeat(4, ${LayoutWidth.item}px)`,
+					),
 				}}
 			>
 				<DiscordHomeCard />

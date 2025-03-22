@@ -1,11 +1,22 @@
-import { Heading, HeadingProps } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
 
-export function SubHeading(props: HeadingProps) {
+import { CSSObject } from "@emotion/react";
+
+export function SubHeading(props: {
+	children?: any;
+	css?: CSSObject;
+	className?: string;
+}) {
 	return (
-		<Heading
-			fontWeight={700}
-			letterSpacing={"-0.05em"}
-			{...(props as any)}
+		<h2
+			className={props.className}
+			css={{
+				fontSize: 24,
+				fontWeight: 700,
+				lineHeight: 1.25,
+				letterSpacing: "-0.05em",
+			}}
+			children={props.children}
 		/>
 	);
 }
