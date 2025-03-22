@@ -114,7 +114,6 @@ export function GamesHomeCard() {
 					marginTop: -16,
 				}}
 				style={showAll ? {} : { height: maxHeight, maxHeight }}
-				{...(showAll ? {} : { h: maxHeight, maxH: maxHeight })}
 			>
 				{Object.entries(gamesInfo.games).map(([genre, games], i) => (
 					<GenreGamesGrid

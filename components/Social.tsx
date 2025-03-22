@@ -6,12 +6,13 @@ import {
 	ModalHeader as ChakraModalHeader,
 	ModalOverlay as ChakraModalOverlay,
 	useDisclosure as useChakraDisclosure,
-	useToast as useChakraToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { IconType } from "react-icons";
+import { FaInfoCircle } from "react-icons/fa";
 import { FaArrowRight, FaArrowsRotate, FaCode } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
+import { Toaster, toast } from "sonner";
 import { config } from "../utils/config";
 import { Button } from "./ui/Button";
 import { Code } from "./ui/Code";
@@ -58,8 +59,6 @@ interface Social {
 }
 
 export function Social(props: { onSpinnyIntrosOpen: () => any }) {
-	const toast = useChakraToast();
-
 	const [popupInfo, setPopupInfo] = useState<Popup>();
 	const {
 		isOpen: popupIsOpen,
@@ -309,6 +308,20 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 
 	return (
 		<>
+			<Toaster
+				position="top-left"
+				theme="dark"
+				toastOptions={{
+					style: {
+						background: "#1a1a1a",
+						border: "solid 2px #222",
+						fontSize: 16,
+						// fontWeight: 900, // doesnt work?
+					},
+					duration: 2000,
+				}}
+				icons={{ info: <FaInfoCircle size={16} /> }}
+			/>
 			<VStack>
 				{/* <HStack spacing={2}>
 					<Emoji size={24} font="noto" mr={-0.5}>
@@ -613,14 +626,15 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 
 									selection.removeAllRanges();
 
-									toast({
-										title: "Copied to clipboard",
-										position: "bottom-left",
-										status: "info",
-										variant: "subtle",
-										duration: 1200,
-										isClosable: false,
-									});
+									// toast({
+									// 	title: "Copied to clipboard",
+									// 	position: "bottom-left",
+									// 	status: "info",
+									// 	variant: "subtle",
+									// 	duration: 1200,
+									// 	isClosable: false,
+									// });
+									toast.info("Copied to clipboard");
 								}}
 							>
 								{popupInfo?.text}

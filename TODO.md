@@ -4,3 +4,6 @@
 -   go through todos
 -   add website counter maybe
 -   remove modules.css files for css in js
+-   reduce packages
+-   change subheading font?
+-   stop using next

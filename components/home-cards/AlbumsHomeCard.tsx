@@ -54,12 +54,15 @@ export function AlbumsHomeCard() {
 			<p
 				css={{
 					textAlign: "center",
+					fontSize: 14,
+					fontWeight: 600,
+					lineHeight: 1.25,
+					marginTop: 12,
+					marginBottom: 4,
 					opacity: 0.3,
-					fontWeight: 500,
-					marginTop: 6,
 				}}
 			>
-				...and many more i haven't listed yet
+				...many more i haven't listed yet
 			</p>
 			<HomeCardFooterLink
 				multi={[

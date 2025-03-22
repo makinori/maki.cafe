@@ -151,7 +151,7 @@ function Buttons(props: {
 export function WebringCard() {
 	return (
 		<HomeCard>
-			<HomeCardHeading mb={0} icon={FaGlobeAmericas}>
+			<HomeCardHeading mb={4} icon={FaGlobeAmericas}>
 				webring
 			</HomeCardHeading>
 			{/* <HStack

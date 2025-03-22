@@ -29,13 +29,6 @@ const tiltingActivityImageAnimation = keyframes({
 	"100%": { transform: "rotate(-2deg)" },
 });
 
-const animateActivityImageCss: CSSObject = {
-	animationName: tiltingActivityImageAnimation,
-	animationDuration: "2s",
-	animationTimingFunction: "ease-in-out",
-	animationIterationCount: "infinite",
-};
-
 export function DiscordHomeCard() {
 	const { data, activity, activityTime } = useLanyard(
 		config.socialIds.discord,
@@ -107,7 +100,10 @@ export function DiscordHomeCard() {
 							background: "rgba(255, 255, 255, 0.5)",
 							borderRadius: 6,
 							overflow: "hidden",
-							css: animateActivityImageCss,
+							animationName: tiltingActivityImageAnimation,
+							animationDuration: "2s",
+							animationTimingFunction: "ease-in-out",
+							animationIterationCount: "infinite",
 						}}
 					>
 						<Image
