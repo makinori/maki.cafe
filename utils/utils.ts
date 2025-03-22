@@ -1,4 +1,4 @@
-import { LayoutWidth } from "../app/Home";
+import { config } from "./config";
 
 export function getBackgroundPositionsForSpritesheet(
 	width: number,
@@ -153,13 +153,13 @@ export function cssScreenSizes(
 ): any {
 	return {
 		[key]: oneCol,
-		[`@media (min-width: ${LayoutWidth.column2}px)`]: {
+		[`@media (min-width: ${config.layoutWidths.twoCol}px)`]: {
 			[key]: twoCol,
 		},
-		[`@media (min-width: ${LayoutWidth.column3}px)`]: {
+		[`@media (min-width: ${config.layoutWidths.threeCol}px)`]: {
 			[key]: threeCol,
 		},
-		// [`@media (min-width: ${LayoutWidth.column4}px)`]: {
+		// [`@media (min-width: ${config.layoutWidths.fourCol}px)`]: {
 		// 	[key]: fourCol,
 		// },
 	};

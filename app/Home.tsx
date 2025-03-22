@@ -31,14 +31,7 @@ import { ClientInfo } from "../server/main";
 import { cssScreenSizes } from "../utils/utils";
 import styles from "./Home.module.scss";
 import gnomeDarkImage from "./gnome-dark.svg";
-
-// TODO: move to config?
-export const LayoutWidth = {
-	item: 450,
-	column2: 900,
-	column3: 1350,
-	// column4: 1800,
-};
+import { config } from "../utils/config";
 
 export function Home(props: { client: ClientInfo; data: LatestData }) {
 	const [ready, setReady] = useState(false);
@@ -169,10 +162,10 @@ export function Home(props: { client: ClientInfo; data: LatestData }) {
 					marginBottom: 128,
 					...cssScreenSizes(
 						"gridTemplateColumns",
-						`repeat(1, ${LayoutWidth.item}px)`,
-						`repeat(2, ${LayoutWidth.item}px)`,
-						`repeat(3, ${LayoutWidth.item}px)`,
-						// `repeat(4, ${LayoutWidth.item}px)`,
+						`repeat(1, ${config.layoutWidths.item}px)`,
+						`repeat(2, ${config.layoutWidths.item}px)`,
+						`repeat(3, ${config.layoutWidths.item}px)`,
+						// `repeat(4, ${config.layoutWidths.item}px)`,
 					),
 				}}
 			>
