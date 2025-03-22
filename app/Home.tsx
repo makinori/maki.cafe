@@ -1,9 +1,11 @@
+/** @jsxImportSource @emotion/react */
+
 "use client";
 
-import { Box, Grid, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
+import { HomeBackground } from "../components/HomeBackground";
 import Social from "../components/Social";
-import pinesBackground from "../components/assets/pines-lighter.jpg";
 import AlbumsHomeCard from "../components/home-cards/AlbumsHomeCard";
 import AurHomeCard from "../components/home-cards/AurHomeCard";
 import DiscordHomeCard from "../components/home-cards/DiscordHomeCard";
@@ -22,16 +24,19 @@ import SpinnyIntro from "../components/spinny-intro/SpinnyIntro";
 import SpinnyIntrosModal from "../components/spinny-intro/SpinnyIntrosModal";
 import { SpinnyIntros } from "../components/spinny-intro/spinny-intros";
 import Logo from "../components/ui/Logo";
+import { VStack } from "../components/ui/Stack";
 import type { LatestData } from "../server/data-sources";
 import { ClientInfo } from "../server/main";
 import styles from "./Home.module.scss";
 import gnomeDarkImage from "./gnome-dark.svg";
 
-const layoutItemWidth = 450;
-
-const layout2Wide = 900;
-const layout3Wide = 1350;
-// const layout4Wide = 1800;
+// TODO: move to config?
+export const LayoutWidth = {
+	item: 450,
+	column2: 900,
+	column3: 1350,
+	// column4: 1800,
+};
 
 export default function Home(props: { client: ClientInfo; data: LatestData }) {
 	const [ready, setReady] = useState(false);
@@ -65,79 +70,29 @@ export default function Home(props: { client: ClientInfo; data: LatestData }) {
 	// }
 
 	return (
-		<Box
+		<div
 			className={
 				process.env.NODE_ENV == "development" ? "" : styles["fade-in"]
 			}
 		>
-			{/* <Box
-				position={"fixed"}
-				top={0}
-				left={0}
-				right={0}
-				h={4}
-				zIndex={999998}
-				backgroundColor={"justKindaDark"}
-				backgroundSize={"100% 100%"}
-			></Box> */}
-			<Box
-				position={"fixed"}
-				top={0}
-				left={0}
-				right={0}
-				h={2}
-				zIndex={999999}
-				backgroundImage={gnomeDarkImage}
-				backgroundSize={"100%"}
-				style={{
+			<div
+				css={{
+					position: "fixed",
+					top: 0,
+					left: 0,
+					right: 0,
+					height: 8,
+					zIndex: 999999,
+					backgroundImage: `url(${gnomeDarkImage})`,
+					backgroundSize: "100%",
 					imageRendering: "pixelated",
 				}}
-			></Box>
-			<Box
-				position={"absolute"}
-				top={2}
-				left={0}
-				right={0}
-				h={"80vh"}
-				zIndex={-999999}
-				// backgroundSize={`52px 90px`} // hexagon
-				// backgroundSize={[1200, 923.76]
-				// 	.map(v => v * 0.2 + "px")
-				// 	.join(" ")}
-				// backgroundImage={militarismTile.src}
-				// backgroundImage={polkaDotPattern}
-				// backgroundSize={[10, 11.547].map(v => v * 10 + "px").join(" ")}
-				// backgroundPosition={"center 0"}
-				// backgroundRepeat={"repeat"}
-				// opacity={0.02}
-				// style={{
-				// 	// it can flash white if opacity is only set above
-				// 	opacity: "0.02 !important",
-				// 	WebkitMaskImage:
-				// 		"linear-gradient(0deg, transparent, black)",
-				// }}
-				backgroundImage={pinesBackground.src}
-				sx={{
-					backgroundSize: "800px auto",
-					[`@media (min-width: ${layout2Wide}px)`]: {
-						backgroundSize: "1200px auto",
-					},
-					[`@media (min-width: ${layout3Wide}px)`]: {
-						backgroundSize: "1600px auto",
-					},
-				}}
-				backgroundPosition={"center 0"}
-				backgroundRepeat={"no-repeat"}
-			></Box>
-			<Box
-				display="flex"
-				alignItems="center"
-				justifyContent="center"
-				flexDirection="column"
-				width="100%"
-			>
+			></div>
+			{/* TODO: stack ontop of polka dots? */}
+			<HomeBackground type="pines" />
+			<VStack css={{ width: "100%" }}>
 				{spinnyIntrosDisclosue.isOpen ? (
-					<Box w={600} h={600} />
+					<div css={{ width: 600, height: 600 }} />
 				) : (
 					<SpinnyIntro
 						w={600}
@@ -151,13 +106,8 @@ export default function Home(props: { client: ClientInfo; data: LatestData }) {
 						}}
 					/>
 				)}
-				<Box
-					width={350}
-					marginTop={-4}
-					position={"relative"}
-					// marginTop="16px"
-				>
-					{/* <chakra.svg
+				<div css={{ width: 350, marginTop: -16, position: "relative" }}>
+					{/* <svg
 						viewBox="0 0 100 50"
 						xmlns="http://www.w3.org/2000/svg"
 						margin={"auto"}
@@ -191,40 +141,41 @@ export default function Home(props: { client: ClientInfo; data: LatestData }) {
 								hoping to change my avatar soon...
 							</textPath>
 						</text>
-					</chakra.svg> */}
+					</svg> */}
 					{/* {logoUseCanvas ? (
 						<LogoCanvas width={350} ready={ready} />
 					) : (
 						<Logo ready={ready} />
 					)} */}
 					<Logo ready={ready} />
-				</Box>
-				<Box marginTop={4}>
+				</div>
+				<div css={{ marginTop: 16 }}>
 					<Social onSpinnyIntrosOpen={spinnyIntrosDisclosue.onOpen} />
-				</Box>
+				</div>
 				<SpinnyIntrosModal
 					client={props.client}
 					disclosure={spinnyIntrosDisclosue}
 				/>
-			</Box>
-			<Grid
-				sx={{
-					gridTemplateColumns: `repeat(1, ${layoutItemWidth}px)`,
-					[`@media (min-width: ${layout2Wide}px)`]: {
-						gridTemplateColumns: `repeat(2, ${layoutItemWidth}px)`,
+			</VStack>
+			<div
+				css={{
+					display: "grid",
+					gap: 24,
+					alignItems: "center",
+					justifyContent: "center",
+					marginTop: 48,
+					marginBottom: 128,
+					gridTemplateColumns: `repeat(1, ${LayoutWidth.item}px)`,
+					[`@media (min-width: ${LayoutWidth.column2}px)`]: {
+						gridTemplateColumns: `repeat(2, ${LayoutWidth.item}px)`,
 					},
-					[`@media (min-width: ${layout3Wide}px)`]: {
-						gridTemplateColumns: `repeat(3, ${layoutItemWidth}px)`,
+					[`@media (min-width: ${LayoutWidth.column3}px)`]: {
+						gridTemplateColumns: `repeat(3, ${LayoutWidth.item}px)`,
 					},
 					// [`@media (min-width: ${layout4Wide}px)`]: {
 					// 	gridTemplateColumns: "repeat(4, 450px)",
 					// },
 				}}
-				gap={6}
-				alignItems="center"
-				justifyContent="center"
-				mt={12}
-				mb={32}
 			>
 				<DiscordHomeCard />
 				<StuffIveMadeHomeCard />
@@ -240,8 +191,8 @@ export default function Home(props: { client: ClientInfo; data: LatestData }) {
 				{/* <WhereHomeCard /> */}
 				{/* <FlickrHomeCard /> */}
 				{/* <MfcHomeCard /> */}
-			</Grid>
+			</div>
 			{/* <PonyCounter n={1234567890} /> */}
-		</Box>
+		</div>
 	);
 }
