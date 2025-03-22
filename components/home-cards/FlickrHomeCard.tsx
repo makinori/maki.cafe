@@ -27,6 +27,7 @@ export default function FlickrHomeCard(props: { data: FlickrDataResponse }) {
 				<HomeCardHeading
 					icon={FlickrIcon}
 					href={config.socialLinks.flickr}
+					mb={0}
 				>
 					flickr
 				</HomeCardHeading>

@@ -51,7 +51,6 @@ export default function SlMarketplaceHomeCard(props: {
 	return (
 		<HomeCard>
 			<HomeCardHeading
-				mb={4}
 				icon={SecondLifeIcon}
 				href={config.socialLinks.secondLife.marketplace}
 			>

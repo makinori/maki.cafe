@@ -20,11 +20,7 @@ export default function AurHomeCard(props: { data: AurDataResponse }) {
 
 	return (
 		<HomeCard>
-			<HomeCardHeading
-				icon={ArchLinuxIcon}
-				href={config.socialLinks.aur}
-				mb={4}
-			>
+			<HomeCardHeading icon={ArchLinuxIcon} href={config.socialLinks.aur}>
 				aur packages
 			</HomeCardHeading>
 			<Flex flexDir={"column"} w={350}>

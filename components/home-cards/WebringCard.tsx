@@ -134,7 +134,7 @@ export default function WebringCard() {
 
 	return (
 		<HomeCard>
-			<HomeCardHeading mb={2} icon={FaGlobeAmericas}>
+			<HomeCardHeading mb={0} icon={FaGlobeAmericas}>
 				webring
 			</HomeCardHeading>
 			{/* <HStack

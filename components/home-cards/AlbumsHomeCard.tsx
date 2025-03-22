@@ -36,7 +36,7 @@ function AlbumGridItem(props: { album: { url: string; position: string } }) {
 export default function AlbumsHomeCard() {
 	return (
 		<HomeCard>
-			<HomeCardHeading mb={4}>favorite music</HomeCardHeading>
+			<HomeCardHeading>favorite music</HomeCardHeading>
 			<Grid templateColumns="repeat(5, 1fr)" gap={1} w={350} maxW={350}>
 				{albumsInfo.albums.map((album, i) => (
 					<AlbumGridItem album={album} key={i} />

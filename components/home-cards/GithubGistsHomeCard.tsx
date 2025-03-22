@@ -23,7 +23,6 @@ export default function GithubGistsHomeCard(props: {
 			<HomeCardHeading
 				icon={GitHubIcon}
 				href={config.socialLinks.githubGist}
-				mb={4}
 			>
 				github gists
 			</HomeCardHeading>

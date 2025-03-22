@@ -38,6 +38,7 @@ export default function MastodonMediaHomeCard(props: {
 				<HomeCardHeading
 					icon={MastodonIcon}
 					href={config.socialLinks.mastodon + "/media"}
+					mb={0}
 				>
 					mastodon media
 				</HomeCardHeading>

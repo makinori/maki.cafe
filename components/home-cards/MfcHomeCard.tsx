@@ -26,7 +26,8 @@ export default function MfcHomeCard() {
 		<HomeCard>
 			<Center flexDir={"column"}>
 				<HomeCardHeading
-					mr={3}
+					// mr={3}
+					mb={0}
 					icon={MfcIcon}
 					href={config.socialLinks.mfc}
 				>

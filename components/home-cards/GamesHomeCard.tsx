@@ -104,7 +104,7 @@ export default function GamesHomeCard() {
 
 	return (
 		<HomeCard>
-			<HomeCardHeading mb={4}>favorite games</HomeCardHeading>
+			<HomeCardHeading>favorite games</HomeCardHeading>
 			<Box
 				{...(showAll ? {} : { h: maxH, maxH })}
 				overflow={"hidden"}

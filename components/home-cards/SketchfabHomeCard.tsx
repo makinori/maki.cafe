@@ -29,7 +29,7 @@ export default function SketchfabHomeCard(props: {
 				<HomeCardHeading
 					icon={SketchfabIcon}
 					href={config.socialLinks.sketchfab}
-					mb={3}
+					mb={8}
 				>
 					sketchfab
 				</HomeCardHeading>

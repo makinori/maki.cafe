@@ -160,7 +160,7 @@ export default function HomelabHotmilkBlahajHomeCard(props: {
 		<HomeCard>
 			<Flex flexDir={"row"}>
 				<VStack width="100px" mr={4}>
-					<HomeCardHeading mt={-1.5} mb={0}>
+					<HomeCardHeading mt={-12} mb={0}>
 						<chakra.span fontSize={14}>hotmilk blahaj</chakra.span>{" "}
 						homelab
 					</HomeCardHeading>

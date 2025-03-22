@@ -162,7 +162,7 @@ export default function StuffIveMadeHomeCard() {
 
 	return (
 		<HomeCard>
-			<HomeCardHeading mb={3}>stuff ive made</HomeCardHeading>
+			<HomeCardHeading mb={12}>stuff ive made</HomeCardHeading>
 			<Text
 				textAlign={"left"}
 				fontSize={12}
