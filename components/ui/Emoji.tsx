@@ -1,5 +1,6 @@
-import { chakra, ChakraProps } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
 
+import { CSSObject } from "@emotion/react";
 import babaDroneEmoji from "./custom-emojis/baba-drone.gif";
 import babaIsEmoji from "./custom-emojis/baba-is.gif";
 import babaEmoji from "./custom-emojis/baba.gif";
@@ -69,19 +70,18 @@ function toCodePoint(unicodeSurrogates: string, sep: string = "-") {
 	return r.join(sep || "-");
 }
 
-export function Emoji(
-	props: {
-		children?: string;
-		custom?: CustomEmoji;
-		size?: number;
-		opacity?: number;
-		font?: "twemoji" | "noto";
-	} & ChakraProps,
-) {
+export function Emoji(props: {
+	children?: string;
+	custom?: CustomEmoji;
+	size?: number;
+	opacity?: number;
+	font?: "twemoji" | "noto";
+	ml?: string | number;
+	mr?: string | number;
+	css?: CSSObject;
+	className?: string;
+}) {
 	const emoji = (props.children ?? "").trim();
-
-	props = { ...props };
-	delete props.children;
 
 	let emojiUrl = "";
 	let alt = "";
@@ -115,16 +115,19 @@ export function Emoji(
 	}
 
 	return (
-		<chakra.img
-			display="inline"
-			// width={props.size ? props.size + "px" : "24px"}
-			height={props.size ? props.size + "px" : "24px"}
-			opacity={props.opacity ? props.opacity : 1}
-			marginX="0.1em"
-			marginBottom="-0.15em"
+		<img
+			className={props.className}
+			css={{
+				display: "inline",
+				// width: props.size ?? 24,
+				height: props.size ?? 24,
+				opacity: props.opacity ?? 1,
+				marginLeft: props.ml ?? "0.1em",
+				marginRight: props.mr ?? "0.1em",
+				marginBottom: "-0.15em",
+			}}
 			src={emojiUrl}
 			alt={alt}
-			{...props}
 		/>
 	);
 }

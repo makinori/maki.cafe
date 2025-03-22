@@ -140,7 +140,7 @@ export function DotMap(props: { pins: [number, number][] }) {
 	// 	});
 	// }, []);
 
-	// return <chakra.img src={finalRender} />;
+	// return <img src={finalRender} />;
 
 	return (
 		<div className={styles["dot-map"]}>

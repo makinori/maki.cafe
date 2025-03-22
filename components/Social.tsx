@@ -402,10 +402,12 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 								size={24}
 								font="noto"
 								opacity={0.6}
-								transition={"all .1s ease-in-out"}
-								_hover={{
-									opacity: 1,
-									transform: "translateY(-2px)",
+								css={{
+									transition: config.styles.hoverTransition,
+									":hover": {
+										opacity: 1,
+										transform: "translateY(-2px)",
+									},
 								}}
 							>
 								{emoji}
@@ -449,7 +451,7 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 						>
 							she/they/it
 						</Text>
-						<Emoji size={18} fonst="noto">
+						<Emoji size={18} font="noto">
 							🐿️
 						</Emoji>
 						<Text

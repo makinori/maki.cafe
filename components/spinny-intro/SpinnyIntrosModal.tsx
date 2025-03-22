@@ -1,20 +1,17 @@
 /** @jsxImportSource @emotion/react */
 
 import {
-	Grid,
-	GridItem,
-	HStack,
-	Modal,
-	ModalBody,
-	ModalContent,
-	ModalOverlay,
-	Text,
-	UseDisclosureReturn,
-	VStack,
+	Modal as ChakraModal,
+	ModalBody as ChakraModalBody,
+	ModalContent as ChakraModalContent,
+	ModalOverlay as ChakraModalOverlay,
+	UseDisclosureReturn as UseChakraDisclosureReturn,
 } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
+import { cascadiaMono } from "../../fonts/fonts";
 import type { ClientInfo } from "../../server/main";
 import { Button } from "../ui/Button";
+import { HStack, VStack } from "../ui/Stack";
 import { SpinnyIntros, SpinnyIntrosSortedByYear } from "./spinny-intros";
 import { SpinnyIntro } from "./SpinnyIntro";
 
@@ -47,7 +44,6 @@ const fullMonths = [
 	"November",
 	"December",
 ];
-HStack;
 
 function SpinnyIntroSelector(props: {
 	spinnyIntroReady: boolean;
@@ -55,32 +51,32 @@ function SpinnyIntroSelector(props: {
 	setSelectedIntroIndex: (i: number) => any;
 }) {
 	return (
-		<VStack spacing={4}>
+		<VStack spacing={16}>
 			{SpinnyIntrosSortedByYear.map(({ year, intros }) => (
-				<VStack key={year} spacing={0}>
-					<Text fontSize={24} fontWeight={700}>
-						{year}
-					</Text>
-					<Grid templateColumns="repeat(4, 1fr)">
+				<VStack key={year}>
+					<p css={{ fontSize: 24, fontWeight: 700 }}>{year}</p>
+					<div
+						css={{
+							display: "grid",
+							gridTemplateColumns: "repeat(4, 1fr)",
+						}}
+					>
 						{intros.map(intro => (
-							<GridItem key={intro.index}>
-								<Button
-									css={{ margin: "4px", padding: "4px 8px" }}
-									disabled={
-										!props.spinnyIntroReady ||
-										props.selectedIntroIndex == intro.index
-									}
-									onClick={() => {
-										props.setSelectedIntroIndex(
-											intro.index,
-										);
-									}}
-								>{`${shortMonths[
-									intro.date[1] - 1
-								].toLowerCase()} ${intro.date[2]}`}</Button>
-							</GridItem>
+							<Button
+								key={intro.index}
+								css={{ margin: "4px", padding: "4px 8px" }}
+								disabled={
+									!props.spinnyIntroReady ||
+									props.selectedIntroIndex == intro.index
+								}
+								onClick={() => {
+									props.setSelectedIntroIndex(intro.index);
+								}}
+							>{`${shortMonths[
+								intro.date[1] - 1
+							].toLowerCase()} ${intro.date[2]}`}</Button>
 						))}
-					</Grid>
+					</div>
 				</VStack>
 			))}
 		</VStack>
@@ -89,7 +85,7 @@ function SpinnyIntroSelector(props: {
 
 export function SpinnyIntrosModal(props: {
 	client: ClientInfo;
-	disclosure: UseDisclosureReturn;
+	disclosure: UseChakraDisclosureReturn;
 }) {
 	const [spinnyIntroReady, setSpinnyIntroReady] = useState(false);
 
@@ -126,30 +122,32 @@ export function SpinnyIntrosModal(props: {
 	}, [spinnyIntroReady, selectedIntroIndex]);
 
 	return (
-		<Modal
+		<ChakraModal
 			isOpen={props.disclosure.isOpen}
 			onClose={props.disclosure.onClose}
 			isCentered
 			colorScheme="brand"
 		>
-			<ModalOverlay background={"rgba(17,17,17,0.7)"} />
-			<ModalContent
+			<ChakraModalOverlay background={"rgba(17,17,17,0.7)"} />
+			<ChakraModalContent
 				background={"#222"}
 				width={"fit-content"}
 				maxWidth={"fit-content"}
 				borderRadius={16}
 				overflow={"hidden"}
 			>
-				<ModalBody>
-					<VStack spacing={0}>
+				<ChakraModalBody>
+					<VStack>
 						<SpinnyIntro
 							// forces remount when switching
 							key={selectedIntroIndex}
-							w={600}
-							h={600}
-							mx={0}
-							mt={-12}
-							mb={-4}
+							css={{
+								width: 600,
+								height: 600,
+								margin: 0,
+								marginTop: -48,
+								marginBottom: -16,
+							}}
 							onReady={() => setSpinnyIntroReady(true)}
 							onUnready={() => setSpinnyIntroReady(false)}
 							client={props.client}
@@ -158,13 +156,21 @@ export function SpinnyIntrosModal(props: {
 							disableAutoSpin
 						/>
 						<HStack
-							alignItems={"flex-start"}
-							spacing={6}
-							minW={640}
-							maxW={640}
-							pb={8}
+							spacing={24}
+							css={{
+								alignItems: "flex-start",
+								justifyContent: "flex-start",
+								minWidth: 640,
+								maxWidth: 640,
+								paddingBottom: 32,
+							}}
 						>
-							<VStack minW={310} maxW={310}>
+							<VStack
+								css={{
+									minWidth: 310,
+									maxWidth: 310,
+								}}
+							>
 								<SpinnyIntroSelector
 									spinnyIntroReady={spinnyIntroReady}
 									selectedIntroIndex={selectedIntroIndex}
@@ -182,22 +188,26 @@ export function SpinnyIntrosModal(props: {
 								</Text> */}
 							</VStack>
 							<VStack
-								mt={2}
-								spacing={1}
-								alignItems={"flex-start"}
+								spacing={4}
+								css={{
+									marginTop: 8,
+									alignItems: "flex-start",
+								}}
 							>
-								<Text
-									fontWeight={700}
-									opacity={1}
-									ml={4}
-									mb={0}
+								<p
+									css={{
+										fontWeight: 700,
+										opacity: 1,
+										marginLeft: 16,
+										marginBottom: 0,
+									}}
 								>
 									{`changes on ${fullMonths[
 										spinnyIntro.date[1] - 1
 									].toLowerCase()} ${spinnyIntro.date[2]}, ${
 										spinnyIntro.date[0]
 									}:`}
-								</Text>
+								</p>
 								{spinnyIntro.changes.map((line, i) => {
 									const matches =
 										line.match(/^([+-] )?([^]+)$/);
@@ -214,22 +224,27 @@ export function SpinnyIntrosModal(props: {
 
 									return (
 										<HStack
-											alignItems={"flex-start"}
 											key={i}
+											spacing={8}
+											css={{
+												alignItems: "flex-start",
+											}}
 										>
 											{[point, text].map((value, j) => (
-												<Text
+												<p
 													key={j}
-													opacity={0.6}
-													fontWeight={700}
-													fontSize={14}
-													color={color}
-													fontFamily={
-														"var(--chakra-fonts-monospace)"
-													}
+													css={{
+														opacity: 0.6,
+														fontWeight: 700,
+														fontSize: 14,
+														color: color,
+														fontFamily:
+															cascadiaMono.style
+																.fontFamily,
+													}}
 												>
 													{value}
-												</Text>
+												</p>
 											))}
 										</HStack>
 									);
@@ -239,8 +254,8 @@ export function SpinnyIntrosModal(props: {
 							</VStack>
 						</HStack>
 					</VStack>
-				</ModalBody>
-			</ModalContent>
-		</Modal>
+				</ChakraModalBody>
+			</ChakraModalContent>
+		</ChakraModal>
 	);
 }

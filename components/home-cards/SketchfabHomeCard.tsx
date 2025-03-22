@@ -1,4 +1,5 @@
-import { Box, Center, Grid, GridItem, Link, Text } from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
 import Image from "next/image";
 import { SketchfabDataResponse } from "../../server/sources/sketchfab";
 import { config } from "../../utils/config";
@@ -7,6 +8,7 @@ import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { SketchfabIcon } from "../ui/social-icons/SketchfabIcon";
+import { VStack } from "../ui/Stack";
 
 export function SketchfabHomeCard(props: { data: SketchfabDataResponse }) {
 	if (props.data == null) {
@@ -23,7 +25,7 @@ export function SketchfabHomeCard(props: { data: SketchfabDataResponse }) {
 
 	return (
 		<HomeCard>
-			<Center flexDir={"column"}>
+			<VStack>
 				<HomeCardHeading
 					icon={SketchfabIcon}
 					href={config.socialLinks.sketchfab}
@@ -31,54 +33,60 @@ export function SketchfabHomeCard(props: { data: SketchfabDataResponse }) {
 				>
 					sketchfab
 				</HomeCardHeading>
-				<Text
-					textAlign={"center"}
-					fontSize={14}
-					fontWeight={500}
-					lineHeight={1.2}
-					mb={3}
-					opacity={0.8}
+				<p
+					css={{
+						textAlign: "center",
+						fontSize: 14,
+						fontWeight: 500,
+						lineHeight: 1.2,
+						marginBottom: 12,
+						opacity: 0.8,
+					}}
 				>
 					i dont really use sketchfab much at all
-				</Text>
-				<Grid templateColumns={"repeat(" + columns + ", 1fr)"} gap={1}>
+				</p>
+				<div
+					css={{
+						display: "grid",
+						gridTemplateColumns: `repeat(${columns}, 1fr)`,
+						gap: 4,
+					}}
+				>
 					{props.data.map((model, i) => (
-						<GridItem
+						<a
 							key={i}
-							transition={config.styles.hoverTransition}
-							_hover={{
-								transform: "scale(1.05)",
+							href={model.url}
+							css={{
+								transition: config.styles.hoverTransition,
+								":hover": {
+									transform: "scale(1.05)",
+								},
 							}}
 						>
-							<Link href={model.url}>
-								<Box
-									width={imageWidth + "px"}
-									height={
-										imageWidth * (1 / imageAspectRatio) +
-										"px"
-									}
-									overflow="hidden"
-									borderRadius={4}
-									position="relative"
-								>
-									<Image
-										alt={model.alt}
-										src={model.src}
-										fill={true}
-										sizes={
-											imageWidth * imageAspectRatio + "px"
-										}
-										style={{ objectFit: "cover" }}
-									/>
-								</Box>
-							</Link>
-						</GridItem>
+							<div
+								css={{
+									width: imageWidth,
+									height: imageWidth * (1 / imageAspectRatio),
+									overflow: "hidden",
+									borderRadius: 4,
+									position: "relative",
+								}}
+							>
+								<Image
+									alt={model.alt}
+									src={model.src}
+									fill={true}
+									sizes={imageWidth * imageAspectRatio + "px"}
+									style={{ objectFit: "cover" }}
+								/>
+							</div>
+						</a>
 					))}
-				</Grid>
+				</div>
 				<HomeCardFooterLink href={config.socialLinks.sketchfab}>
 					view more
 				</HomeCardFooterLink>
-			</Center>
+			</VStack>
 		</HomeCard>
 	);
 }

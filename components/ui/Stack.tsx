@@ -9,7 +9,7 @@ const css: CSSObject = {
 };
 
 interface Props {
-	children?: JSX.Element | JSX.Element[];
+	children?: any;
 	css?: CSSObject;
 	className?: string;
 	spacing?: string | number;

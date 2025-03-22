@@ -10,19 +10,19 @@ export function WhereHomeCard() {
 		<HomeCard>
 			<div css={{ marginBottom: 12, textAlign: "center" }}>
 				<SubHeading css={{ fontWeight: 500, fontSize: 20 }}>
-					<Emoji size={20} mr={1.5}>
+					<Emoji size={20} mr={6}>
 						🇧🇪
 					</Emoji>
 					born in belgium
 				</SubHeading>
 				<SubHeading css={{ fontWeight: 500, fontSize: 20 }}>
-					<Emoji size={20} mr={1.5}>
+					<Emoji size={20} mr={6}>
 						🇮🇨
 					</Emoji>
 					lived in tenerife
 				</SubHeading>
 				<SubHeading css={{ fontWeight: 500, fontSize: 20 }}>
-					<Emoji size={20} mr={1.5}>
+					<Emoji size={20} mr={6}>
 						🇺🇸
 					</Emoji>
 					living in the usa
