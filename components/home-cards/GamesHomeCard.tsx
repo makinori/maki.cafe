@@ -1,16 +1,15 @@
-import { Box, Grid, GridItem, Link, Text } from "@chakra-ui/react";
+import { Box, Link, Text } from "@chakra-ui/react";
+import { useState } from "react";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { config } from "../../utils/config";
+import { hexColorToRgb, hsvToHex } from "../../utils/utils";
 import { gamesInfo } from "../assets/games-info";
 import gamesSpritesheet from "../assets/games-spritesheet.png";
 import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { BackloggdIcon } from "../ui/social-icons/BackloggdIcon";
-import { OverwatchIcon } from "../ui/social-icons/OverwatchIcon";
 import { SteamIcon } from "../ui/social-icons/SteamIcon";
-import { hsvToHex, hexColorToRgb } from "../../utils/utils";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
-import { useState } from "react";
 
 const steamHorizontalAspectRatio = "231 / 87";
 

@@ -1,8 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
 import {
-	Code as ChakraCode,
-	Heading as ChakraHeading,
 	Modal as ChakraModal,
 	ModalContent as ChakraModalContent,
 	ModalHeader as ChakraModalHeader,
@@ -16,6 +14,7 @@ import { FaArrowRight, FaArrowsRotate, FaCode } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { config } from "../utils/config";
 import { Button } from "./ui/Button";
+import { Code } from "./ui/Code";
 import { Emoji } from "./ui/Emoji";
 import { ArchLinuxIcon } from "./ui/social-icons/ArchLinuxIcon";
 import { DiscordIcon } from "./ui/social-icons/DiscordIcon";
@@ -575,24 +574,24 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 						alignItems={"center"}
 						gap={2}
 					>
-						<ChakraHeading
-							size={"md"}
-							fontSize={"1.2em"}
-							fontWeight={800}
-							mb={2}
+						<h1
+							css={{
+								fontSize: 24,
+								lineHeight: 1.25,
+								fontWeight: 800,
+								marginBottom: 8,
+							}}
 						>
 							{popupInfo?.title.toLowerCase()}
 							{/* <chakra.span fontWeight={700}>add at</chakra.span> */}
-						</ChakraHeading>
+						</h1>
 						<HStack spacing={12}>
 							{/* <Heading size={"md"}>Add me</Heading> */}
-							<ChakraCode
-								px={1.5}
-								py={0.5}
-								borderRadius={4}
-								whiteSpace={"pre-line"}
-								fontSize={popupInfo?.fontSize}
-								cursor={"pointer"}
+							<Code
+								css={{
+									cursor: "pointer",
+									fontSize: popupInfo?.fontSize,
+								}}
 								onClick={e => {
 									const el = e.target as HTMLElement;
 									const range = document.createRange();
@@ -621,10 +620,9 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 										isClosable: false,
 									});
 								}}
-								fontFamily={"var(--chakra-fonts-monospace)"}
 							>
 								{popupInfo?.text}
-							</ChakraCode>
+							</Code>
 						</HStack>
 						<HStack spacing={16}>
 							{(
