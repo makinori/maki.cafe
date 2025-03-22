@@ -6,7 +6,7 @@ import {
 } from "@chakra-ui/react";
 import Image, { ImageProps } from "next/image";
 
-export default function OpenableImage(
+export function OpenableImage(
 	_props: ImageProps & {
 		modalW?: string;
 		modalH?: string;

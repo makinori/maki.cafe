@@ -12,10 +12,10 @@ import {
 import { MdArrowForward } from "react-icons/md";
 import { UptimeDataResponse, UptimeService } from "../../server/sources/uptime";
 import { config } from "../../utils/config";
-import OpenableImage from "../ui/OpenableImage";
-import HomeCard from "../ui/home-card/HomeCard";
+import { OpenableImage } from "../ui/OpenableImage";
+import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
-import HomeCardHeading from "../ui/home-card/HomeCardHeading";
+import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import blahajInside from "./homelab/blahaj-inside.jpg";
 import blahajOutside from "./homelab/blahaj-outside-2.jpg";
 
@@ -25,7 +25,7 @@ export enum OlderHomelab {
 	Cutelab_Yeti_Feb_21_2022,
 }
 
-export default function HomelabHotmilkBlahajHomeCard(props: {
+export function HomelabHotmilkBlahajHomeCard(props: {
 	onOlder: (type: OlderHomelab) => any;
 	data: UptimeDataResponse;
 }) {

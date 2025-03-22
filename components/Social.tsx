@@ -16,7 +16,7 @@ import { FaArrowRight, FaArrowsRotate, FaCode } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { config } from "../utils/config";
 import { Button } from "./ui/Button";
-import Emoji from "./ui/Emoji";
+import { Emoji } from "./ui/Emoji";
 import { ArchLinuxIcon } from "./ui/social-icons/ArchLinuxIcon";
 import { DiscordIcon } from "./ui/social-icons/DiscordIcon";
 import { ElementIcon } from "./ui/social-icons/ElementIcon";
@@ -58,7 +58,7 @@ interface Social {
 	openWithJs?: boolean;
 }
 
-export default function Social(props: { onSpinnyIntrosOpen: () => any }) {
+export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 	const toast = useChakraToast();
 
 	const [popupInfo, setPopupInfo] = useState<Popup>();

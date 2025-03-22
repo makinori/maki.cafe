@@ -61,7 +61,7 @@ const interpolate = CubicBezier(0.4, 0, 0.2, 1);
 
 const rgba = (rgb: number[], a: number) => `rgba(${rgb.join(",")},${a})`;
 
-export default function LogoCanvas(props: { width: number; ready: boolean }) {
+export function LogoCanvas(props: { width: number; ready: boolean }) {
 	const canvasRef = useRef<HTMLCanvasElement>();
 
 	const [clickable, setClickable] = useState(false);

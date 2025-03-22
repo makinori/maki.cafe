@@ -2,9 +2,9 @@ import { Box, Grid, GridItem, Link, Text } from "@chakra-ui/react";
 import { config } from "../../utils/config";
 import { gamesInfo } from "../assets/games-info";
 import gamesSpritesheet from "../assets/games-spritesheet.png";
-import HomeCard from "../ui/home-card/HomeCard";
+import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
-import HomeCardHeading from "../ui/home-card/HomeCardHeading";
+import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { BackloggdIcon } from "../ui/social-icons/BackloggdIcon";
 import { OverwatchIcon } from "../ui/social-icons/OverwatchIcon";
 import { SteamIcon } from "../ui/social-icons/SteamIcon";
@@ -97,7 +97,7 @@ function GenreGamesGrid(props: { genre: string; games: Game[]; i: number }) {
 	);
 }
 
-export default function GamesHomeCard() {
+export function GamesHomeCard() {
 	const [showAll, setShowAll] = useState(false);
 
 	const maxH = 500;

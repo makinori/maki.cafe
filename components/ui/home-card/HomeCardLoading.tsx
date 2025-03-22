@@ -1,9 +1,6 @@
 import { CircularProgress } from "@chakra-ui/react";
 
-export default function HomeCardLoading(props: {
-	progress?: number;
-	size?: number;
-}) {
+export function HomeCardLoading(props: { progress?: number; size?: number }) {
 	// return (
 	// 	<Spinner
 	// 		thickness="4px"

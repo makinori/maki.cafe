@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 
-export default function HomeCard(props: { children?: any }) {
+export function HomeCard(props: { children?: any }) {
 	// let rgb = hexColorToRgb("fff").join(",");
 	let rgb = "255,255,255";
 	const shadowOpacity = 0.02;

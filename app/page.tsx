@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import type { ServerData } from "../server/main";
-import Home from "./Home";
+import { Home } from "./Home";
 import { unstable_noStore as noStore } from "next/cache";
 
 export default async function Page() {

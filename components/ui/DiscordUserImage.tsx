@@ -1,4 +1,4 @@
-export default function DiscordUserImage(props: {
+export function DiscordUserImage(props: {
 	size?: number;
 	url?: string;
 	status?: "online" | "idle" | "dnd" | "offline";

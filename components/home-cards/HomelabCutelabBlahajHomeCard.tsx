@@ -11,9 +11,9 @@ import {
 import { Fragment } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { config } from "../../utils/config";
-import HomeCard from "../ui/home-card/HomeCard";
-import HomeCardHeading from "../ui/home-card/HomeCardHeading";
-import OpenableImage from "../ui/OpenableImage";
+import { HomeCard } from "../ui/home-card/HomeCard";
+import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
+import { OpenableImage } from "../ui/OpenableImage";
 import imageBlahajInside from "./homelab/cutelab-blahaj-inside.jpg";
 import imageBlahajRack from "./homelab/cutelab-blahaj-rack.jpg";
 
@@ -88,9 +88,7 @@ function linksToListItem(name: string, links: string[][]) {
 	);
 }
 
-export default function HomelabCutelabBlahajHomeCard(props: {
-	onNewer: () => any;
-}) {
+export function HomelabCutelabBlahajHomeCard(props: { onNewer: () => any }) {
 	return (
 		<HomeCard>
 			<Flex flexDir={"row"}>

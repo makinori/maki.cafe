@@ -2,15 +2,13 @@ import { Box, Center, Grid, GridItem, Link, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { SketchfabDataResponse } from "../../server/sources/sketchfab";
 import { config } from "../../utils/config";
-import HomeCard from "../ui/home-card/HomeCard";
+import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
-import HomeCardHeading from "../ui/home-card/HomeCardHeading";
+import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { SketchfabIcon } from "../ui/social-icons/SketchfabIcon";
 
-export default function SketchfabHomeCard(props: {
-	data: SketchfabDataResponse;
-}) {
+export function SketchfabHomeCard(props: { data: SketchfabDataResponse }) {
 	if (props.data == null) {
 		return (
 			<HomeCard>

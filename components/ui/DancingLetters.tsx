@@ -2,7 +2,7 @@ import { chakra } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import styles from "./DancingLetters.module.scss";
 
-export default function DancingLetters(props: { children: string }) {
+export function DancingLetters(props: { children: string }) {
 	const letters = props.children ?? "";
 
 	const [enabled, setEnabled] = useState(true);

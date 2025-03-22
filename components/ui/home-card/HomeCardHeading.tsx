@@ -5,7 +5,7 @@ import { IconType } from "react-icons";
 import { kgAlwaysAGoodTime } from "../../../fonts/fonts";
 import { config } from "../../../utils/config";
 
-export default function HomeCardHeading(props: {
+export function HomeCardHeading(props: {
 	icon?: IconType;
 	href?: string;
 	css?: CSSObject;

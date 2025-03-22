@@ -14,12 +14,12 @@ import { MdHelp } from "react-icons/md";
 import { discordStatusMap, useLanyard } from "../../hooks/UseLanyard";
 import { config } from "../../utils/config";
 import { clamp } from "../../utils/utils";
-import DancingLetters from "../ui/DancingLetters";
-import DiscordUserImage from "../ui/DiscordUserImage";
-import SubHeading from "../ui/SubHeading";
-import HomeCard from "../ui/home-card/HomeCard";
+import { DancingLetters } from "../ui/DancingLetters";
+import { DiscordUserImage } from "../ui/DiscordUserImage";
+import { SubHeading } from "../ui/SubHeading";
+import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
-import HomeCardLoading from "../ui/home-card/HomeCardLoading";
+import { HomeCardLoading } from "../ui/home-card/HomeCardLoading";
 import styles from "./DiscordHomeCard.module.scss";
 
 const msToTimeStr = (ms: number) => {
@@ -29,7 +29,7 @@ const msToTimeStr = (ms: number) => {
 	return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
 };
 
-export default function DiscordHomeCard() {
+export function DiscordHomeCard() {
 	const { data, activity, activityTime } = useLanyard(
 		config.socialIds.discord,
 	);

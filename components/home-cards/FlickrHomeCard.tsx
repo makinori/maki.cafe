@@ -2,13 +2,13 @@ import { Box, Center, Grid, GridItem, Link } from "@chakra-ui/react";
 import Image from "next/image";
 import { FlickrDataResponse } from "../../server/sources/flickr";
 import { config } from "../../utils/config";
-import HomeCard from "../ui/home-card/HomeCard";
+import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
-import HomeCardHeading from "../ui/home-card/HomeCardHeading";
+import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { FlickrIcon } from "../ui/social-icons/FlickrIcon";
 
-export default function FlickrHomeCard(props: { data: FlickrDataResponse }) {
+export function FlickrHomeCard(props: { data: FlickrDataResponse }) {
 	if (props.data == null) {
 		return (
 			<HomeCard>

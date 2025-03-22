@@ -3,13 +3,13 @@ import { formatDistance } from "date-fns";
 import { AurDataResponse } from "../../server/sources/aur";
 import { config } from "../../utils/config";
 import { plural } from "../../utils/utils";
-import HomeCard from "../ui/home-card/HomeCard";
+import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
-import HomeCardHeading from "../ui/home-card/HomeCardHeading";
+import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { ArchLinuxIcon } from "../ui/social-icons/ArchLinuxIcon";
 
-export default function AurHomeCard(props: { data: AurDataResponse }) {
+export function AurHomeCard(props: { data: AurDataResponse }) {
 	if (props.data == null) {
 		return (
 			<HomeCard>

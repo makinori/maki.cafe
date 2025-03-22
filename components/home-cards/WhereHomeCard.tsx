@@ -1,10 +1,10 @@
 import { Box } from "@chakra-ui/react";
-import DotMap from "../ui/DotMap";
-import Emoji from "../ui/Emoji";
-import HomeCard from "../ui/home-card/HomeCard";
-import SubHeading from "../ui/SubHeading";
+import { DotMap } from "../ui/DotMap";
+import { Emoji } from "../ui/Emoji";
+import { HomeCard } from "../ui/home-card/HomeCard";
+import { SubHeading } from "../ui/SubHeading";
 
-export default function WhereHomeCard() {
+export function WhereHomeCard() {
 	return (
 		<HomeCard>
 			<Box marginBottom={3} textAlign="center">

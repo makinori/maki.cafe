@@ -8,7 +8,7 @@ const glbPath = path + "baked.glb";
 
 const Deg2Rad = 0.0174533;
 
-export default function IntroDollModel(props: {
+export function IntroDollModel(props: {
 	position: Vector3;
 	rotationY: SpringValue<number>;
 	scale: SpringValue<number>;

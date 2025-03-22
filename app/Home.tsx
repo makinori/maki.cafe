@@ -5,25 +5,26 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import { HomeBackground } from "../components/HomeBackground";
-import Social from "../components/Social";
-import AlbumsHomeCard from "../components/home-cards/AlbumsHomeCard";
-import AurHomeCard from "../components/home-cards/AurHomeCard";
-import DiscordHomeCard from "../components/home-cards/DiscordHomeCard";
-import GamesHomeCard from "../components/home-cards/GamesHomeCard";
-import HomelabCutelabBlahajHomeCard from "../components/home-cards/HomelabCutelabBlahajHomeCard";
-import HomelabCutelabYetiHomeCard from "../components/home-cards/HomelabCutelabYetiHomeCard";
-import HomelabHotmilkBlahajHomeCard, {
+import { Social } from "../components/Social";
+import { AlbumsHomeCard } from "../components/home-cards/AlbumsHomeCard";
+import { AurHomeCard } from "../components/home-cards/AurHomeCard";
+import { DiscordHomeCard } from "../components/home-cards/DiscordHomeCard";
+import { GamesHomeCard } from "../components/home-cards/GamesHomeCard";
+import { HomelabCutelabBlahajHomeCard } from "../components/home-cards/HomelabCutelabBlahajHomeCard";
+import { HomelabCutelabYetiHomeCard } from "../components/home-cards/HomelabCutelabYetiHomeCard";
+import {
+	HomelabHotmilkBlahajHomeCard,
 	OlderHomelab,
 } from "../components/home-cards/HomelabHotmilkBlahajHomeCard";
-import MastodonMediaHomeCard from "../components/home-cards/MastodonMediaHomeCard";
-import SketchfabHomeCard from "../components/home-cards/SketchfabHomeCard";
-import SlMarketplaceHomeCard from "../components/home-cards/SlMarketplaceHomeCard";
-import StuffIveMadeHomeCard from "../components/home-cards/StuffIveMadeHomeCard";
-import WebringCard from "../components/home-cards/WebringCard";
-import SpinnyIntro from "../components/spinny-intro/SpinnyIntro";
-import SpinnyIntrosModal from "../components/spinny-intro/SpinnyIntrosModal";
+import { MastodonMediaHomeCard } from "../components/home-cards/MastodonMediaHomeCard";
+import { SketchfabHomeCard } from "../components/home-cards/SketchfabHomeCard";
+import { SlMarketplaceHomeCard } from "../components/home-cards/SlMarketplaceHomeCard";
+import { StuffIveMadeHomeCard } from "../components/home-cards/StuffIveMadeHomeCard";
+import { WebringCard } from "../components/home-cards/WebringCard";
+import { SpinnyIntro } from "../components/spinny-intro/SpinnyIntro";
+import { SpinnyIntrosModal } from "../components/spinny-intro/SpinnyIntrosModal";
 import { SpinnyIntros } from "../components/spinny-intro/spinny-intros";
-import Logo from "../components/ui/Logo";
+import { Logo } from "../components/ui/Logo";
 import { VStack } from "../components/ui/Stack";
 import type { LatestData } from "../server/data-sources";
 import { ClientInfo } from "../server/main";
@@ -38,7 +39,7 @@ export const LayoutWidth = {
 	// column4: 1800,
 };
 
-export default function Home(props: { client: ClientInfo; data: LatestData }) {
+export function Home(props: { client: ClientInfo; data: LatestData }) {
 	const [ready, setReady] = useState(false);
 
 	const spinnyIntrosDisclosue = useDisclosure();

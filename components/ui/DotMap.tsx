@@ -130,7 +130,7 @@ async function generateImage() {
 }
 */
 
-export default function DotMap(props: { pins: [number, number][] }) {
+export function DotMap(props: { pins: [number, number][] }) {
 	// const [finalRender, setFinalRender] = useState("");
 
 	// useEffect(() => {

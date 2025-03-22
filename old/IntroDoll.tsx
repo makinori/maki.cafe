@@ -18,7 +18,7 @@ const endScale = 1 * scale;
 
 const polarAngle = 72 * Deg2Rad;
 
-export default function IntroDoll(props: BoxProps & { onLoaded: () => any }) {
+export function IntroDoll(props: BoxProps & { onLoaded: () => any }) {
 	// const IntroDollModel = dynamic(() => import("./IntroDollModel"), {
 	// 	ssr: false,
 	// });

@@ -3,9 +3,9 @@ import { FaBandcamp, FaSpotify } from "react-icons/fa6";
 import { config } from "../../utils/config";
 import { albumsInfo } from "../assets/albums-info";
 import albumsSpritesheet from "../assets/albums-spritesheet.png";
-import HomeCard from "../ui/home-card/HomeCard";
+import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
-import HomeCardHeading from "../ui/home-card/HomeCardHeading";
+import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { AnilistIcon } from "../ui/social-icons/AnilistIcon";
 
 function AlbumGridItem(props: { album: { url: string; position: string } }) {
@@ -33,7 +33,7 @@ function AlbumGridItem(props: { album: { url: string; position: string } }) {
 	);
 }
 
-export default function AlbumsHomeCard() {
+export function AlbumsHomeCard() {
 	return (
 		<HomeCard>
 			<HomeCardHeading>favorite music</HomeCardHeading>

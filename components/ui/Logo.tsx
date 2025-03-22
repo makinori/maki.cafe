@@ -19,7 +19,7 @@ function LogoPiece(props: { letter: string; d: string }) {
 	));
 }
 
-export default function Logo(props: { ready: boolean }) {
+export function Logo(props: { ready: boolean }) {
 	// true so it renders starting the animation without js
 	const [animateForward, setAnimateForward] = useState(false);
 	const [animateBackward, setAnimateBackward] = useState(false);

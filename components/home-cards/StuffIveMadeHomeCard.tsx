@@ -1,8 +1,8 @@
 import { Box, Grid, GridItem, Link, Text, chakra } from "@chakra-ui/react";
 import { config } from "../../utils/config";
-import HomeCard from "../ui/home-card/HomeCard";
+import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
-import HomeCardHeading from "../ui/home-card/HomeCardHeading";
+import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { GitHubIcon } from "../ui/social-icons/GitHubIcon";
 import { ShaderToyIcon } from "../ui/social-icons/ShaderToyIcon";
 import { SoundCloudIcon } from "../ui/social-icons/SoundCloudIcon";
@@ -23,7 +23,7 @@ interface Thing {
 	fontSize?: number;
 }
 
-export default function StuffIveMadeHomeCard() {
+export function StuffIveMadeHomeCard() {
 	const stuff: Thing[] = [
 		{
 			name: "tivoli\ncloud",

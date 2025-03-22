@@ -16,7 +16,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { ClientInfo } from "../../server/main";
 import { Button } from "../ui/Button";
 import { SpinnyIntros, SpinnyIntrosSortedByYear } from "./spinny-intros";
-import SpinnyIntro from "./SpinnyIntro";
+import { SpinnyIntro } from "./SpinnyIntro";
 
 const shortMonths = [
 	"Jan",
@@ -87,7 +87,7 @@ function SpinnyIntroSelector(props: {
 	);
 }
 
-export default function SpinnyIntrosModal(props: {
+export function SpinnyIntrosModal(props: {
 	client: ClientInfo;
 	disclosure: UseDisclosureReturn;
 }) {

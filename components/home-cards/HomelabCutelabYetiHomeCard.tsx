@@ -11,9 +11,9 @@ import {
 import { Fragment } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { config } from "../../utils/config";
-import HomeCard from "../ui/home-card/HomeCard";
-import HomeCardHeading from "../ui/home-card/HomeCardHeading";
-import OpenableImage from "../ui/OpenableImage";
+import { HomeCard } from "../ui/home-card/HomeCard";
+import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
+import { OpenableImage } from "../ui/OpenableImage";
 import imageYetiRack from "./homelab/cutelab-yeti-rack.jpg";
 import imageYetiRam from "./homelab/cutelab-yeti-ram.jpg";
 
@@ -59,9 +59,7 @@ function formatLinks(links: string[][]) {
 	));
 }
 
-export default function HomelabCutelabYetiHomeCard(props: {
-	onNewer: () => any;
-}) {
+export function HomelabCutelabYetiHomeCard(props: { onNewer: () => any }) {
 	return (
 		<HomeCard>
 			<Flex flexDir={"row"}>

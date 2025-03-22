@@ -1,8 +1,8 @@
 import { Grid, GridItem, Image, Link, Text } from "@chakra-ui/react";
 import { StaticImageData } from "next/image";
 import { FaGlobeAmericas } from "react-icons/fa";
-import HomeCard from "../ui/home-card/HomeCard";
-import HomeCardHeading from "../ui/home-card/HomeCardHeading";
+import { HomeCard } from "../ui/home-card/HomeCard";
+import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import anonfilly from "./webring/anonfilly.png";
 import pea from "./webring/pea.png";
 import yno from "./webring/yno.png";
@@ -83,7 +83,7 @@ function Buttons(props: {
 	);
 }
 
-export default function WebringCard() {
+export function WebringCard() {
 	const frends: Button[] = [
 		{
 			image: pea,

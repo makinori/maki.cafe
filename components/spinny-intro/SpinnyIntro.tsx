@@ -13,7 +13,7 @@ import {
 	preloadImage,
 	sleep,
 } from "../../utils/utils";
-import HomeCardLoading from "../ui/home-card/HomeCardLoading";
+import { HomeCardLoading } from "../ui/home-card/HomeCardLoading";
 import { ISpinnyIntro } from "./spinny-intros";
 
 const Deg2Rad = 0.0174533;
@@ -80,7 +80,7 @@ type SpinnyIntroProps = BoxProps & {
 	disableAutoSpin?: boolean;
 };
 
-export default class SpinnyIntro extends Component<SpinnyIntroProps> {
+export class SpinnyIntro extends Component<SpinnyIntroProps> {
 	state = {
 		loadingOpacity: 1,
 		unsupportedOpacity: 0,

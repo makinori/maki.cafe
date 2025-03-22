@@ -1,10 +1,10 @@
 import { Box, Grid, GridItem, Link } from "@chakra-ui/react";
 import { SlMarketplaceDataResponse } from "../../server/sources/sl-marketplace";
 import { config } from "../../utils/config";
-import HomeCard from "../ui/home-card/HomeCard";
+import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFailedToLoad } from "../ui/home-card/HomeCardFailedToLoad";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
-import HomeCardHeading from "../ui/home-card/HomeCardHeading";
+import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { SecondLifeIcon } from "../ui/social-icons/SecondLifeIcon";
 
 const slAspectRatio = "700 / 525";
@@ -37,7 +37,7 @@ function MarketplaceItem(props: { item: { url: string; imageUrl: string } }) {
 	);
 }
 
-export default function SlMarketplaceHomeCard(props: {
+export function SlMarketplaceHomeCard(props: {
 	data: SlMarketplaceDataResponse;
 }) {
 	if (props.data == null) {

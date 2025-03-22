@@ -9,13 +9,13 @@ import {
 } from "@chakra-ui/react";
 import { Fragment } from "react";
 import { config } from "../../utils/config";
-import HomeCard from "../ui/home-card/HomeCard";
-import HomeCardHeading from "../ui/home-card/HomeCardHeading";
+import { HomeCard } from "../ui/home-card/HomeCard";
+import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import { MfcIcon } from "../ui/social-icons/MfcIcon";
 import { mfcData } from "../assets/mfc-info";
 import mfcSpritesheet from "../assets/mfc-spritesheet.jpg";
 
-export default function MfcHomeCard() {
+export function MfcHomeCard() {
 	const colors = {
 		owned: "#8bc34a",
 		ordered: "#ffc107",

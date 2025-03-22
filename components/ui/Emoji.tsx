@@ -69,7 +69,7 @@ function toCodePoint(unicodeSurrogates: string, sep: string = "-") {
 	return r.join(sep || "-");
 }
 
-export default function Emoji(
+export function Emoji(
 	props: {
 		children?: string;
 		custom?: CustomEmoji;
