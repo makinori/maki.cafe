@@ -19,6 +19,8 @@ export interface ServerData {
 	data: LatestData;
 }
 
+// TODO: preload discord data so that it shows on noscript clients
+
 (async () => {
 	const expressApp = express();
 
