@@ -19,6 +19,7 @@ const nextConfig = {
 			{ protocol: "https", hostname: "mastodon.hotmilk.space" },
 			{ protocol: "https", hostname: "static-cdn.jtvnw.net" },
 			{ protocol: "https", hostname: "img.youtube.com" },
+			{ protocol: "https", hostname: "slm-assets.secondlife.com" },
 		],
 	},
 	i18n: {

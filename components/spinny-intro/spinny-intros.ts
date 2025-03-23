@@ -41,6 +41,7 @@ import video_2025_02_17_mobile from "./videos/2025-02-17-mobile.webm";
 import video_2025_02_27_desktop from "./videos/2025-02-27-desktop.webm";
 import video_2025_02_27_mobile from "./videos/2025-02-27-mobile.webm";
 import frames_2025_03_08 from "./frames/2025-03-08.tar";
+import frame_2025_03_08 from "./frames/2025-03-08.avif";
 
 // TODO: move above into api
 
@@ -49,6 +50,7 @@ export interface ISpinnyIntro {
 	desktop?: string;
 	mobile?: string;
 	frames?: string;
+	noScriptFrame?: string;
 	changes: string[];
 	version: 0 | 1;
 }
@@ -63,6 +65,7 @@ export const SpinnyIntros: ISpinnyIntro[] = [
 	{
 		date: [2025, 3, 8],
 		frames: frames_2025_03_08,
+		noScriptFrame: frame_2025_03_08.src,
 		changes: [
 			"use avif images instead of a webm. file size about 2.2x smaller and works on safari now",
 		],

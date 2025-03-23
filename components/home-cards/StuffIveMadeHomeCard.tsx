@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { config } from "../../utils/config";
+import { getOptimizedImage } from "../../utils/utils";
 import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardFooterLink } from "../ui/home-card/HomeCardFooterLink";
 import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
@@ -25,18 +26,28 @@ interface Thing {
 }
 
 function ThingButton(props: { thing: Thing; thin?: boolean }) {
+	const height = props.thin ? 24 : 48;
+
 	return (
 		<a
 			href={props.thing.link}
 			css={{
-				height: props.thin ? 24 : 48,
+				height,
 				borderRadius: 8,
 				lineHeight: 1,
 				fontSize: props.thing.fontSize ?? (props.thin ? 12 : 18),
 				fontWeight: 700,
-				backgroundImage: `url(${props.thing.image})`,
-				backgroundColor:
-					props.thing.image == "" ? props.thing.color : "",
+				...(props.thing.image
+					? {
+							backgroundImage: getOptimizedImage({
+								src: props.thing.image,
+								width: 128,
+								height,
+							}),
+					  }
+					: {
+							backgroundColor: props.thing.color,
+					  }),
 				backgroundPosition: "center",
 				backgroundSize: "cover",
 				backgroundRepeat: "no-repeat",
@@ -65,7 +76,6 @@ function ThingButton(props: { thing: Thing; thin?: boolean }) {
 					backgroundImage: `linear-gradient(90deg, ${props.thing.color}, transparent)`,
 					display: "flex",
 					flexDirection: "column",
-
 					justifyContent: "center",
 				}}
 			>

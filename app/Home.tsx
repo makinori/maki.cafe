@@ -89,19 +89,36 @@ export function Home(props: { client: ClientInfo; data: LatestData }) {
 				{spinnyIntrosDisclosue.isOpen ? (
 					<div css={{ width: 600, height: 600 }} />
 				) : (
-					<SpinnyIntro
-						css={{
-							width: 600,
-							height: 500,
-							marginTop: 50,
-							marginBottom: 50,
-						}}
-						client={props.client}
-						intro={SpinnyIntros[0]}
-						onReady={() => {
-							setReady(true);
-						}}
-					/>
+					<>
+						<SpinnyIntro
+							className="js-only"
+							css={{
+								width: 600,
+								height: 500,
+								marginTop: 50,
+								marginBottom: 50,
+							}}
+							client={props.client}
+							intro={SpinnyIntros[0]}
+							onReady={() => {
+								setReady(true);
+							}}
+						/>
+						<noscript>
+							<img
+								// dont proxy this with next
+								// it's already highly compressed
+								src={SpinnyIntros[0].noScriptFrame}
+								css={{
+									width: 600,
+									height: 500,
+									marginTop: 50,
+									marginBottom: 50,
+									padding: "10px 0",
+								}}
+							/>
+						</noscript>
+					</>
 				)}
 				<div css={{ width: 350, marginTop: -16, position: "relative" }}>
 					{/* <svg

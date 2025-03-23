@@ -69,13 +69,20 @@ export function Logo(props: { ready: boolean }) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.ready]);
 
-	return (
+	const withJsClassNames = [
+		"js-only",
+		animateForward ? styles["animate-forward"] : null,
+		animateBackward ? styles["animate-backward"] : null,
+		animateHide ? styles["animate-hide"] : null,
+	];
+
+	const FinalSvg = (props: { withJs?: boolean }) => (
 		<svg
 			className={[
 				styles.logo,
-				animateForward ? styles["animate-forward"] : null,
-				animateBackward ? styles["animate-backward"] : null,
-				animateHide ? styles["animate-hide"] : null,
+				...(props.withJs
+					? withJsClassNames
+					: [styles["animate-forward"]]),
 			]
 				.filter(c => c != null)
 				.join(" ")}
@@ -101,5 +108,14 @@ export function Logo(props: { ready: boolean }) {
 				d="M645.688,92.031c-0,-3.125 -1.042,-3.125 3.125,-3.125"
 			/>
 		</svg>
+	);
+
+	return (
+		<>
+			<FinalSvg withJs />
+			<noscript>
+				<FinalSvg />
+			</noscript>
+		</>
 	);
 }

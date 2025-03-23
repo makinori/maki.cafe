@@ -24,6 +24,11 @@ function MarketplaceItem(props: { item: { url: string; imageUrl: string } }) {
 				borderRadius: 12,
 				imageRendering: "optimizeQuality" as any,
 				aspectRatio: slAspectRatio,
+				// backgroundImage: getOptimizedImage({
+				// 	src: props.item.imageUrl,
+				// 	width: 256,
+				// 	height: 128,
+				// }),
 				backgroundImage: `url(${props.item.imageUrl})`,
 				backgroundPosition: "0 0",
 				backgroundSize: "100% 100%",

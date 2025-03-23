@@ -1,4 +1,6 @@
+import { getImageProps } from "next/image";
 import { config } from "./config";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 export function getBackgroundPositionsForSpritesheet(
 	width: number,
@@ -163,4 +165,20 @@ export function cssScreenSizes(
 		// 	[key]: fourCol,
 		// },
 	};
+}
+
+export function getOptimizedImage(props: {
+	src: string | StaticImport;
+	width?: number;
+	height?: number;
+	onlyUrl?: boolean;
+}) {
+	const url = getImageProps({
+		alt: "",
+		src: props.src,
+		quality: 90,
+		width: props.width,
+		height: props.height,
+	}).props.src;
+	return props.onlyUrl ? url : `url(${url})`;
 }

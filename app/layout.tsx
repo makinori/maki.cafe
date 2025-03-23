@@ -67,6 +67,15 @@ export default function RootLayout({
 				<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
 				<script>eruda.init();</script>
 			</head> */}
+			<head>
+				<noscript>
+					<style
+						dangerouslySetInnerHTML={{
+							__html: ".js-only{display:none}",
+						}}
+					/>
+				</noscript>
+			</head>
 			<body>
 				<Providers>{children}</Providers>
 				<Script

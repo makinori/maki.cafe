@@ -387,15 +387,7 @@ export class SpinnyIntro extends Component<SpinnyIntroProps> {
 	}
 
 	render() {
-		const {
-			onReady,
-			onUnready,
-			client,
-			intro,
-			disableScaleTween,
-			disableAutoSpin,
-			...flexProps
-		} = this.props;
+		const { intro } = this.props;
 
 		// const width = (flexProps.w ?? flexProps.width ?? 0) as number;
 		// const height = (flexProps.h ?? flexProps.height ?? 0) as number;
