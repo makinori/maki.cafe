@@ -113,7 +113,7 @@ export function HomelabHotmilkBlahajHomeCard(props: {
 				</HStack>
 				<div
 					css={{
-						backgroundColor: "#ff1744",
+						backgroundColor: config.colors.primary,
 						// fontFamily: cascadiaMono.style.fontFamily,
 						display: "inline-flex",
 						flexDirection: "row",
@@ -223,7 +223,10 @@ export function HomelabHotmilkBlahajHomeCard(props: {
 					</p>
 					<VStack css={{ alignItems: "flex-start" }}>
 						<p
-							css={{ cursor: "pointer", color: "#ff1744" }}
+							css={{
+								cursor: "pointer",
+								color: config.colors.primary,
+							}}
 							onClick={() =>
 								props.onOlder(
 									OlderHomelab.Cutelab_Blahaj_Nov_11_2022,
@@ -242,7 +245,10 @@ export function HomelabHotmilkBlahajHomeCard(props: {
 							cutelab blahaj (nov 11, 2022)
 						</p>
 						<p
-							css={{ cursor: "pointer", color: "#ff1744" }}
+							css={{
+								cursor: "pointer",
+								color: config.colors.primary,
+							}}
 							onClick={() =>
 								props.onOlder(
 									OlderHomelab.Cutelab_Yeti_Feb_21_2022,

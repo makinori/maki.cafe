@@ -89,7 +89,6 @@ const url = "https://" + domain;
 const imageUrl = url + "/icon.png";
 
 // TODO: add more here and reorganize
-// TODO: ff1744 should only be referenced here. post-chakra
 
 export const config = {
 	metadata: {
@@ -119,5 +118,8 @@ export const config = {
 		twoCol: 900,
 		threeCol: 1350,
 		// fourCol: 1800,
+	},
+	colors: {
+		primary: "#ff1744",
 	},
 };

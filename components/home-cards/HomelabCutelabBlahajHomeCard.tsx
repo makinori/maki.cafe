@@ -73,7 +73,7 @@ function linksToli(name: string, links: string[][]) {
 			{name == "" ? "" : name + ": "}
 			{links.map((link, i) => (
 				<Fragment key={i}>
-					<a href={link[1]} css={{ color: "#ff1744" }}>
+					<a href={link[1]} css={{ color: config.colors.primary }}>
 						{link[0]}
 					</a>
 					{i == links.length - 1 ? "" : ", "}
@@ -192,7 +192,10 @@ export function HomelabCutelabBlahajHomeCard(props: { onNewer: () => any }) {
 					<p css={{ fontWeight: 600 }}>
 						<a
 							onClick={props.onNewer}
-							css={{ color: "#ff1744", cursor: "pointer" }}
+							css={{
+								color: config.colors.primary,
+								cursor: "pointer",
+							}}
 						>
 							<MdArrowBack
 								size={16}

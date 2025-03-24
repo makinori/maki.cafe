@@ -45,7 +45,12 @@ export function AurHomeCard(props: { data: AurDataResponse }) {
 								justifyContent: "flex-start",
 							}}
 						>
-							<p css={{ color: "#ff1744", fontWeight: 600 }}>
+							<p
+								css={{
+									color: config.colors.primary,
+									fontWeight: 600,
+								}}
+							>
 								{pkg.name.toLowerCase()}
 							</p>
 							{/* <Text opacity={0.5}>{pkg.version}</Text> */}

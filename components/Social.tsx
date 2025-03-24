@@ -627,7 +627,11 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 									onClick={() => {
 										setPopupOpen(false);
 									}}
-									color={button.main ? "#ff1744" : "#444444"}
+									color={
+										button.main
+											? config.colors.primary
+											: "#444444"
+									}
 									css={{ marginTop: 16 }}
 									// noHoverScale
 								>

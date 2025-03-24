@@ -242,7 +242,7 @@ function processIsPlaying(data: DataEvent): CurrentActivity | null {
 		firstLine: isPlaying.name,
 		secondLine: "",
 		// backgroundColor: "rgba(0,0,0,0.85)",
-		backgroundColor: "#ff1744",
+		backgroundColor: config.colors.primary,
 		activityUrl: "",
 		timestampStart: isPlaying.timestamps.start,
 		timestampEnd: null,
