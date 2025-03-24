@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Providers } from "./providers";
 import Script from "next/script";
 import { config } from "../utils/config";
+import "./defaults.css";
 import "./layout.scss";
+import { Providers } from "./providers";
 
 const { title, description, url, imageUrl } = config.metadata;
 

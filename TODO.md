@@ -1,4 +1,3 @@
--   stop using chakra
 -   drop PerspectiveCamera/OrbitControls in SpinnyIntro
 -   bring back where map?
 -   go through todos

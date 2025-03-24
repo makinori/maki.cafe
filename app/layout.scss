@@ -1,11 +1,6 @@
-* {
-	margin: 0;
-	// line-height default?
-}
-
-body,
-html {
+body {
 	overflow-x: hidden;
 	max-width: 100vw;
-	position: relative;
+	background: #111;
+	color: #fff;
 }
