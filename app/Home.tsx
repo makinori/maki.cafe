@@ -2,6 +2,7 @@
 
 "use client";
 
+import { keyframes } from "@emotion/react";
 import { useState } from "react";
 import { HomeBackground } from "../components/HomeBackground";
 import { Social } from "../components/Social";
@@ -29,8 +30,20 @@ import type { LatestData } from "../server/data-sources";
 import { ClientInfo } from "../server/main";
 import { config } from "../utils/config";
 import { cssScreenSizes } from "../utils/utils";
-import styles from "./Home.module.scss";
 import gnomeDarkImage from "./gnome-dark.svg";
+
+const inDev = process.env.NODE_ENV == "development";
+
+const fadeInKeyframes = keyframes({
+	"0%": {
+		opacity: 0,
+		transform: "translateY(-8px)",
+	},
+	"100%": {
+		opacity: 1,
+		transform: "translateY(0)",
+	},
+});
 
 export function Home(props: { client: ClientInfo; data: LatestData }) {
 	const [ready, setReady] = useState(false);
@@ -65,9 +78,12 @@ export function Home(props: { client: ClientInfo; data: LatestData }) {
 
 	return (
 		<div
-			className={
-				process.env.NODE_ENV == "development" ? "" : styles["fade-in"]
-			}
+			css={{
+				animationName: inDev ? "" : fadeInKeyframes,
+				animationDuration: "500ms",
+				animationTimingFunction: "ease-out",
+				transformOrigin: "0 0",
+			}}
 		>
 			<div
 				css={{
