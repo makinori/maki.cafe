@@ -2,7 +2,6 @@
 
 "use client";
 
-import { useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import { HomeBackground } from "../components/HomeBackground";
 import { Social } from "../components/Social";
@@ -36,7 +35,7 @@ import gnomeDarkImage from "./gnome-dark.svg";
 export function Home(props: { client: ClientInfo; data: LatestData }) {
 	const [ready, setReady] = useState(false);
 
-	const spinnyIntrosDisclosue = useDisclosure();
+	const [spinnyIntrosOpen, setSpinnyIntrosOpen] = useState(false);
 
 	const [olderHomelab, setOlderHomelab] = useState(OlderHomelab.None);
 	const resetHomelab = () => {
@@ -86,7 +85,7 @@ export function Home(props: { client: ClientInfo; data: LatestData }) {
 			{/* TODO: stack ontop of polka dots? */}
 			<HomeBackground type="pines" />
 			<VStack css={{ width: "100%" }}>
-				{spinnyIntrosDisclosue.isOpen ? (
+				{spinnyIntrosOpen ? (
 					<div css={{ width: 600, height: 600 }} />
 				) : (
 					<>
@@ -151,7 +150,7 @@ export function Home(props: { client: ClientInfo; data: LatestData }) {
 								startOffset={23}
 								// letterSpacing={"0.2px"}
 								fontWeight={700}
-							>
+							>~ 
 								hoping to change my avatar soon...
 							</textPath>
 						</text>
@@ -164,11 +163,16 @@ export function Home(props: { client: ClientInfo; data: LatestData }) {
 					<Logo ready={ready} />
 				</div>
 				<div css={{ marginTop: 16 }}>
-					<Social onSpinnyIntrosOpen={spinnyIntrosDisclosue.onOpen} />
+					<Social
+						onSpinnyIntrosOpen={() => {
+							setSpinnyIntrosOpen(true);
+						}}
+					/>
 				</div>
 				<SpinnyIntrosModal
 					client={props.client}
-					disclosure={spinnyIntrosDisclosue}
+					open={spinnyIntrosOpen}
+					setOpen={setSpinnyIntrosOpen}
 				/>
 			</VStack>
 			<div

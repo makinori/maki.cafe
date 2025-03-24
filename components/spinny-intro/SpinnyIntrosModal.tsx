@@ -1,19 +1,15 @@
 /** @jsxImportSource @emotion/react */
 
-import {
-	Modal as ChakraModal,
-	ModalBody as ChakraModalBody,
-	ModalContent as ChakraModalContent,
-	ModalOverlay as ChakraModalOverlay,
-	UseDisclosureReturn as UseChakraDisclosureReturn,
-} from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
 import { cascadiaMono } from "../../fonts/fonts";
 import type { ClientInfo } from "../../server/main";
 import { Button } from "../ui/Button";
+import { Modal, ModalContent } from "../ui/Modal";
 import { HStack, VStack } from "../ui/Stack";
 import { SpinnyIntros, SpinnyIntrosSortedByYear } from "./spinny-intros";
 import { SpinnyIntro } from "./SpinnyIntro";
+
+// TODO: make mobile compatible
 
 const shortMonths = [
 	"Jan",
@@ -85,7 +81,8 @@ function SpinnyIntroSelector(props: {
 
 export function SpinnyIntrosModal(props: {
 	client: ClientInfo;
-	disclosure: UseChakraDisclosureReturn;
+	open: boolean;
+	setOpen: (show: boolean) => void;
 }) {
 	const [spinnyIntroReady, setSpinnyIntroReady] = useState(false);
 
@@ -122,63 +119,53 @@ export function SpinnyIntrosModal(props: {
 	}, [spinnyIntroReady, selectedIntroIndex]);
 
 	return (
-		<ChakraModal
-			isOpen={props.disclosure.isOpen}
-			onClose={props.disclosure.onClose}
-			isCentered
-			colorScheme="brand"
+		<Modal
+			open={props.open}
+			onClose={() => {
+				props.setOpen(false);
+			}}
 		>
-			<ChakraModalOverlay background={"rgba(17,17,17,0.7)"} />
-			<ChakraModalContent
-				background={"#222"}
-				width={"fit-content"}
-				maxWidth={"fit-content"}
-				borderRadius={16}
-				overflow={"hidden"}
-			>
-				<ChakraModalBody>
-					<VStack>
-						<SpinnyIntro
-							// forces remount when switching
-							key={selectedIntroIndex}
+			<ModalContent>
+				<VStack>
+					<SpinnyIntro
+						// forces remount when switching
+						key={selectedIntroIndex}
+						css={{
+							width: 600,
+							height: 600,
+							margin: 0,
+							marginTop: -48,
+							marginBottom: -16,
+						}}
+						onReady={() => setSpinnyIntroReady(true)}
+						onUnready={() => setSpinnyIntroReady(false)}
+						client={props.client}
+						intro={spinnyIntro}
+						disableScaleTween
+						disableAutoSpin
+					/>
+					<HStack
+						spacing={24}
+						css={{
+							alignItems: "flex-start",
+							justifyContent: "flex-start",
+							minWidth: 640,
+							maxWidth: 640,
+							paddingBottom: 32,
+						}}
+					>
+						<VStack
 							css={{
-								width: 600,
-								height: 600,
-								margin: 0,
-								marginTop: -48,
-								marginBottom: -16,
-							}}
-							onReady={() => setSpinnyIntroReady(true)}
-							onUnready={() => setSpinnyIntroReady(false)}
-							client={props.client}
-							intro={spinnyIntro}
-							disableScaleTween
-							disableAutoSpin
-						/>
-						<HStack
-							spacing={24}
-							css={{
-								alignItems: "flex-start",
-								justifyContent: "flex-start",
-								minWidth: 640,
-								maxWidth: 640,
-								paddingBottom: 32,
+								minWidth: 310,
+								maxWidth: 310,
 							}}
 						>
-							<VStack
-								css={{
-									minWidth: 310,
-									maxWidth: 310,
-								}}
-							>
-								<SpinnyIntroSelector
-									spinnyIntroReady={spinnyIntroReady}
-									selectedIntroIndex={selectedIntroIndex}
-									setSelectedIntroIndex={
-										setSelectedIntroIndex
-									}
-								/>
-								{/* <Text
+							<SpinnyIntroSelector
+								spinnyIntroReady={spinnyIntroReady}
+								selectedIntroIndex={selectedIntroIndex}
+								setSelectedIntroIndex={setSelectedIntroIndex}
+							/>
+							{/* <Text
 									mt={4}
 									mb={8}
 									fontWeight={600}
@@ -186,76 +173,74 @@ export function SpinnyIntrosModal(props: {
 								>
 									there are more, but those used three.js
 								</Text> */}
-							</VStack>
-							<VStack
-								spacing={4}
+						</VStack>
+						<VStack
+							spacing={4}
+							css={{
+								marginTop: 8,
+								alignItems: "flex-start",
+							}}
+						>
+							<p
 								css={{
-									marginTop: 8,
-									alignItems: "flex-start",
+									fontWeight: 700,
+									opacity: 1,
+									marginLeft: 16,
+									marginBottom: 0,
 								}}
 							>
-								<p
-									css={{
-										fontWeight: 700,
-										opacity: 1,
-										marginLeft: 16,
-										marginBottom: 0,
-									}}
-								>
-									{`changes on ${fullMonths[
-										spinnyIntro.date[1] - 1
-									].toLowerCase()} ${spinnyIntro.date[2]}, ${
-										spinnyIntro.date[0]
-									}:`}
-								</p>
-								{spinnyIntro.changes.map((line, i) => {
-									const matches =
-										line.match(/^([+-] )?([^]+)$/);
+								{`changes on ${fullMonths[
+									spinnyIntro.date[1] - 1
+								].toLowerCase()} ${spinnyIntro.date[2]}, ${
+									spinnyIntro.date[0]
+								}:`}
+							</p>
+							{spinnyIntro.changes.map((line, i) => {
+								const matches = line.match(/^([+-] )?([^]+)$/);
 
-									const point = (matches[1] ?? "•").trim();
-									const text = matches[2].trim();
+								const point = (matches[1] ?? "•").trim();
+								const text = matches[2].trim();
 
-									const color =
-										point == "+"
-											? "#AED581" // 300 light green
-											: point == "-"
-											? "#E57373" // 300 red
-											: "";
+								const color =
+									point == "+"
+										? "#AED581" // 300 light green
+										: point == "-"
+										? "#E57373" // 300 red
+										: "";
 
-									return (
-										<HStack
-											key={i}
-											spacing={8}
-											css={{
-												alignItems: "flex-start",
-											}}
-										>
-											{[point, text].map((value, j) => (
-												<p
-													key={j}
-													css={{
-														opacity: 0.6,
-														fontWeight: 700,
-														fontSize: 14,
-														color: color,
-														fontFamily:
-															cascadiaMono.style
-																.fontFamily,
-													}}
-												>
-													{value}
-												</p>
-											))}
-										</HStack>
-									);
-								})}
+								return (
+									<HStack
+										key={i}
+										spacing={8}
+										css={{
+											alignItems: "flex-start",
+										}}
+									>
+										{[point, text].map((value, j) => (
+											<p
+												key={j}
+												css={{
+													opacity: 0.6,
+													fontWeight: 700,
+													fontSize: 14,
+													color: color,
+													fontFamily:
+														cascadiaMono.style
+															.fontFamily,
+												}}
+											>
+												{value}
+											</p>
+										))}
+									</HStack>
+								);
+							})}
 
-								{/* TODO: need to add close button */}
-							</VStack>
-						</HStack>
-					</VStack>
-				</ChakraModalBody>
-			</ChakraModalContent>
-		</ChakraModal>
+							{/* TODO: need to add close button */}
+						</VStack>
+					</HStack>
+				</VStack>
+			</ModalContent>
+		</Modal>
 	);
 }

@@ -1,12 +1,5 @@
 /** @jsxImportSource @emotion/react */
 
-import {
-	Modal as ChakraModal,
-	ModalContent as ChakraModalContent,
-	ModalHeader as ChakraModalHeader,
-	ModalOverlay as ChakraModalOverlay,
-	useDisclosure as useChakraDisclosure,
-} from "@chakra-ui/react";
 import { useState } from "react";
 import { IconType } from "react-icons";
 import { FaInfoCircle } from "react-icons/fa";
@@ -17,6 +10,7 @@ import { config } from "../utils/config";
 import { Button } from "./ui/Button";
 import { Code } from "./ui/Code";
 import { Emoji } from "./ui/Emoji";
+import { Modal, ModalContent } from "./ui/Modal";
 import { ArchLinuxIcon } from "./ui/social-icons/ArchLinuxIcon";
 import { DiscordIcon } from "./ui/social-icons/DiscordIcon";
 import { ElementIcon } from "./ui/social-icons/ElementIcon";
@@ -59,12 +53,8 @@ interface Social {
 }
 
 export function Social(props: { onSpinnyIntrosOpen: () => any }) {
+	const [popupOpen, setPopupOpen] = useState(false);
 	const [popupInfo, setPopupInfo] = useState<Popup>();
-	const {
-		isOpen: popupIsOpen,
-		onOpen: popupOnOpen,
-		onClose: popupOnClose,
-	} = useChakraDisclosure();
 
 	// {
 	// 	icon: TwitterIcon,
@@ -226,7 +216,7 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 								onClick: () => {
 									if (social.openPopup) {
 										setPopupInfo(social.openPopup);
-										popupOnOpen();
+										setPopupOpen(true);
 									} else if (social.openWithJs) {
 										window.open(social.href, "_self");
 									}
@@ -272,12 +262,6 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 				// 			backgroundColor: "rgba(20,20,20,0.15)",
 				// 		}}
 				// 		transition={config.styles.hoverTransition}
-				// 		// transitionProperty={
-				// 		// 	"var(--chakra-transition-property-common)"
-				// 		// }
-				// 		// transitionDuration={
-				// 		// 	"var(--chakra-transition-duration-normal)"
-				// 		// }
 				// 	>
 				// 		<social.icon
 				// 			color={"#fff"}
@@ -569,77 +553,61 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 					</a>
 				</VStack>
 			</VStack>
-			<ChakraModal
-				isOpen={popupIsOpen && popupInfo != null}
-				onClose={popupOnClose}
-				isCentered
-				colorScheme="brand"
+			<Modal
+				open={popupOpen && popupInfo != null}
+				onClose={() => {
+					setPopupOpen(false);
+				}}
 			>
-				<ChakraModalOverlay background={"rgba(17,17,17,0.7)"} />
-				<ChakraModalContent
-					background={"#222"}
-					width={"fit-content"}
-					maxWidth={"fit-content"}
-					borderRadius={16}
-				>
-					<ChakraModalHeader
-						my={1.5}
-						display={"flex"}
-						flexDir={"column"}
-						alignItems={"center"}
-						gap={2}
-					>
+				<ModalContent>
+					<VStack spacing={8}>
 						<h1
 							css={{
 								fontSize: 24,
-								lineHeight: 1.25,
+								lineHeight: 1,
 								fontWeight: 800,
-								marginBottom: 8,
+								marginBottom: 12,
 							}}
 						>
 							{popupInfo?.title.toLowerCase()}
-							{/* <chakra.span fontWeight={700}>add at</chakra.span> */}
 						</h1>
-						<HStack spacing={12}>
-							{/* <Heading size={"md"}>Add me</Heading> */}
-							<Code
-								css={{
-									cursor: "pointer",
-									fontSize: popupInfo?.fontSize,
-								}}
-								onClick={e => {
-									const el = e.target as HTMLElement;
-									const range = document.createRange();
-									range.selectNodeContents(el);
+						<Code
+							css={{
+								cursor: "pointer",
+								fontSize: popupInfo?.fontSize,
+							}}
+							onClick={e => {
+								const el = e.target as HTMLElement;
+								const range = document.createRange();
+								range.selectNodeContents(el);
 
-									const selection = window.getSelection();
-									selection?.removeAllRanges();
-									selection?.addRange(range);
+								const selection = window.getSelection();
+								selection?.removeAllRanges();
+								selection?.addRange(range);
 
-									let text = el.textContent ?? "";
+								let text = el.textContent ?? "";
 
-									if (popupInfo?.noNewLinesOnCopy) {
-										text = text.replaceAll("\n", "");
-									}
+								if (popupInfo?.noNewLinesOnCopy) {
+									text = text.replaceAll("\n", "");
+								}
 
-									navigator.clipboard.writeText(text);
+								navigator.clipboard.writeText(text);
 
-									selection.removeAllRanges();
+								selection.removeAllRanges();
 
-									// toast({
-									// 	title: "Copied to clipboard",
-									// 	position: "bottom-left",
-									// 	status: "info",
-									// 	variant: "subtle",
-									// 	duration: 1200,
-									// 	isClosable: false,
-									// });
-									toast.info("Copied to clipboard");
-								}}
-							>
-								{popupInfo?.text}
-							</Code>
-						</HStack>
+								// toast({
+								// 	title: "Copied to clipboard",
+								// 	position: "bottom-left",
+								// 	status: "info",
+								// 	variant: "subtle",
+								// 	duration: 1200,
+								// 	isClosable: false,
+								// });
+								toast.info("Copied to clipboard");
+							}}
+						>
+							{popupInfo?.text}
+						</Code>
 						<HStack spacing={16}>
 							{(
 								[
@@ -656,7 +624,9 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 								<Button
 									key={i}
 									href={button.href}
-									onClick={popupOnClose}
+									onClick={() => {
+										setPopupOpen(false);
+									}}
 									color={button.main ? "#ff1744" : "#444444"}
 									css={{ marginTop: 16 }}
 									// noHoverScale
@@ -665,29 +635,9 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 								</Button>
 							))}
 						</HStack>
-					</ChakraModalHeader>
-					{/* <ModalCloseButton /> */}
-					{/* <ModalBody>
-						<Code px={1.5}>{config.socialIds.xmpp}</Code>
-					</ModalBody> */}
-					{/* <ModalFooter mt={-2}>
-						<Button
-							as="a"
-							href={"xmpp:" + config.socialIds.xmpp}
-							onClick={xmppOnClose}
-							background={"brand.500"}
-							_hover={{
-								background: "brand.400",
-							}}
-							_active={{
-								background: "brand.300",
-							}}
-						>
-							Open using client
-						</Button>
-					</ModalFooter> */}
-				</ChakraModalContent>
-			</ChakraModal>
+					</VStack>
+				</ModalContent>
+			</Modal>
 		</>
 	);
 }

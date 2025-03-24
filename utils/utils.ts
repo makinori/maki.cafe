@@ -1,6 +1,6 @@
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { getImageProps } from "next/image";
 import { config } from "./config";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 export function getBackgroundPositionsForSpritesheet(
 	width: number,

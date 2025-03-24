@@ -1,20 +1,20 @@
-import {
-	Modal,
-	ModalContent,
-	ModalOverlay,
-	useDisclosure,
-} from "@chakra-ui/react";
+/** @jsxImportSource @emotion/react */
+
 import Image, { ImageProps } from "next/image";
+import { useState } from "react";
+import { Modal, ModalContentShadow } from "./Modal";
 
 export function OpenableImage(
 	props: ImageProps & {
 		modalW?: string;
 		modalH?: string;
+		css?: string;
+		className?: string;
 	},
 ) {
-	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [open, setOpen] = useState(false);
 
-	const { modalW, modalH, ...imageProps } = props;
+	const { modalW, modalH, css, className, ...imageProps } = props;
 
 	return (
 		<>
@@ -25,33 +25,41 @@ export function OpenableImage(
 					cursor: "pointer",
 					height: "auto",
 				}}
-				onClick={onOpen}
+				onClick={() => {
+					setOpen(true);
+				}}
 			/>
-			<Modal onClose={onClose} isOpen={isOpen} isCentered size={"4xl"}>
-				<ModalOverlay />
-				<ModalContent
-					background="transparent"
-					shadow="none"
-					h={modalW ?? "60vh"}
-					w={modalH ?? "90vw"}
-					pointerEvents="none"
-					alignItems="center"
-					justifyContent="center"
-					position={"relative"}
+			<Modal
+				open={open}
+				onClose={() => {
+					setOpen(false);
+				}}
+			>
+				<div
+					css={{
+						width: modalW ?? "90vw",
+						height: modalH ?? "60vh",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						flexDirection: "column",
+						pointerEvents: "none",
+					}}
 				>
-					{/* <ModalCloseButton color={"white"} /> */}
 					<Image
 						{...imageProps}
 						alt={imageProps.alt}
-						style={{
+						css={{
 							width: "auto",
 							height: "auto",
 							maxWidth: "100%",
 							maxHeight: "100%",
 							borderRadius: 8,
+							pointerEvents: "all",
+							boxShadow: ModalContentShadow,
 						}}
 					/>
-				</ModalContent>
+				</div>
 			</Modal>
 		</>
 	);
