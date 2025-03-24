@@ -6,7 +6,7 @@ import { unstable_noStore as noStore } from "next/cache";
 export default async function Page() {
 	noStore();
 
-	const headersList = headers();
+	const headersList = await headers();
 
 	let serverData: ServerData = null;
 

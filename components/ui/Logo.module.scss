@@ -1,3 +1,4 @@
+@use "sass:list";
 @use "sass:math";
 
 .logo {
@@ -19,7 +20,7 @@
 		("i-line", 112.5px),
 		("i-dot", 5.978884696960449px)
 	);
-	$letters-length: length($letters);
+	$letters-length: list.length($letters);
 
 	$letter-color: #ff1744;
 	$letter-shadow-color: #ff1744;
@@ -63,7 +64,7 @@
 	}
 
 	@each $class, $letter-total-length in $letters {
-		$i: index(($letters), ($class, $letter-total-length)) - 1;
+		$i: list.index(($letters), ($class, $letter-total-length)) - 1;
 
 		&.animate-hide .#{$class} {
 			// first frame
@@ -81,9 +82,11 @@
 				}
 			}
 
-			stroke-dasharray: $letter-total-length;
-			transform: translateX($i * $letter-spacing);
-			animation-delay: $i * $letter-delay;
+			& {
+				stroke-dasharray: $letter-total-length;
+				transform: translateX($i * $letter-spacing);
+				animation-delay: $i * $letter-delay;
+			}
 		}
 		&.animate-backward .#{$class} {
 			animation-delay: ($letters-length - $i - 1) *
@@ -117,7 +120,7 @@
 	}
 
 	@each $class, $letter-total-length in $letters {
-		$i: index(($letters), ($class, $letter-total-length)) - 1;
+		$i: list.index(($letters), ($class, $letter-total-length)) - 1;
 
 		&.animate-hide .path-shadow {
 			// first frame
@@ -146,8 +149,12 @@
 				}
 			}
 
-			stroke-dasharray: $letter-total-length;
-			animation-delay: ($i) * $letter-delay + math.div($letter-delay, 3);
+			& {
+				stroke-dasharray: $letter-total-length;
+				animation-delay: ($i) *
+					$letter-delay +
+					math.div($letter-delay, 3);
+			}
 		}
 		&.animate-backward .#{$class}-shadow {
 			animation-delay: (
