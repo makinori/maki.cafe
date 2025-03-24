@@ -26,8 +26,7 @@ import { SpinnyIntrosModal } from "../components/spinny-intro/SpinnyIntrosModal"
 import { SpinnyIntros } from "../components/spinny-intro/spinny-intros";
 import { Logo } from "../components/ui/Logo";
 import { VStack } from "../components/ui/Stack";
-import type { LatestData } from "../server/data-sources";
-import { ClientInfo } from "../server/main";
+import type { ServerData } from "../server/main";
 import { config } from "../utils/config";
 import { cssScreenSizes } from "../utils/utils";
 import gnomeDarkImage from "./gnome-dark.svg";
@@ -45,7 +44,9 @@ const fadeInKeyframes = keyframes({
 	},
 });
 
-export function Home(props: { client: ClientInfo; data: LatestData }) {
+export function Home(props: { serverData: ServerData }) {
+	const { client, data } = props.serverData;
+
 	const [ready, setReady] = useState(false);
 
 	const [spinnyIntrosOpen, setSpinnyIntrosOpen] = useState(false);
@@ -63,7 +64,7 @@ export function Home(props: { client: ClientInfo; data: LatestData }) {
 		) : (
 			<HomelabHotmilkBlahajHomeCard
 				onOlder={setOlderHomelab}
-				data={props.data.uptime}
+				data={data.uptime}
 			/>
 		);
 
@@ -113,7 +114,7 @@ export function Home(props: { client: ClientInfo; data: LatestData }) {
 								marginTop: 50,
 								marginBottom: 50,
 							}}
-							client={props.client}
+							client={client}
 							intro={SpinnyIntros[0]}
 							onReady={() => {
 								setReady(true);
@@ -186,7 +187,7 @@ export function Home(props: { client: ClientInfo; data: LatestData }) {
 					/>
 				</div>
 				<SpinnyIntrosModal
-					client={props.client}
+					client={client}
 					open={spinnyIntrosOpen}
 					setOpen={setSpinnyIntrosOpen}
 				/>
@@ -210,14 +211,14 @@ export function Home(props: { client: ClientInfo; data: LatestData }) {
 			>
 				<DiscordHomeCard />
 				<StuffIveMadeHomeCard />
-				<SlMarketplaceHomeCard data={props.data.slMarketplace} />
-				<MastodonMediaHomeCard data={props.data.mastodon} />
+				<SlMarketplaceHomeCard data={data.slMarketplace} />
+				<MastodonMediaHomeCard data={data.mastodon} />
 				{homelab}
 				<GamesHomeCard />
 				<AlbumsHomeCard />
-				{/* <GithubGistsHomeCard data={props.data.github} /> */}
-				<AurHomeCard data={props.data.aur} />
-				<SketchfabHomeCard data={props.data.sketchfab} />
+				{/* <GithubGistsHomeCard data={data.github} /> */}
+				<AurHomeCard data={data.aur} />
+				<SketchfabHomeCard data={data.sketchfab} />
 				<WebringCard />
 				{/* <WhereHomeCard /> */}
 				{/* <FlickrHomeCard /> */}

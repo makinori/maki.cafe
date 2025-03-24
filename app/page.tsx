@@ -1,7 +1,7 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { headers } from "next/headers";
 import type { ServerData } from "../server/main";
 import { Home } from "./Home";
-import { unstable_noStore as noStore } from "next/cache";
 
 export default async function Page() {
 	noStore();
@@ -16,7 +16,5 @@ export default async function Page() {
 		console.error("Failed to get server data");
 	}
 
-	// TODO: use initial={} instead
-
-	return <Home client={serverData.client} data={serverData.data} />;
+	return <Home serverData={serverData} />;
 }

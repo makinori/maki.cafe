@@ -21,6 +21,7 @@ const nextConfig = {
 			{ protocol: "https", hostname: "static-cdn.jtvnw.net" },
 			{ protocol: "https", hostname: "img.youtube.com" },
 			{ protocol: "https", hostname: "slm-assets.secondlife.com" },
+			{ protocol: "https", hostname: "cdn.discordapp.com" },
 		],
 	},
 	experimental: {

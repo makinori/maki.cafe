@@ -1,3 +1,5 @@
+import { getOptimizedImage } from "../../utils/utils";
+
 export function DiscordUserImage(props: {
 	size?: number;
 	url?: string;
@@ -5,9 +7,15 @@ export function DiscordUserImage(props: {
 	mobile?: boolean;
 }) {
 	const size = props.size ?? 32;
-	const url = props.url ?? "";
 	const status = props.status ?? "online";
 	const mobile = props.mobile ?? false;
+
+	const url = getOptimizedImage({
+		src: props.url ?? "",
+		width: size,
+		height: size,
+		onlyUrl: true,
+	});
 
 	return (
 		<svg
