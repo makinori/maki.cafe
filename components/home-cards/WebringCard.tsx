@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { StaticImageData } from "next/image";
-import { FaGlobeAmericas } from "react-icons/fa";
+import { FaEarthAmericas } from "react-icons/fa6";
 import { config } from "../../utils/config";
 import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
@@ -151,7 +151,7 @@ function Buttons(props: {
 export function WebringCard() {
 	return (
 		<HomeCard>
-			<HomeCardHeading mb={4} icon={FaGlobeAmericas}>
+			<HomeCardHeading mb={4} icon={FaEarthAmericas}>
 				webring
 			</HomeCardHeading>
 			{/* <HStack

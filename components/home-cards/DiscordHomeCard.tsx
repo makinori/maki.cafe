@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import { CSSObject, keyframes } from "@emotion/react";
+import { keyframes } from "@emotion/react";
 import { formatDistance } from "date-fns";
 import Image from "next/image";
 import { IoGameController } from "react-icons/io5";

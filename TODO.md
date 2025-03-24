@@ -7,4 +7,3 @@
 -   change subheading font?
 -   stop using next
 -   https://emotion.sh/docs/typescript
--   make sure icons are consistent

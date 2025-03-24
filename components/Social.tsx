@@ -2,8 +2,12 @@
 
 import { useState } from "react";
 import { IconType } from "react-icons";
-import { FaInfoCircle } from "react-icons/fa";
-import { FaArrowRight, FaArrowsRotate, FaCode } from "react-icons/fa6";
+import {
+	FaArrowRight,
+	FaArrowsRotate,
+	FaCircleInfo,
+	FaCode,
+} from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { Toaster, toast } from "sonner";
 import { config } from "../utils/config";
@@ -304,7 +308,7 @@ export function Social(props: { onSpinnyIntrosOpen: () => any }) {
 					},
 					duration: 2000,
 				}}
-				icons={{ info: <FaInfoCircle size={16} /> }}
+				icons={{ info: <FaCircleInfo size={16} /> }}
 			/>
 			<VStack>
 				{/* <HStack spacing={2}>
