@@ -18,7 +18,7 @@ importers:
         specifier: ^1.8.4
         version: 1.8.4
       babel-plugin-react-compiler:
-        specifier: 19.0.0-beta-aeaed83-20250323
+        specifier: ^19.0.0-beta-aeaed83-20250323
         version: 19.0.0-beta-aeaed83-20250323
       cron:
         specifier: ^4.1.0
