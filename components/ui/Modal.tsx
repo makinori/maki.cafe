@@ -13,7 +13,7 @@ export function Modal(props: {
 	const [opacity, setOpacity] = useState(props.open);
 	const [show, setShow] = useState(props.open);
 
-	const ref = useRef<HTMLDivElement>();
+	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		if (props.open) {

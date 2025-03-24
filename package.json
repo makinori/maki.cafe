@@ -13,14 +13,12 @@
 	"dependencies": {
 		"@emotion/cache": "^11.14.0",
 		"@emotion/react": "^11.14.0",
-		"@emotion/styled": "^11.14.0",
 		"axios": "^1.8.4",
 		"babel-plugin-react-compiler": "^19.0.0-beta-aeaed83-20250323",
 		"cron": "^4.1.0",
 		"cross-env": "^7.0.3",
 		"date-fns": "^4.1.0",
 		"express": "^4.21.2",
-		"file-loader": "^6.2.0",
 		"jsdom": "^26.0.0",
 		"nanotar": "^0.2.0",
 		"next": "^15.2.3",
@@ -42,10 +40,9 @@
 		"@types/react": "^19.0.12",
 		"@types/react-dom": "^19.0.4",
 		"@types/three": "^0.174.0",
-		"@types/ua-parser-js": "^0.7.39",
 		"sass": "^1.86.0",
 		"sharp": "^0.33.5",
-		"sharp-ico-v32": "^0.1.6",
+		"sharp-ico": "^0.1.5",
 		"tsx": "^4.19.3",
 		"typescript": "^5.8.2"
 	}

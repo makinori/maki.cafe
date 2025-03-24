@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
 import { CSSObject } from "@emotion/react";
+import { HTMLAttributes, JSX } from "react";
 import { config } from "../../utils/config";
 import { colorMix } from "../../utils/utils";
-import { HTMLAttributes } from "react";
 
 export function Button(props: {
 	children?: string;

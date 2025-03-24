@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
+import { JSX } from "react";
 import { IconType } from "react-icons";
 import { FaArrowRight } from "react-icons/fa6";
 import { HStack } from "../Stack";

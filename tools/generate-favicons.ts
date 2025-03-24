@@ -1,7 +1,7 @@
 import path from "path";
 import { chromium } from "playwright";
 import sharp from "sharp";
-import * as ico from "sharp-ico-v32";
+import * as ico from "sharp-ico";
 
 if (process.argv.length == 2) {
 	console.log("Please provide image as argument");

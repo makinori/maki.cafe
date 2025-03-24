@@ -1,7 +1,7 @@
 import express from "express";
 import * as http from "http";
 import next from "next";
-import UAParser from "ua-parser-js";
+import { UAParser } from "ua-parser-js";
 import * as url from "url";
 import { config } from "../utils/config";
 import { DataSources, LatestData } from "./data-sources";
