@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { snPro } from "../fonts/fonts";
 import { config } from "../utils/config";
 import "./defaults.css";
 import "./layout.scss";
@@ -77,7 +78,7 @@ export default function RootLayout({
 					/>
 				</noscript>
 			</head>
-			<body>
+			<body className={snPro.className}>
 				<Providers>{children}</Providers>
 				<Script
 					id="ithelpsme"
