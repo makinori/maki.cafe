@@ -7,10 +7,15 @@ import { HomeCard } from "../ui/home-card/HomeCard";
 import { HomeCardHeading } from "../ui/home-card/HomeCardHeading";
 import anonfilly from "./webring/anonfilly.png";
 import kneesox from "./webring/kneesox.png";
+import micaela from "./webring/micaela.gif";
 import pea from "./webring/pea.png";
 import yno from "./webring/yno.png";
 
 const frends: Button[] = [
+	{
+		image: micaela,
+		url: "https://micae.la",
+	},
 	{
 		image: pea,
 		url: "https://pea.moe",
@@ -30,10 +35,6 @@ const frends: Button[] = [
 	{
 		name: "dbuild.xyz",
 		url: "https://dbuild.xyz",
-	},
-	{
-		name: "micae.la",
-		url: "https://micae.la",
 	},
 	{
 		name: "ironsm4sh.nl",
