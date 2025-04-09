@@ -7,4 +7,7 @@ require (
 	maragu.dev/gomponents v1.1.0
 )
 
-require google.golang.org/protobuf v1.35.2 // indirect
+require (
+	github.com/google/go-cmp v0.6.0 // indirect
+	google.golang.org/protobuf v1.35.2 // indirect
+)
