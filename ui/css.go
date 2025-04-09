@@ -25,7 +25,7 @@ func ensureSass() {
 	}
 }
 
-func CSS(p *Providers, input string) Node {
+func SCSS(p *Providers, input string) Node {
 	var source string
 
 	for line := range strings.SplitSeq(input, "\n") {
@@ -38,15 +38,15 @@ func CSS(p *Providers, input string) Node {
 
 	className := utils.HashString(source)
 
-	p.SharedCSS[className] = source
+	p.SharedSCSS[className] = source
 
 	return Class(className)
 }
 
-func CSSEl(p *Providers) Node {
+func SCSSEl(p *Providers) Node {
 	var source string
 
-	for className, snippet := range p.SharedCSS {
+	for className, snippet := range p.SharedSCSS {
 		source += "." + className + "{" + snippet + "} "
 	}
 

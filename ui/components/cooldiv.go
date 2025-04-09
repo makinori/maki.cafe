@@ -9,7 +9,7 @@ import (
 
 func CoolDiv(p *ui.Providers, children ...Node) Node {
 	return Div(
-		ui.CSS(p, `
+		ui.SCSS(p, `
 			$what: 200px;
 
 			display: flex;
