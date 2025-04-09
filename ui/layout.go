@@ -3,7 +3,7 @@ package ui
 import (
 	_ "embed"
 
-	"github.com/makinori/maki.cafe/shared"
+	"github.com/makinori/maki.cafe/common"
 
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -19,8 +19,8 @@ func Layout(r *Renderer, children ...Node) Node {
 			Head(
 				Meta(Charset("utf-8")),
 				Meta(Name("viewport"), Content("width=device-width, initial-scale=0.85")),
-				TitleEl(Text(shared.ConfigTitle)),
-				Meta(Name("description"), Content(shared.ConfigDescription)),
+				TitleEl(Text(common.ConfigTitle)),
+				Meta(Name("description"), Content(common.ConfigDescription)),
 				SCSSEl(r, layoutScss),
 			),
 			Body(children...),
