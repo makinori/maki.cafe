@@ -10,7 +10,7 @@ import (
 )
 
 //go:embed layout.scss
-var layoutScss string
+var styles string
 
 func Layout(r *Renderer, children ...Node) Node {
 	return Doctype(
@@ -21,7 +21,7 @@ func Layout(r *Renderer, children ...Node) Node {
 				Meta(Name("viewport"), Content("width=device-width, initial-scale=0.85")),
 				TitleEl(Text(common.ConfigTitle)),
 				Meta(Name("description"), Content(common.ConfigDescription)),
-				SCSSEl(r, layoutScss),
+				SCSSEl(r, styles),
 			),
 			Body(children...),
 		),
