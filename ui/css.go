@@ -10,6 +10,21 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
+var sassTranspiler *sass.Transpiler
+
+func ensureSass() {
+	if sassTranspiler != nil {
+		return
+	}
+
+	var err error
+	sassTranspiler, err = sass.Start(sass.Options{})
+
+	if err != nil {
+		panic(err)
+	}
+}
+
 func CSS(p *Providers, input string) Node {
 	var source string
 

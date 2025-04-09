@@ -1,7 +1,6 @@
 package ui
 
 import (
-	sass "github.com/bep/godartsass/v2"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -13,16 +12,8 @@ type Providers struct {
 	SharedCSS map[string]string
 }
 
-var sassTranspiler *sass.Transpiler
-
 func NewProviders() Providers {
-	if sassTranspiler == nil {
-		var err error
-		sassTranspiler, err = sass.Start(sass.Options{})
-		if err != nil {
-			panic(err)
-		}
-	}
+	ensureSass()
 
 	return Providers{
 		SharedCSS: map[string]string{},
