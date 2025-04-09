@@ -3,7 +3,7 @@ package ui
 import (
 	"strings"
 
-	"github.com/makinori/maki.cafe/utils"
+	"github.com/makinori/maki.cafe/shared"
 
 	sass "github.com/bep/godartsass/v2"
 	. "maragu.dev/gomponents"
@@ -36,7 +36,7 @@ func SCSS(r *Renderer, input string) Node {
 		source += line + "\n"
 	}
 
-	className := utils.HashString(source)
+	className := shared.HashString(source)
 
 	r.SharedSCSS[className] = source
 
