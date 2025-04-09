@@ -8,13 +8,9 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
-// type Providers struct {
-// 	*ui.Providers
-// }
-
-func MainPage(p *ui.Providers) Node {
+func MainPage(r *ui.Renderer) Node {
 	return Div(
-		components.CoolDiv(p),
-		components.CoolDiv(p),
+		components.CoolDiv(r),
+		components.CoolDiv(r),
 	)
 }

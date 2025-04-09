@@ -7,9 +7,9 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
-func CoolDiv(p *ui.Providers, children ...Node) Node {
+func CoolDiv(r *ui.Renderer, children ...Node) Node {
 	return Div(
-		ui.SCSS(p, `
+		ui.SCSS(r, `
 			$what: 200px;
 
 			display: flex;
