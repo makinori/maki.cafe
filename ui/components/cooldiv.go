@@ -10,14 +10,17 @@ import (
 func CoolDiv(r *ui.Renderer, children ...Node) Node {
 	return Div(
 		ui.SCSS(r, `
-			$what: 200px;
-
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			width: 200px;
+			height: 200px;
+			background: red;
+			margin: 16px;
+			transition: all 200ms ease-in-out;
 
-			:hover {
-				height: $what;
+			&:hover {
+				height: 400px;
 			}
 		`),
 		Text("its working?"),

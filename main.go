@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"os"
 
 	"github.com/makinori/maki.cafe/ui"
 	"github.com/makinori/maki.cafe/ui/pages"
@@ -9,5 +9,5 @@ import (
 
 func main() {
 	html := ui.Render(pages.MainPage)
-	fmt.Println(html)
+	os.WriteFile("output.html", []byte(html), 0644)
 }

@@ -43,8 +43,12 @@ func SCSS(r *Renderer, input string) Node {
 	return Class(className)
 }
 
-func SCSSEl(r *Renderer) Node {
+func SCSSEl(r *Renderer, extraScss ...string) Node {
 	var source string
+
+	for _, snippet := range extraScss {
+		source += snippet + "\n"
+	}
 
 	for className, snippet := range r.SharedSCSS {
 		source += "." + className + "{" + snippet + "} "
