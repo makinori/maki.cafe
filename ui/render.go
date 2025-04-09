@@ -1,8 +1,6 @@
 package ui
 
 import (
-	"runtime"
-
 	. "maragu.dev/gomponents"
 )
 
@@ -16,8 +14,6 @@ func Render(page func(*Renderer) Node) string {
 	r := Renderer{
 		SharedSCSS: map[string]string{},
 	}
-
-	runtime.StartTrace()
 
 	html := Group{
 		Layout(&r, page(&r)),
