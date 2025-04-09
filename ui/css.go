@@ -25,7 +25,7 @@ func ensureSass() {
 	}
 }
 
-func SCSS(r *Renderer, input string) Node {
+func SCSS(r *Renderer, input string) string {
 	var source string
 
 	for line := range strings.SplitSeq(input, "\n") {
@@ -40,7 +40,7 @@ func SCSS(r *Renderer, input string) Node {
 
 	r.SharedSCSS[className] = source
 
-	return Class(className)
+	return className
 }
 
 func SCSSEl(r *Renderer, extraScss ...string) Node {

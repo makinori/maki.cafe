@@ -1,28 +1,20 @@
 package components
 
 import (
-	"github.com/makinori/maki.cafe/ui"
+	_ "embed"
+
+	. "github.com/makinori/maki.cafe/ui"
 
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
 
-func CoolDiv(r *ui.Renderer, children ...Node) Node {
-	return Div(
-		ui.SCSS(r, `
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 200px;
-			height: 200px;
-			background: red;
-			margin: 16px;
-			transition: all 200ms ease-in-out;
+//go:embed cooldiv.scss
+var styles string
 
-			&:hover {
-				height: 400px;
-			}
-		`),
+func CoolDiv(r *Renderer, children ...Node) Node {
+	return Div(
+		Classes([]string{SCSS(r, styles), "box"}),
 		Text("its working?"),
 	)
 }

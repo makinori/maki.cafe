@@ -10,10 +10,10 @@ import (
 
 func MainPage(r *ui.Renderer) Node {
 	return Div(
-		ui.SCSS(r, `
+		Class(ui.SCSS(r, `
 			display: flex;
 			flex-direction: row;
-		`),
+		`)),
 		components.CoolDiv(r),
 		components.CoolDiv(r),
 	)
