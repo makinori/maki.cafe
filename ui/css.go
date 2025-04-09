@@ -38,7 +38,7 @@ func SCSS(r *Renderer, input string) string {
 
 	className := common.HashString(source)
 
-	r.SharedSCSS[className] = source
+	r.PageSCSS[className] = source
 
 	return className
 }
@@ -50,7 +50,7 @@ func SCSSEl(r *Renderer, extraScss ...string) Node {
 		source += snippet + "\n"
 	}
 
-	for className, snippet := range r.SharedSCSS {
+	for className, snippet := range r.PageSCSS {
 		source += "." + className + "{" + snippet + "} "
 	}
 

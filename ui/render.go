@@ -5,14 +5,14 @@ import (
 )
 
 type Renderer struct {
-	SharedSCSS map[string]string
+	PageSCSS map[string]string
 }
 
 func Render(page func(*Renderer) Node) string {
 	ensureSass()
 
 	r := Renderer{
-		SharedSCSS: map[string]string{},
+		PageSCSS: map[string]string{},
 	}
 
 	html := Group{
