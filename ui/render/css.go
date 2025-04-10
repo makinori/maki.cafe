@@ -1,9 +1,9 @@
-package ui
+package render
 
 import (
 	"strings"
 
-	"github.com/makinori/maki.cafe/common"
+	. "github.com/makinori/maki.cafe/common"
 
 	sass "github.com/bep/godartsass/v2"
 	. "maragu.dev/gomponents"
@@ -36,7 +36,7 @@ func SCSS(r *RenderContext, input string) string {
 		source += line + "\n"
 	}
 
-	className := common.HashString(source)
+	className := HashString(source)
 
 	r.SCSS[className] = source
 

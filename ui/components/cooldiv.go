@@ -3,8 +3,9 @@ package components
 import (
 	_ "embed"
 
-	"github.com/makinori/maki.cafe/common"
+	. "github.com/makinori/maki.cafe/common"
 	. "github.com/makinori/maki.cafe/ui"
+	. "github.com/makinori/maki.cafe/ui/render"
 
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -14,7 +15,7 @@ import (
 var styles string
 
 func CoolDiv(r *RenderContext, children ...Node) Node {
-	id := common.UniqueHashPC()
+	id := UniqueHashPC()
 
 	r.JS[id] = `
 		for (const el of document.querySelectorAll("#` + id + `")) {

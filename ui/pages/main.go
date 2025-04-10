@@ -1,20 +1,20 @@
 package pages
 
 import (
-	"github.com/makinori/maki.cafe/ui"
-	"github.com/makinori/maki.cafe/ui/components"
+	. "github.com/makinori/maki.cafe/ui/components"
+	. "github.com/makinori/maki.cafe/ui/render"
 
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
 
-func MainPage(r *ui.RenderContext) Node {
+func MainPage(r *RenderContext) Node {
 	return Div(
-		Class(ui.SCSS(r, `
+		Class(SCSS(r, `
 			display: flex;
 			flex-direction: row;
 		`)),
-		components.CoolDiv(r),
-		components.CoolDiv(r),
+		CoolDiv(r),
+		CoolDiv(r),
 	)
 }

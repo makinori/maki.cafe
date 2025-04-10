@@ -1,4 +1,4 @@
-package ui
+package render
 
 import (
 	. "maragu.dev/gomponents"
@@ -6,10 +6,13 @@ import (
 
 type RenderContext struct {
 	SCSS map[string]string
-	JS   map[string]string
+	JS   map[string]string // pls use sparingly
 }
 
-func Render(page func(*RenderContext) Node) string {
+func Render(
+	layout func(*RenderContext, ...Node) Node,
+	page func(*RenderContext) Node,
+) string {
 	ensureSass()
 
 	r := RenderContext{
@@ -18,7 +21,7 @@ func Render(page func(*RenderContext) Node) string {
 	}
 
 	html := Group{
-		Layout(&r, page(&r)),
+		layout(&r, page(&r)),
 	}.String()
 
 	return html
