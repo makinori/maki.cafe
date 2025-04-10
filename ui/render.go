@@ -4,15 +4,17 @@ import (
 	. "maragu.dev/gomponents"
 )
 
-type Renderer struct {
-	PageSCSS map[string]string
+type RenderContext struct {
+	SCSS map[string]string
+	JS   map[string]string
 }
 
-func Render(page func(*Renderer) Node) string {
+func Render(page func(*RenderContext) Node) string {
 	ensureSass()
 
-	r := Renderer{
-		PageSCSS: map[string]string{},
+	r := RenderContext{
+		SCSS: map[string]string{},
+		JS:   map[string]string{},
 	}
 
 	html := Group{

@@ -25,7 +25,7 @@ func ensureSass() {
 	}
 }
 
-func SCSS(r *Renderer, input string) string {
+func SCSS(r *RenderContext, input string) string {
 	var source string
 
 	for line := range strings.SplitSeq(input, "\n") {
@@ -38,19 +38,19 @@ func SCSS(r *Renderer, input string) string {
 
 	className := common.HashString(source)
 
-	r.PageSCSS[className] = source
+	r.SCSS[className] = source
 
 	return className
 }
 
-func SCSSEl(r *Renderer, extraScss ...string) Node {
+func SCSSEl(r *RenderContext, extraScss ...string) Node {
 	var source string
 
 	for _, snippet := range extraScss {
 		source += snippet + "\n"
 	}
 
-	for className, snippet := range r.PageSCSS {
+	for className, snippet := range r.SCSS {
 		source += "." + className + "{" + snippet + "} "
 	}
 

@@ -8,7 +8,7 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
-func MainPage(r *ui.Renderer) Node {
+func MainPage(r *ui.RenderContext) Node {
 	return Div(
 		Class(ui.SCSS(r, `
 			display: flex;

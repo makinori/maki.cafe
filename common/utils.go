@@ -1,7 +1,9 @@
 package common
 
 import (
+	"encoding/binary"
 	"hash/crc32"
+	"runtime"
 )
 
 func Prepend[T any](n T, rest []T) []T {
@@ -10,8 +12,8 @@ func Prepend[T any](n T, rest []T) []T {
 
 const base62 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-func HashString(data string) string {
-	hash := crc32.ChecksumIEEE([]byte(data))
+func HashBytes(data []byte) string {
+	hash := crc32.ChecksumIEEE(data)
 	if hash == 0 {
 		return string(base62[0])
 	}
@@ -23,4 +25,20 @@ func HashString(data string) string {
 	}
 
 	return name
+}
+
+func HashString(data string) string {
+	return HashBytes([]byte(data))
+}
+
+func UniqueHashPC() string {
+	pc, _, _, ok := runtime.Caller(0)
+	if !ok {
+		panic("failed to get unique hash")
+	}
+
+	data := make([]byte, 8)
+	binary.LittleEndian.PutUint64(data, uint64(pc))
+
+	return HashBytes(data)
 }

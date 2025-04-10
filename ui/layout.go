@@ -12,7 +12,7 @@ import (
 //go:embed layout.scss
 var styles string
 
-func Layout(r *Renderer, children ...Node) Node {
+func Layout(r *RenderContext, children ...Node) Node {
 	return Doctype(
 		HTML(
 			Lang("en"),
@@ -23,7 +23,10 @@ func Layout(r *Renderer, children ...Node) Node {
 				Meta(Name("description"), Content(common.ConfigDescription)),
 				SCSSEl(r, styles),
 			),
-			Body(children...),
+			Body(append(
+				children,
+				JSEl(r),
+			)...),
 		),
 	)
 }
