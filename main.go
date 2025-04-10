@@ -10,5 +10,11 @@ import (
 
 func main() {
 	html := render.Render(ui.Layout, pages.MainPage)
-	os.WriteFile("output.html", []byte(html), 0644)
+
+	os.RemoveAll("build")
+	os.MkdirAll("build", 0755)
+
+	os.CopyFS("build", os.DirFS("public"))
+
+	os.WriteFile("build/index.html", []byte(html), 0644)
 }

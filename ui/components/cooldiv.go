@@ -4,30 +4,42 @@ import (
 	_ "embed"
 
 	. "github.com/makinori/maki.cafe/common"
-	. "github.com/makinori/maki.cafe/ui"
 	. "github.com/makinori/maki.cafe/ui/render"
 
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
 
-//go:embed cooldiv.scss
-var styles string
-
 func CoolDiv(r *RenderContext, children ...Node) Node {
 	id := UniqueHashPC()
 
-	r.JS[id] = `
-		for (const el of document.querySelectorAll("#` + id + `")) {
-			el.addEventListener("click", ()=>{
-				alert(el);
-			});
-		} 
-	`
+	r.HeadJS[id] = `const coolDiv = ()=>{
+		let e = document.currentScript.parentElement;
+		let active = false;
+
+		e.addEventListener("click", ()=>{
+			active = !active;
+			e.style.background = active ? "blue" : null;
+		})
+	}`
 
 	return Div(
-		ID(id),
-		Classes([]string{SCSS(r, styles), "box"}),
+		Class(SCSS(r, `
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 200px;
+			height: 200px;
+			background: red;
+			margin: 16px;
+			transition: all 200ms ease-in-out;
+			user-select: none;
+
+			&:hover {
+				height: 400px;
+			}
+		`)),
 		Text("its working?"),
+		Script(Raw(`coolDiv()`)),
 	)
 }

@@ -23,10 +23,11 @@ func Layout(r *RenderContext, children ...Node) Node {
 				TitleEl(Text(ConfigTitle)),
 				Meta(Name("description"), Content(ConfigDescription)),
 				SCSSEl(r, styles),
+				JSEl(r.HeadJS),
 			),
 			Body(append(
 				children,
-				JSEl(r),
+				JSEl(r.BodyJS),
 			)...),
 		),
 	)

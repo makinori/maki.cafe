@@ -5,8 +5,9 @@ import (
 )
 
 type RenderContext struct {
-	SCSS map[string]string
-	JS   map[string]string // pls use sparingly
+	SCSS   map[string]string
+	HeadJS map[string]string
+	BodyJS map[string]string
 }
 
 func Render(
@@ -16,8 +17,9 @@ func Render(
 	ensureSass()
 
 	r := RenderContext{
-		SCSS: map[string]string{},
-		JS:   map[string]string{},
+		SCSS:   map[string]string{},
+		HeadJS: map[string]string{},
+		BodyJS: map[string]string{},
 	}
 
 	html := Group{
