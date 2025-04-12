@@ -13,7 +13,7 @@ import (
 func CoolDiv(r *RenderContext, children ...Node) Node {
 	id := UniqueHashPC()
 
-	r.HeadJS[id] = `const coolDiv = ()=>{
+	r.HeadJS[id] = `const fn` + id + ` = ()=>{
 		let e = document.currentScript.parentElement;
 		let active = false;
 
@@ -23,7 +23,7 @@ func CoolDiv(r *RenderContext, children ...Node) Node {
 		})
 	}`
 
-	return Div(
+	elements := []Node{
 		Class(SCSS(r, `
 			display: flex;
 			align-items: center;
@@ -40,6 +40,10 @@ func CoolDiv(r *RenderContext, children ...Node) Node {
 			}
 		`)),
 		Text("its working?"),
-		Script(Raw(`coolDiv()`)),
-	)
+		Script(Raw(`fn` + id + `()`)),
+	}
+
+	elements = append(elements, children...)
+
+	return Div(elements...)
 }

@@ -15,6 +15,6 @@ func MainPage(r *RenderContext) Node {
 			flex-direction: row;
 		`)),
 		CoolDiv(r),
-		CoolDiv(r),
+		CoolDiv(r, Attr("test2"), Class("test")),
 	)
 }
