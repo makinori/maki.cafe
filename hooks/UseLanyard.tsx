@@ -4,6 +4,7 @@ import { FaTwitch } from "react-icons/fa6";
 import { MdGamepad } from "react-icons/md";
 import { CrunchyrollIcon } from "../components/ui/social-icons/CrunchyrollIcon";
 import { DeadBeefIcon } from "../components/ui/social-icons/DeadBeefIcon";
+import { JellyfinIcon } from "../components/ui/social-icons/JellyfinIcon";
 import { SpotifyIcon } from "../components/ui/social-icons/SpotifyIcon";
 import { TowerUniteIcon } from "../components/ui/social-icons/TowerUniteIcon";
 import { config } from "../utils/config";
@@ -158,6 +159,34 @@ function processSpotify(data: DataEvent): CurrentActivity | null {
 	};
 }
 
+function processJellyfin(data: DataEvent): CurrentActivity | null {
+	const jellyfin = data.activities.find(
+		activity => activity.name == "Jellyfin",
+	);
+	if (jellyfin == null) return null;
+
+	console.log(jellyfin);
+
+	return {
+		activityName: "Jellyfin",
+		activityIcon: JellyfinIcon,
+		imageUrl: discordImageToUrl(jellyfin.assets?.large_image),
+		imageAlt: jellyfin.state,
+		firstLine: jellyfin.details, // anime name
+		secondLine: jellyfin.state, // episode and name
+		// primary #007ca6
+		// primary light #008dbd
+		// primary lighter #009ed4
+		// primary lightest #00afeb
+		backgroundColor: "#007ca6",
+		activityUrl:
+			"https://duckduckgo.com/?q=" + encodeURIComponent(jellyfin.details),
+		timestampStart: jellyfin.timestamps.start,
+		timestampEnd: jellyfin.timestamps.end,
+		type: "other",
+	};
+}
+
 function processCrunchyroll(data: DataEvent): CurrentActivity | null {
 	const crunchyroll = data.activities.find(
 		activity => activity.name == "Crunchyroll",
@@ -281,6 +310,8 @@ const processActivities: ((data: DataEvent) => CurrentActivity | null)[] = [
 	processIsPlaying,
 	// music
 	processSpotify,
+	// watching
+	processJellyfin,
 	// crunchyroll can hang sometimes, so lets prioritize it last
 	processCrunchyroll,
 ];
