@@ -25,6 +25,22 @@
 				margin: 96px;
 				font-family: "Maki Libertinus Mono";
 				font-size: 24px;
+				/* image has dithering to prevent banding */
+				/* fixed height of 1080px */
+				background-image: url(pines-background.jpg);
+				background-size: auto 1080px;
+				background-repeat: no-repeat;
+				background-position: -600px 0;
+			}
+
+			.strip {
+				position: fixed;
+				margin: auto;
+				top: 0;
+				left: 0;
+				right: 0;
+				height: 8px;
+				background-color: #ff1744;
 			}
 
 			.title {
@@ -60,6 +76,7 @@
 		</style>
 	</head>
 	<body>
+		<div class="strip"></div>
 		<h1 class="title">
 			<span>mak<span style="letter-spacing: -8px">i</span></span>
 			<img class="pony" src="pony-cutout-128.png" alt="Maki Pony" />
