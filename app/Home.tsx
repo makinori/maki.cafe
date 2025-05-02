@@ -200,13 +200,14 @@ export function Home(props: { serverData: ServerData }) {
 					justifyContent: "center",
 					marginTop: 48,
 					marginBottom: 128,
-					...cssScreenSizes(
-						"gridTemplateColumns",
-						`repeat(1, ${config.layoutWidths.item}px)`,
-						`repeat(2, ${config.layoutWidths.item}px)`,
-						`repeat(3, ${config.layoutWidths.item}px)`,
-						// `repeat(4, ${config.layoutWidths.item}px)`,
-					),
+					...cssScreenSizes({
+						gridTemplateColumns: [
+							`repeat(1, ${config.layoutWidths.item}px)`,
+							`repeat(2, ${config.layoutWidths.item}px)`,
+							`repeat(3, ${config.layoutWidths.item}px)`,
+							// `repeat(4, ${config.layoutWidths.item}px)`,
+						],
+					}),
 				}}
 			>
 				<DiscordHomeCard />

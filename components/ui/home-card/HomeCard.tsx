@@ -14,7 +14,7 @@ export function HomeCard(props: { children?: any }) {
 			css={{
 				width: 450,
 				marginBottom: 32,
-				...cssScreenSizes("marginBottom", 32, 0, 0),
+				...cssScreenSizes({ marginBottom: [32, 0, 0] }),
 			}}
 		>
 			<div

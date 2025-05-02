@@ -147,24 +147,23 @@ export const mergeRefs = <T>(
 	};
 };
 
-export function cssScreenSizes(
-	key: string,
-	oneCol: any,
-	twoCol: any,
-	threeCol: any,
-): any {
-	return {
-		[key]: oneCol,
-		[`@media (min-width: ${config.layoutWidths.twoCol}px)`]: {
-			[key]: twoCol,
-		},
-		[`@media (min-width: ${config.layoutWidths.threeCol}px)`]: {
-			[key]: threeCol,
-		},
-		// [`@media (min-width: ${config.layoutWidths.fourCol}px)`]: {
-		// 	[key]: fourCol,
-		// },
+export function cssScreenSizes(css: Record<string, [any, any, any]>): any {
+	const twoColRule = `@media (min-width: ${config.layoutWidths.twoCol}px)`;
+	const threeColRule = `@media (min-width: ${config.layoutWidths.threeCol}px)`;
+	// const fourColRule = `@media (min-width: ${config.layoutWidths.fourCol}px)`
+
+	let output = {
+		[twoColRule]: {},
+		[threeColRule]: {},
 	};
+
+	for (let key in css) {
+		output[key] = css[key][0];
+		output[twoColRule][key] = css[key][1];
+		output[threeColRule][key] = css[key][2];
+	}
+
+	return output;
 }
 
 export function getOptimizedImage(props: {

@@ -5,7 +5,9 @@ import polkaDotPatternImage from "../tools/polka-dot-pattern/polka-dot-pattern.s
 import { cssScreenSizes } from "../utils/utils";
 import hexagonsImage from "./assets/hexagons.svg";
 import militarismImage from "./assets/militarism.svg";
-import pinesBackground from "./assets/pines-lighter.jpg";
+import pinesBackground1200 from "./assets/pines-background/1200x.jpg";
+import pinesBackground1600 from "./assets/pines-background/1600x.jpg";
+import pinesBackground800 from "./assets/pines-background/800x.jpg";
 
 export function HomeBackground(props: {
 	type: "hexagon" | "militarism" | "polkadot" | "pines";
@@ -54,14 +56,22 @@ export function HomeBackground(props: {
 			break;
 		case "pines":
 			css = {
-				backgroundImage: `url(${pinesBackground.src})`,
 				backgroundRepeat: "no-repeat",
-				...cssScreenSizes(
-					"backgroundSize",
-					"800px auto",
-					"1200px auto",
-					"1600px auto",
-				),
+				backgroundImage: "",
+				// using multiple sizes since we're dithering to deband
+				// unfortunately input image just has bad banding
+				...cssScreenSizes({
+					backgroundSize: [
+						"800px auto",
+						"1200px auto",
+						"1600px auto",
+					],
+					backgroundImage: [
+						`url(${pinesBackground800.src})`,
+						`url(${pinesBackground1200.src})`,
+						`url(${pinesBackground1600.src})`,
+					],
+				}),
 			};
 			break;
 	}
