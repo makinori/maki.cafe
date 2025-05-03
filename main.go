@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 //go:embed public
@@ -22,7 +23,7 @@ func main() {
 	} else {
 		publicFs, err := fs.Sub(staticContent, "public")
 		if err != nil {
-			panic(err)
+			log.Fatalln(err)
 		}
 
 		http.Handle(
@@ -31,11 +32,21 @@ func main() {
 	}
 
 	port := 8080
+
+	portStr := os.Getenv("PORT")
+	if portStr != "" {
+		var err error
+		port, err = strconv.Atoi(portStr)
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}
+
 	addr := fmt.Sprintf(":%d", port)
 	log.Println("listening at " + addr)
 
 	err := http.ListenAndServe(addr, nil)
 	if err != nil {
-		panic(err)
+		log.Fatalln(err)
 	}
 }
