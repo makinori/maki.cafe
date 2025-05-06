@@ -1,0 +1,2 @@
+-   etag
+-   font smaller

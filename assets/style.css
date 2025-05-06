@@ -1,0 +1,81 @@
+@font-face {
+	font-family: "Maki Libertinus Mono";
+	src: url(fonts/MakiLibertinusMono-Regular.woff2) format(woff2);
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: "Maki Libertinus Mono";
+	src: url(fonts/MakiLibertinusMono-Medium.woff2) format(woff2);
+	font-weight: 500;
+}
+
+@font-face {
+	font-family: "Maki Libertinus Mono";
+	src: url(fonts/MakiLibertinusMono-SemiBold.woff2) format(woff2);
+	font-weight: 600;
+}
+
+@font-face {
+	font-family: "Maki Libertinus Mono";
+	src: url(fonts/MakiLibertinusMono-Bold.woff2) format(woff2);
+	font-weight: 700;
+}
+
+* {
+	margin: 0;
+}
+
+body {
+	background-color: #111;
+	color: #fff;
+	margin: 96px;
+	font-family: "Maki Libertinus Mono";
+	font-size: 24px;
+	/* image has dithering to prevent banding */
+	/* fixed height of 1080px */
+	background-image: url(pines.jpg);
+	background-size: auto 1080px;
+	background-repeat: no-repeat;
+	background-position: -600px 0;
+}
+
+.page-top-strip {
+	position: fixed;
+	margin: auto;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 8px;
+	background-color: #ff1744;
+}
+
+.title {
+	font-size: 128px;
+	font-weight: bold;
+	line-height: 128px;
+	color: white;
+	letter-spacing: 4px;
+	margin-top: -8px;
+	margin-bottom: 8px;
+	gap: 24px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.title > .pony {
+	height: 128px;
+	margin-top: -24px;
+}
+
+a {
+	text-decoration: inherit;
+	color: #fff;
+	background: #ff1744;
+	padding: 4px 8px;
+	display: inline-block;
+	font-weight: bold;
+	font-size: 22px;
+	/* margin: 8px 0; */
+}
