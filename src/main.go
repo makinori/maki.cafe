@@ -82,8 +82,6 @@ func handleIndex(pageTemplate *template.Template) func(http.ResponseWriter, *htt
 }
 
 func Main() {
-	_, inDev := os.LookupEnv("DEV")
-
 	// register templates
 
 	templates, err := template.ParseFS(staticContent, "pages/*.html")
@@ -118,20 +116,14 @@ func Main() {
 
 	// register assets
 
-	if inDev {
-		http.Handle(
-			"GET /", http.FileServer(http.Dir("public")),
-		)
-	} else {
-		publicFs, err := fs.Sub(staticContent, "public")
-		if err != nil {
-			log.Fatalln(err)
-		}
-
-		http.Handle(
-			"GET /", http.FileServerFS(publicFs),
-		)
+	publicFs, err := fs.Sub(staticContent, "public")
+	if err != nil {
+		log.Fatalln(err)
 	}
+
+	http.Handle(
+		"GET /", http.FileServerFS(publicFs),
+	)
 
 	port := 8080
 
@@ -149,6 +141,6 @@ func Main() {
 
 	err = http.ListenAndServe(addr, nil)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatalln("failed to start http server: " + err.Error())
 	}
 }

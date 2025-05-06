@@ -1,15 +1,22 @@
 default:
 	@just --list
 
+alias s := start
 # start web server
 start:
-	DEV=1 go run .
+	PORT=1234 go tool air \
+	-proxy.enabled=true \
+	-proxy.app_port=1234 \
+	-proxy.proxy_port=8080 \
+	-build.delay=10
 
+alias u := update
 # git pull and docker compose up
 update:
 	git pull
 	docker compose up -d --build
 
+alias g := generate
 # generate assets
 generate:
 	#!/bin/bash
