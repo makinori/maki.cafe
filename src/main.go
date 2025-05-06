@@ -19,8 +19,6 @@ import (
 )
 
 var (
-	_, isDev = os.LookupEnv("DEV")
-
 	//go:embed public pages
 	staticContent embed.FS
 

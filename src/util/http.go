@@ -9,15 +9,10 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"os"
 	"regexp"
 	"strings"
 
 	"github.com/jinzhu/copier"
-)
-
-var (
-	_, isDev = os.LookupEnv("DEV")
 )
 
 func HTTPWriteWithEncoding(w http.ResponseWriter, r *http.Request, data []byte) {
@@ -129,7 +124,7 @@ var ignorePlausibleUserAgents = []string{
 }
 
 func HTTPPlausibleEvent(r *http.Request) bool {
-	if isDev {
+	if ENV_IS_DEV {
 		return false
 	}
 
@@ -169,12 +164,14 @@ func HTTPPlausibleEvent(r *http.Request) bool {
 		r.Header.Add("X-Forwarded-For", ipAddress)
 	}
 
-	// log.Println(
-	// 	"plausible:\n" +
-	// 		"  data: " + string(body) + "\n" +
-	// 		"  ip: " + ipAddress + "\n" +
-	// 		"  ua: " + userAgent,
-	// )
+	if ENV_PLAUSIBLE_DEBUG {
+		log.Println(
+			"plausible:\n" +
+				"  data: " + string(body) + "\n" +
+				"  ip: " + ipAddress + "\n" +
+				"  ua: " + userAgent,
+		)
+	}
 
 	client := http.Client{}
 	_, err = client.Do(req)
