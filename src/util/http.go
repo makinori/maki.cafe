@@ -124,10 +124,23 @@ func HTTPGetFullURL(r *http.Request) string {
 	return fullUrl.String()
 }
 
+var ignorePlausibleUserAgents = []string{
+	"gatus", // health checks
+}
+
 func HTTPPlausibleEvent(r *http.Request) bool {
-	// if isDev {
-	// 	return false
-	// }
+	if isDev {
+		return false
+	}
+
+	userAgent := r.Header.Get("User-Agent")
+	lowerUserAgent := strings.ToLower(userAgent)
+
+	for _, ignoreUA := range ignorePlausibleUserAgents {
+		if strings.Index(lowerUserAgent, ignoreUA) > -1 {
+			return false
+		}
+	}
 
 	// https://plausible.io/docs/events-api
 
@@ -148,7 +161,6 @@ func HTTPPlausibleEvent(r *http.Request) bool {
 		bytes.NewReader(body),
 	)
 
-	userAgent := r.Header.Get("User-Agent")
 	req.Header.Add("User-Agent", userAgent)
 	req.Header.Add("Content-Type", "application/json")
 
