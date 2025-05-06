@@ -163,7 +163,10 @@ func HTTPPlausibleEvent(incomingReq *http.Request) bool {
 
 	ipAddress := HTTPGetIPAddress(incomingReq)
 	if ipAddress != "" {
-		plausibleReq.Header.Add("X-Forwarded-For", ipAddress)
+		// traefik will rewrite this
+		// plausibleReq.Header.Add("X-Forwarded-For", ipAddress)
+		//https://github.com/plausible/analytics/blob/master/lib/plausible_web/remote_ip.ex
+		plausibleReq.Header.Add("X-Plausible-IP", ipAddress)
 	}
 
 	if ENV_PLAUSIBLE_DEBUG {
