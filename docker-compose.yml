@@ -7,8 +7,8 @@ services:
         restart: always
         # volumes:
         #     - ./cache:/app/cache
-        environment:
-            PLAUSIBLE_DEBUG: 1
+        # environment:
+        #     PLAUSIBLE_DEBUG: 1
         labels:
             - traefik.enable=true
 
