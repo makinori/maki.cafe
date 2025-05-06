@@ -132,10 +132,10 @@ func HTTPPlausibleEvent(r *http.Request) bool {
 	// https://plausible.io/docs/events-api
 
 	body, err := json.Marshal(map[string]string{
-		"name":     "pageview",
-		"url":      HTTPGetFullURL(r),
-		"domain":   "maki.cafe",
-		"referrer": r.Header.Get("Referrer"),
+		"name":    "pageview",
+		"url":     HTTPGetFullURL(r),
+		"domain":  "maki.cafe",
+		"referer": r.Header.Get("Referer"),
 	})
 
 	if err != nil {
