@@ -121,6 +121,7 @@ func HTTPGetFullURL(r *http.Request) string {
 
 var ignorePlausibleUserAgents = []string{
 	"gatus", // health checks
+	"curl",
 }
 
 func HTTPPlausibleEvent(r *http.Request) bool {
@@ -140,10 +141,10 @@ func HTTPPlausibleEvent(r *http.Request) bool {
 	// https://plausible.io/docs/events-api
 
 	body, err := json.Marshal(map[string]string{
-		"name":    "pageview",
-		"url":     HTTPGetFullURL(r),
-		"domain":  "maki.cafe",
-		"referer": r.Header.Get("Referer"),
+		"name":     "pageview",
+		"url":      HTTPGetFullURL(r),
+		"domain":   "maki.cafe",
+		"referrer": r.Header.Get("Referer"),
 	})
 
 	if err != nil {
