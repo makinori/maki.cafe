@@ -4,7 +4,8 @@ go 1.24.2
 
 require (
 	github.com/andybalholm/brotli v1.1.1
-	github.com/klauspost/compress v1.18.0 
+	github.com/jinzhu/copier v0.4.0
+	github.com/klauspost/compress v1.18.0
 	github.com/tdewolff/minify/v2 v2.23.3
 )
 

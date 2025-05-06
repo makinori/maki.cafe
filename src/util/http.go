@@ -8,8 +8,12 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
+	"regexp"
 	"strings"
+
+	"github.com/jinzhu/copier"
 )
 
 var (
@@ -41,7 +45,6 @@ func HTTPWriteWithEncoding(w http.ResponseWriter, r *http.Request, data []byte) 
 
 func HTTPServeOptimized(w http.ResponseWriter, r *http.Request, data []byte) {
 	contentType := w.Header().Get("Content-Type")
-	fmt.Println(contentType)
 
 	// unset content type incase etag matches
 	w.Header().Del("Content-Type")
@@ -95,16 +98,42 @@ func HTTPFileServerOptimized(fs fs.FS) func(http.ResponseWriter, *http.Request) 
 	}
 }
 
-func HTTPPlausibleEvent(r *http.Request) bool {
-	if isDev {
-		return false
+var portRegexp = regexp.MustCompile(":[0-9]+$")
+
+func HTTPGetIPAddress(r *http.Request) string {
+	ipAddress := r.Header.Get("X-Forwarded-For")
+	if ipAddress != "" {
+		ipAddress = strings.Split(ipAddress, ",")[0]
+		ipAddress = strings.TrimSpace(ipAddress)
+		return portRegexp.ReplaceAllString(ipAddress, "")
 	}
+
+	return portRegexp.ReplaceAllString(r.RemoteAddr, "")
+}
+
+func HTTPGetFullURL(r *http.Request) string {
+	var fullUrl url.URL
+	copier.Copy(&fullUrl, r.URL)
+
+	fullUrl.Scheme = r.Header.Get("X-Forwarded-Proto")
+	if fullUrl.Scheme == "" {
+		fullUrl.Scheme = "http"
+	}
+	fullUrl.Host = r.Host
+
+	return fullUrl.String()
+}
+
+func HTTPPlausibleEvent(r *http.Request) bool {
+	// if isDev {
+	// 	return false
+	// }
 
 	// https://plausible.io/docs/events-api
 
 	body, err := json.Marshal(map[string]string{
 		"name":     "pageview",
-		"url":      r.URL.String(),
+		"url":      HTTPGetFullURL(r),
 		"domain":   "maki.cafe",
 		"referrer": r.Header.Get("Referrer"),
 	})
@@ -114,26 +143,26 @@ func HTTPPlausibleEvent(r *http.Request) bool {
 		return false
 	}
 
-	log.Println("plausible: " + string(body))
-
 	req, err := http.NewRequest(
 		"POST", "https://ithelpsme.hotmilk.space/api/event",
 		bytes.NewReader(body),
 	)
 
-	req.Header.Add("User-Agent", r.Header.Get("User-Agent"))
+	userAgent := r.Header.Get("User-Agent")
+	req.Header.Add("User-Agent", userAgent)
 	req.Header.Add("Content-Type", "application/json")
 
-	// we're reverse proxying
-	ipAddress := req.Header.Get("X-Forwarded-For")
-	if ipAddress == "" {
-		ipAddress = req.Header.Get("X-Real-IP")
-	}
+	ipAddress := HTTPGetIPAddress(r)
 	if ipAddress != "" {
-		req.Header.Add("X-Forwarded-For", ipAddress)
+		r.Header.Add("X-Forwarded-For", ipAddress)
 	}
 
-	log.Println("ip: " + ipAddress)
+	log.Println(
+		"plausible:\n" +
+			"  data: " + string(body) + "\n" +
+			"  ip: " + ipAddress + "\n" +
+			"  ua: " + userAgent,
+	)
 
 	client := http.Client{}
 	_, err = client.Do(req)
