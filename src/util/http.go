@@ -157,12 +157,12 @@ func HTTPPlausibleEvent(r *http.Request) bool {
 		r.Header.Add("X-Forwarded-For", ipAddress)
 	}
 
-	log.Println(
-		"plausible:\n" +
-			"  data: " + string(body) + "\n" +
-			"  ip: " + ipAddress + "\n" +
-			"  ua: " + userAgent,
-	)
+	// log.Println(
+	// 	"plausible:\n" +
+	// 		"  data: " + string(body) + "\n" +
+	// 		"  ip: " + ipAddress + "\n" +
+	// 		"  ua: " + userAgent,
+	// )
 
 	client := http.Client{}
 	_, err = client.Do(req)

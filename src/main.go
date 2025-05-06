@@ -82,7 +82,7 @@ func handleIndex(pageTemplate *template.Template) func(http.ResponseWriter, *htt
 			return
 		}
 
-		util.HTTPPlausibleEvent(r)
+		go util.HTTPPlausibleEvent(r)
 
 		util.HTTPServeOptimized(w, r, minSiteBuf.Bytes())
 	}
