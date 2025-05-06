@@ -21,9 +21,9 @@ var (
 	//go:embed public pages
 	staticContent embed.FS
 
-	//go:embed assets/template.html
+	//go:embed template/site.html
 	siteTemplateHTML string
-	//go:embed assets/style.css
+	//go:embed template/style.css
 	siteStyleCSS string
 
 	minifier *minify.M
