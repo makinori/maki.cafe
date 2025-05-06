@@ -1,12 +1,19 @@
 package util
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"hash/crc32"
 	"io/fs"
 	"log"
 	"net/http"
+	"os"
 	"strings"
+)
+
+var (
+	_, isDev = os.LookupEnv("DEV")
 )
 
 func HTTPWriteWithEncoding(w http.ResponseWriter, r *http.Request, data []byte) {
@@ -86,4 +93,54 @@ func HTTPFileServerOptimized(fs fs.FS) func(http.ResponseWriter, *http.Request) 
 
 		HTTPServeOptimized(w, r, data)
 	}
+}
+
+func HTTPPlausibleEvent(r *http.Request) bool {
+	if isDev {
+		return false
+	}
+
+	// https://plausible.io/docs/events-api
+
+	body, err := json.Marshal(map[string]string{
+		"name":     "pageview",
+		"url":      r.URL.String(),
+		"domain":   "maki.cafe",
+		"referrer": r.Header.Get("Referrer"),
+	})
+
+	if err != nil {
+		log.Println("failed to marshal json for plausible: " + err.Error())
+		return false
+	}
+
+	log.Println("plausible: " + string(body))
+
+	req, err := http.NewRequest(
+		"POST", "https://ithelpsme.hotmilk.space/api/event",
+		bytes.NewReader(body),
+	)
+
+	req.Header.Add("User-Agent", r.Header.Get("User-Agent"))
+	req.Header.Add("Content-Type", "application/json")
+
+	// we're reverse proxying
+	ipAddress := req.Header.Get("X-Forwarded-For")
+	if ipAddress == "" {
+		ipAddress = req.Header.Get("X-Real-IP")
+	}
+	if ipAddress != "" {
+		req.Header.Add("X-Forwarded-For", ipAddress)
+	}
+
+	log.Println("ip: " + ipAddress)
+
+	client := http.Client{}
+	_, err = client.Do(req)
+	if err != nil {
+		log.Println("failed to send plausible event: " + err.Error())
+		return false
+	}
+
+	return true
 }

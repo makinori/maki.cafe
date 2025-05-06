@@ -4,7 +4,7 @@ default:
 alias s := start
 # start web server
 start:
-	PORT=1234 go tool air \
+	DEV=1 PORT=1234 go tool air \
 	-proxy.enabled=true \
 	-proxy.app_port=1234 \
 	-proxy.proxy_port=8080 \

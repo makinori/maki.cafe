@@ -19,6 +19,8 @@ import (
 )
 
 var (
+	_, isDev = os.LookupEnv("DEV")
+
 	//go:embed public pages
 	staticContent embed.FS
 
@@ -79,6 +81,8 @@ func handleIndex(pageTemplate *template.Template) func(http.ResponseWriter, *htt
 			log.Println("failed to minify page: " + err.Error())
 			return
 		}
+
+		util.HTTPPlausibleEvent(r)
 
 		util.HTTPServeOptimized(w, r, minSiteBuf.Bytes())
 	}
