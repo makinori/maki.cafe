@@ -1,2 +1,3 @@
 -   etag
 -   font smaller
+-   better dev mode

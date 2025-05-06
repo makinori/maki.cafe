@@ -31,13 +31,13 @@ body {
 	color: #fff;
 	margin: 96px;
 	font-family: "Maki Libertinus Mono";
-	font-size: 24px;
+	font-size: 20px;
 	/* image has dithering to prevent banding */
-	/* fixed height of 1080px */
-	background-image: url(pines.jpg);
+	/* therefore a fixed height is necessary */
+	background-image: url(pines-1080.jpg);
 	background-size: auto 1080px;
 	background-repeat: no-repeat;
-	background-position: -600px 0;
+	background-position: -600px 8px; /* top strip */
 }
 
 .page-top-strip {
@@ -51,9 +51,9 @@ body {
 }
 
 .title {
-	font-size: 128px;
+	font-size: 104px;
 	font-weight: bold;
-	line-height: 128px;
+	line-height: 104px;
 	color: white;
 	letter-spacing: 4px;
 	margin-top: -8px;
@@ -65,7 +65,7 @@ body {
 }
 
 .title > .pony {
-	height: 128px;
+	height: 104px;
 	margin-top: -24px;
 }
 
@@ -75,7 +75,7 @@ a {
 	background: #ff1744;
 	padding: 4px 8px;
 	display: inline-block;
-	font-weight: bold;
-	font-size: 22px;
+	font-weight: 600;
+	font-size: 18px;
 	/* margin: 8px 0; */
 }
