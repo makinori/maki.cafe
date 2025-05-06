@@ -12,6 +12,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/makinori/maki.cafe/src/util"
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/css"
 	"github.com/tdewolff/minify/v2/html"
@@ -69,7 +70,9 @@ func handleIndex(pageTemplate *template.Template) func(http.ResponseWriter, *htt
 
 		// minify and write
 
-		err = minifier.Minify("text/html", w, siteBuf)
+		minSiteBuf := bytes.NewBuffer(nil)
+
+		err = minifier.Minify("text/html", minSiteBuf, siteBuf)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to minify page"))
@@ -77,7 +80,7 @@ func handleIndex(pageTemplate *template.Template) func(http.ResponseWriter, *htt
 			return
 		}
 
-		// w.Write(siteBuf.Bytes())
+		util.HTTPServeOptimized(w, r, minSiteBuf.Bytes())
 	}
 }
 
@@ -121,8 +124,9 @@ func Main() {
 		log.Fatalln(err)
 	}
 
-	http.Handle(
-		"GET /", http.FileServerFS(publicFs),
+	// http.FileServerFS(publicFs)
+	http.HandleFunc(
+		"GET /{file...}", util.HTTPFileServerOptimized(publicFs),
 	)
 
 	port := 8080

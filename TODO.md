@@ -1,2 +1,1 @@
--   etag
--   font smaller
+-   plausible support
