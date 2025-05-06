@@ -1,4 +1,4 @@
-package main
+package src
 
 var pageData = map[string]any{
 	"Email": "maki@hotmilk.space",
