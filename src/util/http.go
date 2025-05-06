@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"hash/crc32"
+	"io"
 	"io/fs"
 	"log"
 	"net/http"
@@ -166,6 +167,7 @@ func HTTPPlausibleEvent(incomingReq *http.Request) bool {
 	}
 
 	if ENV_PLAUSIBLE_DEBUG {
+		plausibleReq.Header.Add("X-Debug-Request", "1")
 		log.Println(
 			"plausible:\n" +
 				"  data: " + string(body) + "\n" +
@@ -175,10 +177,19 @@ func HTTPPlausibleEvent(incomingReq *http.Request) bool {
 	}
 
 	client := http.Client{}
-	_, err = client.Do(plausibleReq)
+	res, err := client.Do(plausibleReq)
 	if err != nil {
 		log.Println("failed to send plausible event: " + err.Error())
 		return false
+	}
+
+	if ENV_PLAUSIBLE_DEBUG {
+		resData, err := io.ReadAll(res.Body)
+		if err != nil {
+			log.Println("failed to read plausible res body: " + err.Error())
+		}
+
+		log.Println("res: " + string(resData))
 	}
 
 	return true
