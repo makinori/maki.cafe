@@ -124,12 +124,12 @@ var ignorePlausibleUserAgents = []string{
 	"curl",
 }
 
-func HTTPPlausibleEvent(r *http.Request) bool {
+func HTTPPlausibleEvent(incomingReq *http.Request) bool {
 	if ENV_IS_DEV {
 		return false
 	}
 
-	userAgent := r.Header.Get("User-Agent")
+	userAgent := incomingReq.Header.Get("User-Agent")
 	lowerUserAgent := strings.ToLower(userAgent)
 
 	for _, ignoreUA := range ignorePlausibleUserAgents {
@@ -142,9 +142,9 @@ func HTTPPlausibleEvent(r *http.Request) bool {
 
 	body, err := json.Marshal(map[string]string{
 		"name":     "pageview",
-		"url":      HTTPGetFullURL(r),
+		"url":      HTTPGetFullURL(incomingReq),
 		"domain":   "maki.cafe",
-		"referrer": r.Header.Get("Referer"),
+		"referrer": incomingReq.Header.Get("Referer"),
 	})
 
 	if err != nil {
@@ -152,17 +152,17 @@ func HTTPPlausibleEvent(r *http.Request) bool {
 		return false
 	}
 
-	req, err := http.NewRequest(
+	plausibleReq, err := http.NewRequest(
 		"POST", "https://ithelpsme.hotmilk.space/api/event",
 		bytes.NewReader(body),
 	)
 
-	req.Header.Add("User-Agent", userAgent)
-	req.Header.Add("Content-Type", "application/json")
+	plausibleReq.Header.Add("User-Agent", userAgent)
+	plausibleReq.Header.Add("Content-Type", "application/json")
 
-	ipAddress := HTTPGetIPAddress(r)
+	ipAddress := HTTPGetIPAddress(incomingReq)
 	if ipAddress != "" {
-		r.Header.Add("X-Forwarded-For", ipAddress)
+		plausibleReq.Header.Add("X-Forwarded-For", ipAddress)
 	}
 
 	if ENV_PLAUSIBLE_DEBUG {
@@ -175,7 +175,7 @@ func HTTPPlausibleEvent(r *http.Request) bool {
 	}
 
 	client := http.Client{}
-	_, err = client.Do(req)
+	_, err = client.Do(plausibleReq)
 	if err != nil {
 		log.Println("failed to send plausible event: " + err.Error())
 		return false
