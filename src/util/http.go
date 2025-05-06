@@ -167,7 +167,7 @@ func HTTPPlausibleEvent(incomingReq *http.Request) bool {
 	}
 
 	if ENV_PLAUSIBLE_DEBUG {
-		plausibleReq.Header.Add("X-Debug-Request", "1")
+		plausibleReq.Header.Add("X-Debug-Request", "true")
 		log.Println(
 			"plausible:\n" +
 				"  data: " + string(body) + "\n" +
