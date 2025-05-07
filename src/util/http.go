@@ -48,9 +48,20 @@ func HTTPServeOptimized(w http.ResponseWriter, r *http.Request, data []byte) {
 	// etag := fmt.Sprintf(`W/"%x"`, crc32.ChecksumIEEE(data))
 	etag := fmt.Sprintf(`"%x"`, crc32.ChecksumIEEE(data))
 
-	if strings.Contains(r.Header.Get("If-None-Match"), etag) {
-		w.WriteHeader(http.StatusNotModified)
-		return
+	ifMatch := r.Header.Get("If-Match")
+	if ifMatch != "" {
+		if !InCommaSeperated(ifMatch, etag) && !InCommaSeperated(ifMatch, "*") {
+			w.WriteHeader(http.StatusPreconditionFailed)
+			return
+		}
+	}
+
+	ifNoneMatch := r.Header.Get("If-None-Match")
+	if ifNoneMatch != "" {
+		if InCommaSeperated(ifNoneMatch, etag) || InCommaSeperated(ifNoneMatch, "*") {
+			w.WriteHeader(http.StatusNotModified)
+			return
+		}
 	}
 
 	w.Header().Add("ETag", etag)
