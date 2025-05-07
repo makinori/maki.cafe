@@ -13,9 +13,6 @@ import (
 	"strings"
 
 	"github.com/makinori/maki.cafe/src/util"
-	"github.com/tdewolff/minify/v2"
-	"github.com/tdewolff/minify/v2/css"
-	"github.com/tdewolff/minify/v2/html"
 )
 
 var (
@@ -27,7 +24,7 @@ var (
 	//go:embed template/style.css
 	siteStyleCSS string
 
-	minifier *minify.M
+	// minifier *minify.M
 )
 
 func handleIndex(pageTemplate *template.Template) func(http.ResponseWriter, *http.Request) {
@@ -77,19 +74,20 @@ func handleIndex(pageTemplate *template.Template) func(http.ResponseWriter, *htt
 
 		// minify and write
 
-		minSiteBuf := bytes.NewBuffer(nil)
+		// minSiteBuf := bytes.NewBuffer(nil)
 
-		err = minifier.Minify("text/html", minSiteBuf, siteBuf)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("failed to minify page"))
-			log.Println("failed to minify page: " + err.Error())
-			return
-		}
+		// err = minifier.Minify("text/html", minSiteBuf, siteBuf)
+		// if err != nil {
+		// 	w.WriteHeader(http.StatusInternalServerError)
+		// 	w.Write([]byte("failed to minify page"))
+		// 	log.Println("failed to minify page: " + err.Error())
+		// 	return
+		// }
 
 		go util.HTTPPlausibleEvent(r)
 
-		util.HTTPServeOptimized(w, r, minSiteBuf.Bytes())
+		// util.HTTPServeOptimized(w, r, minSiteBuf.Bytes())
+		util.HTTPServeOptimized(w, r, siteBuf.Bytes())
 	}
 }
 
@@ -114,14 +112,14 @@ func Main() {
 
 	// register minifiers
 
-	minifier = minify.New()
-	minifier.Add("text/css", &css.Minifier{})
-	minifier.Add("text/html", &html.Minifier{
-		KeepDocumentTags:    true,
-		KeepQuotes:          true,
-		KeepDefaultAttrVals: true,
-		// TODO: minifier removes character entities
-	})
+	// minifier = minify.New()
+	// minifier.Add("text/css", &css.Minifier{})
+	// minifier.Add("text/html", &html.Minifier{
+	// 	KeepDocumentTags:    true,
+	// 	KeepQuotes:          true,
+	// 	KeepDefaultAttrVals: true,
+	// 	// TODO: minifier removes character entities
+	// })
 
 	// register page handles
 
