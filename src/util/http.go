@@ -17,6 +17,12 @@ import (
 )
 
 func HTTPWriteWithEncoding(w http.ResponseWriter, r *http.Request, data []byte) {
+	// go tool air proxy wont work if encoding
+	if ENV_IS_DEV {
+		w.Write(data)
+		return
+	}
+
 	acceptEncoding := r.Header.Get("Accept-Encoding")
 
 	switch {
