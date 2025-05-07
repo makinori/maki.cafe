@@ -32,7 +32,7 @@ var (
 
 func handleIndex(pageTemplate *template.Template) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		siteTemplate := pageTemplate.Lookup("template.html")
+		siteTemplate := pageTemplate.Lookup("site.html")
 		if siteTemplate == nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("server missing site template"))
@@ -52,12 +52,19 @@ func handleIndex(pageTemplate *template.Template) func(http.ResponseWriter, *htt
 			return
 		}
 
+		// execute footer
+
+		// footerBuf := bytes.NewBuffer(nil)
+		// component.PageFooter("/").Render(footerBuf)
+
 		// execute site
 
 		siteBuf := bytes.NewBuffer(nil)
 		siteData := map[string]any{
 			"Style": template.CSS(siteStyleCSS),
-			"Body":  template.HTML(pageBuf.String()),
+			"Page":  template.HTML(pageBuf.String()),
+			// "Footer": template.HTML(footerBuf.String()),
+			"Footer": "",
 		}
 
 		err = siteTemplate.Execute(siteBuf, siteData)
@@ -94,7 +101,7 @@ func Main() {
 		log.Fatalln("failed registering templates: " + err.Error())
 	}
 
-	_, err = templates.New("template.html").Parse(siteTemplateHTML)
+	_, err = templates.New("site.html").Parse(siteTemplateHTML)
 	if err != nil {
 		log.Fatalln("failed to register site template: " + err.Error())
 	}
@@ -113,6 +120,7 @@ func Main() {
 		KeepDocumentTags:    true,
 		KeepQuotes:          true,
 		KeepDefaultAttrVals: true,
+		// TODO: minifier removes character entities
 	})
 
 	// register page handles

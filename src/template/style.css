@@ -73,9 +73,40 @@ a {
 	text-decoration: inherit;
 	color: #fff;
 	background: #ff1744;
-	padding: 4px 8px;
+	/* padding: 0px 4px; */
+	padding: 2px 6px;
 	display: inline-block;
 	font-weight: 600;
-	font-size: 18px;
+	/* font-size: 18px; */
 	/* margin: 8px 0; */
+}
+
+a.muted {
+	background: #fff;
+	color: #000;
+}
+
+a.active {
+	background: transparent;
+	color: #fff;
+	border-bottom: solid 2px white;
+}
+
+hr {
+	width: 300px;
+	border: none;
+	border-top: solid 2px #fff;
+}
+
+.footer {
+	margin-top: 12px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	column-gap: 12px;
+	row-gap: 6px;
+}
+
+.footer .break {
+	flex-basis: 100%;
 }

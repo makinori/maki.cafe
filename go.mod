@@ -7,6 +7,7 @@ require (
 	github.com/jinzhu/copier v0.4.0
 	github.com/klauspost/compress v1.18.0
 	github.com/tdewolff/minify/v2 v2.23.3
+	maragu.dev/gomponents v1.1.0
 )
 
 tool github.com/air-verse/air

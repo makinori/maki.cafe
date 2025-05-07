@@ -8,7 +8,8 @@ start:
 	-proxy.enabled=true \
 	-proxy.app_port=1234 \
 	-proxy.proxy_port=8080 \
-	-build.delay=10
+	-build.delay=10 \
+	-build.include_ext go,html,css
 
 alias u := update
 # git pull and docker compose up
