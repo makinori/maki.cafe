@@ -4,71 +4,36 @@ import (
 	"bytes"
 	"embed"
 	"fmt"
-	"html/template"
 	"io/fs"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
-	"strings"
 
+	"github.com/makinori/maki.cafe/src/page"
+	"github.com/makinori/maki.cafe/src/template"
 	"github.com/makinori/maki.cafe/src/util"
+	"maragu.dev/gomponents"
 )
 
 var (
-	//go:embed public pages
+	//go:embed public
 	staticContent embed.FS
-
-	//go:embed template/site.html
-	siteTemplateHTML string
-	//go:embed template/style.css
-	siteStyleCSS string
 
 	// minifier *minify.M
 )
 
-func handleIndex(pageTemplate *template.Template) func(http.ResponseWriter, *http.Request) {
+func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		siteTemplate := pageTemplate.Lookup("site.html")
-		if siteTemplate == nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("server missing site template"))
-			log.Println("missing site template")
-			return
-		}
-
-		// execute page
+		// render
 
 		pageBuf := bytes.NewBuffer(nil)
 
-		err := pageTemplate.Execute(pageBuf, pageData)
+		err := template.Site(pageFn()).Render(pageBuf)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("failed to execute page template"))
-			log.Println("failed to execute page template: " + err.Error())
-			return
-		}
-
-		// execute footer
-
-		// footerBuf := bytes.NewBuffer(nil)
-		// component.PageFooter("/").Render(footerBuf)
-
-		// execute site
-
-		siteBuf := bytes.NewBuffer(nil)
-		siteData := map[string]any{
-			"Style": template.CSS(siteStyleCSS),
-			"Page":  template.HTML(pageBuf.String()),
-			// "Footer": template.HTML(footerBuf.String()),
-			"Footer": "",
-		}
-
-		err = siteTemplate.Execute(siteBuf, siteData)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("failed to execute site template"))
-			log.Println("failed to execute site template: " + err.Error())
+			w.Write([]byte("failed to render"))
+			log.Println("failed to render: " + err.Error())
 			return
 		}
 
@@ -76,7 +41,7 @@ func handleIndex(pageTemplate *template.Template) func(http.ResponseWriter, *htt
 
 		// minSiteBuf := bytes.NewBuffer(nil)
 
-		// err = minifier.Minify("text/html", minSiteBuf, siteBuf)
+		// err = minifier.Minify("text/html", minSiteBuf, pageBuf)
 		// if err != nil {
 		// 	w.WriteHeader(http.StatusInternalServerError)
 		// 	w.Write([]byte("failed to minify page"))
@@ -87,29 +52,11 @@ func handleIndex(pageTemplate *template.Template) func(http.ResponseWriter, *htt
 		go util.HTTPPlausibleEvent(r)
 
 		// util.HTTPServeOptimized(w, r, minSiteBuf.Bytes())
-		util.HTTPServeOptimized(w, r, siteBuf.Bytes())
+		util.HTTPServeOptimized(w, r, pageBuf.Bytes())
 	}
 }
 
 func Main() {
-	// register templates
-
-	templates, err := template.ParseFS(staticContent, "pages/*.html")
-	if err != nil {
-		log.Fatalln("failed registering templates: " + err.Error())
-	}
-
-	_, err = templates.New("site.html").Parse(siteTemplateHTML)
-	if err != nil {
-		log.Fatalln("failed to register site template: " + err.Error())
-	}
-
-	var templateNames []string
-	for _, t := range templates.Templates() {
-		templateNames = append(templateNames, t.Name())
-	}
-	log.Println("parsed: " + strings.Join(templateNames, ", "))
-
 	// register minifiers
 
 	// minifier = minify.New()
@@ -123,7 +70,7 @@ func Main() {
 
 	// register page handles
 
-	http.HandleFunc("GET /{$}", handleIndex(templates.Lookup("index.html")))
+	http.HandleFunc("GET /{$}", handlePage(page.Index))
 
 	// register assets
 
