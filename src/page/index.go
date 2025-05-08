@@ -51,5 +51,28 @@ func Index() Group {
 			Href("https://old.maki.cafe"),
 			Text("old page here"),
 		),
+		// Br(),
+		// Br(),
+		// Br(),
+		// H2(Text("stuff ive made")),
+		// Br(),
+		// A(
+		// 	Href("https://old.maki.cafe"),
+		// 	Style("background: #e91e63"),
+		// 	Img(
+		// 		Src("/icons/tivoli.svg"),
+		// 	),
+		// 	Text("tivoli cloud vr"),
+		// ),
+		// Br(),
+		// A(
+		// 	Href("https://blahaj.quest"),
+		// 	Style("background: #3c8ea7"),
+		// 	Img(
+		// 		// Src("/icons/blahaj.png"),
+		// 		Src(component.EmojiURL("🔍", "noto")),
+		// 	),
+		// 	Text("blahaj quest"),
+		// ),
 	}
 }

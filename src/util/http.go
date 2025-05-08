@@ -8,8 +8,10 @@ import (
 	"io"
 	"io/fs"
 	"log"
+	"mime"
 	"net/http"
 	"net/url"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -45,7 +47,9 @@ func HTTPWriteWithEncoding(w http.ResponseWriter, r *http.Request, data []byte) 
 	w.Write(data)
 }
 
-func HTTPServeOptimized(w http.ResponseWriter, r *http.Request, data []byte) {
+func HTTPServeOptimized(
+	w http.ResponseWriter, r *http.Request, data []byte, filename string,
+) {
 	contentType := w.Header().Get("Content-Type")
 
 	// unset content type incase etag matches
@@ -73,7 +77,10 @@ func HTTPServeOptimized(w http.ResponseWriter, r *http.Request, data []byte) {
 	w.Header().Add("ETag", etag)
 
 	if contentType == "" {
-		contentType = http.DetectContentType(data)
+		contentType = mime.TypeByExtension(filepath.Ext(filename))
+		if contentType == "" {
+			contentType = http.DetectContentType(data)
+		}
 	}
 
 	w.Header().Add("Content-Type", contentType)
@@ -107,7 +114,7 @@ func HTTPFileServerOptimized(fs fs.FS) func(http.ResponseWriter, *http.Request) 
 			return
 		}
 
-		HTTPServeOptimized(w, r, data)
+		HTTPServeOptimized(w, r, data, filename)
 	}
 }
 

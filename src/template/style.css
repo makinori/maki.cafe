@@ -79,6 +79,14 @@ a {
 	font-weight: 600;
 	/* font-size: 18px; */
 	/* margin: 8px 0; */
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 6px;
+}
+
+a > img {
+	height: 20px;
 }
 
 a.muted {

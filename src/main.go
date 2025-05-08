@@ -52,7 +52,7 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 		go util.HTTPPlausibleEvent(r)
 
 		// util.HTTPServeOptimized(w, r, minSiteBuf.Bytes())
-		util.HTTPServeOptimized(w, r, pageBuf.Bytes())
+		util.HTTPServeOptimized(w, r, pageBuf.Bytes(), ".html")
 	}
 }
 
