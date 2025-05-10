@@ -97,10 +97,10 @@ a.muted {
 	color: #000;
 }
 
-a.active {
+.page-footer-pages a.active {
 	background: transparent;
 	color: #fff;
-	border-bottom: solid 2px white;
+	/* border-bottom: solid 2px white; */
 }
 
 h1 {
