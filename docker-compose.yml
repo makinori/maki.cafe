@@ -5,10 +5,8 @@ services:
     maki-cafe:
         build: .
         restart: always
-        # volumes:
-        #     - ./cache:/app/cache
-        # environment:
-        #     PLAUSIBLE_DEBUG: 1
+        volumes:
+            - ./cache:/cache
         labels:
             - traefik.enable=true
 
