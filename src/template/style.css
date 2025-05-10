@@ -139,6 +139,7 @@ h6 {
 .page-header-small h2 {
 	font-size: 32px;
 	margin-bottom: 4px;
+	font-weight: 600;
 	/* opacity: 0.5; */
 }
 
