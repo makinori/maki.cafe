@@ -9,12 +9,9 @@ import (
 
 func Index() Group {
 	return Group{
-		Text("software engineer"),
-		Br(),
-		Text("game developer"),
-		Br(),
-		Text("server admin"),
-		Br(),
+		H3(Text("software engineer")),
+		H3(Text("game developer")),
+		H3(Text("server admin")),
 		Br(),
 		A(
 			Href(util.EscapedHTML(common.Email)),

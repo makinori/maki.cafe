@@ -12,14 +12,21 @@ type PageHeaderInfo struct {
 
 func PageHeader(info PageHeaderInfo) Group {
 	if info.Big {
-		return Group{H1(
-			Class("page-header-title"),
-			Span(
-				Text("mak"),
-				Span(Style("letter-spacing: -4px"), Text("i")),
+		return Group{
+			H1(
+				Class("page-header-title"),
+				Span(
+					Text("mak"),
+					Span(Style("letter-spacing: -4px"), Text("i")),
+				),
+				Img(Class("pony"), Src("pony.png")),
 			),
-			Img(Class("pony"), Src("pony.png")),
-		)}
+			Hr(
+				Class("page-header-hr"),
+				Style("height: 4px; width: 360px; margin-bottom: 18px"),
+			),
+			// Br(),
+		}
 	}
 
 	// small header for all other pages
@@ -41,8 +48,7 @@ func PageHeader(info PageHeaderInfo) Group {
 			Div(Style("flex-grow:1")),
 			Img(Src("/pony.png")),
 		),
-		Hr(Class("page-header-small-hr")),
-		Br(),
+		Hr(Style("height: 3px; margin-bottom: 28px")),
 	}
 
 }
