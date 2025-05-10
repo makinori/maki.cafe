@@ -97,11 +97,11 @@ a.muted {
 	color: #000;
 }
 
-a.blank {
+/* a.border {
 	background: transparent;
 	color: #fff;
 	border-bottom: solid 2px white;
-}
+} */
 
 h1 {
 	font-size: 32px;
@@ -206,9 +206,16 @@ hr {
 	flex-direction: row;
 	flex-wrap: wrap;
 	column-gap: 8px;
-	row-gap: 2px;
+	row-gap: 4px;
 }
 
 .page-footer-pages .break {
 	flex-basis: 100%;
+}
+
+.page-footer-pages a.active {
+	/* border: solid 2px white; */
+	background: transparent;
+	color: #fff;
+	/* margin: -2px; */
 }

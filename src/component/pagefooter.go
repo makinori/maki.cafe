@@ -12,10 +12,10 @@ func footerLink(currentPagePath string, pagePath string, name string) Node {
 	}
 
 	if currentPagePath != pagePath {
-		props = append(props, Class("blank"))
+		props = append(props, Class("muted"))
 		props = append(props, Href(pagePath))
 	} else {
-		props = append(props, Class("muted"))
+		props = append(props, Class("muted active"))
 	}
 
 	return A(props...)
@@ -28,7 +28,7 @@ func PageFooter(currentPagePath string) Group {
 	// }
 
 	var spacing Group
-	for range 8 {
+	for range 6 {
 		spacing = append(spacing, Br())
 	}
 
@@ -39,7 +39,7 @@ func PageFooter(currentPagePath string) Group {
 			Class("page-footer-pages"),
 			footerLink(currentPagePath, "/", "index"),
 			// footerLink(currentPagePath, "#", "works"),
-			footerLink(currentPagePath, "/anime", "anime"),
+			footerLink(currentPagePath, "/anime", "/anime"),
 			// footerLink(currentPagePath, "#", "games"),
 			// footerLink(currentPagePath, "#", "webring"),
 			Div(Class("break")),
