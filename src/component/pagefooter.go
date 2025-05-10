@@ -1,6 +1,7 @@
 package component
 
 import (
+	"github.com/makinori/maki.cafe/src/common"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -11,10 +12,10 @@ func footerLink(currentPagePath string, pagePath string, name string) Node {
 	}
 
 	if currentPagePath != pagePath {
-		props = append(props, Class("muted"))
+		props = append(props, Class("blank"))
 		props = append(props, Href(pagePath))
 	} else {
-		props = append(props, Class("muted active"))
+		props = append(props, Class("muted"))
 	}
 
 	return A(props...)
@@ -22,9 +23,9 @@ func footerLink(currentPagePath string, pagePath string, name string) Node {
 
 func PageFooter(currentPagePath string) Group {
 	// not ready to show footer on index page yet
-	if currentPagePath == "/" {
-		return Group{}
-	}
+	// if currentPagePath == "/" {
+	// 	return Group{}
+	// }
 
 	var spacing Group
 	for range 8 {
@@ -33,12 +34,17 @@ func PageFooter(currentPagePath string) Group {
 
 	return Group{
 		spacing,
-		Hr(),
+		Hr(Style("width: 200px")),
 		Div(
 			Class("page-footer-pages"),
 			footerLink(currentPagePath, "/", "index"),
+			// footerLink(currentPagePath, "#", "works"),
 			footerLink(currentPagePath, "/anime", "anime"),
+			// footerLink(currentPagePath, "#", "games"),
+			// footerLink(currentPagePath, "#", "webring"),
 			Div(Class("break")),
+			footerLink("", common.GitHubURL+"/maki.cafe", "source code"),
+			// Div(Class("break")),
 			// footerLink("", "https://old.maki.cafe", "old page"),
 		),
 	}

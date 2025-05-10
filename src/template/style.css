@@ -97,10 +97,10 @@ a.muted {
 	color: #000;
 }
 
-.page-footer-pages a.active {
+a.blank {
 	background: transparent;
 	color: #fff;
-	/* border-bottom: solid 2px white; */
+	border-bottom: solid 2px white;
 }
 
 h1 {
@@ -201,11 +201,12 @@ hr {
 
 .page-footer-pages {
 	margin-top: 8px;
+	margin-bottom: 8px;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	column-gap: 8px;
-	row-gap: 4px;
+	row-gap: 2px;
 }
 
 .page-footer-pages .break {
