@@ -21,4 +21,5 @@ COPY --from=build /etc/ssl/certs/ca-certificates.crt \
 
 COPY --from=build /app/maki.cafe /maki.cafe
 
+WORKDIR /
 ENTRYPOINT ["/maki.cafe"]
