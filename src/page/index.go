@@ -14,13 +14,13 @@ func Index() Group {
 		H3(Text("server admin")),
 		Br(),
 		A(
-			Href(util.EscapedHTML(common.Email)),
+			Href("mailto:"+util.EscapedHTML(common.Email)),
 			Title(common.Email),
 			Text("email"),
 		),
 		Text(" "),
 		A(
-			Href(util.EscapedHTML(common.XMPP)),
+			Href("xmpp:"+util.EscapedHTML(common.XMPP)),
 			Title(common.XMPP),
 			Text("xmpp"),
 		),
