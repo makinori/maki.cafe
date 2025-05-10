@@ -36,7 +36,9 @@ func initCachedData[T any](c *cron.Cron, cachedData *cachedData[T]) {
 
 		err = setCache(cachedData.Key, cachedData.Data, expiresAt)
 		if err != nil {
-			log.Println("failed to set cache: " + err.Error())
+			log.Printf(
+				"failed to set %s cache: %s\n", cachedData.Key, err.Error(),
+			)
 		}
 	}
 
