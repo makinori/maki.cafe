@@ -3,6 +3,7 @@ package template
 import (
 	_ "embed"
 
+	"github.com/makinori/maki.cafe/src/component"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -10,11 +11,23 @@ import (
 //go:embed style.css
 var siteStyleCSS string
 
-func Site(page Group) Group {
+func Site(page Group, currentPagePath string) Group {
+	pageHeaderInfo := component.PageHeaderInfo{
+		PagePath: currentPagePath,
+	}
+
+	title := "maki.cafe"
+
+	if currentPagePath == "/" {
+		pageHeaderInfo.Big = true
+	} else {
+		title += currentPagePath
+	}
+
 	return Group{Doctype(
 		HTML(
 			Head(
-				Title("maki.cafe"),
+				TitleEl(Text(title)),
 				Meta(
 					Name("viewport"),
 					Content("width=device-width, initial-scale=0.6"),
@@ -23,8 +36,9 @@ func Site(page Group) Group {
 			),
 			Body(
 				Div(Class("page-top-strip")),
+				component.PageHeader(pageHeaderInfo),
 				page,
-				// footer
+				component.PageFooter(currentPagePath),
 			),
 		),
 	)}

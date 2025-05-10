@@ -29,7 +29,7 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 
 		pageBuf := bytes.NewBuffer(nil)
 
-		err := template.Site(pageFn()).Render(pageBuf)
+		err := template.Site(pageFn(), r.URL.Path).Render(pageBuf)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to render"))
@@ -71,6 +71,7 @@ func Main() {
 	// register page handles
 
 	http.HandleFunc("GET /{$}", handlePage(page.Index))
+	http.HandleFunc("GET /anime", handlePage(page.Anime))
 
 	// register assets
 

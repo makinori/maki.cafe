@@ -1,6 +1,11 @@
 package util
 
-import "strings"
+import (
+	"fmt"
+	"strconv"
+	"strings"
+	"time"
+)
 
 func InCommaSeperated(commaSeparated string, needle string) bool {
 	if commaSeparated == "" {
@@ -12,4 +17,18 @@ func InCommaSeperated(commaSeparated string, needle string) bool {
 		}
 	}
 	return false
+}
+
+func ShortDate(date time.Time) string {
+	var months = []string{
+		"jan", "feb", "mar", "apr", "may", "jun",
+		"jul", "aug", "sep", "oct", "nov", "dec",
+	}
+
+	return fmt.Sprintf(
+		"%s %d '%s",
+		months[date.Month()-1],
+		date.Day(),
+		strconv.Itoa(date.Year())[2:],
+	)
 }

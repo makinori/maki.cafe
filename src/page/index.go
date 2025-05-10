@@ -9,14 +9,6 @@ import (
 
 func Index() Group {
 	return Group{
-		H1(
-			Class("title"),
-			Span(
-				Text("mak"),
-				Span(Style("letter-spacing: -4px"), Text("i")),
-			),
-			Img(Class("pony"), Src("pony.png")),
-		),
 		Text("software engineer"),
 		Br(),
 		Text("game developer"),

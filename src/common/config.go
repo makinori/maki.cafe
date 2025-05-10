@@ -6,4 +6,7 @@ const (
 
 	GitHubUsername = "makinori"
 	GitHubURL      = "https://github.com/" + GitHubUsername
+
+	AniListUsername = "makinori"
+	AniListURL      = "https://anilist.co/user/" + AniListUsername
 )
