@@ -1,25 +1,57 @@
 @font-face {
 	font-family: "Maki Libertinus Mono";
-	src: url(fonts/MakiLibertinusMono-Regular.woff2) format(woff2);
+	src: url(/fonts/MakiLibertinusMono-Regular.woff2) format(woff2);
 	font-weight: 400;
+	font-style: normal;
 }
 
 @font-face {
 	font-family: "Maki Libertinus Mono";
-	src: url(fonts/MakiLibertinusMono-Medium.woff2) format(woff2);
+	src: url(/fonts/MakiLibertinusMono-RegularItalic.woff2) format(woff2);
+	font-weight: 400;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: "Maki Libertinus Mono";
+	src: url(/fonts/MakiLibertinusMono-Medium.woff2) format(woff2);
 	font-weight: 500;
+	font-style: normal;
 }
 
 @font-face {
 	font-family: "Maki Libertinus Mono";
-	src: url(fonts/MakiLibertinusMono-SemiBold.woff2) format(woff2);
+	src: url(/fonts/MakiLibertinusMono-MediumItalic.woff2) format(woff2);
+	font-weight: 500;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: "Maki Libertinus Mono";
+	src: url(/fonts/MakiLibertinusMono-SemiBold.woff2) format(woff2);
 	font-weight: 600;
+	font-style: normal;
 }
 
 @font-face {
 	font-family: "Maki Libertinus Mono";
-	src: url(fonts/MakiLibertinusMono-Bold.woff2) format(woff2);
+	src: url(/fonts/MakiLibertinusMono-SemiBoldItalic.woff2) format(woff2);
+	font-weight: 600;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: "Maki Libertinus Mono";
+	src: url(/fonts/MakiLibertinusMono-Bold.woff2) format(woff2);
 	font-weight: 700;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Maki Libertinus Mono";
+	src: url(/fonts/MakiLibertinusMono-BoldItalic.woff2) format(woff2);
+	font-weight: 700;
+	font-style: italic;
 }
 
 * {
