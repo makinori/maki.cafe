@@ -10,6 +10,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/makinori/maki.cafe/src/data"
 	"github.com/makinori/maki.cafe/src/page"
 	"github.com/makinori/maki.cafe/src/template"
 	"github.com/makinori/maki.cafe/src/util"
@@ -57,6 +58,9 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 }
 
 func Main() {
+	// sets up crontabs
+	data.InitData()
+
 	// register minifiers
 
 	// minifier = minify.New()

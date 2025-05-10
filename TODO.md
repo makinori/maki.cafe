@@ -1,3 +1,2 @@
--   cache data for pages like /anime/
 -   fix minifier so email doesnt get fucked
 -   use css in go

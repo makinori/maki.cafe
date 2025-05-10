@@ -6,7 +6,7 @@ require (
 	github.com/andybalholm/brotli v1.1.1
 	github.com/jinzhu/copier v0.4.0
 	github.com/klauspost/compress v1.18.0
-	github.com/tdewolff/minify/v2 v2.23.3
+	github.com/robfig/cron/v3 v3.0.0
 	maragu.dev/gomponents v1.1.0
 )
 
@@ -30,6 +30,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/spf13/afero v1.11.0 // indirect
 	github.com/spf13/cast v1.7.0 // indirect
+	github.com/tdewolff/minify/v2 v2.23.3 // indirect
 	github.com/tdewolff/parse/v2 v2.7.23 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.18.0 // indirect

@@ -1,11 +1,10 @@
 package page
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/makinori/maki.cafe/src/common"
-	"github.com/makinori/maki.cafe/src/page/anime"
+	"github.com/makinori/maki.cafe/src/data"
 	"github.com/makinori/maki.cafe/src/util"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -14,14 +13,9 @@ import (
 // all very wip. will add caching, css-in-go and such
 
 func Anime() Group {
-	anilist, err := anime.GetAnilist()
-	if err != nil {
-		fmt.Println(err)
-	}
-
 	var animeNodes []Node
 
-	for _, anime := range anilist.Data.Page.MediaList {
+	for _, anime := range data.Anilist.Data.Data.Page.MediaList {
 		completedAt := time.Date(
 			anime.CompletedAt.Year,
 			time.Month(anime.CompletedAt.Month),

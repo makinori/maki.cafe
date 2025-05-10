@@ -1,4 +1,4 @@
-package anime
+package data
 
 import (
 	"bytes"
@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 
 	"github.com/makinori/maki.cafe/src/common"
 )
 
 // https://studio.apollographql.com/sandbox/explorer
+// https://graphql.anilist.co
 
 var aniListQuery = `query ($userName: String) {
 	Page(page: 0, perPage: 10) {
@@ -36,16 +36,16 @@ var aniListQuery = `query ($userName: String) {
 	}
   }`
 
-type AnilistQueryVars struct {
+type anilistQueryVars struct {
 	UserName string `json:"userName"`
 }
 
-type AnilistQuery struct {
+type anilistQuery struct {
 	Query     string           `json:"query"`
-	Variables AnilistQueryVars `json:"variables"`
+	Variables anilistQueryVars `json:"variables"`
 }
 
-type AnilistQueryResult struct {
+type anilistResult struct {
 	Errors []struct {
 		Message string `json:"message"`
 		Status  int    `json:"status"`
@@ -69,27 +69,16 @@ type AnilistQueryResult struct {
 	} `json:"data"`
 }
 
-func GetAnilist() (AnilistQueryResult, error) {
-	cacheBytes, err := os.ReadFile("anime.json")
-	if err == nil {
-		var result AnilistQueryResult
-		err = json.Unmarshal(cacheBytes, &result)
-		if err != nil {
-			return AnilistQueryResult{}, err
-		}
-
-		return result, nil
-	}
-
-	aniListQueryJson, err := json.Marshal(AnilistQuery{
+func getAnilist() (anilistResult, error) {
+	aniListQueryJson, err := json.Marshal(anilistQuery{
 		Query: aniListQuery,
-		Variables: AnilistQueryVars{
+		Variables: anilistQueryVars{
 			UserName: common.AniListUsername,
 		},
 	})
 
 	if err != nil {
-		return AnilistQueryResult{}, err
+		return anilistResult{}, err
 	}
 
 	req, err := http.NewRequest(
@@ -98,7 +87,7 @@ func GetAnilist() (AnilistQueryResult, error) {
 	)
 
 	if err != nil {
-		return AnilistQueryResult{}, err
+		return anilistResult{}, err
 	}
 
 	req.Header.Set("Content-Type", "application/json")
@@ -106,35 +95,31 @@ func GetAnilist() (AnilistQueryResult, error) {
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		return AnilistQueryResult{}, err
+		return anilistResult{}, err
 	}
 
 	defer res.Body.Close()
 
 	resBytes, err := io.ReadAll(res.Body)
 	if err != nil {
-		return AnilistQueryResult{}, err
+		return anilistResult{}, err
 	}
 
-	var result AnilistQueryResult
+	var result anilistResult
 	err = json.Unmarshal(resBytes, &result)
 	if err != nil {
-		return AnilistQueryResult{}, err
+		return anilistResult{}, err
 	}
 
 	if len(result.Errors) > 0 {
-		return AnilistQueryResult{}, fmt.Errorf("%s", result.Errors)
-	}
-
-	cacheBytes, err = json.Marshal(result)
-	if err != nil {
-		return AnilistQueryResult{}, err
-	}
-
-	err = os.WriteFile("anime.json", cacheBytes, 0644)
-	if err != nil {
-		return AnilistQueryResult{}, err
+		return anilistResult{}, fmt.Errorf("%s", result.Errors)
 	}
 
 	return result, nil
+}
+
+var Anilist = cachedData[anilistResult]{
+	Key:      "anilist",
+	CronSpec: "0 0 * * *", // once a day
+	retrieve: getAnilist,
 }
