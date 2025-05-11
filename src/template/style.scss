@@ -7,6 +7,8 @@
 $page-width: 600px;
 $page-margin: 96px;
 
+$page-break-width: $page-width + $page-margin * 2;
+
 body {
 	background-color: #111;
 	color: #fff;
@@ -22,7 +24,7 @@ body {
 	min-width: $page-width;
 	max-width: $page-width;
 
-	@media (max-width: ($page-width + $page-margin * 2)) {
+	@media (max-width: $page-break-width) {
 		margin: 48px;
 	}
 }
@@ -102,6 +104,11 @@ h6 {
 	> .pony {
 		height: 120px;
 		margin-top: -24px;
+	}
+
+	@media (max-width: $page-break-width) {
+		margin-top: 0px;
+		padding-top: 8px;
 	}
 }
 
