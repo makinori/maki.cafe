@@ -5,6 +5,7 @@ import (
 
 	"github.com/makinori/maki.cafe/src/common"
 	"github.com/makinori/maki.cafe/src/data"
+	"github.com/makinori/maki.cafe/src/render"
 	"github.com/makinori/maki.cafe/src/util"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -13,6 +14,34 @@ import (
 // all very wip. will add caching, css-in-go and such
 
 func Anime() Group {
+	css, _ := render.RenderSass(`
+		.anime-grid {
+			display: grid;
+			grid-template-columns: repeat(5,1fr);
+			grid-gap: 8px;
+		
+			.anime {
+				padding: 0;
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+				background: transparent;
+
+				> div {
+					aspect-ratio: 23/32;
+					width: 100%;
+					background-size: cover;
+					background-position: center;
+					background-color: #222;
+				}
+
+				> p {
+					font-size: 20px;
+				}
+			}
+		}
+	`)
+
 	var animeNodes []Node
 
 	for _, anime := range data.Anilist.Data.Data.Page.MediaList {
@@ -25,23 +54,22 @@ func Anime() Group {
 
 		animeNodes = append(animeNodes, A(
 			Href(anime.Media.SiteURL),
-			Style("padding:0;display:flex;flex-direction:column;gap:4px;background:transparent"),
+			Class("anime"),
 			// Img(
 			// 	Style("width:100%;height:auto"),
 			// 	Src(anime.Media.CoverImage.Large),
 			// ),
 			Div(
-				Style("aspect-ratio:23/32;width:100%;background-size:cover;background-position:center;background-color:#222;background-image:url(\""+anime.Media.CoverImage.Large+"\")"),
+				Style("background-image:url(\""+
+					anime.Media.CoverImage.Large+
+					"\")"),
 			),
-
-			P(
-				Style("font-size:20px"),
-				Text(util.ShortDate(completedAt)),
-			),
+			P(Text(util.ShortDate(completedAt))),
 		))
 	}
 
 	return Group{
+		StyleEl(Raw(css)),
 		P(
 			Text("see my "),
 			A(
@@ -54,7 +82,7 @@ func Anime() Group {
 		H1(Text("recently finished")),
 		Br(),
 		Div(
-			Style("display:grid;grid-template-columns:repeat(5,1fr);grid-gap:8px;"),
+			Class("anime-grid"),
 			Group(animeNodes),
 		),
 		Br(),
