@@ -12,12 +12,17 @@ CGO_ENABLED=0 GOOS=linux \
 go build -ldflags="-s -w" -o maki.cafe && \
 strip maki.cafe
 
-FROM scratch
+# create final image
+
+FROM alpine:edge
 
 WORKDIR /app
 
-COPY --from=build /etc/ssl/certs/ca-certificates.crt \
-/etc/ssl/certs/ca-certificates.crt
+RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+dart-sass
+
+# COPY --from=build /etc/ssl/certs/ca-certificates.crt \
+# /etc/ssl/certs/ca-certificates.crt
 
 COPY --from=build /app/maki.cafe /maki.cafe
 
