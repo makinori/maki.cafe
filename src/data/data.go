@@ -45,7 +45,12 @@ func initCachedData[T any](c *cron.Cron, cachedData *cachedData[T]) {
 	// try from cache
 	err := getCache(cachedData.Key, &cachedData.Data)
 	if err != nil {
+
+		log.Println(`fetching fresh "` + cachedData.Key + `", starting cron`)
 		getFreshCachedData()
+	} else {
+		log.Println(`already cached "` + cachedData.Key + `", starting cron`)
+
 	}
 
 	// setup cron
@@ -53,7 +58,7 @@ func initCachedData[T any](c *cron.Cron, cachedData *cachedData[T]) {
 		getFreshCachedData()
 	})
 
-	log.Println("starting cron for " + cachedData.Key)
+	// log.Println("starting cron for " + cachedData.Key)
 }
 
 func InitData() {
