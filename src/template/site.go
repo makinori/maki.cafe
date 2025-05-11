@@ -4,14 +4,27 @@ import (
 	_ "embed"
 
 	"github.com/makinori/maki.cafe/src/component"
+	"github.com/makinori/maki.cafe/src/render"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
 
-//go:embed style.css
-var siteStyleCSS string
+var (
+	//go:embed style.scss
+	styleSCSS string
+	//go:embed fonts.scss
+	fontsSCSS string
+)
 
-func Site(page Group, currentPagePath string) Group {
+func Site(page Group, currentPagePath string) (Group, error) {
+	finalSCSS, err := render.RenderSass(styleSCSS,
+		render.SassImport{Filename: "fonts.scss", Content: fontsSCSS},
+	)
+
+	if err != nil {
+		return Group{}, err
+	}
+
 	pageHeaderInfo := component.PageHeaderInfo{
 		PagePath: currentPagePath,
 	}
@@ -32,7 +45,7 @@ func Site(page Group, currentPagePath string) Group {
 					Name("viewport"),
 					Content("width=device-width, initial-scale=0.6"),
 				),
-				StyleEl(Raw(siteStyleCSS)),
+				StyleEl(Raw(finalSCSS)),
 			),
 			Body(
 				Div(Class("page-top-strip")),
@@ -41,5 +54,5 @@ func Site(page Group, currentPagePath string) Group {
 				component.PageFooter(currentPagePath),
 			),
 		),
-	)}
+	)}, nil
 }

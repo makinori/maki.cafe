@@ -4,6 +4,7 @@ go 1.24.2
 
 require (
 	github.com/andybalholm/brotli v1.1.1
+	github.com/bep/godartsass/v2 v2.5.0
 	github.com/jinzhu/copier v0.4.0
 	github.com/klauspost/compress v1.18.0
 	github.com/robfig/cron/v3 v3.0.0
@@ -16,7 +17,6 @@ require (
 	dario.cat/mergo v1.0.1 // indirect
 	github.com/air-verse/air v1.61.7 // indirect
 	github.com/bep/godartsass v1.2.0 // indirect
-	github.com/bep/godartsass/v2 v2.1.0 // indirect
 	github.com/bep/golibsass v1.2.0 // indirect
 	github.com/cli/safeexec v1.0.1 // indirect
 	github.com/creack/pty v1.1.23 // indirect
@@ -34,5 +34,5 @@ require (
 	github.com/tdewolff/parse/v2 v2.7.23 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.18.0 // indirect
-	google.golang.org/protobuf v1.34.2 // indirect
+	google.golang.org/protobuf v1.35.2 // indirect
 )

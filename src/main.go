@@ -15,6 +15,7 @@ import (
 
 	"github.com/makinori/maki.cafe/src/data"
 	"github.com/makinori/maki.cafe/src/page"
+	"github.com/makinori/maki.cafe/src/render"
 	"github.com/makinori/maki.cafe/src/template"
 	"github.com/makinori/maki.cafe/src/util"
 	"maragu.dev/gomponents"
@@ -31,11 +32,17 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 	return func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 
-		// render
+		template, err := template.Site(pageFn(), r.URL.Path)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("failed to render"))
+			log.Println("failed to render: " + err.Error())
+		}
 
 		pageBuf := bytes.NewBuffer(nil)
 
-		err := template.Site(pageFn(), r.URL.Path).Render(pageBuf)
+		err = template.Render(pageBuf)
+
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to render"))
@@ -43,10 +50,7 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 			return
 		}
 
-		// minify and write
-
 		// minSiteBuf := bytes.NewBuffer(nil)
-
 		// err = minifier.Minify("text/html", minSiteBuf, pageBuf)
 		// if err != nil {
 		// 	w.WriteHeader(http.StatusInternalServerError)
@@ -58,7 +62,11 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 		go util.HTTPPlausibleEvent(r)
 
 		renderTime := time.Now().Sub(start)
-		log.Println("render " + r.URL.Path + " " + renderTime.String())
+
+		if util.ENV_IS_DEV {
+			log.Println("render " + r.URL.Path + " " + renderTime.String())
+		}
+
 		w.Header().Set("X-Render-Time", strings.ReplaceAll(renderTime.String(), "µ", "u"))
 
 		// util.HTTPServeOptimized(w, r, minSiteBuf.Bytes(), ".html")
@@ -67,10 +75,14 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 }
 
 func Main() {
-	// sets up crontabs
-	data.InitData()
+	// initialization
 
-	// register minifiers
+	if util.ENV_IS_DEV {
+		log.Println("in developer mode")
+	}
+
+	data.InitData()
+	render.InitSass()
 
 	// minifier = minify.New()
 	// minifier.Add("text/css", &css.Minifier{})

@@ -37,12 +37,19 @@ func PageFooter(currentPagePath string) Group {
 		Hr(Style("width: 200px")),
 		Div(
 			Class("page-footer-pages"),
+
 			footerLink(currentPagePath, "/", "index"),
 			// footerLink(currentPagePath, "#", "works"),
+			// footerLink(currentPagePath, "#", "webring"),
+
+			// Div(Class("break")),
+
+			// P(Text("/interests")),
 			footerLink(currentPagePath, "/anime", "/anime"),
 			// footerLink(currentPagePath, "#", "games"),
-			// footerLink(currentPagePath, "#", "webring"),
+
 			Div(Class("break")),
+
 			footerLink("", common.GitHubURL+"/maki.cafe", "source code"),
 			// Div(Class("break")),
 			// footerLink("", "https://old.maki.cafe", "old page"),

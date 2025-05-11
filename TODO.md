@@ -1,3 +1,3 @@
 -   fix minifier so email doesnt get fucked
 -   use css in go
--   add server header
+-   clarify in footer /interests {/anime,...}

@@ -1,0 +1,180 @@
+@use "fonts.scss";
+
+* {
+	margin: 0;
+}
+
+$page-width: 600px;
+$page-margin: 96px;
+
+body {
+	background-color: #111;
+	color: #fff;
+	margin: $page-margin;
+	font-family: "Maki Libertinus Mono";
+	font-size: 20px;
+	// image has dithering to prevent banding
+	// therefore a fixed height is necessary
+	background-image: url(/pines-1080.jpg);
+	background-size: auto 1080px;
+	background-repeat: no-repeat;
+	background-position: -600px 8px; // top strip
+	min-width: $page-width;
+	max-width: $page-width;
+
+	@media (max-width: ($page-width + $page-margin * 2)) {
+		margin: 48px;
+	}
+}
+
+a {
+	text-decoration: inherit;
+	color: #fff;
+	background: #ff1744;
+	// padding: 0px 4px;
+	padding: 2px 6px;
+	display: inline-block;
+	font-weight: 600;
+	// margin: 8px 0;
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 6px;
+
+	> img {
+		height: 20px;
+	}
+
+	&.muted {
+		background: #fff;
+		color: #000;
+	}
+
+	// &.border {
+	// 	background: transparent;
+	// 	color: #fff;
+	// 	border-bottom: solid 2px white;
+	// }
+}
+
+h1 {
+	font-size: 32px;
+}
+
+h2 {
+	font-size: 28px;
+}
+
+h3 {
+	font-size: 24px;
+}
+
+h4,
+h5,
+h6 {
+	// dont use these
+	display: none;
+}
+
+.page-top-strip {
+	position: fixed;
+	margin: auto;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 8px;
+	background-color: #ff1744;
+}
+
+.page-header-title {
+	font-size: 104px;
+	font-weight: bold;
+	line-height: 104px;
+	color: white;
+	letter-spacing: 4px;
+	margin-top: -8px;
+	// margin-bottom: 8px;
+	gap: 24px;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+
+	> .pony {
+		height: 120px;
+		margin-top: -24px;
+	}
+}
+
+.page-header-small {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	// gap: 8px;
+	margin-top: -8px;
+
+	h1 {
+		font-size: 64px;
+		margin-right: 8px;
+		margin-bottom: -4px;
+	}
+
+	h2 {
+		font-size: 32px;
+		margin-bottom: 4px;
+		font-weight: 600;
+		// opacity: 0.5;
+	}
+
+	> a {
+		background-color: transparent;
+		color: #fff;
+		padding: inherit;
+	}
+
+	> img {
+		// height: 64px;
+		height: 80px;
+	}
+}
+
+hr {
+	// width: 300px;
+	border: none;
+	height: 2px;
+	background-color: white;
+
+	// &.faded {
+	// 	background-color: transparent;
+	// 	background-image: linear-gradient(
+	// 		90deg,
+	// 		white,
+	// 		transparent,
+	// 		transparent
+	// 	);
+	// }
+}
+
+.page-footer-pages {
+	margin-top: 8px;
+	margin-bottom: 8px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	column-gap: 8px;
+	row-gap: 4px;
+
+	.break {
+		flex-basis: 100%;
+	}
+
+	// p {
+	// 	letter-spacing: -1px;
+	// }
+
+	a.active {
+		// border-bottom: solid 2px white;
+		// margin-bottom: -2px;
+		background: transparent;
+		color: #fff;
+	}
+}
