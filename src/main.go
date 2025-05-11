@@ -8,7 +8,10 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"runtime"
 	"strconv"
+	"strings"
+	"time"
 
 	"github.com/makinori/maki.cafe/src/data"
 	"github.com/makinori/maki.cafe/src/page"
@@ -26,6 +29,8 @@ var (
 
 func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+
 		// render
 
 		pageBuf := bytes.NewBuffer(nil)
@@ -52,7 +57,11 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 
 		go util.HTTPPlausibleEvent(r)
 
-		// util.HTTPServeOptimized(w, r, minSiteBuf.Bytes())
+		renderTime := time.Now().Sub(start)
+		log.Println("render " + r.URL.Path + " " + renderTime.String())
+		w.Header().Set("X-Render-Time", strings.ReplaceAll(renderTime.String(), "µ", "u"))
+
+		// util.HTTPServeOptimized(w, r, minSiteBuf.Bytes(), ".html")
 		util.HTTPServeOptimized(w, r, pageBuf.Bytes(), ".html")
 	}
 }
@@ -74,8 +83,10 @@ func Main() {
 
 	// register page handles
 
-	http.HandleFunc("GET /{$}", handlePage(page.Index))
-	http.HandleFunc("GET /anime", handlePage(page.Anime))
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("GET /{$}", handlePage(page.Index))
+	mux.HandleFunc("GET /anime", handlePage(page.Anime))
 
 	// register assets
 
@@ -85,9 +96,18 @@ func Main() {
 	}
 
 	// http.FileServerFS(publicFs)
-	http.HandleFunc(
+	mux.HandleFunc(
 		"GET /{file...}", util.HTTPFileServerOptimized(publicFs),
 	)
+
+	// middleware
+
+	wrappedMux := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Server", runtime.Version()) // hell yeah
+		mux.ServeHTTP(w, r)
+	})
+
+	// listen
 
 	port := 8080
 
@@ -103,7 +123,7 @@ func Main() {
 	addr := fmt.Sprintf(":%d", port)
 	log.Println("listening at " + addr)
 
-	err = http.ListenAndServe(addr, nil)
+	err = http.ListenAndServe(addr, wrappedMux)
 	if err != nil {
 		log.Fatalln("failed to start http server: " + err.Error())
 	}
