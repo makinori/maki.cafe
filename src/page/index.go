@@ -1,32 +1,57 @@
 package page
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/makinori/maki.cafe/src/common"
-	"github.com/makinori/maki.cafe/src/util"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
 
+func botSafeHref(prefix string, value string) (string, string, string) {
+	// this upsets me
+
+	// encoded := base64.StdEncoding.EncodeToString([]byte(value))
+	encoded := strings.ReplaceAll(value, "@", "[at]")
+	encoded = strings.ReplaceAll(encoded, ".", "[dot]")
+
+	// keep it legible. even though this only happens when js is disabled,
+	// the whole point is to make sure the user can get the address
+	jsHref := fmt.Sprintf(`javascript:alert("%s")`, encoded)
+
+	js := strings.Join([]string{
+		`{`,
+		`let e = document.currentScript.parentElement;`,
+		`e.title = e.title.replaceAll("[at]","@").replaceAll("[dot]",".");`,
+		`e.href = "` + prefix + `"+e.title;`,
+		`}`,
+	}, " ")
+
+	return jsHref, encoded, js
+}
+
 func Index() Group {
+	emailHref, emailTitle, emailJS := botSafeHref("mailto:", common.Email)
+	xmppHref, xmppTitle, xmppJS := botSafeHref("xmpp:", common.XMPP)
+
 	return Group{
 		H3(Text("software engineer")),
 		H3(Text("game developer")),
 		H3(Text("server admin")),
 		Br(),
 		A(
-			&util.AttrRaw{
-				Name: "href", Value: "mailto:" + util.EscapedHTML(common.Email),
-			},
-			Title(common.Email),
+			Href(emailHref),
+			Title(emailTitle),
 			Text("email"),
+			Script(Raw(emailJS)),
 		),
 		Text(" "),
 		A(
-			&util.AttrRaw{
-				Name: "href", Value: "xmpp:" + util.EscapedHTML(common.XMPP),
-			},
-			Title(common.XMPP),
+			Href(xmppHref),
+			Title(xmppTitle),
 			Text("xmpp"),
+			Script(Raw(xmppJS)),
 		),
 		Text(" "),
 		A(
