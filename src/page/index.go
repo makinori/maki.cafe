@@ -1,39 +1,36 @@
 package page
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/makinori/maki.cafe/src/common"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
 
-func botSafeHref(prefix string, value string) (string, string, string) {
-	// this upsets me
+// func botSafeHref(prefix string, value string) (string, string, string) {
+// 	// this upsets me
 
-	// encoded := base64.StdEncoding.EncodeToString([]byte(value))
-	encoded := strings.ReplaceAll(value, "@", "[at]")
-	encoded = strings.ReplaceAll(encoded, ".", "[dot]")
+// 	// encoded := base64.StdEncoding.EncodeToString([]byte(value))
+// 	encoded := strings.ReplaceAll(value, "@", "[at]")
+// 	encoded = strings.ReplaceAll(encoded, ".", "[dot]")
 
-	// keep it legible. even though this only happens when js is disabled,
-	// the whole point is to make sure the user can get the address
-	jsHref := fmt.Sprintf(`javascript:alert("%s")`, encoded)
+// 	// keep it legible. even though this only happens when js is disabled,
+// 	// the whole point is to make sure the user can get the address
+// 	jsHref := fmt.Sprintf(`javascript:alert("%s")`, encoded)
 
-	js := strings.Join([]string{
-		`{`,
-		`let e = document.currentScript.parentElement;`,
-		`e.title = e.title.replaceAll("[at]","@").replaceAll("[dot]",".");`,
-		`e.href = "` + prefix + `"+e.title;`,
-		`}`,
-	}, " ")
+// 	js := strings.Join([]string{
+// 		`{`,
+// 		`let e = document.currentScript.parentElement;`,
+// 		`e.title = e.title.replaceAll("[at]","@").replaceAll("[dot]",".");`,
+// 		`e.href = "` + prefix + `"+e.title;`,
+// 		`}`,
+// 	}, " ")
 
-	return jsHref, encoded, js
-}
+// 	return jsHref, encoded, js
+// }
 
 func Index() Group {
-	emailHref, emailTitle, emailJS := botSafeHref("mailto:", common.Email)
-	xmppHref, xmppTitle, xmppJS := botSafeHref("xmpp:", common.XMPP)
+	// emailHref, emailTitle, emailJS := botSafeHref("mailto:", common.Email)
+	// xmppHref, xmppTitle, xmppJS := botSafeHref("xmpp:", common.XMPP)
 
 	return Group{
 		H3(Text("software engineer")),
@@ -41,17 +38,27 @@ func Index() Group {
 		H3(Text("server admin")),
 		Br(),
 		A(
-			Href(emailHref),
-			Title(emailTitle),
 			Text("email"),
-			Script(Raw(emailJS)),
+			Title(common.Email),
+			Href("/email"),
+			// &util.AttrRaw{
+			// 	Name:  "href",
+			// 	Value: "mailto:" + util.EscapedHTML(common.Email),
+			// },
+			// Href(emailHref),
+			// Script(Raw(emailJS)),
 		),
 		Text(" "),
 		A(
-			Href(xmppHref),
-			Title(xmppTitle),
 			Text("xmpp"),
-			Script(Raw(xmppJS)),
+			Title(common.XMPP),
+			Href("/xmpp"),
+			// &util.AttrRaw{
+			// 	Name:  "href",
+			// 	Value: "xmpp:" + util.EscapedHTML(common.XMPP),
+			// },
+			// Href(xmppHref),
+			// Script(Raw(xmppJS)),
 		),
 		Text(" "),
 		A(

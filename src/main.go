@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/makinori/maki.cafe/src/common"
 	"github.com/makinori/maki.cafe/src/data"
 	"github.com/makinori/maki.cafe/src/page"
 	"github.com/makinori/maki.cafe/src/render"
@@ -93,9 +94,19 @@ func Main() {
 	// 	// TODO: minifier removes character entities
 	// })
 
-	// register page handles
+	// register api
 
 	mux := http.NewServeMux()
+
+	mux.HandleFunc("GET /email", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "mailto:"+common.Email, http.StatusTemporaryRedirect)
+	})
+
+	mux.HandleFunc("GET /xmpp", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "xmpp:"+common.XMPP, http.StatusTemporaryRedirect)
+	})
+
+	// register pages
 
 	mux.HandleFunc("GET /{$}", handlePage(page.Index))
 	mux.HandleFunc("GET /anime", handlePage(page.Anime))
