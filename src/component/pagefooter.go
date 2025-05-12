@@ -6,8 +6,10 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
-func footerLink(currentPagePath string, pagePath string, name string) Node {
-	props := []Node{
+func footerLink(
+	currentPagePath string, pagePath string, name string, prefixNodes ...Node,
+) Node {
+	props := Group{
 		Text(name),
 	}
 
@@ -18,7 +20,7 @@ func footerLink(currentPagePath string, pagePath string, name string) Node {
 		props = append(props, Class("muted active"))
 	}
 
-	return A(props...)
+	return A(Group(prefixNodes), props)
 }
 
 func PageFooter(currentPagePath string) Group {
@@ -47,12 +49,15 @@ func PageFooter(currentPagePath string) Group {
 			// P(Text("/interests")),
 			footerLink(currentPagePath, "/anime", "/anime"),
 			// footerLink(currentPagePath, "#", "games"),
-
-			Div(Class("break")),
-
+		),
+		Hr(Style("width: 200px")),
+		Div(
+			Class("page-footer-pages"),
 			footerLink("", common.GitHubURL+"/maki.cafe", "source code"),
-			// Div(Class("break")),
-			// footerLink("", "https://old.maki.cafe", "old page"),
+			Div(Class("break")),
+			footerLink("", "https://old.maki.cafe", "old page"),
+			Div(Class("break")),
+			footerLink("", common.GitHubURL+"/dots", "dots", Img(Src("/icons/arch.svg"))),
 		),
 	}
 }

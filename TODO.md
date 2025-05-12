@@ -1,4 +1,4 @@
 -   use css in go
 -   clarify in footer /interests {/anime,...}
 -   https://rakyll.org/style-packages/
--   arch install guide
+-   embed svgs
