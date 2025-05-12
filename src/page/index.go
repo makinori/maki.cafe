@@ -2,6 +2,7 @@ package page
 
 import (
 	"github.com/makinori/maki.cafe/src/common"
+	"github.com/makinori/maki.cafe/src/component"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -28,9 +29,54 @@ import (
 // 	return jsHref, encoded, js
 // }
 
+type workedOn struct {
+	Name  string
+	Color string
+	URL   string
+	Icon  string
+}
+
 func Index() Group {
 	// emailHref, emailTitle, emailJS := botSafeHref("mailto:", common.Email)
 	// xmppHref, xmppTitle, xmppJS := botSafeHref("xmpp:", common.XMPP)
+
+	workedOn := []workedOn{
+		workedOn{
+			Name:  "tivoli cloud vr",
+			Color: "#e91e63",
+			URL:   "https://github.com/tivolicloud",
+			Icon:  "/icons/tivoli.svg",
+		},
+		workedOn{
+			Name:  "blahaj quest",
+			Color: "#3c8ea7",
+			URL:   "https://blahaj.quest",
+			Icon:  component.EmojiURL("🦈", "noto"),
+		},
+		workedOn{
+			Name:  "baltimare leaderboard",
+			Color: "#689F38",
+			URL:   "https://baltimare.hotmilk.space",
+			Icon:  "/icons/happy-anonfilly.png",
+		},
+		workedOn{
+			Name:  "melonds metroid hunters",
+			Color: "#dd2e44",
+			URL:   common.GitHubURL + "/melonPrimeDS",
+			Icon:  "/icons/metroid.png",
+		},
+	}
+
+	var workedOnNodes Group
+
+	for _, item := range workedOn {
+		workedOnNodes = append(workedOnNodes, A(
+			Style("background:"+item.Color),
+			Href(item.URL),
+			Img(Src(item.Icon)),
+			Text(item.Name),
+		))
+	}
 
 	return Group{
 		H3(Text("software engineer")),
@@ -68,36 +114,19 @@ func Index() Group {
 		),
 		Br(),
 		Br(),
-		Text("reworking my site..."),
-		Br(),
-		Br(),
 		Text("find my "),
 		A(
+			Class("muted"),
 			Href("https://old.maki.cafe"),
 			Text("old page here"),
 		),
-		// Br(),
-		// Br(),
-		// Br(),
-		// H2(Text("stuff ive made")),
-		// Br(),
-		// A(
-		// 	Href("https://old.maki.cafe"),
-		// 	Style("background: #e91e63"),
-		// 	Img(
-		// 		Src("/icons/tivoli.svg"),
-		// 	),
-		// 	Text("tivoli cloud vr"),
-		// ),
-		// Br(),
-		// A(
-		// 	Href("https://blahaj.quest"),
-		// 	Style("background: #3c8ea7"),
-		// 	Img(
-		// 		// Src("/icons/blahaj.png"),
-		// 		Src(component.EmojiURL("🔍", "noto")),
-		// 	),
-		// 	Text("blahaj quest"),
-		// ),
+		Br(),
+		Br(),
+		H1(Text("ive worked on")),
+		Br(),
+		Div(
+			Style("display: flex; flex-direction: column; align-items: flex-start; gap: 8px"),
+			workedOnNodes,
+		),
 	}
 }
