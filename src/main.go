@@ -85,6 +85,7 @@ func Main() {
 	data.InitData()
 	render.InitSass()
 
+	// no need to cause sass and gomponents are already mostly minified
 	// minifier = minify.New()
 	// minifier.Add("text/css", &css.Minifier{})
 	// minifier.Add("text/html", &html.Minifier{

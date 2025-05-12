@@ -11,8 +11,6 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
-// all very wip. will add caching, css-in-go and such
-
 func Anime() Group {
 	css, _ := render.RenderSass(`
 		.anime-grid {

@@ -17,7 +17,7 @@ var (
 )
 
 func Site(page Group, currentPagePath string) (Group, error) {
-	finalSCSS, err := render.RenderSass(styleSCSS,
+	finalCSS, err := render.RenderSass(styleSCSS,
 		render.SassImport{Filename: "fonts.scss", Content: fontsSCSS},
 	)
 
@@ -45,7 +45,7 @@ func Site(page Group, currentPagePath string) (Group, error) {
 					Name("viewport"),
 					Content("width=device-width, initial-scale=0.6"),
 				),
-				StyleEl(Raw(finalSCSS)),
+				StyleEl(Raw(finalCSS)),
 			),
 			Body(
 				Div(Class("page-top-strip")),
