@@ -29,54 +29,84 @@ import (
 // 	return jsHref, encoded, js
 // }
 
-type workedOn struct {
+type link struct {
 	Name  string
 	Color string
 	URL   string
 	Icon  string
+	Muted bool
+}
+
+func makeLinks(links []link) Group {
+	var output Group
+	for _, item := range links {
+		style := "background:" + item.Color + ";"
+		if item.Muted {
+			style += "color:#000;"
+		}
+
+		params := Group{
+			Style(style),
+			Href(item.URL),
+		}
+
+		if item.Icon != "" {
+			params = append(params, Img(Src(item.Icon)))
+		}
+
+		params = append(params, Text(item.Name))
+
+		output = append(output, A(params))
+	}
+	return output
 }
 
 func Index() Group {
 	// emailHref, emailTitle, emailJS := botSafeHref("mailto:", common.Email)
 	// xmppHref, xmppTitle, xmppJS := botSafeHref("xmpp:", common.XMPP)
 
-	workedOn := []workedOn{
-		workedOn{
+	workedOn := makeLinks([]link{
+		{
 			Name:  "tivoli cloud vr",
 			Color: "#e91e63",
 			URL:   "https://github.com/tivolicloud",
 			Icon:  "/icons/tivoli.svg",
 		},
-		workedOn{
+		{
 			Name:  "blahaj quest",
 			Color: "#3c8ea7",
 			URL:   "https://blahaj.quest",
 			Icon:  component.EmojiURL("🦈", "noto"),
 		},
-		workedOn{
+		{
 			Name:  "baltimare leaderboard",
 			Color: "#689F38",
 			URL:   "https://baltimare.hotmilk.space",
 			Icon:  "/icons/happy-anonfilly.png",
 		},
-		workedOn{
+		{
 			Name:  "melonds metroid hunters",
 			Color: "#dd2e44",
 			URL:   common.GitHubURL + "/melonPrimeDS",
 			Icon:  "/icons/metroid.png",
 		},
-	}
+	})
 
-	var workedOnNodes Group
-
-	for _, item := range workedOn {
-		workedOnNodes = append(workedOnNodes, A(
-			Style("background:"+item.Color),
-			Href(item.URL),
-			Img(Src(item.Icon)),
-			Text(item.Name),
-		))
-	}
+	extras := makeLinks([]link{
+		{
+			Name:  "old page",
+			Color: "#fff",
+			URL:   "https://old.maki.cafe",
+			Muted: true,
+		},
+		{
+			Name:  "dots",
+			Color: "#fff",
+			URL:   common.GitHubURL + "/dots",
+			Icon:  "/icons/arch.svg",
+			Muted: true,
+		},
+	})
 
 	return Group{
 		H3(Text("software engineer")),
@@ -127,7 +157,15 @@ func Index() Group {
 		Br(),
 		Div(
 			Style("display: flex; flex-direction: column; align-items: flex-start; gap: 8px"),
-			workedOnNodes,
+			workedOn,
+		),
+		Br(),
+		Br(),
+		H1(Text("extras")),
+		Br(),
+		Div(
+			Style("display: flex; flex-direction: column; align-items: flex-start; gap: 8px"),
+			extras,
 		),
 	}
 }

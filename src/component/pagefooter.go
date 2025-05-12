@@ -54,10 +54,10 @@ func PageFooter(currentPagePath string) Group {
 		Div(
 			Class("page-footer-pages"),
 			footerLink("", common.GitHubURL+"/maki.cafe", "source code"),
-			Div(Class("break")),
-			footerLink("", "https://old.maki.cafe", "old page"),
-			Div(Class("break")),
-			footerLink("", common.GitHubURL+"/dots", "dots", Img(Src("/icons/arch.svg"))),
+			// Div(Class("break")),
+			// footerLink("", "https://old.maki.cafe", "old page"),
+			// Div(Class("break")),
+			// footerLink("", common.GitHubURL+"/dots", "dots", Img(Src("/icons/arch.svg"))),
 		),
 	}
 }
