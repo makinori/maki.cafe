@@ -35,11 +35,18 @@ type link struct {
 	URL   string
 	Icon  string
 	Muted bool
+	Break bool
 }
 
 func makeLinks(links []link) Group {
 	var output Group
+
 	for _, item := range links {
+		if item.Break {
+			output = append(output, Div(Style("height:16px")))
+			continue
+		}
+
 		style := "background:" + item.Color + ";"
 		if item.Muted {
 			style += "color:#000;"
@@ -58,6 +65,7 @@ func makeLinks(links []link) Group {
 
 		output = append(output, A(params))
 	}
+
 	return output
 }
 
@@ -90,9 +98,7 @@ func Index() Group {
 			URL:   common.GitHubURL + "/melonPrimeDS",
 			Icon:  "/icons/metroid.png",
 		},
-	})
-
-	extras := makeLinks([]link{
+		{Break: true},
 		{
 			Name:  "old page",
 			Color: "#fff",
@@ -143,15 +149,6 @@ func Index() Group {
 			Text("github"),
 		),
 		Br(),
-		// Br(),
-		// Text("find my "),
-		// A(
-		// 	Class("muted"),
-		// 	Href("https://old.maki.cafe"),
-		// 	Text("old page here"),
-		// ),
-		// Br(),
-		Br(),
 		Br(),
 		H1(Text("worked on")),
 		Br(),
@@ -160,12 +157,19 @@ func Index() Group {
 			workedOn,
 		),
 		Br(),
-		Br(),
-		H1(Text("extras")),
-		Br(),
-		Div(
-			Style("display: flex; flex-direction: column; align-items: flex-start; gap: 8px"),
-			extras,
-		),
+		// Div(
+		// 	Style("display: flex; flex-direction: row; gap: 8px"),
+		// 	A(
+		// 		Class("muted"),
+		// 		Text("old page"),
+		// 		Href("https://old.maki.cafe"),
+		// 	),
+		// 	A(
+		// 		Class("muted"),
+		// 		Href(common.GitHubURL+"/dots"),
+		// 		Img(Src("/icons/arch.svg")),
+		// 		Text("dots"),
+		// 	),
+		// ),
 	}
 }
