@@ -24,7 +24,6 @@ dart-sass
 # COPY --from=build /etc/ssl/certs/ca-certificates.crt \
 # /etc/ssl/certs/ca-certificates.crt
 
-COPY --from=build /app/maki.cafe /maki.cafe
+COPY --from=build /app/maki.cafe /app/maki.cafe
 
-WORKDIR /
-ENTRYPOINT ["/maki.cafe"]
+ENTRYPOINT ["/app/maki.cafe"]
