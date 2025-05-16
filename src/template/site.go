@@ -30,9 +30,11 @@ func Site(page Group, currentPagePath string) (Group, error) {
 	}
 
 	title := "maki.cafe"
+	bodyClass := ""
 
 	if currentPagePath == "/" {
 		pageHeaderInfo.Big = true
+		bodyClass = "noblur"
 	} else {
 		title += currentPagePath
 	}
@@ -48,6 +50,7 @@ func Site(page Group, currentPagePath string) (Group, error) {
 				StyleEl(Raw(finalCSS)),
 			),
 			Body(
+				Class(bodyClass),
 				Div(Class("page-top-strip")),
 				component.PageHeader(pageHeaderInfo),
 				page,

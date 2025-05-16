@@ -17,7 +17,7 @@ body {
 	font-size: 20px;
 	// image has dithering to prevent banding
 	// therefore a fixed height is necessary
-	background-image: url(/pines-1080.jpg);
+	background-image: url("/images/pines-1080-blur8.jpg");
 	background-size: auto 1080px;
 	background-repeat: no-repeat;
 	background-position: -600px 8px; // top strip
@@ -26,6 +26,10 @@ body {
 
 	@media (max-width: $page-break-width) {
 		margin: 48px;
+	}
+
+	&.noblur {
+		background-image: url("/images/pines-1080-noblur.jpg");
 	}
 }
 
@@ -138,7 +142,7 @@ h6 {
 		padding: inherit;
 	}
 
-	> img {
+	> .pong {
 		// height: 64px;
 		height: 80px;
 	}

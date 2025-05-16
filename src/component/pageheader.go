@@ -11,6 +11,8 @@ type PageHeaderInfo struct {
 }
 
 func PageHeader(info PageHeaderInfo) Group {
+	ponyImg := Img(Class("pony"), Src("/images/pony.png"))
+
 	if info.Big {
 		return Group{
 			H1(
@@ -19,7 +21,7 @@ func PageHeader(info PageHeaderInfo) Group {
 					Text("mak"),
 					Span(Style("letter-spacing: -4px"), Text("i")),
 				),
-				Img(Class("pony"), Src("pony.png")),
+				ponyImg,
 			),
 			Hr(
 				Class("page-header-hr"),
@@ -46,7 +48,7 @@ func PageHeader(info PageHeaderInfo) Group {
 				H2(Text(info.PagePath)),
 			),
 			Div(Style("flex-grow:1")),
-			Img(Src("/pony.png")),
+			ponyImg,
 		),
 		Hr(Style("height: 3px; margin-bottom: 28px")),
 	}
