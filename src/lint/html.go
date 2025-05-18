@@ -5,7 +5,8 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/log"
-	"github.com/tdewolff/parse/css"
+	"github.com/tdewolff/parse/v2"
+	"github.com/tdewolff/parse/v2/css"
 	"golang.org/x/net/html"
 )
 
@@ -19,7 +20,7 @@ func LintHTML(inputHTML []byte) {
 	extHTTPResource := "external http resource"
 
 	parseStyle := func(tag string, style string) {
-		l := css.NewLexer(bytes.NewBuffer([]byte(style)))
+		l := css.NewLexer(parse.NewInputString(style))
 		for {
 			tt, text := l.Next()
 			switch tt {
