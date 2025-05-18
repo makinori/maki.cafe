@@ -6,6 +6,7 @@ $sizes: 400 "Regular", 500 "Medium", 600 "SemiBold", 700 "Bold";
 		src: url(/fonts/MakiLibertinusMono-#{$name}.woff2) format(woff2);
 		font-weight: $weight;
 		font-style: normal;
+		font-display: swap;
 	}
 
 	@font-face {
@@ -13,5 +14,6 @@ $sizes: 400 "Regular", 500 "Medium", 600 "SemiBold", 700 "Bold";
 		src: url(/fonts/MakiLibertinusMono-#{$name}Italic.woff2) format(woff2);
 		font-weight: $weight;
 		font-style: italic;
+		font-display: swap;
 	}
 }
