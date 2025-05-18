@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/makinori/maki.cafe/src/common"
+	"github.com/makinori/maki.cafe/src/config"
 )
 
 // https://studio.apollographql.com/sandbox/explorer
@@ -73,7 +73,7 @@ func getAnilist() (anilistResult, error) {
 	aniListQueryJson, err := json.Marshal(anilistQuery{
 		Query: aniListQuery,
 		Variables: anilistQueryVars{
-			UserName: common.AniListUsername,
+			UserName: config.AniListUsername,
 		},
 	})
 

@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/makinori/maki.cafe/src/common"
+	"github.com/makinori/maki.cafe/src/config"
 	"github.com/makinori/maki.cafe/src/data"
 	"github.com/makinori/maki.cafe/src/page"
 	"github.com/makinori/maki.cafe/src/render"
@@ -100,11 +100,11 @@ func Main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /email", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "mailto:"+common.Email, http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "mailto:"+config.Email, http.StatusTemporaryRedirect)
 	})
 
 	mux.HandleFunc("GET /xmpp", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "xmpp:"+common.XMPP, http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "xmpp:"+config.XMPP, http.StatusTemporaryRedirect)
 	})
 
 	// register pages

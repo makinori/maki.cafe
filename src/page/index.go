@@ -1,8 +1,8 @@
 package page
 
 import (
-	"github.com/makinori/maki.cafe/src/common"
 	"github.com/makinori/maki.cafe/src/component"
+	"github.com/makinori/maki.cafe/src/config"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -70,8 +70,8 @@ func makeLinks(links []link) Group {
 }
 
 func Index() Group {
-	// emailHref, emailTitle, emailJS := botSafeHref("mailto:", common.Email)
-	// xmppHref, xmppTitle, xmppJS := botSafeHref("xmpp:", common.XMPP)
+	// emailHref, emailTitle, emailJS := botSafeHref("mailto:", config.Email)
+	// xmppHref, xmppTitle, xmppJS := botSafeHref("xmpp:", config.XMPP)
 
 	workedOn := makeLinks([]link{
 		{
@@ -95,7 +95,7 @@ func Index() Group {
 		{
 			Name:  "melonds metroid hunters",
 			Color: "#dd2e44",
-			URL:   common.GitHubURL + "/melonPrimeDS",
+			URL:   config.GitHubURL + "/melonPrimeDS",
 			Icon:  "/icons/metroid.png",
 		},
 		{Break: true},
@@ -108,7 +108,7 @@ func Index() Group {
 		{
 			Name:  "dots",
 			Color: "#fff",
-			URL:   common.GitHubURL + "/dots",
+			URL:   config.GitHubURL + "/dots",
 			Icon:  "/icons/arch.svg",
 			Muted: true,
 		},
@@ -121,11 +121,11 @@ func Index() Group {
 		Br(),
 		A(
 			Text("email"),
-			Title(common.Email),
+			Title(config.Email),
 			Href("/email"),
 			// &util.AttrRaw{
 			// 	Name:  "href",
-			// 	Value: "mailto:" + util.EscapedHTML(common.Email),
+			// 	Value: "mailto:" + util.EscapedHTML(config.Email),
 			// },
 			// Href(emailHref),
 			// Script(Raw(emailJS)),
@@ -133,19 +133,19 @@ func Index() Group {
 		Text(" "),
 		A(
 			Text("xmpp"),
-			Title(common.XMPP),
+			Title(config.XMPP),
 			Href("/xmpp"),
 			// &util.AttrRaw{
 			// 	Name:  "href",
-			// 	Value: "xmpp:" + util.EscapedHTML(common.XMPP),
+			// 	Value: "xmpp:" + util.EscapedHTML(config.XMPP),
 			// },
 			// Href(xmppHref),
 			// Script(Raw(xmppJS)),
 		),
 		Text(" "),
 		A(
-			Href(common.GitHubURL),
-			Title("@"+common.GitHubUsername),
+			Href(config.GitHubURL),
+			Title("@"+config.GitHubUsername),
 			Text("github"),
 		),
 		Br(),
@@ -166,7 +166,7 @@ func Index() Group {
 		// 	),
 		// 	A(
 		// 		Class("muted"),
-		// 		Href(common.GitHubURL+"/dots"),
+		// 		Href(config.GitHubURL+"/dots"),
 		// 		Img(Src("/icons/arch.svg")),
 		// 		Text("dots"),
 		// 	),

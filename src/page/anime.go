@@ -3,7 +3,7 @@ package page
 import (
 	"time"
 
-	"github.com/makinori/maki.cafe/src/common"
+	"github.com/makinori/maki.cafe/src/config"
 	"github.com/makinori/maki.cafe/src/data"
 	"github.com/makinori/maki.cafe/src/render"
 	"github.com/makinori/maki.cafe/src/util"
@@ -71,7 +71,7 @@ func Anime() Group {
 		P(
 			Text("see my "),
 			A(
-				Href(common.AniListURL),
+				Href(config.AniListURL),
 				Text("anilist profile"),
 			),
 			Text(" for more"),
@@ -85,7 +85,7 @@ func Anime() Group {
 		),
 		Br(),
 		A(
-			Href("https://anilist.co/user/"+common.AniListUsername+"/animelist/Completed"),
+			Href("https://anilist.co/user/"+config.AniListUsername+"/animelist/Completed"),
 			Text("see all recently finished"),
 			Class("muted"),
 		),

@@ -1,7 +1,7 @@
 package component
 
 import (
-	"github.com/makinori/maki.cafe/src/common"
+	"github.com/makinori/maki.cafe/src/config"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -53,11 +53,11 @@ func PageFooter(currentPagePath string) Group {
 		Hr(Style("width: 200px")),
 		Div(
 			Class("page-footer-pages"),
-			footerLink("", common.GitHubURL+"/maki.cafe", "source code"),
+			footerLink("", config.GitHubURL+"/maki.cafe", "source code"),
 			// Div(Class("break")),
 			// footerLink("", "https://old.maki.cafe", "old page"),
 			// Div(Class("break")),
-			// footerLink("", common.GitHubURL+"/dots", "dots", Img(Src("/icons/arch.svg"))),
+			// footerLink("", config.GitHubURL+"/dots", "dots", Img(Src("/icons/arch.svg"))),
 		),
 	}
 }

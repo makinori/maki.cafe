@@ -2,5 +2,5 @@
 -   clarify in footer /interests {/anime,...}
 -   remove common and utils https://rakyll.org/style-packages/
 -   embed svgs
--   move common. to config.
+-   move config. to config.
 -   hstack, vstack in index page

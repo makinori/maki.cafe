@@ -1,4 +1,4 @@
-package common
+package config
 
 const (
 	Email = "maki@hotmilk.space"
