@@ -55,7 +55,7 @@ func Webring(ctx context.Context) Group {
 	gridClass := render.SCSS(ctx, `
 		display: inline-grid;
 		grid-gap: 8px;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(4, 1fr);
 	`)
 
 	return Group{
@@ -64,9 +64,10 @@ func Webring(ctx context.Context) Group {
 		Div(
 			Class(gridClass),
 			webringIcon(ctx, "micaela.gif", "https://micae.la"),
-			webringIcon(ctx, "kneesox.png", "https://kneesox.moe"),
 			webringIcon(ctx, "!cmtaz.net", "https://cmtaz.net"),
+			webringIcon(ctx, "!skyn3t.lol", "https://skyn3t.lol"),
 			webringIcon(ctx, "!lemon.horse", "https://lemon.horse"),
+			webringIcon(ctx, "kneesox.png", "https://kneesox.moe"),
 			webringIcon(ctx, "!ironsm4sh.nl", "https://ironsm4sh.nl"),
 			webringIcon(ctx, "!0x0a.de", "https://0x0a.de"),
 			webringIcon(ctx, "!pony.best", "https://pony.best"),
