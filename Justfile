@@ -30,3 +30,7 @@ generate:
 	-filter Lanczos2 -resize x128 \
 	-fx "u*1.2" \
 	public/pony.png
+
+# download emoji
+emoji emoji provider name:
+	go run ./cmd/emoji "{{emoji}}" "{{provider}}" "{{name}}"

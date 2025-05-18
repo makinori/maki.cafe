@@ -1,7 +1,6 @@
 package page
 
 import (
-	"github.com/makinori/maki.cafe/src/component"
 	"github.com/makinori/maki.cafe/src/config"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -84,7 +83,7 @@ func Index() Group {
 			Name:  "blahaj quest",
 			Color: "#3c8ea7",
 			URL:   "https://blahaj.quest",
-			Icon:  component.EmojiURL("🦈", "noto"),
+			Icon:  "/emojis/shark.svg",
 		},
 		{
 			Name:  "baltimare leaderboard",
