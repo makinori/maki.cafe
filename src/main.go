@@ -5,7 +5,6 @@ import (
 	"embed"
 	"fmt"
 	"io/fs"
-	"log"
 	"net/http"
 	"os"
 	"runtime"
@@ -13,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/charmbracelet/log"
 	"github.com/makinori/maki.cafe/src/config"
 	"github.com/makinori/maki.cafe/src/data"
 	"github.com/makinori/maki.cafe/src/page"
@@ -37,7 +37,7 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to render"))
-			log.Println("failed to render: " + err.Error())
+			log.Error("failed to render", "err", err.Error())
 		}
 
 		pageBuf := bytes.NewBuffer(nil)
@@ -47,7 +47,7 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to render"))
-			log.Println("failed to render: " + err.Error())
+			log.Error("failed to render", "err", err.Error())
 			return
 		}
 
@@ -56,7 +56,7 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 		// if err != nil {
 		// 	w.WriteHeader(http.StatusInternalServerError)
 		// 	w.Write([]byte("failed to minify page"))
-		// 	log.Println("failed to minify page: " + err.Error())
+		// 	log.Error("failed to minify page", "err", err.Error())
 		// 	return
 		// }
 
@@ -65,7 +65,7 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 		renderTime := time.Now().Sub(start)
 
 		if util.ENV_IS_DEV {
-			log.Println("render " + r.URL.Path + " " + renderTime.String())
+			log.Debugf("render %s %s", r.URL.Path, renderTime.String())
 		}
 
 		w.Header().Set("X-Render-Time", strings.ReplaceAll(renderTime.String(), "µ", "u"))
@@ -79,7 +79,8 @@ func Main() {
 	// initialization
 
 	if util.ENV_IS_DEV {
-		log.Println("in developer mode")
+		log.Info("in developer mode")
+		log.SetLevel(log.DebugLevel)
 	}
 
 	data.InitData()
@@ -116,7 +117,7 @@ func Main() {
 
 	publicFs, err := fs.Sub(staticContent, "public")
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatal(err)
 	}
 
 	// http.FileServerFS(publicFs)
@@ -140,15 +141,15 @@ func Main() {
 		var err error
 		port, err = strconv.Atoi(portStr)
 		if err != nil {
-			log.Fatalln(err)
+			log.Fatal(err)
 		}
 	}
 
 	addr := fmt.Sprintf(":%d", port)
-	log.Println("listening at " + addr)
+	log.Info("listening at " + addr)
 
 	err = http.ListenAndServe(addr, wrappedMux)
 	if err != nil {
-		log.Fatalln("failed to start http server: " + err.Error())
+		log.Fatal("failed to start http server", "err", err.Error())
 	}
 }

@@ -7,7 +7,6 @@ import (
 	"hash/crc32"
 	"io"
 	"io/fs"
-	"log"
 	"mime"
 	"net/http"
 	"net/url"
@@ -15,6 +14,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/charmbracelet/log"
 	"github.com/jinzhu/copier"
 )
 
@@ -100,7 +100,7 @@ func HTTPFileServerOptimized(fs fs.FS) func(http.ResponseWriter, *http.Request) 
 
 		stat, err := file.Stat()
 		if err != nil {
-			log.Println("failed to file stat: " + err.Error())
+			log.Error("failed to file stat", "err", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -109,7 +109,7 @@ func HTTPFileServerOptimized(fs fs.FS) func(http.ResponseWriter, *http.Request) 
 
 		_, err = file.Read(data)
 		if err != nil {
-			log.Println("failed to read file: " + err.Error())
+			log.Error("failed to read file", "err", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -173,7 +173,7 @@ func HTTPPlausibleEvent(incomingReq *http.Request) bool {
 	})
 
 	if err != nil {
-		log.Println("failed to marshal json for plausible: " + err.Error())
+		log.Error("failed to marshal json for plausible", "err", err.Error())
 		return false
 	}
 
@@ -196,7 +196,7 @@ func HTTPPlausibleEvent(incomingReq *http.Request) bool {
 	if ENV_PLAUSIBLE_DEBUG {
 		// isn't even in the plausible code. docs need to be updated
 		plausibleReq.Header.Add("X-Debug-Request", "true")
-		log.Println(
+		log.Debug(
 			"plausible:\n" +
 				"  data: " + string(body) + "\n" +
 				"  ip: " + ipAddress + "\n" +
@@ -207,17 +207,17 @@ func HTTPPlausibleEvent(incomingReq *http.Request) bool {
 	client := http.Client{}
 	res, err := client.Do(plausibleReq)
 	if err != nil {
-		log.Println("failed to send plausible event: " + err.Error())
+		log.Error("failed to send plausible event", "err", err.Error())
 		return false
 	}
 
 	if ENV_PLAUSIBLE_DEBUG {
 		resData, err := io.ReadAll(res.Body)
 		if err != nil {
-			log.Println("failed to read plausible res body: " + err.Error())
+			log.Error("failed to read plausible res body", "err", err.Error())
 		}
 
-		log.Println("res: " + string(resData))
+		log.Debug("res: " + string(resData))
 	}
 
 	return true

@@ -4,6 +4,7 @@ default:
 alias s := start
 # start web server
 start:
+	CI=true CLICOLOR_FORCE=1 \
 	DEV=1 PORT=1234 go tool air \
 	-proxy.enabled=true \
 	-proxy.app_port=1234 \
