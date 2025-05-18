@@ -29,7 +29,7 @@ func InitMinifier() {
 	// })
 }
 
-func Render(
+func RenderPage(
 	pageFn func(context.Context) Group,
 	currentPagePath string,
 ) ([]byte, error) {
@@ -52,7 +52,7 @@ func Render(
 	body := Body(
 		Class(bodyClass),
 		Div(Class(SCSS(ctx, `
-			position: fixed;
+			position: absolute;
 			margin: auto;
 			top: 0;
 			left: 0;

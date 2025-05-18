@@ -31,7 +31,7 @@ func handlePage(pageFn func(context.Context) gomponents.Group) func(http.Respons
 	return func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 
-		html, err := render.Render(pageFn, r.URL.Path)
+		html, err := render.RenderPage(pageFn, r.URL.Path)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to render"))
