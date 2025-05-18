@@ -78,16 +78,16 @@ func Webring(ctx context.Context) Group {
 		Div(
 			Class(gridClass),
 			webringIcon(ctx, "yno.png", "https://ynoproject.net"),
-		),
-		Br(),
-		Br(),
-		H2(Text("pony")),
-		Br(),
-		Div(
-			Class(gridClass),
 			webringIcon(ctx, "anonfilly.png", "https://anonfilly.horse"),
-			webringIcon(ctx, "!pony.town", "https://pony.town"),
-			webringIcon(ctx, "!wetmares", "https://wetmares.org"),
 		),
+		// Br(),
+		// Br(),
+		// H2(Text("pony")),
+		// Br(),
+		// Div(
+		// 	Class(gridClass),
+		// 	webringIcon(ctx, "!pony.town", "https://pony.town"),
+		// 	webringIcon(ctx, "!wetmares", "https://wetmares.org"),
+		// ),
 	}
 }
