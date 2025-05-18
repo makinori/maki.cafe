@@ -19,8 +19,8 @@ func webringIcon(ctx context.Context, filename string, url string) Node {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		background-color: hsl(0deg, 0%, 15%);
-		font-weight: 500;
+		background-color: hsl(0deg, 0%, 10%);
+		font-weight: 600;
 		padding: 0;
 	`)
 
@@ -32,7 +32,7 @@ func webringIcon(ctx context.Context, filename string, url string) Node {
 			baseClass: true, render.SCSS(ctx, `
 				width: 84px;
 				height: 27px;
-				border: solid 2px hsl(0deg, 0%, 25%);
+				border: solid 2px hsl(0deg, 0%, 20%);
 			`): true,
 		})
 	} else {
