@@ -25,10 +25,12 @@ func LintHTML(inputHTML []byte) {
 			tt, text := l.Next()
 			switch tt {
 			case css.URLToken:
-				log.Warn(
-					extHTTPResource+" in style",
-					"tag", tag, "url", string(text),
-				)
+				if strings.Contains(strings.ToLower(string(text)), "http") {
+					log.Warn(
+						extHTTPResource+" in style",
+						"tag", tag, "url", string(text),
+					)
+				}
 			case css.ErrorToken:
 				return
 			}
