@@ -34,8 +34,8 @@ func setCache(key string, data any, expiresAt time.Time) error {
 	return nil
 }
 
-func writeCacheAsset(filename string, data []byte) error {
-	filePath := "cache/assets/" + filename
+func writeCachePublic(filename string, data []byte) error {
+	filePath := "cache/public/" + filename
 
 	os.MkdirAll(path.Dir(filePath), 0755)
 	err := os.WriteFile(filePath, data, 0644)
@@ -103,7 +103,7 @@ func makeCachedSpriteSheet[T any](
 	}
 
 	filePath := name + ".jpg"
-	err = writeCacheAsset(filePath, jpg.Bytes())
+	err = writeCachePublic(filePath, jpg.Bytes())
 	if err != nil {
 		return CachedSpriteSheet{}, err
 	}

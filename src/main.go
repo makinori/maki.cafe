@@ -89,7 +89,7 @@ func Main() {
 
 	mux.HandleFunc(
 		"GET /cache/{file...}", util.HTTPFileServerOptimized(
-			os.DirFS("cache/assets"),
+			os.DirFS("cache/public"),
 		),
 	)
 
