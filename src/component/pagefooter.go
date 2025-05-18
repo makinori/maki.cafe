@@ -30,7 +30,7 @@ func PageFooter(currentPagePath string) Group {
 	// }
 
 	var spacing Group
-	for range 8 {
+	for range 6 {
 		spacing = append(spacing, Br())
 	}
 

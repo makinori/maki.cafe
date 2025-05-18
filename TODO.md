@@ -1,6 +1,3 @@
--   use css in go
 -   clarify in footer /interests {/anime,...}
--   remove common and utils https://rakyll.org/style-packages/
 -   embed svgs
--   move config. to config.
 -   hstack, vstack in index page

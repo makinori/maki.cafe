@@ -2,6 +2,7 @@ package src
 
 import (
 	"bytes"
+	"context"
 	"embed"
 	"fmt"
 	"io/fs"
@@ -18,7 +19,6 @@ import (
 	"github.com/makinori/maki.cafe/src/lint"
 	"github.com/makinori/maki.cafe/src/page"
 	"github.com/makinori/maki.cafe/src/render"
-	"github.com/makinori/maki.cafe/src/template"
 	"github.com/makinori/maki.cafe/src/util"
 	"maragu.dev/gomponents"
 )
@@ -30,11 +30,13 @@ var (
 	// minifier *minify.M
 )
 
-func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.Request) {
+func handlePage(pageFn func(context.Context) gomponents.Group) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 
-		template, err := template.Site(pageFn(), r.URL.Path)
+		ctx := render.InitContext()
+
+		site, err := render.Site(ctx, pageFn(ctx), r.URL.Path)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to render"))
@@ -43,7 +45,7 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 
 		pageBuf := bytes.NewBuffer(nil)
 
-		err = template.Render(pageBuf)
+		err = site.Render(pageBuf)
 
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)

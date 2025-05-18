@@ -1,6 +1,8 @@
 package page
 
 import (
+	"context"
+	"fmt"
 	"time"
 
 	"github.com/makinori/maki.cafe/src/config"
@@ -11,14 +13,20 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
-func Anime() Group {
-	css, _ := render.RenderSass(`
-		.anime-grid {
-			display: grid;
-			grid-template-columns: repeat(5,1fr);
-			grid-gap: 8px;
-		
-			.anime {
+func Anime(ctx context.Context) Group {
+	var animeNodes Group
+
+	for _, anime := range data.Anilist.Data.Data.Page.MediaList {
+		completedAt := time.Date(
+			anime.CompletedAt.Year,
+			time.Month(anime.CompletedAt.Month),
+			anime.CompletedAt.Day,
+			0, 0, 0, 0, time.UTC,
+		)
+
+		animeNodes = append(animeNodes, A(
+			Href(anime.Media.SiteURL),
+			Class(render.SCSS(ctx, `
 				padding: 0;
 				display: flex;
 				flex-direction: column;
@@ -36,38 +44,22 @@ func Anime() Group {
 				> p {
 					font-size: 20px;
 				}
-			}
-		}
-	`)
-
-	var animeNodes []Node
-
-	for _, anime := range data.Anilist.Data.Data.Page.MediaList {
-		completedAt := time.Date(
-			anime.CompletedAt.Year,
-			time.Month(anime.CompletedAt.Month),
-			anime.CompletedAt.Day,
-			0, 0, 0, 0, time.UTC,
-		)
-
-		animeNodes = append(animeNodes, A(
-			Href(anime.Media.SiteURL),
-			Class("anime"),
+			`)),
 			// Img(
 			// 	Style("width:100%;height:auto"),
 			// 	Src(anime.Media.CoverImage.Large),
 			// ),
 			Div(
-				Style("background-image:url(\""+
-					anime.Media.CoverImage.Large+
-					"\")"),
+				Style(fmt.Sprintf(
+					`background-image:url("%s")`,
+					anime.Media.CoverImage.Large,
+				)),
 			),
 			P(Text(util.ShortDate(completedAt))),
 		))
 	}
 
 	return Group{
-		StyleEl(Raw(css)),
 		P(
 			Text("see my "),
 			A(
@@ -80,8 +72,12 @@ func Anime() Group {
 		H1(Text("recently finished")),
 		Br(),
 		Div(
-			Class("anime-grid"),
-			Group(animeNodes),
+			Class(render.SCSS(ctx, `
+				display: grid;
+				grid-template-columns: repeat(5,1fr);
+				grid-gap: 8px;
+			`)),
+			animeNodes,
 		),
 		Br(),
 		A(

@@ -1,10 +1,10 @@
-package template
+package render
 
 import (
+	"context"
 	_ "embed"
 
 	"github.com/makinori/maki.cafe/src/component"
-	"github.com/makinori/maki.cafe/src/render"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -16,9 +16,11 @@ var (
 	fontsSCSS string
 )
 
-func Site(page Group, currentPagePath string) (Group, error) {
-	finalCSS, err := render.RenderSass(styleSCSS,
-		render.SassImport{Filename: "fonts.scss", Content: fontsSCSS},
+func Site(ctx context.Context, page Group, currentPagePath string) (Group, error) {
+	pageSCSS := getPageSCSS(ctx)
+
+	finalCSS, err := RenderSass(styleSCSS+"\n"+pageSCSS,
+		SassImport{Filename: "fonts.scss", Content: fontsSCSS},
 	)
 
 	if err != nil {

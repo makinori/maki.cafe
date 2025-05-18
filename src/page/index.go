@@ -1,7 +1,10 @@
 package page
 
 import (
+	"context"
+
 	"github.com/makinori/maki.cafe/src/config"
+	"github.com/makinori/maki.cafe/src/render"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -56,7 +59,7 @@ func makeLinks(links []link) Group {
 	return output
 }
 
-func Index() Group {
+func Index(ctx context.Context) Group {
 	social1 := makeLinks([]link{
 		{
 			Name:  "email",
@@ -134,58 +137,40 @@ func Index() Group {
 		},
 	})
 
+	rowClass := render.SCSS(ctx, `
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		gap: 8px;
+	`)
+
+	columnClass := render.SCSS(ctx, `
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+	`)
+
 	return Group{
 		H3(Text("software engineer")),
 		H3(Text("game developer")),
 		H3(Text("server admin")),
 		Br(),
 		Div(
-			Style("display: flex; flex-direction: row; align-items: flex-start; gap: 8px; margin-bottom: 8px"),
+			Class(rowClass),
+			Style("margin-bottom: 8px"),
 			social1,
 		),
 		Div(
-			Style("display: flex; flex-direction: row; align-items: flex-start; gap: 8px;"),
+			Class(rowClass),
 			social2,
 		),
-		// A(
-		// 	Text("email"),
-		// 	Title(config.Email),
-		// 	Href("/email"),
-		// ),
-		// Text(" "),
-		// A(
-		// 	Text("xmpp"),
-		// 	Title(config.XMPP),
-		// 	Href("/xmpp"),
-		// ),
-		// Br(),
-		// Text(" "),
-		// A(
-		// 	Href(config.GitHubURL),
-		// 	Title("@"+config.GitHubUsername),
-		// 	Text("github"),
-		// ),
 		Br(),
 		H1(Text("worked on")),
 		Br(),
 		Div(
-			Style("display: flex; flex-direction: column; align-items: flex-start; gap: 8px"),
+			Class(columnClass),
 			workedOn,
 		),
-		Br(),
-		// Div(
-		// 	Style("display: flex; flex-direction: row; gap: 8px"),
-		// 	A(
-		// 		Class("muted"),
-		// 		Text("old page"),
-		// 		Href("https://old.maki.cafe"),
-		// 	),
-		// 	A(
-		// 		Class("muted"),
-		// 		Href(config.GitHubURL+"/dots"),
-		// 		Img(Src("/icons/arch.svg")),
-		// 		Text("dots"),
-		// 	),
-		// ),
 	}
 }
