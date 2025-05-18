@@ -15,6 +15,7 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/makinori/maki.cafe/src/config"
 	"github.com/makinori/maki.cafe/src/data"
+	"github.com/makinori/maki.cafe/src/lint"
 	"github.com/makinori/maki.cafe/src/page"
 	"github.com/makinori/maki.cafe/src/render"
 	"github.com/makinori/maki.cafe/src/template"
@@ -66,6 +67,7 @@ func handlePage(pageFn func() gomponents.Group) func(http.ResponseWriter, *http.
 
 		if util.ENV_IS_DEV {
 			log.Debugf("render %s %s", r.URL.Path, renderTime.String())
+			lint.LintHTML(pageBuf.Bytes())
 		}
 
 		w.Header().Set("X-Render-Time", strings.ReplaceAll(renderTime.String(), "µ", "u"))
