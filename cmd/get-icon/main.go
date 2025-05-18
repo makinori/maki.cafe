@@ -56,59 +56,114 @@ func minifySVG(data []byte) ([]byte, error) {
 	return out.Bytes(), nil
 }
 
-func main() {
-	if len(os.Args) < 4 {
-		panic("usage: <emoji> <provider> <name>")
+var usage = strings.TrimSpace(`
+usage:
+    emoji <name> <emoji> <provider>
+    fa <name> <pack>
+`)
+
+func printExit1(a ...any) {
+	fmt.Println(a...)
+	os.Exit(1)
+}
+
+func getNextArgOrUsage(i *int) string {
+	if *i >= len(os.Args) {
+		printExit1(usage)
 	}
 
-	emoji := os.Args[1]
-	provider := os.Args[2]
-	name := os.Args[3]
+	val := os.Args[*i]
+	*i++
 
-	codepoint := toCodePoint(emoji, "_")
-	url := emojiURL(codepoint, provider)
-	outputPath := "src/public/emojis/" + name + ".svg"
+	if len(val) == 0 {
+		printExit1(usage)
+	}
+
+	return val
+}
+
+func main() {
+	argI := 1
+
+	tool := getNextArgOrUsage(&argI)
+	name := getNextArgOrUsage(&argI)
+
+	var url, fileExt string
+
+	switch tool {
+	case "emoji":
+		emoji := getNextArgOrUsage(&argI)
+		provider := getNextArgOrUsage(&argI)
+		codepoint := toCodePoint(emoji, "_")
+
+		fileExt = "svg"
+		url = emojiURL(codepoint, provider)
+
+		if url == "" {
+			printExit1("unknown emoji provider: " + provider)
+		}
+
+	case "fa":
+		// solid, brands
+		pack := getNextArgOrUsage(&argI)
+		if pack == "" {
+			printExit1("unknown fa pack: " + pack)
+		}
+
+		fileExt = "svg"
+		url = "https://site-assets.fontawesome.com/releases/v6.7.2/svgs/" +
+			pack + "/" + name + ".svg"
+
+	default:
+		printExit1(usage)
+	}
+
+	outputPath := "src/public/icons/" + name + "." + fileExt
 
 	// validation
 
-	if url == "" {
-		panic("unknown provider: " + provider)
-	}
-
 	dirInfo, err := os.Stat(path.Dir(outputPath))
 	if err != nil {
-		panic(err)
+		printExit1(err)
 	}
 	if !dirInfo.IsDir() {
-		panic(path.Dir(outputPath) + ": not a directory")
+		printExit1(path.Dir(outputPath) + ": not a directory")
 	}
 
 	// download
 
 	res, err := http.Get(url)
 	if err != nil {
-		panic(err)
+		printExit1(err)
 	}
 	defer res.Body.Close()
 
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
-		panic(err)
+		printExit1(err)
 	}
 
-	// optimize and save
-
-	sizeBefore := float64(len(data))
-	data, err = minifySVG(data)
-	if err != nil {
-		panic(err)
+	if res.StatusCode/100 != 2 {
+		printExit1(string(data))
 	}
 
-	fmt.Printf("optimized: %.1f%% of original\n", (float64(len(data))/sizeBefore)*100)
+	// optimize
+
+	if fileExt == "svg" {
+		sizeBefore := float64(len(data))
+		data, err = minifySVG(data)
+		if err != nil {
+			printExit1(err)
+		}
+
+		fmt.Printf("optimized: %.1f%% of original\n", (float64(len(data))/sizeBefore)*100)
+	}
+
+	// save
 
 	err = os.WriteFile(outputPath, data, 0644)
 	if err != nil {
-		panic(err)
+		printExit1(err)
 	}
 
 	fmt.Println("saved to: " + outputPath)

@@ -31,6 +31,6 @@ generate:
 	-fx "u*1.2" \
 	public/pony.png
 
-# download emoji
-emoji emoji provider name:
-	go run ./cmd/emoji "{{emoji}}" "{{provider}}" "{{name}}"
+# download icons and emojis
+icon +args:
+	go run ./cmd/get-icon {{args}}
