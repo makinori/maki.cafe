@@ -144,7 +144,7 @@ func Index() Group {
 			social1,
 		),
 		Div(
-			Style("display: flex; flex-direction: row; align-items: flex-start; gap: 8px; margin-bottom: 8px"),
+			Style("display: flex; flex-direction: row; align-items: flex-start; gap: 8px;"),
 			social2,
 		),
 		// A(
