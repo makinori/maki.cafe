@@ -1,16 +1,16 @@
-package component
+package render
 
 import (
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
 
-type PageHeaderInfo struct {
+type pageHeaderInfo struct {
 	Big      bool
 	PagePath string
 }
 
-func PageHeader(info PageHeaderInfo) Group {
+func pageHeader(info pageHeaderInfo) Group {
 	// make sure to set height to avoid flickering
 	ponyImg := Img(Class("pony"), Src("/images/pony.png"))
 

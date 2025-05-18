@@ -3,8 +3,8 @@ package page
 import (
 	"context"
 
+	"github.com/makinori/maki.cafe/src/component"
 	"github.com/makinori/maki.cafe/src/config"
-	"github.com/makinori/maki.cafe/src/render"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -60,43 +60,44 @@ func makeLinks(links []link) Group {
 }
 
 func Index(ctx context.Context) Group {
-	social1 := makeLinks([]link{
-		{
-			Name:  "email",
-			URL:   "/email",
-			Title: config.Email,
-			// Color: "#333",
-		},
-		{
-			Name:  "xmpp",
-			URL:   "/xmpp",
-			Title: config.XMPP,
-			Color: "#227ee1",
-		},
-		{
-			Name:  "matrix",
-			URL:   config.MatrixURL,
-			Title: config.MatrixUsername,
-			Color: "#0dbd8b",
-		},
+	social := component.VStack(ctx, Group{
+		component.HStack(ctx, makeLinks([]link{
+			{
+				Name:  "email",
+				URL:   "/email",
+				Title: config.Email,
+				// Color: "#333",
+			},
+			{
+				Name:  "xmpp",
+				URL:   "/xmpp",
+				Title: config.XMPP,
+				Color: "#227ee1",
+			},
+			{
+				Name:  "matrix",
+				URL:   config.MatrixURL,
+				Title: config.MatrixUsername,
+				Color: "#0dbd8b",
+			},
+		})),
+		component.HStack(ctx, makeLinks([]link{
+			{
+				Name:  "mastodon",
+				URL:   config.MastodonURL,
+				Title: config.MastodonUsername,
+				Color: "#6364ff",
+			},
+			{
+				Name:  "github",
+				URL:   config.GitHubURL,
+				Title: config.GitHubUsername,
+				Color: "#333",
+			},
+		})),
 	})
 
-	social2 := makeLinks([]link{
-		{
-			Name:  "mastodon",
-			URL:   config.MastodonURL,
-			Title: config.MastodonUsername,
-			Color: "#6364ff",
-		},
-		{
-			Name:  "github",
-			URL:   config.MastodonURL,
-			Title: config.MastodonUsername,
-			Color: "#333",
-		},
-	})
-
-	workedOn := makeLinks([]link{
+	workedOn := component.VStack(ctx, makeLinks([]link{
 		{
 			Name:  "tivoli cloud vr",
 			Color: "#e91e63",
@@ -135,42 +136,17 @@ func Index(ctx context.Context) Group {
 			Icon:  "/icons/arch.svg",
 			Muted: true,
 		},
-	})
-
-	rowClass := render.SCSS(ctx, `
-		display: flex;
-		flex-direction: row;
-		align-items: flex-start;
-		gap: 8px;
-	`)
-
-	columnClass := render.SCSS(ctx, `
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 8px;
-	`)
+	}), "align-items: start;")
 
 	return Group{
 		H3(Text("software engineer")),
 		H3(Text("game developer")),
 		H3(Text("server admin")),
 		Br(),
-		Div(
-			Class(rowClass),
-			Style("margin-bottom: 8px"),
-			social1,
-		),
-		Div(
-			Class(rowClass),
-			social2,
-		),
+		social,
 		Br(),
 		H1(Text("worked on")),
 		Br(),
-		Div(
-			Class(columnClass),
-			workedOn,
-		),
+		workedOn,
 	}
 }

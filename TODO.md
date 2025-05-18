@@ -1,3 +1,2 @@
 -   clarify in footer /interests {/anime,...}
 -   embed svgs
--   hstack, vstack in index page

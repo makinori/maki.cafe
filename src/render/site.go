@@ -4,7 +4,6 @@ import (
 	"context"
 	_ "embed"
 
-	"github.com/makinori/maki.cafe/src/component"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -19,7 +18,7 @@ var (
 func Site(ctx context.Context, page Group, currentPagePath string) (Group, error) {
 	pageSCSS := getPageSCSS(ctx)
 
-	finalCSS, err := RenderSass(styleSCSS+"\n"+pageSCSS,
+	finalCSS, err := renderSass(styleSCSS+"\n"+pageSCSS,
 		SassImport{Filename: "fonts.scss", Content: fontsSCSS},
 	)
 
@@ -27,7 +26,7 @@ func Site(ctx context.Context, page Group, currentPagePath string) (Group, error
 		return Group{}, err
 	}
 
-	pageHeaderInfo := component.PageHeaderInfo{
+	pageHeaderInfo := pageHeaderInfo{
 		PagePath: currentPagePath,
 	}
 
@@ -54,9 +53,9 @@ func Site(ctx context.Context, page Group, currentPagePath string) (Group, error
 			Body(
 				Class(bodyClass),
 				Div(Class("page-top-strip")),
-				component.PageHeader(pageHeaderInfo),
+				pageHeader(pageHeaderInfo),
 				page,
-				component.PageFooter(currentPagePath),
+				pageFooter(currentPagePath),
 			),
 		),
 	)}, nil

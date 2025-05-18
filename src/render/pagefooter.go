@@ -1,4 +1,4 @@
-package component
+package render
 
 import (
 	"github.com/makinori/maki.cafe/src/config"
@@ -23,7 +23,7 @@ func footerLink(
 	return A(Group(prefixNodes), props)
 }
 
-func PageFooter(currentPagePath string) Group {
+func pageFooter(currentPagePath string) Group {
 	// not ready to show footer on index page yet
 	// if currentPagePath == "/" {
 	// 	return Group{}
