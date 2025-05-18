@@ -2,6 +2,7 @@ package lint
 
 import (
 	"bytes"
+	"regexp"
 	"strings"
 
 	"github.com/charmbracelet/log"
@@ -9,6 +10,8 @@ import (
 	"github.com/tdewolff/parse/v2/css"
 	"golang.org/x/net/html"
 )
+
+var cssURLHttpRegexp = regexp.MustCompile(`(?i)(http.+?)["')]`)
 
 func LintHTML(inputHTML []byte) {
 	doc, err := html.Parse(bytes.NewBuffer(inputHTML))
@@ -19,18 +22,28 @@ func LintHTML(inputHTML []byte) {
 
 	extHTTPResource := "external http resource"
 
-	parseStyle := func(tag string, style string) {
+	parseStyleAttr := func(tag string, style string) {
 		l := css.NewLexer(parse.NewInputString(style))
 		for {
 			tt, text := l.Next()
 			switch tt {
 			case css.URLToken:
-				if strings.Contains(strings.ToLower(string(text)), "http") {
-					log.Warn(
-						extHTTPResource+" in style",
-						"tag", tag, "url", string(text),
-					)
+				url := string(text)
+
+				if !strings.Contains(strings.ToLower(url), "http") {
+					continue
 				}
+
+				matches := cssURLHttpRegexp.FindStringSubmatch(url)
+				if len(matches) > 0 {
+					url = matches[1]
+				}
+
+				log.Warn(
+					extHTTPResource+" in style",
+					"tag", tag, "url", url,
+				)
+
 			case css.ErrorToken:
 				return
 			}
@@ -44,7 +57,7 @@ func LintHTML(inputHTML []byte) {
 
 		for _, attr := range attrs {
 			if strings.ToLower(attr.Key) == "style" {
-				parseStyle(tag, attr.Val)
+				parseStyleAttr(tag, attr.Val)
 			} else if strings.HasPrefix(
 				strings.ToLower(attr.Val), "http",
 			) {
