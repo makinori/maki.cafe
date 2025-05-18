@@ -186,8 +186,6 @@ type aniListErrors struct {
 func getQuery[T any](result *T, query aniListQuery) error {
 	queryJson, err := json.Marshal(query)
 
-	fmt.Println(string(queryJson))
-
 	if err != nil {
 		return err
 	}
@@ -235,13 +233,24 @@ func getQuery[T any](result *T, query aniListQuery) error {
 }
 
 type aniListResult struct {
-	Current            []aniListCurrentAnime   `json:"current"`
-	Completed          []aniListCompletedAnime `json:"completed"`
-	FavoriteAnime      []aniListAnime          `json:"favoriteAnime"`
-	FavoriteCharacters []aniListCharacter      `json:"favoriteCharacters"`
+	Current                 []aniListCurrentAnime   `json:"current"`
+	CurrentImage            CachedSpriteSheet       `json:"currentImage"`
+	Completed               []aniListCompletedAnime `json:"completed"`
+	CompletedImage          CachedSpriteSheet       `json:"completedImage"`
+	FavoriteAnime           []aniListAnime          `json:"favoriteAnime"`
+	FavoriteAnimeImage      CachedSpriteSheet       `json:"favoriteAnimeImage"`
+	FavoriteCharacters      []aniListCharacter      `json:"favoriteCharacters"`
+	FavoriteCharactersImage CachedSpriteSheet       `json:"favoriteCharactersImage"`
 }
 
 const aniListMaxPerPage = 50
+const aniListRatioWidth = 23
+const aniListRatioHeight = 32
+
+var AniListRatio = fmt.Sprintf("%d/%d", aniListRatioWidth, aniListRatioHeight)
+
+var AniListGridWidthLarge = 6
+var AniListGridWidthSmall = 8
 
 func getAniList() (aniListResult, error) {
 	var current aniListCurrentResult
@@ -264,7 +273,7 @@ func getAniList() (aniListResult, error) {
 		Variables: aniListQueryVars{
 			Username: config.AniListUsername,
 			Page:     0,
-			PerPage:  12,
+			PerPage:  AniListGridWidthLarge * 2,
 		},
 	})
 
@@ -286,12 +295,56 @@ func getAniList() (aniListResult, error) {
 		return aniListResult{}, err
 	}
 
-	return aniListResult{
+	// make spritesheets
+
+	result := aniListResult{
 		Current:            current.Data.Page.MediaList,
 		Completed:          completed.Data.Page.MediaList,
 		FavoriteAnime:      favorites.Data.User.Favorites.Anime.Nodes,
 		FavoriteCharacters: favorites.Data.User.Favorites.Characters.Nodes,
-	}, nil
+	}
+
+	imageWidth := aniListRatioWidth * 6
+	imageHeight := aniListRatioHeight * 6
+	imagePadding := 8
+
+	result.CurrentImage, err = makeCachedSpriteSheet(
+		"anilist/current", &current.Data.Page.MediaList,
+		func(e *aniListCurrentAnime) string { return e.Media.CoverImage.Large },
+		imageWidth, imageHeight, imagePadding, AniListGridWidthLarge,
+	)
+	if err != nil {
+		return aniListResult{}, err
+	}
+
+	result.CompletedImage, err = makeCachedSpriteSheet(
+		"anilist/completed", &completed.Data.Page.MediaList,
+		func(e *aniListCompletedAnime) string { return e.Media.CoverImage.Large },
+		imageWidth, imageHeight, imagePadding, AniListGridWidthLarge,
+	)
+	if err != nil {
+		return aniListResult{}, err
+	}
+
+	result.FavoriteAnimeImage, err = makeCachedSpriteSheet(
+		"anilist/favorite-anime", &favorites.Data.User.Favorites.Anime.Nodes,
+		func(e *aniListAnime) string { return e.CoverImage.Large },
+		imageWidth, imageHeight, imagePadding, AniListGridWidthSmall,
+	)
+	if err != nil {
+		return aniListResult{}, err
+	}
+
+	result.FavoriteCharactersImage, err = makeCachedSpriteSheet(
+		"anilist/favorite-characters", &favorites.Data.User.Favorites.Characters.Nodes,
+		func(e *aniListCharacter) string { return e.Image.Large },
+		imageWidth, imageHeight, imagePadding, AniListGridWidthSmall,
+	)
+	if err != nil {
+		return aniListResult{}, err
+	}
+
+	return result, nil
 }
 
 var Anilist = cachedData[aniListResult]{

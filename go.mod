@@ -6,11 +6,14 @@ require (
 	github.com/andybalholm/brotli v1.1.1
 	github.com/bep/godartsass/v2 v2.5.0
 	github.com/charmbracelet/log v0.4.2
+	github.com/disintegration/imaging v1.6.2
 	github.com/jinzhu/copier v0.4.0
 	github.com/klauspost/compress v1.18.0
 	github.com/robfig/cron/v3 v3.0.1
+	github.com/tdewolff/minify/v2 v2.23.5
 	github.com/tdewolff/parse/v2 v2.8.0
 	golang.org/x/net v0.40.0
+	golang.org/x/sync v0.14.0
 	maragu.dev/gomponents v1.1.0
 )
 
@@ -42,9 +45,9 @@ require (
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/spf13/afero v1.14.0 // indirect
 	github.com/spf13/cast v1.8.0 // indirect
-	github.com/tdewolff/minify/v2 v2.23.5 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	golang.org/x/exp v0.0.0-20250506013437-ce4c2cf36ca6 // indirect
+	golang.org/x/image v0.26.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.25.0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect

@@ -87,12 +87,17 @@ func Main() {
 
 	// register assets
 
+	mux.HandleFunc(
+		"GET /cache/{file...}", util.HTTPFileServerOptimized(
+			os.DirFS("cache/assets"),
+		),
+	)
+
 	publicFs, err := fs.Sub(staticContent, "public")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// http.FileServerFS(publicFs)
 	mux.HandleFunc(
 		"GET /{file...}", util.HTTPFileServerOptimized(publicFs),
 	)

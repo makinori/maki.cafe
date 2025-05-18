@@ -1,3 +1,2 @@
 -   clarify in footer /interests {/anime,...}
 -   embed svgs
--   dynamically generate spritesheet for /anime
