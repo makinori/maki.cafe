@@ -118,7 +118,7 @@ func main() {
 		printExit1(usage)
 	}
 
-	outputPath := "src/public/icons/" + tool + "/" + name + "." + fileExt
+	outputPath := "../src/public/icons/" + tool + "/" + name + "." + fileExt
 
 	// validation
 

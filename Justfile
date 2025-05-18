@@ -33,4 +33,4 @@ generate:
 
 # download icons and emojis
 icon +args:
-	go run ./cmd/get-icon {{args}}
+	cd cmd && go run ./icon {{args}}
