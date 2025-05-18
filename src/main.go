@@ -1,7 +1,6 @@
 package src
 
 import (
-	"bytes"
 	"context"
 	"embed"
 	"fmt"
@@ -26,42 +25,18 @@ import (
 var (
 	//go:embed public
 	staticContent embed.FS
-
-	// minifier *minify.M
 )
 
 func handlePage(pageFn func(context.Context) gomponents.Group) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 
-		ctx := render.InitContext()
-
-		site, err := render.Site(ctx, pageFn(ctx), r.URL.Path)
+		html, err := render.Render(pageFn, r.URL.Path)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to render"))
 			log.Error("failed to render", "err", err.Error())
 		}
-
-		pageBuf := bytes.NewBuffer(nil)
-
-		err = site.Render(pageBuf)
-
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("failed to render"))
-			log.Error("failed to render", "err", err.Error())
-			return
-		}
-
-		// minSiteBuf := bytes.NewBuffer(nil)
-		// err = minifier.Minify("text/html", minSiteBuf, pageBuf)
-		// if err != nil {
-		// 	w.WriteHeader(http.StatusInternalServerError)
-		// 	w.Write([]byte("failed to minify page"))
-		// 	log.Error("failed to minify page", "err", err.Error())
-		// 	return
-		// }
 
 		go util.HTTPPlausibleEvent(r)
 
@@ -69,13 +44,12 @@ func handlePage(pageFn func(context.Context) gomponents.Group) func(http.Respons
 
 		if util.ENV_IS_DEV {
 			log.Debugf("render %s %s", r.URL.Path, renderTime.String())
-			lint.LintHTML(pageBuf.Bytes())
+			lint.LintHTML(html)
 		}
 
 		w.Header().Set("X-Render-Time", strings.ReplaceAll(renderTime.String(), "µ", "u"))
 
-		// util.HTTPServeOptimized(w, r, minSiteBuf.Bytes(), ".html")
-		util.HTTPServeOptimized(w, r, pageBuf.Bytes(), ".html")
+		util.HTTPServeOptimized(w, r, html, ".html")
 	}
 }
 
@@ -91,14 +65,7 @@ func Main() {
 	render.InitSass()
 
 	// no need to cause sass and gomponents are already mostly minified
-	// minifier = minify.New()
-	// minifier.Add("text/css", &css.Minifier{})
-	// minifier.Add("text/html", &html.Minifier{
-	// 	KeepDocumentTags:    true,
-	// 	KeepQuotes:          true,
-	// 	KeepDefaultAttrVals: true,
-	// 	// TODO: minifier removes character entities
-	// })
+	// render.InitMinifier()
 
 	// register api
 

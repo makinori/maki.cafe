@@ -12,7 +12,7 @@ var (
 	pageSCSSKey = "pageSCSS"
 )
 
-func InitContext() context.Context {
+func initContext() context.Context {
 	ctx := context.Background()
 	ctx = context.WithValue(ctx, pageSCSSKey, map[string]string{})
 	return ctx
