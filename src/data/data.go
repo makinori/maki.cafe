@@ -15,7 +15,9 @@ type cachedData[T any] struct {
 	Data     T
 }
 
-func initCachedData[T any](c *cron.Cron, wg *sync.WaitGroup, cachedData *cachedData[T]) {
+func initCachedData[T any](
+	c *cron.Cron, wg *sync.WaitGroup, cachedData *cachedData[T],
+) {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()

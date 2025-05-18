@@ -26,9 +26,12 @@ func ShortDate(date time.Time) string {
 	}
 
 	return fmt.Sprintf(
-		"%s %d '%s",
+		"%s %d",
 		months[date.Month()-1],
 		date.Day(),
-		strconv.Itoa(date.Year())[2:],
 	)
+}
+
+func ShortDateWithYear(date time.Time) string {
+	return ShortDate(date) + " '" + strconv.Itoa(date.Year())[2:]
 }

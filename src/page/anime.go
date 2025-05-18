@@ -13,20 +13,14 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
-func Anime(ctx context.Context) Group {
-	var animeNodes Group
-
-	for _, anime := range data.Anilist.Data.Data.Page.MediaList {
-		completedAt := time.Date(
-			anime.CompletedAt.Year,
-			time.Month(anime.CompletedAt.Month),
-			anime.CompletedAt.Day,
-			0, 0, 0, 0, time.UTC,
-		)
-
-		animeNodes = append(animeNodes, A(
-			Href(anime.Media.SiteURL),
-			Class(render.SCSS(ctx, `
+func makeAnimeNode(
+	ctx context.Context, name string, href string, image string,
+	nodes ...Node,
+) Node {
+	return A(
+		Title(name),
+		Href(href),
+		Class(render.SCSS(ctx, `
 				padding: 0;
 				display: flex;
 				flex-direction: column;
@@ -42,20 +36,68 @@ func Anime(ctx context.Context) Group {
 				}
 
 				> p {
-					font-size: 20px;
+					font-size: 18px;
 				}
 			`)),
-			// Img(
-			// 	Style("width:100%;height:auto"),
-			// 	Src(anime.Media.CoverImage.Large),
-			// ),
-			Div(
-				Style(fmt.Sprintf(
-					`background-image:url("%s")`,
-					anime.Media.CoverImage.Large,
-				)),
-			),
-			P(Text(util.ShortDate(completedAt))),
+		// Img(
+		// 	Style("width:100%;height:auto"),
+		// 	Src(anime.Media.CoverImage.Large),
+		// ),
+		Div(
+			Style(fmt.Sprintf(
+				`background-image:url("%s")`, image,
+			)),
+		),
+		Group(nodes),
+	)
+}
+
+func animeTitle(title data.AniListTitle) string {
+	if title.English != "" {
+		return title.English
+	}
+	return title.Romaji
+}
+
+func Anime(ctx context.Context) Group {
+	var current, completed, favoriteAnime, favoriteCharacters Group
+
+	for _, anime := range data.Anilist.Data.Current {
+		current = append(current, makeAnimeNode(
+			ctx, animeTitle(anime.Media.Title),
+			anime.Media.SiteURL, anime.Media.CoverImage.Large,
+			P(Text(
+				fmt.Sprintf("%d/%d", anime.Progress, anime.Media.Episodes),
+			)),
+		))
+	}
+
+	for _, anime := range data.Anilist.Data.Completed {
+		completedAt := time.Date(
+			anime.CompletedAt.Year,
+			time.Month(anime.CompletedAt.Month),
+			anime.CompletedAt.Day,
+			0, 0, 0, 0, time.UTC,
+		)
+
+		completed = append(completed, makeAnimeNode(
+			ctx, animeTitle(anime.Media.Title),
+			anime.Media.SiteURL, anime.Media.CoverImage.Large,
+			P(Text(util.ShortDateWithYear(completedAt))),
+		))
+	}
+
+	for _, anime := range data.Anilist.Data.FavoriteAnime {
+		favoriteAnime = append(favoriteAnime, makeAnimeNode(
+			ctx, animeTitle(anime.Title),
+			anime.SiteURL, anime.CoverImage.Large,
+		))
+	}
+
+	for _, anime := range data.Anilist.Data.FavoriteCharacters {
+		favoriteCharacters = append(favoriteCharacters, makeAnimeNode(
+			ctx, anime.Name.UserPreferred,
+			anime.SiteURL, anime.Image.Large,
 		))
 	}
 
@@ -69,21 +111,57 @@ func Anime(ctx context.Context) Group {
 			Text(" for more"),
 		),
 		Br(),
+		H1(Text("currently watching")),
+		Br(),
+		Div(
+			Class(render.SCSS(ctx, `
+				display: grid;
+				grid-template-columns: repeat(6,1fr);
+				grid-gap: 8px;
+			`)),
+			current,
+		),
+		Br(),
 		H1(Text("recently finished")),
 		Br(),
 		Div(
 			Class(render.SCSS(ctx, `
 				display: grid;
-				grid-template-columns: repeat(5,1fr);
+				grid-template-columns: repeat(6,1fr);
 				grid-gap: 8px;
 			`)),
-			animeNodes,
+			completed,
+		),
+		// Br(),
+		// A(
+		// 	Href("https://anilist.co/user/"+config.AniListUsername+"/animelist/Completed"),
+		// 	Text("see all finished"),
+		// 	Class("muted"),
+		// ),
+		// Br(),
+		Br(),
+		H1(Text("favorite anime")),
+		Br(),
+		Div(
+			Class(render.SCSS(ctx, `
+				display: grid;
+				grid-template-columns: repeat(8,1fr);
+				grid-gap: 8px;
+			`)),
+			favoriteAnime,
 		),
 		Br(),
-		A(
-			Href("https://anilist.co/user/"+config.AniListUsername+"/animelist/Completed"),
-			Text("see all recently finished"),
-			Class("muted"),
+		H1(Text("favorite characters")),
+		Br(),
+		Div(
+			Class(render.SCSS(ctx, `
+				display: grid;
+				grid-template-columns: repeat(8,1fr);
+				grid-gap: 8px;
+			`)),
+			favoriteCharacters,
 		),
+		// Br()
+		// TODO: https://github.com/makinori/anilist-spinner
 	}
 }
