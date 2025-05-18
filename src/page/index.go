@@ -6,28 +6,6 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
-// func botSafeHref(prefix string, value string) (string, string, string) {
-// 	// this upsets me
-
-// 	// encoded := base64.StdEncoding.EncodeToString([]byte(value))
-// 	encoded := strings.ReplaceAll(value, "@", "[at]")
-// 	encoded = strings.ReplaceAll(encoded, ".", "[dot]")
-
-// 	// keep it legible. even though this only happens when js is disabled,
-// 	// the whole point is to make sure the user can get the address
-// 	jsHref := fmt.Sprintf(`javascript:alert("%s")`, encoded)
-
-// 	js := strings.Join([]string{
-// 		`{`,
-// 		`let e = document.currentScript.parentElement;`,
-// 		`e.title = e.title.replaceAll("[at]","@").replaceAll("[dot]",".");`,
-// 		`e.href = "` + prefix + `"+e.title;`,
-// 		`}`,
-// 	}, " ")
-
-// 	return jsHref, encoded, js
-// }
-
 type link struct {
 	Name  string
 	Color string
@@ -35,6 +13,7 @@ type link struct {
 	Icon  string
 	Muted bool
 	Break bool
+	Title string
 }
 
 func makeLinks(links []link) Group {
@@ -46,14 +25,23 @@ func makeLinks(links []link) Group {
 			continue
 		}
 
-		style := "background:" + item.Color + ";"
+		params := Group{
+			Href(item.URL),
+		}
+
+		if item.Title != "" {
+			params = append(params, Title(item.Title))
+		}
+
+		style := ""
+		if item.Color != "" {
+			style += "background:" + item.Color + ";"
+		}
 		if item.Muted {
 			style += "color:#000;"
 		}
-
-		params := Group{
-			Style(style),
-			Href(item.URL),
+		if style != "" {
+			params = append(params, Style(style))
 		}
 
 		if item.Icon != "" {
@@ -69,8 +57,41 @@ func makeLinks(links []link) Group {
 }
 
 func Index() Group {
-	// emailHref, emailTitle, emailJS := botSafeHref("mailto:", config.Email)
-	// xmppHref, xmppTitle, xmppJS := botSafeHref("xmpp:", config.XMPP)
+	social1 := makeLinks([]link{
+		{
+			Name:  "email",
+			URL:   "/email",
+			Title: config.Email,
+			// Color: "#333",
+		},
+		{
+			Name:  "xmpp",
+			URL:   "/xmpp",
+			Title: config.XMPP,
+			Color: "#227ee1",
+		},
+		{
+			Name:  "matrix",
+			URL:   config.MatrixURL,
+			Title: config.MatrixUsername,
+			Color: "#0dbd8b",
+		},
+	})
+
+	social2 := makeLinks([]link{
+		{
+			Name:  "mastodon",
+			URL:   config.MastodonURL,
+			Title: config.MastodonUsername,
+			Color: "#6364ff",
+		},
+		{
+			Name:  "github",
+			URL:   config.MastodonURL,
+			Title: config.MastodonUsername,
+			Color: "#333",
+		},
+	})
 
 	workedOn := makeLinks([]link{
 		{
@@ -83,7 +104,7 @@ func Index() Group {
 			Name:  "blahaj quest",
 			Color: "#3c8ea7",
 			URL:   "https://blahaj.quest",
-			Icon:  "/emojis/shark.svg",
+			Icon:  "/icons/emoji/shark.svg",
 		},
 		{
 			Name:  "baltimare leaderboard",
@@ -92,7 +113,7 @@ func Index() Group {
 			Icon:  "/icons/happy-anonfilly.png",
 		},
 		{
-			Name:  "melonds metroid hunters",
+			Name:  "melon prime ds",
 			Color: "#dd2e44",
 			URL:   config.GitHubURL + "/melonPrimeDS",
 			Icon:  "/icons/metroid.png",
@@ -118,36 +139,32 @@ func Index() Group {
 		H3(Text("game developer")),
 		H3(Text("server admin")),
 		Br(),
-		A(
-			Text("email"),
-			Title(config.Email),
-			Href("/email"),
-			// &util.AttrRaw{
-			// 	Name:  "href",
-			// 	Value: "mailto:" + util.EscapedHTML(config.Email),
-			// },
-			// Href(emailHref),
-			// Script(Raw(emailJS)),
+		Div(
+			Style("display: flex; flex-direction: row; align-items: flex-start; gap: 8px; margin-bottom: 8px"),
+			social1,
 		),
-		Text(" "),
-		A(
-			Text("xmpp"),
-			Title(config.XMPP),
-			Href("/xmpp"),
-			// &util.AttrRaw{
-			// 	Name:  "href",
-			// 	Value: "xmpp:" + util.EscapedHTML(config.XMPP),
-			// },
-			// Href(xmppHref),
-			// Script(Raw(xmppJS)),
+		Div(
+			Style("display: flex; flex-direction: row; align-items: flex-start; gap: 8px; margin-bottom: 8px"),
+			social2,
 		),
-		Text(" "),
-		A(
-			Href(config.GitHubURL),
-			Title("@"+config.GitHubUsername),
-			Text("github"),
-		),
-		Br(),
+		// A(
+		// 	Text("email"),
+		// 	Title(config.Email),
+		// 	Href("/email"),
+		// ),
+		// Text(" "),
+		// A(
+		// 	Text("xmpp"),
+		// 	Title(config.XMPP),
+		// 	Href("/xmpp"),
+		// ),
+		// Br(),
+		// Text(" "),
+		// A(
+		// 	Href(config.GitHubURL),
+		// 	Title("@"+config.GitHubUsername),
+		// 	Text("github"),
+		// ),
 		Br(),
 		H1(Text("worked on")),
 		Br(),

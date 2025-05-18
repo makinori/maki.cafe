@@ -88,7 +88,7 @@ func main() {
 	tool := getNextArgOrUsage(&argI)
 	name := getNextArgOrUsage(&argI)
 
-	var url, fileExt string
+	var fileExt, url string
 
 	switch tool {
 	case "emoji":
@@ -118,7 +118,7 @@ func main() {
 		printExit1(usage)
 	}
 
-	outputPath := "src/public/icons/" + name + "." + fileExt
+	outputPath := "src/public/icons/" + tool + "/" + name + "." + fileExt
 
 	// validation
 

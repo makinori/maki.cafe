@@ -9,4 +9,10 @@ const (
 
 	AniListUsername = "makinori"
 	AniListURL      = "https://anilist.co/user/" + AniListUsername
+
+	MastodonUsername = "@maki@hotmilk.space"
+	MastodonURL      = "https://mastodon.hotmilk.space/@maki"
+
+	MatrixUsername = "@maki:hotmilk.space"
+	MatrixURL      = "https://matrix.to/#/" + MatrixUsername
 )
