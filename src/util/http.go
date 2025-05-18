@@ -29,19 +29,25 @@ func HTTPWriteWithEncoding(w http.ResponseWriter, r *http.Request, data []byte) 
 
 	switch {
 	case strings.Contains(acceptEncoding, "zstd"):
-		data, ok := EncodeZstd(data)
-		if ok {
-			w.Header().Add("Content-Encoding", "zstd")
-			w.Write(data)
-			return
+		data, err := EncodeZstd(data)
+		if err != nil {
+			log.Error(err)
+			break
 		}
+		w.Header().Add("Content-Encoding", "zstd")
+		w.Write(data)
+		return
+
 	case strings.Contains(acceptEncoding, "br"):
-		data, ok := EncodeBrotli(data)
-		if ok {
-			w.Header().Add("Content-Encoding", "br")
-			w.Write(data)
-			return
+		data, err := EncodeBrotli(data)
+		if err != nil {
+			log.Error(err)
+			break
 		}
+		w.Header().Add("Content-Encoding", "br")
+		w.Write(data)
+		return
+
 	}
 
 	w.Write(data)

@@ -241,6 +241,8 @@ type aniListResult struct {
 	FavoriteCharacters []aniListCharacter      `json:"favoriteCharacters"`
 }
 
+const aniListMaxPerPage = 50
+
 func getAniList() (aniListResult, error) {
 	var current aniListCurrentResult
 	err := getQuery(&current, aniListQuery{
@@ -248,7 +250,7 @@ func getAniList() (aniListResult, error) {
 		Variables: aniListQueryVars{
 			Username: config.AniListUsername,
 			Page:     0,
-			PerPage:  12,
+			PerPage:  aniListMaxPerPage,
 		},
 	})
 
@@ -276,7 +278,7 @@ func getAniList() (aniListResult, error) {
 		Variables: aniListQueryVars{
 			Username: config.AniListUsername,
 			Page:     0,
-			PerPage:  50, // maximum
+			PerPage:  aniListMaxPerPage,
 		},
 	})
 
