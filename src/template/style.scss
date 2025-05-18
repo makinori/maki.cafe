@@ -121,7 +121,11 @@ h6 {
 	flex-direction: row;
 	align-items: flex-end;
 	// gap: 8px;
-	margin-top: -8px;
+	margin-top: -32px;
+
+	@media (max-width: $page-break-width) {
+		margin-top: -8px;
+	}
 
 	h1 {
 		font-size: 64px;

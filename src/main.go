@@ -114,6 +114,7 @@ func Main() {
 
 	mux.HandleFunc("GET /{$}", handlePage(page.Index))
 	mux.HandleFunc("GET /anime", handlePage(page.Anime))
+	mux.HandleFunc("GET /webring", handlePage(page.Webring))
 
 	// register assets
 

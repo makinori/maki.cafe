@@ -11,7 +11,8 @@ type PageHeaderInfo struct {
 }
 
 func PageHeader(info PageHeaderInfo) Group {
-	ponyImg := Img(Class("pony"), Src("/images/pony.png"))
+	// make sure to set height to avoid flickering
+	ponyImg := Img(Class("pony"), Src("/images/pony.png"), Height("128"))
 
 	if info.Big {
 		return Group{

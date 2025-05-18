@@ -36,7 +36,7 @@ func PageFooter(currentPagePath string) Group {
 
 	return Group{
 		spacing,
-		Hr(Style("width: 200px")),
+		Hr(Style("width: 300px")),
 		Div(
 			Class("page-footer-pages"),
 
@@ -48,9 +48,10 @@ func PageFooter(currentPagePath string) Group {
 
 			// P(Text("/interests")),
 			footerLink(currentPagePath, "/anime", "/anime"),
+			footerLink(currentPagePath, "/webring", "/webring"),
 			// footerLink(currentPagePath, "#", "games"),
 		),
-		Hr(Style("width: 200px")),
+		Hr(Style("width: 300px")),
 		Div(
 			Class("page-footer-pages"),
 			footerLink("", config.GitHubURL+"/maki.cafe", "source code"),
