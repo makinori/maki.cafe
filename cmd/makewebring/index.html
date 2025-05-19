@@ -1,0 +1,108 @@
+<html>
+	<head>
+		<style>
+			* {
+				margin: 0;
+			}
+
+			body {
+				background-color: #000;
+				font-family: "Maki Libertinus Mono";
+				font-weight: 700;
+			}
+
+			.button {
+				width: 88px;
+				height: 31px;
+				background-color: #222;
+				overflow: hidden;
+				position: relative;
+			}
+
+			.pony {
+				height: 37px;
+				position: absolute;
+				top: -4px;
+				left: 51px;
+				filter: brightness(1.2);
+			}
+
+			.text {
+				position: absolute;
+				top: 2.25px;
+				left: 5px;
+				color: #fff;
+				font-size: 24px;
+				letter-spacing: 1px;
+			}
+
+			.bg {
+				position: absolute;
+				top: 0px;
+				left: -8px;
+				/* width: 200px; */
+				height: 120px;
+				/* transform: skewX(10deg); */
+				transform-origin: 0 calc(120px);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="button">
+			<img
+				class="bg"
+				src="../../src/public/images/pines-1080-noblur.jpg"
+			/>
+			<div class="text">
+				ma<span style="margin-left: -0.5px">k</span
+				><span style="margin-left: -1.5px">i</span>
+			</div>
+			<img class="pony" src="ponyblink/0000.png" />
+		</div>
+		<script>
+			const bgEl = document.querySelector(".bg");
+			const ponyEl = document.querySelector(".pony");
+
+			const fps = 50;
+			const maxFrames = 150;
+
+			function skewBackground(deg) {
+				bgEl.style.transform = "skewX(" + deg + "deg)";
+			}
+
+			function updateFrame(frame) {
+				let ponyFrame = frame;
+				if (ponyFrame > 20) {
+					ponyFrame = 20;
+				}
+
+				let skewAmount = 0.5;
+				skewBackground(
+					Math.sin((frame / maxFrames) * Math.PI * 2) * skewAmount,
+				);
+
+				ponyEl.src =
+					"ponyblink/" +
+					ponyFrame.toString().padStart(4, "0") +
+					".png";
+			}
+
+			// for testing
+
+			if (!new URL(document.URL).search.startsWith("?go")) {
+				document.body.style = "margin: 32px; background: #333;";
+
+				let startDate = new Date();
+
+				function render() {
+					seconds = (new Date() - startDate) / 1000;
+					frame = Math.floor(seconds * fps) % maxFrames;
+					updateFrame(frame);
+					requestAnimationFrame(render);
+				}
+
+				requestAnimationFrame(render);
+			}
+		</script>
+	</body>
+</html>

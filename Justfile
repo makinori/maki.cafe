@@ -10,7 +10,8 @@ start:
 	-proxy.app_port=1234 \
 	-proxy.proxy_port=8080 \
 	-build.delay=10 \
-	-build.include_ext go,html,css,scss
+	-build.include_ext go,html,css,scss \
+	-build.exclude_dir cache,cmd,tmp
 
 alias u := update
 # git pull and docker compose up
@@ -29,8 +30,10 @@ generate:
 	magick assets/pony-cutout.png \
 	-filter Lanczos2 -resize x128 \
 	-fx "u*1.2" \
-	public/pony.png
+	src/public/images/pony.png
+
+	cp src/public/images/pony.png cmd/makewebring/pony.png
 
 # download icons and emojis
 icon +args:
-	cd cmd && go run ./icon {{args}}
+	cd cmd && go run ./geticon {{args}}
