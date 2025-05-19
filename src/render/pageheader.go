@@ -19,8 +19,9 @@ func pageHeader(info pageHeaderInfo) Group {
 			H1(
 				Class("page-header-title"),
 				Span(
-					Text("mak"),
-					Span(Style("letter-spacing: -4px"), Text("i")),
+					Text("ma"),
+					Span(Class("k"), Text("k")),
+					Span(Class("i"), Text("i")),
 				),
 				ponyImg,
 			),
@@ -40,8 +41,9 @@ func pageHeader(info pageHeaderInfo) Group {
 			A(
 				Href("/"),
 				H1(
-					Text("mak"),
-					Span(Style("letter-spacing: -4px"), Text("i")),
+					Text("ma"),
+					Span(Class("k"), Text("k")),
+					Span(Class("i"), Text("i")),
 				),
 			),
 			A(

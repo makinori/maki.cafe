@@ -95,6 +95,13 @@ h6 {
 	flex-direction: row;
 	align-items: flex-end;
 
+	.k {
+		letter-spacing: 0;
+	}
+	.i {
+		letter-spacing: -4px;
+	}
+
 	> .pony {
 		height: 128px;
 		margin-top: -24px;
@@ -112,6 +119,14 @@ h6 {
 	align-items: flex-end;
 	// gap: 8px;
 	margin-top: -16px;
+
+	letter-spacing: 2px;
+	.k {
+		letter-spacing: 0px;
+	}
+	.i {
+		letter-spacing: -2px;
+	}
 
 	@media (max-width: $page-break-width) {
 		margin-top: -8px;
