@@ -71,6 +71,7 @@ func Webring(ctx context.Context) Group {
 			webringIcon(ctx, "!ironsm4sh.nl", "https://ironsm4sh.nl"),
 			webringIcon(ctx, "!0x0a.de", "https://0x0a.de"),
 			webringIcon(ctx, "!pony.best", "https://pony.best"),
+			webringIcon(ctx, "kayla.gif", "https://kayla.moe"),
 		),
 		Br(),
 		Br(),
