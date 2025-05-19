@@ -2,7 +2,6 @@ package page
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/makinori/maki.cafe/src/render"
@@ -17,14 +16,15 @@ func webringIcon(ctx context.Context, filename string, url string) Node {
 		overflow: hidden;
 		font-size: 14px;
 		display: inline-flex;
-		align-items: center;
-		justify-content: center;
 		background-color: hsl(0deg, 0%, 10%);
 		font-weight: 600;
 		padding: 0;
 	`)
 
-	attrs := Group{Href(url)}
+	attrs := Group{
+		Href("https://" + url),
+		Title(url),
+	}
 
 	if strings.HasPrefix(filename, "!") {
 		// not an image
@@ -33,19 +33,31 @@ func webringIcon(ctx context.Context, filename string, url string) Node {
 				width: 84px;
 				height: 27px;
 				border: solid 2px hsl(0deg, 0%, 20%);
+				align-items: center;
+				justify-content: center;
 			`): true,
 		})
 	} else {
-		attrs = append(attrs, Style(
-			fmt.Sprintf(`background-image: url("/webring/%s")`, filename),
-		), Classes{
-			baseClass: true, render.SCSS(ctx, `
+		attrs = append(attrs,
+			// Style(fmt.Sprintf(
+			// 	`background-image: url("/webring/%s")`, filename,
+			// )),
+			Classes{baseClass: true, render.SCSS(ctx, `
 				width: 88px;
 				height: 31px;
 				background-size: 100% auto;
 				background-position: 0 0;
-			`): true,
-		})
+				// some are 32 height, move to top
+				align-items: flex-start;
+				justify-content: flex-start;
+				> img {
+					width: 88px;
+					
+					height: auto; 
+				}
+			`): true},
+			Img(Src("/webring/"+filename)),
+		)
 	}
 
 	return A(attrs)
@@ -63,15 +75,15 @@ func Webring(ctx context.Context) Group {
 		Br(),
 		Div(
 			Class(gridClass),
-			webringIcon(ctx, "micaela.gif", "https://micae.la"),
-			webringIcon(ctx, "skyn3t.gif", "https://skyn3t.lol"),
-			webringIcon(ctx, "!cmtaz.net", "https://cmtaz.net"),
-			webringIcon(ctx, "!lemon.horse", "https://lemon.horse"),
-			webringIcon(ctx, "kneesox.png", "https://kneesox.moe"),
-			webringIcon(ctx, "!ironsm4sh.nl", "https://ironsm4sh.nl"),
-			webringIcon(ctx, "!0x0a.de", "https://0x0a.de"),
-			webringIcon(ctx, "!pony.best", "https://pony.best"),
-			webringIcon(ctx, "kayla.gif", "https://kayla.moe"),
+			webringIcon(ctx, "micaela.gif", "micae.la"),
+			webringIcon(ctx, "skyn3t.gif", "skyn3t.lol"),
+			webringIcon(ctx, "!cmtaz.net", "cmtaz.net"),
+			webringIcon(ctx, "!lemon.horse", "lemon.horse"),
+			webringIcon(ctx, "kneesox.png", "kneesox.moe"),
+			webringIcon(ctx, "!ironsm4sh.nl", "ironsm4sh.nl"),
+			webringIcon(ctx, "!0x0a.de", "0x0a.de"),
+			webringIcon(ctx, "!pony.best", "pony.best"),
+			webringIcon(ctx, "kayla.gif", "kayla.moe"),
 		),
 		Br(),
 		Br(),
@@ -79,22 +91,22 @@ func Webring(ctx context.Context) Group {
 		Br(),
 		Div(
 			Class(gridClass),
-			webringIcon(ctx, "yno.png", "https://ynoproject.net"),
-			webringIcon(ctx, "anonfilly.png", "https://anonfilly.horse"),
+			webringIcon(ctx, "yno.png", "ynoproject.net"),
+			webringIcon(ctx, "anonfilly.png", "anonfilly.horse"),
 		),
 		Br(),
 		Br(),
 		P(Text("feel free to use my button")),
 		Br(),
-		webringIcon(ctx, "maki.gif", "https://maki.cafe"),
+		webringIcon(ctx, "maki.gif", "maki.cafe"),
 		// Br(),
 		// Br(),
 		// H2(Text("pony")),
 		// Br(),
 		// Div(
 		// 	Class(gridClass),
-		// 	webringIcon(ctx, "!pony.town", "https://pony.town"),
-		// 	webringIcon(ctx, "!wetmares", "https://wetmares.org"),
+		// 	webringIcon(ctx, "!pony.town", "pony.town"),
+		// 	webringIcon(ctx, "!wetmares", "wetmares.org"),
 		// ),
 	}
 }
