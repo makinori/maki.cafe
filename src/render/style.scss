@@ -121,15 +121,6 @@ h6 {
 	// gap: 8px;
 	margin-top: -16px;
 
-	letter-spacing: 2px;
-
-	.k {
-		margin-left: -1px;
-	}
-	.i {
-		margin-left: -3px;
-	}
-
 	@media (max-width: $page-break-width) {
 		margin-top: -8px;
 	}
@@ -138,12 +129,21 @@ h6 {
 		font-size: 64px;
 		margin-right: 8px;
 		margin-bottom: -4px;
+		letter-spacing: 2px;
+
+		.k {
+			margin-left: -1px;
+		}
+		.i {
+			margin-left: -3px;
+		}
 	}
 
 	h2 {
 		font-size: 32px;
 		margin-bottom: 4px;
 		font-weight: 600;
+		letter-spacing: 0px;
 		// opacity: 0.5;
 	}
 
