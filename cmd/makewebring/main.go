@@ -21,7 +21,11 @@ const (
 	buttonWidth   = 88
 	buttonHeight  = 31
 	renderScale   = 8
-	dontDownscale = true
+	dontDownscale = false
+
+	// lower fps feels nicer for an 88x31
+	fps    = 25 // 50 is max
+	length = 4  // seconds
 )
 
 var (
@@ -62,8 +66,6 @@ func doFrame(i int) {
 		panic(err)
 	}
 
-	// TODO: anti aliasing fucky
-
 	// process image
 
 	image, err := imaging.Decode(bytes.NewReader(screenshotData))
@@ -71,6 +73,7 @@ func doFrame(i int) {
 		panic(err)
 	}
 
+	// i think gifski uses lanczos. do it manually anyway
 	if !dontDownscale {
 		image = imaging.Resize(image, buttonWidth, buttonHeight, imaging.Lanczos)
 	}
@@ -103,7 +106,13 @@ func main() {
 	wg := sync.WaitGroup{}
 
 	// gifs are max 50 fps
-	totalFrames := 150
+	totalFrames := fps * length
+
+	if dontDownscale {
+		fmt.Println("warning: not downscaling")
+	} else {
+
+	}
 
 	fmt.Println("rendering frames")
 	progress = progressbar.Default(int64(totalFrames))
@@ -125,7 +134,7 @@ func main() {
 	gifskArgs := []string{
 		"-W", strconv.Itoa(buttonWidth),
 		"-H", strconv.Itoa(buttonHeight),
-		"-r", "50", // fps
+		"-r", strconv.Itoa(fps), // fps
 		"-Q", "90", // quality
 		"-o", outputGifFilePath, // quality
 	}

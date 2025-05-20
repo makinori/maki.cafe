@@ -108,6 +108,8 @@ func makeCachedSpriteSheet[T any](
 		return CachedSpriteSheet{}, err
 	}
 
+	// is ?<time> necessary? if the images dont change, it'll still redownload
+
 	return CachedSpriteSheet{
 		ImageURL:  fmt.Sprintf("/cache/%s?%d", filePath, time.Now().Unix()),
 		Size:      css.Size,

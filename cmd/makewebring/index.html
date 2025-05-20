@@ -63,28 +63,33 @@
 			const bgEl = document.querySelector(".bg");
 			const ponyEl = document.querySelector(".pony");
 
-			const fps = 50;
-			const maxFrames = 150;
+			const fps = 25;
+			const length = 4; // seconds
+			const maxFrames = fps * length;
+
+			const skewAmount = 1;
 
 			function skewBackground(deg) {
 				bgEl.style.transform = "skewX(" + deg + "deg)";
 			}
 
-			function updateFrame(frame) {
-				let ponyFrame = frame;
-				if (ponyFrame > 20) {
-					ponyFrame = 20;
-				}
+			const ponyFPS = 50;
 
-				let skewAmount = 0.5;
-				skewBackground(
-					Math.sin((frame / maxFrames) * Math.PI * 2) * skewAmount,
-				);
+			function updateFrame(frame) {
+				// update pony frame
+
+				let ponyFrame = Math.floor((frame / fps) * ponyFPS);
+				if (ponyFrame > 20) ponyFrame = 20;
+				// console.log(ponyFrame);
 
 				ponyEl.src =
 					"ponyblink/" +
 					ponyFrame.toString().padStart(4, "0") +
 					".png";
+
+				skewBackground(
+					Math.sin((frame / maxFrames) * Math.PI * 2) * skewAmount,
+				);
 			}
 
 			// for testing
@@ -95,8 +100,8 @@
 				let startDate = new Date();
 
 				function render() {
-					seconds = (new Date() - startDate) / 1000;
-					frame = Math.floor(seconds * fps) % maxFrames;
+					let seconds = (new Date() - startDate) / 1000;
+					let frame = Math.floor(seconds * fps) % maxFrames;
 					updateFrame(frame);
 					requestAnimationFrame(render);
 				}

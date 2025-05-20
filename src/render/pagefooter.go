@@ -34,31 +34,23 @@ func pageFooter(currentPagePath string) Group {
 		spacing = append(spacing, Br())
 	}
 
+	hrStyle := "width: 300px"
+
 	return Group{
 		spacing,
-		Hr(Style("width: 300px")),
+		Hr(Style(hrStyle)),
 		Div(
 			Class("page-footer-pages"),
-
 			footerLink(currentPagePath, "/", "index"),
-			// footerLink(currentPagePath, "#", "works"),
-			// footerLink(currentPagePath, "#", "webring"),
-
+			footerLink(currentPagePath, "/anime", "anime"),
+			// footerLink(currentPagePath, "/games", "games"),
+			footerLink(currentPagePath, "/webring", "webring"),
 			// Div(Class("break")),
-
-			// P(Text("/interests")),
-			footerLink(currentPagePath, "/anime", "/anime"),
-			footerLink(currentPagePath, "/webring", "/webring"),
-			// footerLink(currentPagePath, "#", "games"),
 		),
-		Hr(Style("width: 300px")),
+		Hr(Style(hrStyle)),
 		Div(
 			Class("page-footer-pages"),
 			footerLink("", config.GitHubURL+"/maki.cafe", "source code"),
-			// Div(Class("break")),
-			// footerLink("", "https://old.maki.cafe", "old page"),
-			// Div(Class("break")),
-			// footerLink("", config.GitHubURL+"/dots", "dots", Img(Src("/icons/arch.svg"))),
 		),
 	}
 }
