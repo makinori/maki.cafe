@@ -19,7 +19,6 @@ update:
 	git pull
 	docker compose up -d --build
 
-alias g := generate
 # generate assets
 generate:
 	#!/bin/bash
@@ -37,3 +36,14 @@ generate:
 # download icons and emojis
 icon +args:
 	cd cmd && go run ./geticon {{args}}
+
+# updates webring buttons
+update-webring:
+	#!/bin/bash
+	cd src/public/webring
+	# missing micaela, skynet
+	curl -o kneesox.png https://kneesox.moe/img/buttons/kneesox.png
+	curl -o anonfilly.png https://anonfilly.horse/anonfilly%20sight.png
+	curl -o kayla.gif https://kayla.moe/button.gif
+	curl -o yno.png https://kayla.moe/buttons/yno.png # dont know the source
+	
