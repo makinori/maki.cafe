@@ -2,7 +2,7 @@
 
 Built with **Next.js**
 
-Used to be built with Angular in [outdated-angular-version](https://github.com/makinori/maki.cafe/tree/outdated-angular-version) branch
+Used to be built with Angular in [old-angular](https://github.com/makinori/maki.cafe/tree/old-angular) branch
 
 -   `pnpm install`
 -   `pnpm make` generates spritesheets
