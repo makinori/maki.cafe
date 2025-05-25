@@ -9,8 +9,8 @@ require (
 	github.com/hasura/go-graphql-client v0.14.3
 	github.com/klauspost/compress v1.18.0 // for zstd
 	github.com/robfig/cron/v3 v3.0.1
-	github.com/tdewolff/minify/v2 v2.23.5
-	github.com/tdewolff/parse/v2 v2.8.0
+	github.com/tdewolff/minify/v2 v2.23.8
+	github.com/tdewolff/parse/v2 v2.8.1
 	golang.org/x/net v0.40.0
 	golang.org/x/sync v0.14.0
 	maragu.dev/gomponents v1.1.0
@@ -18,7 +18,7 @@ require (
 
 tool github.com/air-verse/air
 
-require golang.org/x/exp v0.0.0-20240909161429-701f63a606c0
+require golang.org/x/exp v0.0.0-20250506013437-ce4c2cf36ca6
 
 require (
 	dario.cat/mergo v1.0.2 // indirect
@@ -38,7 +38,7 @@ require (
 	github.com/spf13/afero v1.14.0 // indirect
 	github.com/spf13/cast v1.8.0 // indirect
 	github.com/stretchr/testify v1.10.0 // indirect
-	golang.org/x/image v0.26.0 // indirect
+	golang.org/x/image v0.27.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.25.0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
