@@ -1,236 +1,80 @@
 package data
 
 import (
-	"bytes"
-	"encoding/json"
+	"context"
 	"fmt"
-	"io"
-	"net/http"
 
+	"github.com/hasura/go-graphql-client"
 	"github.com/makinori/maki.cafe/src/config"
 )
 
 // https://studio.apollographql.com/sandbox/explorer
 // https://graphql.anilist.co
 
-var aniListAnimeSlice = `
-siteUrl
-coverImage {
-	large
-}
-title {
-	english
-	romaji
-}
-`
-
 type AniListTitle struct {
-	English string `json:"english"`
-	Romaji  string `json:"romaji"`
+	English string `graphql:"english"`
+	Romaji  string `graphql:"romaji"`
 }
 
 type aniListAnime struct {
-	SiteURL    string `json:"siteUrl"`
+	SiteURL    string `graphql:"siteUrl"`
 	CoverImage struct {
-		Large string `json:"large"`
-	} `json:"coverImage"`
-	Title    AniListTitle `json:"title"`
-	Episodes int          `json:"episodes,omitempty"`
+		Large string `graphql:"large"`
+	} `graphql:"coverImage"`
+	Title    AniListTitle `graphql:"title"`
+	Episodes int          `graphql:"episodes"`
 }
-
-var aniListCurrentQuery = `
-query ($username: String, $page: Int, $perPage: Int) {
-	Page(page: $page, perPage: $perPage) {
-		mediaList(
-			userName: $username
-			status_in: [CURRENT]
-			type: ANIME
-			sort: [STARTED_ON_DESC]
-		) {
-			progress
-			media {
-				` + aniListAnimeSlice + `
-				episodes
-			}
-		}
-	}
-}
-`
 
 type aniListCurrentAnime struct {
-	Progress int          `json:"progress"`
-	Media    aniListAnime `json:"media"`
+	Progress int          `graphql:"progress"`
+	Media    aniListAnime `graphql:"media"`
 }
 
-type aniListCurrentResult struct {
-	Data struct {
-		Page struct {
-			MediaList []aniListCurrentAnime `json:"mediaList"`
-		} `json:"Page"`
-	} `json:"data"`
+type aniListCurrentQuery struct {
+	Page struct {
+		MediaList []aniListCurrentAnime `graphql:"mediaList(userName: $username, status_in: [CURRENT], type: ANIME, sort: [UPDATED_TIME_DESC])"`
+	} `graphql:"Page(page: $page, perPage: $perPage)"`
 }
-
-var aniListCompletedQuery = `
-query ($username: String, $page: Int, $perPage: Int) {
-	Page(page: $page, perPage: $perPage) {
-		mediaList(
-			userName: $username
-			status_in: [COMPLETED]
-			type: ANIME
-			sort: [FINISHED_ON_DESC]
-		) {
-			completedAt {
-				day
-				month
-				year
-			}
-			media {
-				` + aniListAnimeSlice + `
-			}
-		}
-	}
-}
-`
 
 type aniListCompletedAnime struct {
 	CompletedAt struct {
-		Day   int `json:"day"`
-		Month int `json:"month"`
-		Year  int `json:"year"`
-	} `json:"completedAt"`
-	Media aniListAnime `json:"media"`
+		Day   int `graphql:"day"`
+		Month int `graphql:"month"`
+		Year  int `graphql:"year"`
+	} `graphql:"completedAt"`
+	Media aniListAnime `graphql:"media"`
 }
 
-type aniListCompletedResult struct {
-	Data struct {
-		Page struct {
-			MediaList []aniListCompletedAnime `json:"mediaList"`
-		} `json:"Page"`
-	} `json:"data"`
+type aniListCompletedQuery struct {
+	Page struct {
+		MediaList []aniListCompletedAnime `graphql:"mediaList(userName: $username, status_in: [COMPLETED], type: ANIME, sort: [FINISHED_ON_DESC])"`
+	} `graphql:"Page(page: $page, perPage: $perPage)"`
 }
-
-var aniListCharacterQuery = `
-siteUrl
-image {
-	large
-}
-name {
-	userPreferred
-}
-`
 
 type aniListCharacter struct {
-	SiteURL string `json:"siteUrl"`
+	SiteURL string `graphql:"siteUrl"`
 	Image   struct {
-		Large string `json:"large"`
-	} `json:"image"`
+		Large string `graphql:"large"`
+	} `graphql:"image"`
 	Name struct {
-		UserPreferred string `json:"userPreferred"`
-	} `json:"name"`
+		UserPreferred string `graphql:"userPreferred"`
+	} `graphql:"name"`
 }
 
-var aniListFavoritesQuery = `
-query ($username: String, $page: Int, $perPage: Int) {
-	User(name: $username) {
-		favourites {
-			anime(page: $page, perPage: $perPage) {
-				nodes {
-` + aniListAnimeSlice + `
-				}
-			}
-			characters(page: $page, perPage: $perPage) {
-				nodes {
-` + aniListCharacterQuery + `
-				}
-			}
-		}
-	}
-}
-`
-
-type aniListFavoritesResult struct {
-	Data struct {
-		User struct {
-			Favorites struct {
-				Anime struct {
-					Nodes []aniListAnime `json:"nodes"`
-				} `json:"anime"`
-				Characters struct {
-					Nodes []aniListCharacter `json:"nodes"`
-				} `json:"characters"`
-			} `json:"favourites"`
-		} `json:"User"`
-	} `json:"data"`
+type aniListFavoritesQuery struct {
+	User struct {
+		Favorites struct {
+			Anime struct {
+				Nodes []aniListAnime `graphql:"nodes"`
+			} `graphql:"anime(page: $page, perPage: $perPage)"`
+			Characters struct {
+				Nodes []aniListCharacter `graphql:"nodes"`
+			} `graphql:"characters(page: $page, perPage: $perPage)"`
+		} `graphql:"favourites"`
+	} `graphql:"User(name: $username)"`
 }
 
-// generic types
-
-type aniListQueryVars struct {
-	Username string `json:"username"`
-	Page     int    `json:"page"`
-	PerPage  int    `json:"perPage"`
-}
-
-type aniListQuery struct {
-	Query     string           `json:"query"`
-	Variables aniListQueryVars `json:"variables"`
-}
-
-type aniListErrors struct {
-	Errors []struct {
-		Message string `json:"message"`
-		Status  int    `json:"status"`
-	} `json:"errors"`
-}
-
-func getQuery[T any](result *T, query aniListQuery) error {
-	queryJson, err := json.Marshal(query)
-
-	if err != nil {
-		return err
-	}
-
-	req, err := http.NewRequest(
-		"POST", "https://graphql.anilist.co",
-		bytes.NewBuffer(queryJson),
-	)
-
-	if err != nil {
-		return err
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-
-	client := &http.Client{}
-	res, err := client.Do(req)
-	if err != nil {
-		return err
-	}
-
-	defer res.Body.Close()
-
-	resBytes, err := io.ReadAll(res.Body)
-	if err != nil {
-		return err
-	}
-
-	var errors aniListErrors
-	err = json.Unmarshal(resBytes, &errors)
-	if err != nil {
-		return err
-	}
-
-	if len(errors.Errors) > 0 {
-		return fmt.Errorf("%v", errors.Errors)
-	}
-
-	err = json.Unmarshal(resBytes, &result)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
+// final struct
 
 type aniListResult struct {
 	Current                 []aniListCurrentAnime   `json:"current"`
@@ -253,44 +97,34 @@ var AniListGridWidthLarge = 6
 var AniListGridWidthSmall = 8
 
 func getAniList() (aniListResult, error) {
-	var current aniListCurrentResult
-	err := getQuery(&current, aniListQuery{
-		Query: aniListCurrentQuery,
-		Variables: aniListQueryVars{
-			Username: config.AniListUsername,
-			Page:     0,
-			PerPage:  aniListMaxPerPage,
-		},
-	})
+	client := graphql.NewClient("https://graphql.anilist.co", nil)
 
+	var current aniListCurrentQuery
+	err := client.Query(context.Background(), &current, map[string]any{
+		"username": config.AniListUsername,
+		"page":     0,
+		"perPage":  aniListMaxPerPage,
+	})
 	if err != nil {
 		return aniListResult{}, err
 	}
 
-	var completed aniListCompletedResult
-	err = getQuery(&completed, aniListQuery{
-		Query: aniListCompletedQuery,
-		Variables: aniListQueryVars{
-			Username: config.AniListUsername,
-			Page:     0,
-			PerPage:  AniListGridWidthLarge * 2,
-		},
+	var completed aniListCompletedQuery
+	err = client.Query(context.Background(), &completed, map[string]any{
+		"username": config.AniListUsername,
+		"page":     0,
+		"perPage":  AniListGridWidthLarge * 2,
 	})
-
 	if err != nil {
 		return aniListResult{}, err
 	}
 
-	var favorites aniListFavoritesResult
-	err = getQuery(&favorites, aniListQuery{
-		Query: aniListFavoritesQuery,
-		Variables: aniListQueryVars{
-			Username: config.AniListUsername,
-			Page:     0,
-			PerPage:  aniListMaxPerPage,
-		},
+	var favorites aniListFavoritesQuery
+	err = client.Query(context.Background(), &favorites, map[string]any{
+		"username": config.AniListUsername,
+		"page":     0,
+		"perPage":  aniListMaxPerPage,
 	})
-
 	if err != nil {
 		return aniListResult{}, err
 	}
@@ -298,10 +132,10 @@ func getAniList() (aniListResult, error) {
 	// make spritesheets
 
 	result := aniListResult{
-		Current:            current.Data.Page.MediaList,
-		Completed:          completed.Data.Page.MediaList,
-		FavoriteAnime:      favorites.Data.User.Favorites.Anime.Nodes,
-		FavoriteCharacters: favorites.Data.User.Favorites.Characters.Nodes,
+		Current:            current.Page.MediaList,
+		Completed:          completed.Page.MediaList,
+		FavoriteAnime:      favorites.User.Favorites.Anime.Nodes,
+		FavoriteCharacters: favorites.User.Favorites.Characters.Nodes,
 	}
 
 	imageWidth := aniListRatioWidth * 6
@@ -309,7 +143,7 @@ func getAniList() (aniListResult, error) {
 	imagePadding := 8
 
 	result.CurrentImage, err = makeCachedSpriteSheet(
-		"anilist/current", &current.Data.Page.MediaList,
+		"anilist/current", &current.Page.MediaList,
 		func(e *aniListCurrentAnime) string { return e.Media.CoverImage.Large },
 		imageWidth, imageHeight, imagePadding, AniListGridWidthLarge,
 	)
@@ -318,7 +152,7 @@ func getAniList() (aniListResult, error) {
 	}
 
 	result.CompletedImage, err = makeCachedSpriteSheet(
-		"anilist/completed", &completed.Data.Page.MediaList,
+		"anilist/completed", &completed.Page.MediaList,
 		func(e *aniListCompletedAnime) string { return e.Media.CoverImage.Large },
 		imageWidth, imageHeight, imagePadding, AniListGridWidthLarge,
 	)
@@ -327,7 +161,7 @@ func getAniList() (aniListResult, error) {
 	}
 
 	result.FavoriteAnimeImage, err = makeCachedSpriteSheet(
-		"anilist/favorite-anime", &favorites.Data.User.Favorites.Anime.Nodes,
+		"anilist/favorite-anime", &favorites.User.Favorites.Anime.Nodes,
 		func(e *aniListAnime) string { return e.CoverImage.Large },
 		imageWidth, imageHeight, imagePadding, AniListGridWidthSmall,
 	)
@@ -336,7 +170,7 @@ func getAniList() (aniListResult, error) {
 	}
 
 	result.FavoriteCharactersImage, err = makeCachedSpriteSheet(
-		"anilist/favorite-characters", &favorites.Data.User.Favorites.Characters.Nodes,
+		"anilist/favorite-characters", &favorites.User.Favorites.Characters.Nodes,
 		func(e *aniListCharacter) string { return e.Image.Large },
 		imageWidth, imageHeight, imagePadding, AniListGridWidthSmall,
 	)

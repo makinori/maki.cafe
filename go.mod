@@ -7,6 +7,7 @@ require (
 	github.com/bep/godartsass/v2 v2.5.0
 	github.com/charmbracelet/log v0.4.2
 	github.com/disintegration/imaging v1.6.2
+	github.com/hasura/go-graphql-client v0.14.3
 	github.com/jinzhu/copier v0.4.0
 	github.com/klauspost/compress v1.18.0
 	github.com/robfig/cron/v3 v3.0.1
@@ -29,12 +30,14 @@ require (
 	github.com/charmbracelet/x/ansi v0.9.2 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.13 // indirect
 	github.com/charmbracelet/x/term v0.2.1 // indirect
+	github.com/coder/websocket v1.8.13 // indirect
 	github.com/creack/pty v1.1.24 // indirect
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/gohugoio/hugo v0.147.3 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
