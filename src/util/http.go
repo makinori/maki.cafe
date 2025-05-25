@@ -9,13 +9,11 @@ import (
 	"io/fs"
 	"mime"
 	"net/http"
-	"net/url"
 	"path/filepath"
 	"regexp"
 	"strings"
 
 	"github.com/charmbracelet/log"
-	"github.com/jinzhu/copier"
 )
 
 func HTTPWriteWithEncoding(w http.ResponseWriter, r *http.Request, data []byte) {
@@ -138,8 +136,7 @@ func HTTPGetIPAddress(r *http.Request) string {
 }
 
 func HTTPGetFullURL(r *http.Request) string {
-	var fullUrl url.URL
-	copier.Copy(&fullUrl, r.URL)
+	fullUrl := *r.URL // shallow copy
 
 	fullUrl.Scheme = r.Header.Get("X-Forwarded-Proto")
 	if fullUrl.Scheme == "" {

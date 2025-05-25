@@ -8,8 +8,7 @@ require (
 	github.com/charmbracelet/log v0.4.2
 	github.com/disintegration/imaging v1.6.2
 	github.com/hasura/go-graphql-client v0.14.3
-	github.com/jinzhu/copier v0.4.0
-	github.com/klauspost/compress v1.18.0
+	github.com/klauspost/compress v1.18.0 // for zstd
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/tdewolff/minify/v2 v2.23.5
 	github.com/tdewolff/parse/v2 v2.8.0
