@@ -1,10 +1,11 @@
 package data
 
 import (
+	"log/slog"
+	"os"
 	"sync"
 	"time"
 
-	"github.com/charmbracelet/log"
 	"github.com/robfig/cron/v3"
 )
 
@@ -26,7 +27,8 @@ func initCachedData[T any](
 			// parse cron spec so we can get an expire time
 			schedule, err := cron.ParseStandard(cachedData.CronSpec)
 			if err != nil {
-				log.Fatal("failed to parse cron spec", "err", err.Error())
+				slog.Error("failed to parse cron spec", "err", err.Error())
+				os.Exit(1)
 				// exit program entirely
 			}
 
@@ -35,7 +37,7 @@ func initCachedData[T any](
 			// get data
 			cachedData.Data, err = cachedData.retrieve()
 			if err != nil {
-				log.Error(
+				slog.Error(
 					"failed to get data",
 					"key", cachedData.Key, "err", err.Error(),
 				)
@@ -44,7 +46,7 @@ func initCachedData[T any](
 
 			err = setCache(cachedData.Key, cachedData.Data, expiresAt)
 			if err != nil {
-				log.Error(
+				slog.Error(
 					"failed to set cache",
 					"key", cachedData.Key, "err", err.Error(),
 				)
@@ -54,10 +56,10 @@ func initCachedData[T any](
 		// try from cache
 		err := getCache(cachedData.Key, &cachedData.Data)
 		if err != nil {
-			log.Infof(`fetching fresh "%s", starting cron`, cachedData.Key)
+			slog.Info("fetching fresh", "key", cachedData.Key)
 			getFreshCachedData()
 		} else {
-			log.Infof(`already cached "%s", starting cron`, cachedData.Key)
+			slog.Info("already cached", "key", cachedData.Key)
 
 		}
 
@@ -66,7 +68,7 @@ func initCachedData[T any](
 			getFreshCachedData()
 		})
 
-		// log.Println("starting cron for " + cachedData.Key)
+		// slog.Println("starting cron for " + cachedData.Key)
 	}()
 }
 

@@ -2,9 +2,9 @@ package render
 
 import (
 	"context"
+	"log/slog"
 	"strings"
 
-	"github.com/charmbracelet/log"
 	"github.com/makinori/maki.cafe/src/util"
 )
 
@@ -22,7 +22,7 @@ func initContext() context.Context {
 func SCSS(ctx context.Context, scss string) string {
 	pageSCSS, ok := ctx.Value(pageSCSSKey).(map[string]string)
 	if !ok {
-		log.Error("failed to get page scss from context")
+		slog.Error("failed to get page scss from context")
 		return ""
 	}
 
@@ -36,7 +36,7 @@ func SCSS(ctx context.Context, scss string) string {
 func getPageSCSS(ctx context.Context) string {
 	pageSCSS, ok := ctx.Value(pageSCSSKey).(map[string]string)
 	if !ok {
-		log.Error("failed to get page scss from context")
+		slog.Error("failed to get page scss from context")
 		return ""
 	}
 

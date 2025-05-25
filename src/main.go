@@ -5,6 +5,7 @@ import (
 	"embed"
 	"fmt"
 	"io/fs"
+	"log/slog"
 	"net/http"
 	"os"
 	"runtime"
@@ -12,7 +13,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/charmbracelet/log"
 	"github.com/makinori/maki.cafe/src/config"
 	"github.com/makinori/maki.cafe/src/data"
 	"github.com/makinori/maki.cafe/src/lint"
@@ -35,7 +35,7 @@ func handlePage(pageFn func(context.Context) gomponents.Group) func(http.Respons
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to render"))
-			log.Error("failed to render", "err", err.Error())
+			slog.Error("failed to render", "err", err.Error())
 		}
 
 		go util.HTTPPlausibleEvent(r)
@@ -43,7 +43,7 @@ func handlePage(pageFn func(context.Context) gomponents.Group) func(http.Respons
 		renderTime := time.Now().Sub(start)
 
 		if util.ENV_IS_DEV {
-			log.Debugf("render %s %s", r.URL.Path, renderTime.String())
+			slog.Debug("render", "path", r.URL.Path, "time", renderTime)
 			lint.LintHTML(html)
 		}
 
@@ -57,8 +57,8 @@ func Main() {
 	// initialization
 
 	if util.ENV_IS_DEV {
-		log.Info("in developer mode")
-		log.SetLevel(log.DebugLevel)
+		slog.Info("in developer mode")
+		slog.SetLogLoggerLevel(slog.LevelDebug)
 	}
 
 	data.InitData()
@@ -95,7 +95,8 @@ func Main() {
 
 	publicFs, err := fs.Sub(staticContent, "public")
 	if err != nil {
-		log.Fatal(err)
+		slog.Error(err.Error())
+		os.Exit(1)
 	}
 
 	mux.HandleFunc(
@@ -118,15 +119,17 @@ func Main() {
 		var err error
 		port, err = strconv.Atoi(portStr)
 		if err != nil {
-			log.Fatal(err)
+			slog.Error(err.Error())
+			os.Exit(1)
 		}
 	}
 
 	addr := fmt.Sprintf(":%d", port)
-	log.Info("listening at " + addr)
+	slog.Info("listening at " + addr)
 
 	err = http.ListenAndServe(addr, wrappedMux)
 	if err != nil {
-		log.Fatal("failed to start http server", "err", err.Error())
+		slog.Error("failed to start http server", "err", err.Error())
+		os.Exit(1)
 	}
 }

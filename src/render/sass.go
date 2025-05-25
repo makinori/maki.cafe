@@ -2,10 +2,11 @@ package render
 
 import (
 	"errors"
+	"os"
 	"strings"
 
 	sass "github.com/bep/godartsass/v2"
-	"github.com/charmbracelet/log"
+	"golang.org/x/exp/slog"
 )
 
 var (
@@ -74,6 +75,7 @@ func InitSass() {
 	var err error
 	sassTranspiler, err = sass.Start(sass.Options{})
 	if err != nil {
-		log.Fatal("failed to start sass transpiler", "err", err.Error())
+		slog.Error("failed to start sass transpiler", "err", err.Error())
+		os.Exit(1)
 	}
 }

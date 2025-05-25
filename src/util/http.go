@@ -7,13 +7,12 @@ import (
 	"hash/crc32"
 	"io"
 	"io/fs"
+	"log/slog"
 	"mime"
 	"net/http"
 	"path/filepath"
 	"regexp"
 	"strings"
-
-	"github.com/charmbracelet/log"
 )
 
 func HTTPWriteWithEncoding(w http.ResponseWriter, r *http.Request, data []byte) {
@@ -29,7 +28,7 @@ func HTTPWriteWithEncoding(w http.ResponseWriter, r *http.Request, data []byte) 
 	case strings.Contains(acceptEncoding, "zstd"):
 		data, err := EncodeZstd(data)
 		if err != nil {
-			log.Error(err)
+			slog.Error(err.Error())
 			break
 		}
 		w.Header().Add("Content-Encoding", "zstd")
@@ -39,7 +38,7 @@ func HTTPWriteWithEncoding(w http.ResponseWriter, r *http.Request, data []byte) 
 	case strings.Contains(acceptEncoding, "br"):
 		data, err := EncodeBrotli(data)
 		if err != nil {
-			log.Error(err)
+			slog.Error(err.Error())
 			break
 		}
 		w.Header().Add("Content-Encoding", "br")
@@ -104,7 +103,7 @@ func HTTPFileServerOptimized(fs fs.FS) func(http.ResponseWriter, *http.Request) 
 
 		stat, err := file.Stat()
 		if err != nil {
-			log.Error("failed to file stat", "err", err.Error())
+			slog.Error("failed to file stat", "err", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -113,7 +112,7 @@ func HTTPFileServerOptimized(fs fs.FS) func(http.ResponseWriter, *http.Request) 
 
 		_, err = file.Read(data)
 		if err != nil {
-			log.Error("failed to read file", "err", err.Error())
+			slog.Error("failed to read file", "err", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -176,7 +175,7 @@ func HTTPPlausibleEvent(incomingReq *http.Request) bool {
 	})
 
 	if err != nil {
-		log.Error("failed to marshal json for plausible", "err", err.Error())
+		slog.Error("failed to marshal json for plausible", "err", err.Error())
 		return false
 	}
 
@@ -199,7 +198,7 @@ func HTTPPlausibleEvent(incomingReq *http.Request) bool {
 	if ENV_PLAUSIBLE_DEBUG {
 		// isn't even in the plausible code. docs need to be updated
 		plausibleReq.Header.Add("X-Debug-Request", "true")
-		log.Debug(
+		slog.Debug(
 			"plausible:\n" +
 				"  data: " + string(body) + "\n" +
 				"  ip: " + ipAddress + "\n" +
@@ -210,17 +209,17 @@ func HTTPPlausibleEvent(incomingReq *http.Request) bool {
 	client := http.Client{}
 	res, err := client.Do(plausibleReq)
 	if err != nil {
-		log.Error("failed to send plausible event", "err", err.Error())
+		slog.Error("failed to send plausible event", "err", err.Error())
 		return false
 	}
 
 	if ENV_PLAUSIBLE_DEBUG {
 		resData, err := io.ReadAll(res.Body)
 		if err != nil {
-			log.Error("failed to read plausible res body", "err", err.Error())
+			slog.Error("failed to read plausible res body", "err", err.Error())
 		}
 
-		log.Debug("res: " + string(resData))
+		slog.Debug("res: " + string(resData))
 	}
 
 	return true

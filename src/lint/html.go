@@ -2,10 +2,10 @@ package lint
 
 import (
 	"bytes"
+	"log/slog"
 	"regexp"
 	"strings"
 
-	"github.com/charmbracelet/log"
 	"github.com/tdewolff/parse/v2"
 	"github.com/tdewolff/parse/v2/css"
 	"golang.org/x/net/html"
@@ -16,7 +16,7 @@ var cssURLHttpRegexp = regexp.MustCompile(`(?i)(http.+?)["')]`)
 func LintHTML(inputHTML []byte) {
 	doc, err := html.Parse(bytes.NewBuffer(inputHTML))
 	if err != nil {
-		log.Error("failed to parse html", "err", err)
+		slog.Error("failed to parse html", "err", err)
 		return
 	}
 
@@ -39,7 +39,7 @@ func LintHTML(inputHTML []byte) {
 					url = matches[1]
 				}
 
-				log.Warn(
+				slog.Warn(
 					extHTTPResource+" in style",
 					"tag", tag, "url", url,
 				)
@@ -61,7 +61,7 @@ func LintHTML(inputHTML []byte) {
 			} else if strings.HasPrefix(
 				strings.ToLower(attr.Val), "http",
 			) {
-				log.Warn(
+				slog.Warn(
 					extHTTPResource,
 					"tag", tag, "url", attr.Val,
 				)
