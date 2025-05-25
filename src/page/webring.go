@@ -77,7 +77,7 @@ func Webring(ctx context.Context) Group {
 			Class(gridClass),
 			webringIcon(ctx, "micaela.gif", "micae.la"),
 			webringIcon(ctx, "lemon.png", "lemon.horse"),
-			webringIcon(ctx, "!cmtaz.net", "cmtaz.net"),
+			webringIcon(ctx, "cmtaz.png", "cmtaz.net"),
 			webringIcon(ctx, "!0x0a.de", "0x0a.de"),
 			webringIcon(ctx, "skyn3t.gif", "skyn3t.lol"),
 			webringIcon(ctx, "!ironsm4sh.nl", "ironsm4sh.nl"),
