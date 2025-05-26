@@ -5,6 +5,7 @@ import (
 	"context"
 	_ "embed"
 
+	"github.com/makinori/maki.cafe/src/config"
 	"github.com/tdewolff/minify/v2"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -41,10 +42,15 @@ func RenderPage(
 
 	title := "maki.cafe"
 	bodyClass := ""
+	var extraHeadNodes Group
 
 	if currentPagePath == "/" {
 		pageHeaderInfo.Big = true
 		bodyClass = "noblur"
+		extraHeadNodes = append(extraHeadNodes, Meta(
+			Name("go-import"),
+			Content("maki.cafe mod "+config.GitHubURL+"/maki.cafe"),
+		))
 	} else {
 		title += currentPagePath
 	}
@@ -83,6 +89,7 @@ func RenderPage(
 					Name("viewport"),
 					Content("width=device-width, initial-scale=0.6"),
 				),
+				extraHeadNodes,
 				StyleEl(Raw(finalCSS)),
 			),
 			body,
