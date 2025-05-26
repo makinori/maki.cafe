@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/makinori/maki.cafe/src/component"
-	"github.com/makinori/maki.cafe/src/config"
-	"github.com/makinori/maki.cafe/src/data"
-	"github.com/makinori/maki.cafe/src/util"
+	"maki.cafe/src/component"
+	"maki.cafe/src/config"
+	"maki.cafe/src/data"
+	"maki.cafe/src/util"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )

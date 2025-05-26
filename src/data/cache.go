@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/disintegration/imaging"
-	"github.com/makinori/maki.cafe/src/spritesheet"
+	"maki.cafe/src/spritesheet"
 )
 
 func setCache(key string, data any, expiresAt time.Time) error {

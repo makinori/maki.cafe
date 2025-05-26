@@ -13,12 +13,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/makinori/maki.cafe/src/config"
-	"github.com/makinori/maki.cafe/src/data"
-	"github.com/makinori/maki.cafe/src/lint"
-	"github.com/makinori/maki.cafe/src/page"
-	"github.com/makinori/maki.cafe/src/render"
-	"github.com/makinori/maki.cafe/src/util"
+	"maki.cafe/src/config"
+	"maki.cafe/src/data"
+	"maki.cafe/src/lint"
+	"maki.cafe/src/page"
+	"maki.cafe/src/render"
+	"maki.cafe/src/util"
 	"maragu.dev/gomponents"
 )
 

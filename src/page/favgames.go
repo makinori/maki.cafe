@@ -3,8 +3,8 @@ package page
 import (
 	"context"
 
-	"github.com/makinori/maki.cafe/src/component"
-	"github.com/makinori/maki.cafe/src/data/generated"
+	"maki.cafe/src/component"
+	"maki.cafe/src/data/generated"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )

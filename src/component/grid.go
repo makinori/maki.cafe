@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/makinori/maki.cafe/src/render"
+	"maki.cafe/src/render"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )

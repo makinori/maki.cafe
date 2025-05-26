@@ -5,8 +5,8 @@ import (
 	"context"
 	_ "embed"
 
-	"github.com/makinori/maki.cafe/src/config"
 	"github.com/tdewolff/minify/v2"
+	"maki.cafe/src/config"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )

@@ -14,7 +14,7 @@ import (
 	"time"
 
 	"github.com/disintegration/imaging"
-	"github.com/makinori/maki.cafe/src/spritesheet"
+	"maki.cafe/src/spritesheet"
 )
 
 // https://www.steamgriddb.com/

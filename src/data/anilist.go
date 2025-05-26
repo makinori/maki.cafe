@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/hasura/go-graphql-client"
-	"github.com/makinori/maki.cafe/src/config"
+	"maki.cafe/src/config"
 )
 
 // https://studio.apollographql.com/sandbox/explorer

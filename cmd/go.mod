@@ -1,16 +1,16 @@
-module github.com/makinori/maki.cafe/cmd
+module maki.cafe/cmd
 
 go 1.24.3
 
 require (
 	github.com/disintegration/imaging v1.6.2
 	github.com/go-rod/rod v0.116.2
-	github.com/makinori/maki.cafe v0.0.0
 	github.com/schollz/progressbar/v3 v3.18.0
 	github.com/tdewolff/minify/v2 v2.23.8
+	maki.cafe v0.0.0
 )
 
-replace github.com/makinori/maki.cafe v0.0.0 => ..
+replace maki.cafe v0.0.0 => ..
 
 require (
 	github.com/mitchellh/colorstring v0.0.0-20190213212951-d06e56a500db // indirect

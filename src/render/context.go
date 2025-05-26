@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/makinori/maki.cafe/src/util"
+	"maki.cafe/src/util"
 )
 
 var (

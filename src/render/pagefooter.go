@@ -1,7 +1,7 @@
 package render
 
 import (
-	"github.com/makinori/maki.cafe/src/config"
+	"maki.cafe/src/config"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
