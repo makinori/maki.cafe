@@ -34,8 +34,12 @@ generate:
 	cp src/public/images/pony.png cmd/makewebring/pony.png
 
 # download icons and emojis
-icon +args:
+icon +args: 
 	cd cmd && go run ./geticon {{args}}
+
+# update favorite games
+make-games: 
+	cd cmd && go run ./makegames
 
 # updates webring buttons
 update-webring:

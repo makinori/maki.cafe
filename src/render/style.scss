@@ -194,9 +194,12 @@ hr {
 	// }
 
 	a.active {
-		// border-bottom: solid 2px white;
-		// margin-bottom: -2px;
+		font-weight: 700;
+		border-bottom: solid 2px white;
+		margin-bottom: -2px;
 		background: transparent;
 		color: #fff;
+		// padding-left: 3px;
+		// padding-right: 3px;
 	}
 }

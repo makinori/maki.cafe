@@ -9,15 +9,18 @@ import (
 func footerLink(
 	currentPagePath string, pagePath string, name string, prefixNodes ...Node,
 ) Node {
-	props := Group{
-		Text(name),
-	}
+	props := Group{}
 
-	if currentPagePath != pagePath {
-		props = append(props, Class("muted"))
-		props = append(props, Href(pagePath))
+	if currentPagePath == pagePath {
+		props = append(props,
+			// Text(fmt.Sprintf("{%s}", name)),
+			Text(name),
+			Class("muted active"),
+		)
 	} else {
-		props = append(props, Class("muted active"))
+		props = append(props,
+			Text(name), Class("muted"), Href(pagePath),
+		)
 	}
 
 	return A(Group(prefixNodes), props)
@@ -34,20 +37,25 @@ func pageFooter(currentPagePath string) Group {
 		spacing = append(spacing, Br())
 	}
 
-	hrStyle := "width: 300px"
+	hr := Hr(Style("width: 250px"))
+	subPageStyle := Style("margin-top: 3px;")
 
 	return Group{
 		spacing,
-		Hr(Style(hrStyle)),
+		hr,
 		Div(
 			Class("page-footer-pages"),
+
+			P(Text("/"), subPageStyle),
 			footerLink(currentPagePath, "/", "index"),
-			footerLink(currentPagePath, "/anime", "anime"),
-			// footerLink(currentPagePath, "/games", "games"),
 			footerLink(currentPagePath, "/webring", "webring"),
-			// Div(Class("break")),
+			Div(Class("break")),
+
+			P(Text("/fav/"), subPageStyle),
+			footerLink(currentPagePath, "/fav/anime", "anime"),
+			footerLink(currentPagePath, "/fav/games", "games"),
 		),
-		Hr(Style(hrStyle)),
+		hr,
 		Div(
 			Class("page-footer-pages"),
 			footerLink("", config.GitHubURL+"/maki.cafe", "source code"),

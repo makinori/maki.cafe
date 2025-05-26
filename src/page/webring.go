@@ -10,6 +10,8 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
+// TODO: use grid component
+
 func webringIcon(ctx context.Context, filename string, url string) Node {
 	baseClass := render.SCSS(ctx, `
 		image-rendering: pixelated;

@@ -1,0 +1,39 @@
+package page
+
+import (
+	"context"
+
+	"github.com/makinori/maki.cafe/src/component"
+	"github.com/makinori/maki.cafe/src/data/generated"
+	. "maragu.dev/gomponents"
+	. "maragu.dev/gomponents/html"
+)
+
+func FavGames(ctx context.Context) Group {
+	var nodes Group
+
+	for _, category := range generated.Games {
+		nodes = append(nodes, H1(Text(category.Title)), Br())
+
+		var items []Node
+
+		for _, game := range category.Games {
+			// fmt.Println(game)
+			items = append(items, component.SpriteSheetGridItem(
+				ctx, "", game.URL, generated.GamesImageURL,
+				generated.GamesSize, game.Position, generated.GamesAspectRatio,
+			))
+		}
+
+		nodes = append(nodes,
+			component.SpriteSheetGrid(ctx, 4, items), Br(),
+		)
+	}
+
+	// remove last br
+	nodes = nodes[:len(nodes)-1]
+
+	return Group{
+		nodes,
+	}
+}

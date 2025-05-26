@@ -14,6 +14,8 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
+// TODO: refactor name to favanime and use grid component
+
 func makeAnimeNode(
 	ctx context.Context, name string, href string, image string,
 	ss data.CachedSpriteSheet, index int,
