@@ -22,7 +22,7 @@ func animeTitle(title data.AniListTitle) string {
 	return title.Romaji
 }
 
-func Anime(ctx context.Context) Group {
+func FavAnime(ctx context.Context) Group {
 	anilistData := data.Anilist.Data
 
 	var current, completed, favoriteAnime, favoriteCharacters Group
