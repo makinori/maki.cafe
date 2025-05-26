@@ -1,5 +1,3 @@
--   clarify in footer /interests {/anime,...}
 -   embed svgs
--   use maki.cafe for package names?
 -   refactor spritesheet stuff into more types
 -   improve page footer

@@ -15,4 +15,7 @@ const (
 
 	MatrixUsername = "@maki:hotmilk.space"
 	MatrixURL      = "https://matrix.to/#/" + MatrixUsername
+
+	BackloggdUsername = "maki_nori"
+	BackloggdURL      = "https://backloggd.com/u/" + BackloggdUsername
 )

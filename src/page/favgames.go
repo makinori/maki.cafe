@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"maki.cafe/src/component"
+	"maki.cafe/src/config"
 	"maki.cafe/src/data/generated"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -36,6 +37,15 @@ func FavGames(ctx context.Context) Group {
 	nodes = nodes[:len(nodes)-1]
 
 	return Group{
+		P(
+			Text("see my "),
+			A(
+				Href(config.BackloggdURL+"/journal"),
+				Text("backloggd"),
+			),
+			Text(" journal"),
+		),
+		Br(),
 		nodes,
 	}
 }

@@ -13,8 +13,6 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
-// TODO: refactor name to favanime
-
 func animeTitle(title data.AniListTitle) string {
 	if title.English != "" {
 		return title.English
@@ -71,9 +69,9 @@ func FavAnime(ctx context.Context) Group {
 			Text("see my "),
 			A(
 				Href(config.AniListURL),
-				Text("anilist profile"),
+				Text("anilist"),
 			),
-			Text(" for more"),
+			Text(" profile for more"),
 		),
 		Br(),
 		H1(Text("currently watching")),
@@ -114,7 +112,15 @@ func FavAnime(ctx context.Context) Group {
 			anilistData.FavoriteCharactersImage.Size,
 			data.AniListRatio, data.AniListGridWidthSmall, favoriteCharacters,
 		),
-		// Br()
-		// TODO: https://github.com/makinori/anilist-spinner
+		Br(),
+		Br(),
+		P(
+			Text("check out my silly "),
+			A(
+				Text("anilist spinner"),
+				Href(config.GitHubURL+"/anilist-spinner"),
+				Class("muted"),
+			),
+		),
 	}
 }
