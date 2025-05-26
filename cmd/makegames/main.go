@@ -51,8 +51,6 @@ type gameCategory struct {
 	Games []gameInput
 }
 
-// TODO: add the room, shenzhen io, add favorites section, make wider?
-
 var games = []gameCategory{
 	{
 		Title: "metroidbrania",
@@ -72,10 +70,10 @@ var games = []gameCategory{
 	{
 		Title: "souls",
 		Games: []gameInput{
-			{SteamID: 1627720}, // lies of p
 			{SteamID: 570940},  // dark souls
-			{SteamID: 257850},  // hyper light drifer
 			{SteamID: 367520},  // hollow knight
+			{SteamID: 257850},  // hyper light drifer
+			{SteamID: 1627720}, // lies of p
 		},
 	},
 	{
@@ -94,6 +92,8 @@ var games = []gameCategory{
 			{SteamID: 1003590}, // tetris effect
 			{SteamID: 427520},  // factorio
 			{SteamID: 499180},  // braid anniversary edition
+			{SteamID: 504210},  // shenzhen io
+			{SteamID: 288160},  // the room
 			{
 				Image: "games/picross-3d-round-2.jpg",
 				URL:   "https://www.youtube.com/watch?v=jA-et0LCpNo",
@@ -325,7 +325,7 @@ func main() {
 	must(err)
 
 	templateData := map[string]any{
-		"ImageURL":    "/generated/games.png",
+		"ImageURL":    fmt.Sprintf("/generated/games.png?%d", time.Now().Unix()),
 		"Size":        spritesheetCSS.Size, // css
 		"AspectRatio": fmt.Sprintf("%d/%d", bannerWidth, bannerHeight),
 		"Games":       allOutputGames,
