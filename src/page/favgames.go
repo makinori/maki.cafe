@@ -20,7 +20,7 @@ func FavGames(ctx context.Context) Group {
 		for _, game := range category.Games {
 			// fmt.Println(game)
 			items = append(items, component.SpriteSheetGridItem(
-				ctx, "", game.URL, game.Position,
+				"", game.URL, game.Position,
 			))
 		}
 

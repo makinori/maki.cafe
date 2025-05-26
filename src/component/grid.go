@@ -21,15 +21,20 @@ func SpriteSheetGrid(
 			grid-gap: 8px;
 			
 			> a {
-				background-image: url("`+imageURL+`");
-				background-size: `+size+`;
-				aspect-ratio: `+aspectRatio+`;
 				padding: 0;
-
 				display: flex;
 				flex-direction: column;
 				gap: 4px;
-				background-color: #222;
+				background-color: transparent;
+
+				> div {
+					width: 100%;
+					padding: 0;
+					aspect-ratio: `+aspectRatio+`;
+					background-color: #222;
+					background-image: url("`+imageURL+`");
+					background-size: `+size+`;
+				}
 				
 				> p {
 					font-size: 18px;
@@ -41,8 +46,7 @@ func SpriteSheetGrid(
 }
 
 func SpriteSheetGridItem(
-	ctx context.Context, name string, href string,
-	position string, nodes ...Node,
+	name string, href string, position string, nodes ...Node,
 ) Node {
 	var props []Node
 
@@ -54,9 +58,9 @@ func SpriteSheetGridItem(
 	}
 
 	props = append(props,
-		Style(fmt.Sprintf(
+		Div(Style(fmt.Sprintf(
 			`background-position: %s;`, position,
-		)),
+		))),
 		Group(nodes),
 	)
 

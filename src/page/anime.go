@@ -3,55 +3,17 @@ package page
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"time"
 
+	"github.com/makinori/maki.cafe/src/component"
 	"github.com/makinori/maki.cafe/src/config"
 	"github.com/makinori/maki.cafe/src/data"
-	"github.com/makinori/maki.cafe/src/render"
 	"github.com/makinori/maki.cafe/src/util"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
 
-// TODO: refactor name to favanime and use grid component
-
-func makeAnimeNode(
-	ctx context.Context, name string, href string, image string,
-	ss data.CachedSpriteSheet, index int,
-	nodes ...Node,
-) Node {
-	return A(
-		Title(name),
-		Href(href),
-		Class(render.SCSS(ctx, `
-			padding: 0;
-			display: flex;
-			flex-direction: column;
-			gap: 4px;
-			background: transparent;
-
-			> div {
-				aspect-ratio: `+data.AniListRatio+`;
-				width: 100%;
-				background-color: #222;
-			}
-
-			> p {
-				font-size: 18px;
-			}
-		`)),
-		Div(
-			Class(render.SCSS(ctx, `
-				background-image: url("`+ss.ImageURL+`");
-				background-size: `+ss.Size+`;
-			`)),
-			Style(fmt.Sprintf(
-				`background-position: %s;`, ss.Positions[index],
-			))),
-		Group(nodes),
-	)
-}
+// TODO: refactor name to favanime
 
 func animeTitle(title data.AniListTitle) string {
 	if title.English != "" {
@@ -61,20 +23,21 @@ func animeTitle(title data.AniListTitle) string {
 }
 
 func Anime(ctx context.Context) Group {
+	anilistData := data.Anilist.Data
+
 	var current, completed, favoriteAnime, favoriteCharacters Group
 
-	for i, anime := range data.Anilist.Data.Current {
-		current = append(current, makeAnimeNode(
-			ctx, animeTitle(anime.Media.Title),
-			anime.Media.SiteURL, anime.Media.CoverImage.Large,
-			data.Anilist.Data.CurrentImage, i,
+	for i, anime := range anilistData.Current {
+		current = append(current, component.SpriteSheetGridItem(
+			animeTitle(anime.Media.Title), anime.Media.SiteURL,
+			anilistData.CurrentImage.Positions[i],
 			P(Text(
 				fmt.Sprintf("%d/%d", anime.Progress, anime.Media.Episodes),
 			)),
 		))
 	}
 
-	for i, anime := range data.Anilist.Data.Completed {
+	for i, anime := range anilistData.Completed {
 		completedAt := time.Date(
 			anime.CompletedAt.Year,
 			time.Month(anime.CompletedAt.Month),
@@ -82,41 +45,26 @@ func Anime(ctx context.Context) Group {
 			0, 0, 0, 0, time.UTC,
 		)
 
-		completed = append(completed, makeAnimeNode(
-			ctx, animeTitle(anime.Media.Title),
-			anime.Media.SiteURL, anime.Media.CoverImage.Large,
-			data.Anilist.Data.CompletedImage, i,
+		completed = append(completed, component.SpriteSheetGridItem(
+			animeTitle(anime.Media.Title), anime.Media.SiteURL,
+			anilistData.CompletedImage.Positions[i],
 			P(Text(util.ShortDateWithYear(completedAt))),
 		))
 	}
 
-	for i, anime := range data.Anilist.Data.FavoriteAnime {
-		favoriteAnime = append(favoriteAnime, makeAnimeNode(
-			ctx, animeTitle(anime.Title),
-			anime.SiteURL, anime.CoverImage.Large,
-			data.Anilist.Data.FavoriteAnimeImage, i,
+	for i, anime := range anilistData.FavoriteAnime {
+		favoriteAnime = append(favoriteAnime, component.SpriteSheetGridItem(
+			animeTitle(anime.Title), anime.SiteURL,
+			anilistData.FavoriteAnimeImage.Positions[i],
 		))
 	}
 
-	for i, character := range data.Anilist.Data.FavoriteCharacters {
-		favoriteCharacters = append(favoriteCharacters, makeAnimeNode(
-			ctx, character.Name.UserPreferred,
-			character.SiteURL, character.Image.Large,
-			data.Anilist.Data.FavoriteCharactersImage, i,
+	for i, character := range anilistData.FavoriteCharacters {
+		favoriteCharacters = append(favoriteCharacters, component.SpriteSheetGridItem(
+			character.Name.UserPreferred, character.SiteURL,
+			anilistData.FavoriteCharactersImage.Positions[i],
 		))
 	}
-
-	largeGrid := render.SCSS(ctx, `
-		display: grid;
-		grid-template-columns: repeat(`+strconv.Itoa(data.AniListGridWidthLarge)+`,1fr);
-		grid-gap: 8px;
-	`)
-
-	smallGrid := render.SCSS(ctx, `
-		display: grid;
-		grid-template-columns: repeat(`+strconv.Itoa(data.AniListGridWidthSmall)+`,1fr);
-		grid-gap: 8px;
-	`)
 
 	return Group{
 		P(
@@ -130,11 +78,19 @@ func Anime(ctx context.Context) Group {
 		Br(),
 		H1(Text("currently watching")),
 		Br(),
-		Div(Class(largeGrid), current),
+		component.SpriteSheetGrid(ctx,
+			anilistData.CurrentImage.ImageURL,
+			anilistData.CurrentImage.Size,
+			data.AniListRatio, data.AniListGridWidthLarge, current,
+		),
 		Br(),
 		H1(Text("recently finished")),
 		Br(),
-		Div(Class(largeGrid), completed),
+		component.SpriteSheetGrid(ctx,
+			anilistData.CompletedImage.ImageURL,
+			anilistData.CompletedImage.Size,
+			data.AniListRatio, data.AniListGridWidthLarge, completed,
+		),
 		// Br(),
 		// A(
 		// 	Href("https://anilist.co/user/"+config.AniListUsername+"/animelist/Completed"),
@@ -145,11 +101,19 @@ func Anime(ctx context.Context) Group {
 		Br(),
 		H1(Text("favorite anime")),
 		Br(),
-		Div(Class(smallGrid), favoriteAnime),
+		component.SpriteSheetGrid(ctx,
+			anilistData.FavoriteAnimeImage.ImageURL,
+			anilistData.FavoriteAnimeImage.Size,
+			data.AniListRatio, data.AniListGridWidthSmall, favoriteAnime,
+		),
 		Br(),
 		H1(Text("favorite characters")),
 		Br(),
-		Div(Class(smallGrid), favoriteCharacters),
+		component.SpriteSheetGrid(ctx,
+			anilistData.FavoriteCharactersImage.ImageURL,
+			anilistData.FavoriteCharactersImage.Size,
+			data.AniListRatio, data.AniListGridWidthSmall, favoriteCharacters,
+		),
 		// Br()
 		// TODO: https://github.com/makinori/anilist-spinner
 	}
