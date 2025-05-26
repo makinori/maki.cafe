@@ -12,29 +12,44 @@ var (
 	pageSCSSKey = "pageSCSS"
 )
 
+type PageSCSS struct {
+	ClassName string
+	Snippet   string
+}
+
 func initContext() context.Context {
 	ctx := context.Background()
-	ctx = context.WithValue(ctx, pageSCSSKey, map[string]string{})
+	ctx = context.WithValue(ctx, pageSCSSKey, &[]PageSCSS{})
 	return ctx
 }
 
 // returns class name and injects scss into page
-func SCSS(ctx context.Context, scss string) string {
-	pageSCSS, ok := ctx.Value(pageSCSSKey).(map[string]string)
+func SCSS(ctx context.Context, snippet string) string {
+	pageSCSS, ok := ctx.Value(pageSCSSKey).(*[]PageSCSS)
 	if !ok {
 		slog.Error("failed to get page scss from context")
 		return ""
 	}
 
-	className := util.HashString(scss)
+	// TODO: doesnt consider whitespace
+	className := util.HashString(snippet)
 
-	pageSCSS[className] = scss
+	for _, scss := range *pageSCSS {
+		if scss.ClassName == className {
+			return className
+		}
+	}
+
+	*pageSCSS = append(*pageSCSS, PageSCSS{
+		ClassName: className,
+		Snippet:   snippet,
+	})
 
 	return className
 }
 
 func getPageSCSS(ctx context.Context) string {
-	pageSCSS, ok := ctx.Value(pageSCSSKey).(map[string]string)
+	pageSCSS, ok := ctx.Value(pageSCSSKey).(*[]PageSCSS)
 	if !ok {
 		slog.Error("failed to get page scss from context")
 		return ""
@@ -42,8 +57,8 @@ func getPageSCSS(ctx context.Context) string {
 
 	var source string
 
-	for className, snippet := range pageSCSS {
-		source += "." + className + "{" + snippet + "}"
+	for _, scss := range *pageSCSS {
+		source += "." + scss.ClassName + "{" + scss.Snippet + "}"
 	}
 
 	source = strings.TrimSpace(source)

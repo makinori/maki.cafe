@@ -20,13 +20,15 @@ func FavGames(ctx context.Context) Group {
 		for _, game := range category.Games {
 			// fmt.Println(game)
 			items = append(items, component.SpriteSheetGridItem(
-				ctx, "", game.URL, generated.GamesImageURL,
-				generated.GamesSize, game.Position, generated.GamesAspectRatio,
+				ctx, "", game.URL, game.Position,
 			))
 		}
 
 		nodes = append(nodes,
-			component.SpriteSheetGrid(ctx, 4, items), Br(),
+			component.SpriteSheetGrid(ctx,
+				generated.GamesImageURL, generated.GamesSize,
+				generated.GamesAspectRatio, 4, items,
+			), Br(),
 		)
 	}
 
