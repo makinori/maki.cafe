@@ -32,16 +32,11 @@ func pageFooter(currentPagePath string) Group {
 	// 	return Group{}
 	// }
 
-	var spacing Group
-	for range 6 {
-		spacing = append(spacing, Br())
-	}
-
 	hr := Hr(Style("width: 250px"))
 	subPageStyle := Style("margin-top: 3px;")
 
 	return Group{
-		spacing,
+		Div(Style("margin-top: 100px")),
 		hr,
 		Div(
 			Class("page-footer-pages"),

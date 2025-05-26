@@ -13,15 +13,6 @@ import (
 // TODO: use grid component
 
 func webringIcon(ctx context.Context, filename string, url string) Node {
-	baseClass := render.SCSS(ctx, `
-		image-rendering: pixelated;
-		overflow: hidden;
-		font-size: 14px;
-		display: inline-flex;
-		background-color: hsl(0deg, 0%, 10%);
-		font-weight: 600;
-		padding: 0;
-	`)
 
 	attrs := Group{
 		Href("https://" + url),
@@ -31,7 +22,7 @@ func webringIcon(ctx context.Context, filename string, url string) Node {
 	if strings.HasPrefix(filename, "!") {
 		// not an image
 		attrs = append(attrs, Text(filename[1:]), Classes{
-			baseClass: true, render.SCSS(ctx, `
+			render.SCSS(ctx, `
 				width: 84px;
 				height: 27px;
 				border: solid 2px hsl(0deg, 0%, 20%);
@@ -44,7 +35,7 @@ func webringIcon(ctx context.Context, filename string, url string) Node {
 			// Style(fmt.Sprintf(
 			// 	`background-image: url("/webring/%s")`, filename,
 			// )),
-			Classes{baseClass: true, render.SCSS(ctx, `
+			Classes{render.SCSS(ctx, `
 				width: 88px;
 				height: 31px;
 				background-size: 100% auto;
@@ -70,6 +61,16 @@ func Webring(ctx context.Context) Group {
 		display: inline-grid;
 		grid-gap: 8px;
 		grid-template-columns: repeat(4, 1fr);
+
+		> a {
+			image-rendering: pixelated;
+			overflow: hidden;
+			font-size: 14px;
+			display: inline-flex;
+			background-color: hsl(0deg, 0%, 10%);
+			font-weight: 600;
+			padding: 0;
+		}
 	`)
 
 	return Group{
@@ -101,7 +102,10 @@ func Webring(ctx context.Context) Group {
 		Br(),
 		P(Text("feel free to use my button")),
 		Br(),
-		webringIcon(ctx, "maki.gif", "maki.cafe"),
+		Div(
+			Class(gridClass),
+			webringIcon(ctx, "maki.gif", "maki.cafe"),
+		),
 		// Br(),
 		// Br(),
 		// H2(Text("pony")),
