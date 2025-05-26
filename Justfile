@@ -45,7 +45,7 @@ make-games:
 update-webring:
 	#!/bin/bash
 	cd src/public/webring
-	# missing micaela, skynet
+	# missing micaela, skynet, taz, lem
 	curl -o kneesox.png https://kneesox.moe/img/buttons/kneesox.png
 	curl -o anonfilly.png https://anonfilly.horse/anonfilly%20sight.png
 	curl -o kayla.gif https://kayla.moe/button.gif
