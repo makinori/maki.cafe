@@ -49,7 +49,7 @@ func RenderPage(
 		bodyClass = "noblur"
 		extraHeadNodes = append(extraHeadNodes, Meta(
 			Name("go-import"),
-			Content("maki.cafe mod "+config.GitHubURL),
+			Content("maki.cafe git "+config.GitHubURL+"/maki.cafe"),
 		))
 	} else {
 		title += currentPagePath
