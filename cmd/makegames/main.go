@@ -53,7 +53,7 @@ type gameCategory struct {
 
 var games = []gameCategory{
 	{
-		Title: "metroidbrania",
+		Title: "metroidbrainia",
 		Games: []gameInput{
 			{
 				SteamID: 210970,
