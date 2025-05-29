@@ -3,6 +3,7 @@ module maki.cafe/cmd
 go 1.24.3
 
 require (
+	github.com/dave/jennifer v1.7.1
 	github.com/disintegration/imaging v1.6.2
 	github.com/go-rod/rod v0.116.2
 	github.com/schollz/progressbar/v3 v3.18.0
