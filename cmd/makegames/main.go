@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"image"
 	"io"
 	"net/http"
 	"os"
@@ -43,6 +42,8 @@ type game struct {
 	// override
 	Image string
 	URL   string
+
+	Anchor imaging.Anchor
 }
 
 type gameCategory struct {
@@ -94,8 +95,14 @@ var games = []gameCategory{
 			{SteamID: 504210},  // shenzhen io
 			{SteamID: 288160},  // the room
 			{
-				Image: "games/picross-3d-round-2.jpg",
-				URL:   "https://www.youtube.com/watch?v=jA-et0LCpNo",
+				Image:  "games/picross-3d-round-2.jpg",
+				URL:    "https://www.youtube.com/watch?v=jA-et0LCpNo",
+				Anchor: imaging.Bottom,
+			},
+			{
+				Image:  "games/kemono-friends-picross.jpg",
+				URL:    "https://www.nintendo.com/us/store/products/kemono-friends-picross-switch",
+				Anchor: imaging.Bottom,
 			},
 		},
 	},
@@ -113,12 +120,14 @@ var games = []gameCategory{
 			{SteamID: 504230}, // celeste
 			{SteamID: 17410},  // mirrors edge
 			{
-				Image: "games/super-mario-odyssey.png",
-				URL:   "https://www.nintendo.com/store/products/super-mario-odyssey-switch",
+				Image:  "games/super-mario-odyssey.png",
+				URL:    "https://www.nintendo.com/store/products/super-mario-odyssey-switch",
+				Anchor: imaging.Bottom,
 			},
 			{
-				Image: "games/kirby-and-the-forgotten-land.png",
-				URL:   "https://kirbyandtheforgottenland.nintendo.com/",
+				Image:  "games/kirby-and-the-forgotten-land.png",
+				URL:    "https://kirbyandtheforgottenland.nintendo.com/",
+				Anchor: imaging.Bottom,
 			},
 			{SteamID: 1533420}, // neon white
 		},
@@ -177,10 +186,10 @@ var games = []gameCategory{
 				URL:   "https://www.betterthanadventure.net",
 			},
 			{SteamID: 394690}, // tower unite
-			{
-				Image: "games/fortnite-cropped.png",
-				URL:   "https://www.fortnite.com",
-			},
+			// {
+			// 	Image: "games/fortnite-cropped.png",
+			// 	URL:   "https://www.fortnite.com",
+			// },
 			{
 				Image: "games/world-of-warcraft.png",
 				URL:   "https://worldofwarcraft.blizzard.com/en-us",
@@ -223,7 +232,7 @@ func main() {
 
 	// generate spritesheet
 
-	var images []image.Image
+	var images []spritesheet.InputImage
 
 	for _, category := range games {
 		for _, game := range category.Games {
@@ -251,7 +260,10 @@ func main() {
 			image, err := imaging.Decode(bytes.NewReader(imageBytes))
 			must(err)
 
-			images = append(images, image)
+			images = append(images, spritesheet.InputImage{
+				Image:  image,
+				Anchor: game.Anchor,
+			})
 		}
 	}
 

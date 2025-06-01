@@ -30,10 +30,15 @@ type SpriteSheetCSS struct {
 	Positions []string `json:"positions"`
 }
 
+type InputImage struct {
+	Image  image.Image
+	Anchor imaging.Anchor
+}
+
 func Generate(
 	imageWidth int, imageHeight int, imagePadding int,
 	sheetWidth int, sheetHeight int,
-	images []image.Image,
+	images []InputImage,
 ) (image.Image, SpriteSheetCSS, error) {
 	if len(images) > sheetWidth*sheetHeight {
 		return nil, SpriteSheetCSS{}, fmt.Errorf(
@@ -77,12 +82,12 @@ func Generate(
 		go func() {
 			defer sem.Release(1)
 
-			img = imaging.Fill(
-				img, imageWidth, imageHeight, imaging.Center, imaging.Lanczos,
+			cropped := imaging.Fill(
+				img.Image, imageWidth, imageHeight, img.Anchor, imaging.Lanczos,
 			)
 
 			finalMutex.Lock()
-			final = imaging.Paste(final, img, image.Point{
+			final = imaging.Paste(final, cropped, image.Point{
 				X: x*imageWidth + x*imagePadding,
 				Y: y*imageHeight + y*imagePadding,
 			})
@@ -103,7 +108,7 @@ func GenerateFromURLs(
 	sheetWidth int, sheetHeight int,
 	urlsOrPaths []string,
 ) (image.Image, SpriteSheetCSS, error) {
-	images := make([]image.Image, len(urlsOrPaths))
+	images := make([]InputImage, len(urlsOrPaths))
 	var imagesMutex sync.Mutex
 
 	var concurrency int64 = 8
@@ -158,7 +163,10 @@ func GenerateFromURLs(
 			}
 
 			imagesMutex.Lock()
-			images[i] = image
+			images[i] = InputImage{
+				Image:  image,
+				Anchor: imaging.Center,
+			}
 			imagesMutex.Unlock()
 		}()
 	}
