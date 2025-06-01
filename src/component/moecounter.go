@@ -27,7 +27,6 @@ func MoeCounter(ctx context.Context) Node {
 		nCharNodes = append(nCharNodes, Img(
 			Src(fmt.Sprintf("/moecounter/%c.gif", char)),
 		))
-
 	}
 
 	return Div(Class(divClass), nCharNodes)
