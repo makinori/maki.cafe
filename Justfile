@@ -2,7 +2,7 @@ default:
 	@just --list
 
 alias s := start
-# start web server
+[group("dev")]
 start:
 	CI=true CLICOLOR_FORCE=1 \
 	DEV=1 PORT=1234 go tool air \
@@ -15,11 +15,13 @@ start:
 
 alias u := update
 # git pull and docker compose up
+[group("server")]
 update:
 	git pull
 	docker compose up -d --build
 
 # generate assets
+[group("dev")]
 generate:
 	#!/bin/bash
 
@@ -34,15 +36,22 @@ generate:
 	cp src/public/images/pony.png cmd/makewebring/pony.png
 
 # download icons and emojis
+[group("cmd")]
 icon +args: 
 	cd cmd && go run ./geticon {{args}}
 
 # update favorite games
-make-games: 
+[group("cmd")]
+makegames: 
 	cd cmd && go run ./makegames
 
-# updates webring buttons
-update-webring:
+[group("cmd")]
+makewebring: 
+	cd cmd && go run ./makewebring
+
+# download fresh
+[group("util")]
+updatewebring:
 	#!/bin/bash
 	cd src/public/webring
 	# missing micaela, skynet, taz, lem
