@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	ipExpireDuration = time.Minute
+	ipExpireDuration = time.Hour
 )
 
 var (
