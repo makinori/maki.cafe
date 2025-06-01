@@ -22,7 +22,8 @@ func MoeCounter(ctx context.Context) Node {
 		gap: 0;
 		
 		> img {
-			// height: 150px; // default height
+			// original-new 150px
+			// rule34 100px
 			height: 75px;
 			image-rendering: pixelated;
 		}
@@ -30,7 +31,7 @@ func MoeCounter(ctx context.Context) Node {
 
 	for _, char := range nChars {
 		nCharNodes = append(nCharNodes, Img(
-			Src(fmt.Sprintf("/moecounter/%c.gif", char)),
+			Src(fmt.Sprintf("/moecounter/rule34/%c.gif", char)),
 		))
 	}
 
