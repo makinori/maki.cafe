@@ -53,7 +53,7 @@ func (importResolver embeddedImportResolver) Load(canonicalizedURL string) (sass
 	return sass.Import{}, errors.New("failed to find " + filename)
 }
 
-func renderSass(source string, imports ...SassImport) (string, error) {
+func RenderSass(source string, imports ...SassImport) (string, error) {
 	res, err := sassTranspiler.Execute(sass.Args{
 		ImportResolver: embeddedImportResolver{
 			imports: imports,

@@ -18,6 +18,7 @@ import (
 	"maki.cafe/src/lint"
 	"maki.cafe/src/page"
 	"maki.cafe/src/render"
+	"maki.cafe/src/template"
 	"maki.cafe/src/util"
 	"maragu.dev/gomponents"
 )
@@ -25,20 +26,20 @@ import (
 var (
 	//go:embed public
 	staticContent embed.FS
+	//go:embed 1x1.gif
+	gif1x1 []byte
 )
 
 func handlePage(pageFn func(context.Context) gomponents.Group) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 
-		html, err := render.RenderPage(pageFn, r.URL.Path)
+		html, err := template.RenderPage(pageFn, r)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to render"))
 			slog.Error("failed to render", "err", err.Error())
 		}
-
-		go util.HTTPPlausibleEvent(r)
 
 		renderTime := time.Now().Sub(start)
 
@@ -51,6 +52,17 @@ func handlePage(pageFn func(context.Context) gomponents.Group) func(http.Respons
 
 		util.HTTPServeOptimized(w, r, html, ".html")
 	}
+}
+
+func handleNotabotGif(w http.ResponseWriter, r *http.Request) {
+	// respond immediately
+	w.Header().Add("Cache-Control", "no-store")
+	w.Write(gif1x1)
+
+	go func() {
+		data.AddOneToCounter()
+		util.HTTPPlausibleEventFromImg(r)
+	}()
 }
 
 func Main() {
@@ -78,6 +90,8 @@ func Main() {
 	mux.HandleFunc("GET /xmpp", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "xmpp:"+config.XMPP, http.StatusTemporaryRedirect)
 	})
+
+	mux.HandleFunc("GET /notabot.gif", handleNotabotGif)
 
 	// register pages
 

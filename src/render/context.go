@@ -17,7 +17,7 @@ type PageSCSS struct {
 	Snippet   string
 }
 
-func initContext() context.Context {
+func InitContext() context.Context {
 	ctx := context.Background()
 	ctx = context.WithValue(ctx, pageSCSSKey, &[]PageSCSS{})
 	return ctx
@@ -48,7 +48,7 @@ func SCSS(ctx context.Context, snippet string) string {
 	return className
 }
 
-func getPageSCSS(ctx context.Context) string {
+func GetPageSCSS(ctx context.Context) string {
 	pageSCSS, ok := ctx.Value(pageSCSSKey).(*[]PageSCSS)
 	if !ok {
 		slog.Error("failed to get page scss from context")

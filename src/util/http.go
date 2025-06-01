@@ -10,6 +10,7 @@ import (
 	"log/slog"
 	"mime"
 	"net/http"
+	"net/url"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -134,7 +135,7 @@ func HTTPGetIPAddress(r *http.Request) string {
 	return portRegexp.ReplaceAllString(r.RemoteAddr, "")
 }
 
-func HTTPGetFullURL(r *http.Request) string {
+func HTTPGetFullURL(r *http.Request) url.URL {
 	fullUrl := *r.URL // shallow copy
 
 	fullUrl.Scheme = r.Header.Get("X-Forwarded-Proto")
@@ -143,7 +144,7 @@ func HTTPGetFullURL(r *http.Request) string {
 	}
 	fullUrl.Host = r.Host
 
-	return fullUrl.String()
+	return fullUrl
 }
 
 var ignorePlausibleUserAgents = []string{
@@ -151,7 +152,7 @@ var ignorePlausibleUserAgents = []string{
 	"curl",
 }
 
-func HTTPPlausibleEvent(incomingReq *http.Request) bool {
+func HTTPPlausibleEventFromImg(incomingReq *http.Request) bool {
 	if ENV_IS_DEV {
 		return false
 	}
@@ -165,13 +166,23 @@ func HTTPPlausibleEvent(incomingReq *http.Request) bool {
 		}
 	}
 
+	notabot, err := NotabotDecode(incomingReq.URL.RawQuery)
+	if err != nil {
+		slog.Error("failed to get notabot data", "err", err.Error())
+		return false
+	}
+
 	// https://plausible.io/docs/events-api
+
+	fullUrl := HTTPGetFullURL(incomingReq)
+	fullUrl.Path = notabot.Path
+	fullUrl.RawQuery = ""
 
 	body, err := json.Marshal(map[string]string{
 		"name":     "pageview",
-		"url":      HTTPGetFullURL(incomingReq),
+		"url":      fullUrl.String(),
 		"domain":   "maki.cafe",
-		"referrer": incomingReq.Header.Get("Referer"),
+		"referrer": notabot.Ref,
 	})
 
 	if err != nil {

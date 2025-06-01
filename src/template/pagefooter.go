@@ -1,6 +1,9 @@
-package render
+package template
 
 import (
+	"context"
+
+	"maki.cafe/src/component"
 	"maki.cafe/src/config"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -26,7 +29,7 @@ func footerLink(
 	return A(Group(prefixNodes), props)
 }
 
-func pageFooter(currentPagePath string) Group {
+func pageFooter(ctx context.Context, currentPagePath string) Group {
 	// not ready to show footer on index page yet
 	// if currentPagePath == "/" {
 	// 	return Group{}
@@ -55,5 +58,7 @@ func pageFooter(currentPagePath string) Group {
 			Class("page-footer-pages"),
 			footerLink("", config.GitHubURL+"/maki.cafe", "source code"),
 		),
+		Br(),
+		component.MoeCounter(ctx),
 	}
 }

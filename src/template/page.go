@@ -1,12 +1,13 @@
-package render
+package template
 
 import (
 	"bytes"
 	"context"
 	_ "embed"
+	"net/http"
 
-	"github.com/tdewolff/minify/v2"
 	"maki.cafe/src/config"
+	"maki.cafe/src/render"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -16,25 +17,15 @@ var (
 	styleSCSS string
 	//go:embed fonts.scss
 	fontsSCSS string
-
-	minifier *minify.M
 )
-
-func InitMinifier() {
-	// minifier = minify.New()
-	// minifier.Add("text/css", &css.Minifier{})
-	// minifier.Add("text/html", &html.Minifier{
-	// 	KeepDocumentTags:    true,
-	// 	KeepQuotes:          true,
-	// 	KeepDefaultAttrVals: true,
-	// })
-}
 
 func RenderPage(
 	pageFn func(context.Context) Group,
-	currentPagePath string,
+	r *http.Request,
 ) ([]byte, error) {
-	ctx := initContext()
+	ctx := render.InitContext()
+
+	currentPagePath := r.URL.Path
 
 	pageHeaderInfo := pageHeaderInfo{
 		PagePath: currentPagePath,
@@ -57,7 +48,7 @@ func RenderPage(
 
 	body := Body(
 		Class(bodyClass),
-		Div(Class(SCSS(ctx, `
+		Div(Class(render.SCSS(ctx, `
 			position: absolute;
 			margin: auto;
 			top: 0;
@@ -66,15 +57,15 @@ func RenderPage(
 			height: 8px;
 			background-color: #ff1744;
 		`))),
-		pageHeader(pageHeaderInfo),
+		pageHeader(pageHeaderInfo, r),
 		pageFn(ctx),
-		pageFooter(currentPagePath),
+		pageFooter(ctx, currentPagePath),
 	)
 
-	pageSCSS := getPageSCSS(ctx)
+	pageSCSS := render.GetPageSCSS(ctx)
 
-	finalCSS, err := renderSass(styleSCSS+"\n"+pageSCSS,
-		SassImport{Filename: "fonts.scss", Content: fontsSCSS},
+	finalCSS, err := render.RenderSass(styleSCSS+"\n"+pageSCSS,
+		render.SassImport{Filename: "fonts.scss", Content: fontsSCSS},
 	)
 
 	if err != nil {
@@ -102,12 +93,7 @@ func RenderPage(
 		return []byte{}, err
 	}
 
-	// minSiteBuf := bytes.NewBuffer(nil)
-	// err = minifier.Minify("text/html", minSiteBuf, siteBuf)
-	// if err != nil {
-	// 	return []byte{}, err
-	// }
-	// return minSiteBuf.Bytes(), nil
+	// minify here. dont need to cause scss and gomponents minify
 
 	return siteBuf.Bytes(), nil
 }

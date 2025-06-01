@@ -9,7 +9,6 @@ require (
 	github.com/hasura/go-graphql-client v0.14.3
 	github.com/klauspost/compress v1.18.0 // for zstd
 	github.com/robfig/cron/v3 v3.0.1
-	github.com/tdewolff/minify/v2 v2.23.8
 	github.com/tdewolff/parse/v2 v2.8.1
 	golang.org/x/net v0.40.0
 	golang.org/x/sync v0.14.0
