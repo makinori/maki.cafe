@@ -161,7 +161,7 @@ func HTTPPlausibleEventFromImg(incomingReq *http.Request) bool {
 	lowerUserAgent := strings.ToLower(userAgent)
 
 	for _, ignoreUA := range ignorePlausibleUserAgents {
-		if strings.Index(lowerUserAgent, ignoreUA) > -1 {
+		if strings.Contains(lowerUserAgent, ignoreUA) {
 			return false
 		}
 	}
@@ -209,7 +209,7 @@ func HTTPPlausibleEventFromImg(incomingReq *http.Request) bool {
 	if ENV_PLAUSIBLE_DEBUG {
 		// isn't even in the plausible code. docs need to be updated
 		plausibleReq.Header.Add("X-Debug-Request", "true")
-		slog.Debug(
+		slog.Info(
 			"plausible:\n" +
 				"  data: " + string(body) + "\n" +
 				"  ip: " + ipAddress + "\n" +

@@ -19,6 +19,8 @@ func MoeCounter(ctx context.Context) Node {
 		margin: 0;
 		padding: 0;
 		background: none;
+		gap: 0;
+		
 		> img {
 			// height: 150px; // default height
 			height: 75px;
