@@ -60,7 +60,7 @@ func handleNotabotGif(w http.ResponseWriter, r *http.Request) {
 	w.Write(gif1x1)
 
 	go func() {
-		data.AddOneToCounter()
+		data.AddOneToCounter(r)
 		util.HTTPPlausibleEventFromImg(r)
 	}()
 }

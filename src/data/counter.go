@@ -2,15 +2,41 @@ package data
 
 import (
 	"log/slog"
+	"net/http"
 	"os"
 	"strconv"
 	"sync"
+	"time"
+
+	"github.com/robfig/cron/v3"
+	"maki.cafe/src/util"
 )
 
-var counterMutex sync.RWMutex
+const (
+	ipExpireDuration = time.Minute
+)
+
+var (
+	counterMutex sync.RWMutex
+	// save this?
+	ipExpireMap = map[string]time.Time{}
+)
 
 func init() {
 	os.Mkdir("data", 0755)
+
+	// reap once an hour
+	c := cron.New()
+	c.AddFunc("0 * * * *", func() {
+		slog.Debug("reaping expired ips")
+		for ip, expire := range ipExpireMap {
+			if time.Now().After(expire) {
+				slog.Debug("expired", "ip", ip)
+				delete(ipExpireMap, ip)
+			}
+		}
+	})
+	c.Start()
 }
 
 func ReadCounter() uint64 {
@@ -34,9 +60,20 @@ func ReadCounter() uint64 {
 	return value
 }
 
-func AddOneToCounter() {
+func AddOneToCounter(r *http.Request) {
+	ip := util.HTTPGetIPAddress(r)
+
+	expireTime, ok := ipExpireMap[ip]
+	if ok && time.Now().Before(expireTime) {
+		return
+	}
+
+	slog.Debug("counter +1 from " + ip)
+
 	value := ReadCounter()
 	value++
+
+	ipExpireMap[ip] = time.Now().Add(ipExpireDuration)
 
 	counterMutex.Lock()
 	os.WriteFile(
