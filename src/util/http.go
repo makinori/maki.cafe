@@ -229,8 +229,7 @@ func HTTPPlausibleEventFromImg(incomingReq *http.Request) bool {
 		if err != nil {
 			slog.Error("failed to read plausible res body", "err", err.Error())
 		}
-
-		slog.Debug("res: " + string(resData))
+		slog.Info("res: " + string(resData))
 	}
 
 	return true
