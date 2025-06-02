@@ -3,7 +3,6 @@ package component
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"maki.cafe/src/data"
 	"maki.cafe/src/render"
@@ -13,9 +12,11 @@ import (
 
 func MoeCounter(ctx context.Context) Node {
 	var nCharNodes Group
-	nChars := strconv.FormatUint(data.ReadCounter(), 10)
 
-	aClass := render.SCSS(ctx, `
+	length := 6
+	chars := fmt.Sprintf("%d", data.ReadCounter())
+
+	anchorClass := render.SCSS(ctx, `
 		margin: 0;
 		padding: 0;
 		background: none;
@@ -26,17 +27,27 @@ func MoeCounter(ctx context.Context) Node {
 			// rule34 100px
 			height: 75px;
 			image-rendering: pixelated;
+			&.padding {
+				opacity: 0.5;
+			}
 		}
+			
 	`)
 
-	for _, char := range nChars {
+	for range max(0, length-len(chars)) {
+		nCharNodes = append(nCharNodes, Img(
+			Class("padding"),
+			Src("/moecounter/rule34/0.gif"),
+		))
+	}
+	for _, char := range chars {
 		nCharNodes = append(nCharNodes, Img(
 			Src(fmt.Sprintf("/moecounter/rule34/%c.gif", char)),
 		))
 	}
 
 	return A(
-		Class(aClass),
+		Class(anchorClass),
 		Href("https://github.com/journey-ad/Moe-Counter"),
 		nCharNodes,
 	)
