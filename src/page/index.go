@@ -75,6 +75,12 @@ func Index(ctx context.Context) Group {
 				Color: "#227ee1",
 			},
 			{
+				Name:  "tox",
+				URL:   config.ToxURI,
+				Title: config.Tox,
+				Color: "#ff8f00",
+			},
+			{
 				Name:  "matrix",
 				URL:   config.MatrixURL,
 				Title: config.MatrixUsername,

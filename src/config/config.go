@@ -4,6 +4,9 @@ const (
 	Email = "maki@hotmilk.space"
 	XMPP  = "maki@hotmilk.space"
 
+	Tox    = "F5A8FBAB3464147B2733AA2781B8CE56C24EF93C196E65BA2E142682428C322646DE03EA9648"
+	ToxURI = "tox:" + Tox
+
 	GitHubUsername = "makinori"
 	GitHubURL      = "https://github.com/" + GitHubUsername
 
