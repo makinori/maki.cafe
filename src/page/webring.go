@@ -132,7 +132,7 @@ func Webring(ctx context.Context) Group {
 			webringIcon(ctx, "silly/halflife.gif", "store.steampowered.com"),
 			webringIcon(ctx, "silly/imhex.png", "imhex.werwolv.net"),
 			webringIcon(ctx, "silly/imissxp.gif", ""),
-			webringIcon(ctx, "silly/implementrssnow.png", ""),
+			webringIcon(ctx, "silly/implementrssnow.png", "miniflux.app"),
 			webringIcon(ctx, "silly/inkscape.svg", "", "transparent"),
 			webringIcon(ctx, "silly/internetarchive.gif", "archive.org"),
 			webringIcon(ctx, "silly/jellyfin.gif", "jellyfin.org"),
