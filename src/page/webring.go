@@ -114,6 +114,7 @@ func Webring(ctx context.Context) Group {
 		),
 		// https://cyber.dabamos.de/88x31/
 		// https://capstasher.neocities.org/88x31collection
+		// TODO: https://neonaut.neocities.org/cyber/88x31
 		Br(),
 		Br(),
 		H2(Text("silly")),
