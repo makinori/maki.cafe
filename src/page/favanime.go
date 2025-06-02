@@ -113,7 +113,6 @@ func FavAnime(ctx context.Context) Group {
 			data.AniListRatio, data.AniListGridWidthSmall, favoriteCharacters,
 		),
 		Br(),
-		Br(),
 		P(
 			Text("check out my silly "),
 			A(
