@@ -93,6 +93,7 @@ var games = []gameCategory{
 			{SteamID: 427520},  // factorio
 			{SteamID: 499180},  // braid anniversary edition
 			{SteamID: 504210},  // shenzhen io
+			{SteamID: 1255560}, // myst
 			{SteamID: 288160},  // the room
 			{
 				Image:  "games/picross-3d-round-2.jpg",
