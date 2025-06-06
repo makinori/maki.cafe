@@ -42,7 +42,7 @@ type game struct {
 	// override
 	Image string
 	URL   string
-
+	// image
 	Anchor imaging.Anchor
 }
 
@@ -126,23 +126,30 @@ var games = []gameCategory{
 				Anchor: imaging.Bottom,
 			},
 			{
-				Image:  "games/kirby-and-the-forgotten-land.png",
-				URL:    "https://kirbyandtheforgottenland.nintendo.com/",
-				Anchor: imaging.Bottom,
+				Image: "games/kirby-planet-robobot.png",
+				URL:   "https://kirby.fandom.com/wiki/Kirby:_Planet_Robobot",
 			},
 			{SteamID: 1533420}, // neon white
+		},
+	},
+	{
+		Title: "walking",
+		Games: []game{
+			{SteamID: 1709170}, // paradise marsh
+			{SteamID: 1055540}, // a short hike
+			{SteamID: 1332010}, // stray
+			{SteamID: 447040},  // watch dogs 2
+
 		},
 	},
 	{
 		Title: "story",
 		Games: []game{
 			{SteamID: 972660},  // spiritfarer
-			{SteamID: 1709170}, // paradise marsh
-			{SteamID: 1055540}, // a short hike
-			{SteamID: 1332010}, // stray
-			// -- new line
 			{SteamID: 524220},  // nier automata
 			{SteamID: 1113560}, // nier replicant
+			{SteamID: 420530},  // one shot
+			// -- new line
 			{
 				Image: "games/earthbound.png",
 				URL:   "https://www.youtube.com/watch?v=KXQqhRETBeE",
@@ -151,13 +158,10 @@ var games = []gameCategory{
 				Image: "games/mother-3.png",
 				URL:   "http://mother3.fobby.net",
 			},
-			// -- new line
 			{SteamID: 303210}, // the beginners guide
 			{SteamID: 963000}, // frog detective 1
-			{SteamID: 420530}, // one shot
-			{SteamID: 319630}, // life is strange
 			// -- new line
-			{SteamID: 447040},  // watch dogs 2
+			{SteamID: 319630},  // life is strange
 			{SteamID: 1895880}, // ratchet and clank rift apart
 			{SteamID: 253230},  // a hat in time
 			{
@@ -303,11 +307,13 @@ func main() {
 
 	f.Type().Id("Game").Struct(
 		jen.Id("URL").String(),
+		// jen.Id("Alt").String(),
 		jen.Id("Position").String(),
 	)
 
 	f.Type().Id("GameCategory").Struct(
 		jen.Id("Title").String(),
+		// jen.Id("Text").String(),
 		jen.Id("Games").Id("[]Game"),
 	)
 
@@ -326,23 +332,33 @@ func main() {
 			)
 		}
 
-		g.Values(jen.Dict{
+		d := jen.Dict{
 			jen.Id("URL"):      jen.Lit(url),
 			jen.Id("Position"): jen.Lit(spritesheetCSS.Positions[i]),
-		})
+		}
+
+		// if game.Alt != "" {
+		// 	d[jen.Id("Alt")] = jen.Lit(game.Alt)
+		// }
+
+		g.Values(d)
 
 		i++
 	}
 
 	renderGameCategory := func(g *jen.Group, category gameCategory) {
-		g.Values(jen.Dict{
+		d := jen.Dict{
 			jen.Id("Title"): jen.Lit(category.Title),
 			jen.Id("Games"): jen.Id("[]Game").ValuesFunc(func(g *jen.Group) {
 				for _, game := range category.Games {
 					renderGame(g, game)
 				}
 			}),
-		})
+		}
+		// if category.Text != "" {
+		// 	d[jen.Id("Text")] = jen.Lit(category.Text)
+		// }
+		g.Values(d)
 	}
 
 	f.Var().Defs(
