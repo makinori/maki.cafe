@@ -105,6 +105,10 @@ var games = []gameCategory{
 				URL:    "https://www.nintendo.com/us/store/products/kemono-friends-picross-switch",
 				Anchor: imaging.Bottom,
 			},
+			{
+				Image: "games/portal-prelude.png",
+				URL:   "https://legacy.portalprelude.com",
+			},
 		},
 	},
 	{
