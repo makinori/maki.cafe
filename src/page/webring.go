@@ -140,7 +140,7 @@ func Webring(ctx context.Context) Group {
 			webringIcon(ctx, "silly/learnhtml.gif", ""),
 			webringIcon(ctx, "silly/linuxnow2.gif", ""),
 			webringIcon(ctx, "silly/nvidia.gif", "nvidia.com"),
-			webringIcon(ctx, "silly/opengl.gif", "khronos.org"),
+			webringIcon(ctx, "silly/opengl.gif", "learnopengl.com"),
 			webringIcon(ctx, "silly/qbittorrent.png", "qbittorrent.org"),
 			webringIcon(ctx, "silly/sdl.gif", "libsdl.org"),
 			webringIcon(ctx, "silly/secondlife.gif", "secondlife.com"),
