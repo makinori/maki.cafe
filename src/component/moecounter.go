@@ -49,6 +49,7 @@ func MoeCounter(ctx context.Context) Node {
 	return A(
 		Class(anchorClass),
 		Href("https://github.com/journey-ad/Moe-Counter"),
+		Title("since june 2025"), // specifically june 1st
 		nCharNodes,
 	)
 }
