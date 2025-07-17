@@ -151,7 +151,7 @@ func Index(ctx context.Context) Group {
 		Br(),
 		social,
 		Br(),
-		H1(Text("worked on")),
+		H2(Text("worked on")),
 		Br(),
 		workedOn,
 	}
