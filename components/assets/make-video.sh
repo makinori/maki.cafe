@@ -1,6 +1,9 @@
 #!/bin/bash
 
-cd /home/maki/git/maki.cafe/components/assets
+cd "$(dirname "$0")" # in git dir
+# should have frames folder
+
+output_dir=/home/maki/git/maki.cafe/components/spinny-intro/videos/
 
 # ffmpeg -help encoder=libvpx-vp9
 
@@ -20,14 +23,14 @@ i_half=0
 
 for frame in $(seq -f "%04g" 0 999)
 do
-	ln -s "/home/maki/intro-pony-frames/$frame.png" \
+	ln -s "../../frames/$frame.png" \
 	"tmp/all_frames/$(printf "%04d" $i_all).png"
 
 	i_all=$(expr $i_all + 1)
 
 	if [[ $(expr $frame % 2) -eq 0 ]];
 	then
-		ln -s "/home/maki/intro-pony-frames/$frame.png" \
+		ln -s "../../frames/$frame.png" \
 		tmp/half_frames/$(printf "%04d" $i_half).png
 
 		i_half=$(expr $i_half + 1)
@@ -38,9 +41,9 @@ threads=16
 
 frames_dir=""
 extra_args=()
-output=""
+output_name=""
 
-outputs=()
+output_paths=()
 
 function make_video {
 	ffmpeg_args=(
@@ -63,24 +66,24 @@ function make_video {
 		-b:v 0 -g 1
 	)
 
-	passfile="tmp/${output%.webm}"
+	passfile="tmp/${output_name%.webm}"
 
 	ffmpeg "${ffmpeg_args[@]}" "${extra_args[@]}" \
 	-passlogfile $passfile -pass 1 -f null /dev/null && \
 	ffmpeg "${ffmpeg_args[@]}" "${extra_args[@]}" \
-	-passlogfile $passfile -pass 2 $output &
+	-passlogfile $passfile -pass 2 $output_dir$output_name &
 
-	outputs+=($output)
+	output_paths+=($output_dir$output_name)
 }
 
 frames_dir=half_frames
 extra_args=(-crf 16 -vf scale=500:400:flags=lanczos)
-output="pony-mobile.webm"
+output_name="$(date +%Y-%m-%d)-mobile.webm"
 make_video
 
 frames_dir=all_frames
 extra_args=(-crf 26)
-output="pony-desktop.webm"
+output_name="$(date +%Y-%m-%d)-desktop.webm"
 make_video
 
 wait < <(jobs -p)
@@ -88,4 +91,4 @@ wait < <(jobs -p)
 cleanup
 
 echo ""
-du -h ${outputs[@]}
+du -h ${output_paths[@]}
