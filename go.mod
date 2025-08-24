@@ -1,23 +1,23 @@
 module maki.cafe
 
-go 1.24.3
+go 1.24.6
+
+tool github.com/air-verse/air
 
 require (
 	github.com/andybalholm/brotli v1.1.1
-	github.com/bep/godartsass/v2 v2.5.0
+	github.com/bep/godartsass/v2 v2.5.0 // indirect
 	github.com/disintegration/imaging v1.6.2
 	github.com/hasura/go-graphql-client v0.14.3
 	github.com/klauspost/compress v1.18.0 // for zstd
+	github.com/makinori/emgotion v0.0.0-20250824214544-161ceb991f77
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/tdewolff/parse/v2 v2.8.1
+	golang.org/x/exp v0.0.0-20250506013437-ce4c2cf36ca6 // indirect
 	golang.org/x/net v0.40.0
 	golang.org/x/sync v0.14.0
 	maragu.dev/gomponents v1.1.0
 )
-
-tool github.com/air-verse/air
-
-require golang.org/x/exp v0.0.0-20250506013437-ce4c2cf36ca6
 
 require (
 	dario.cat/mergo v1.0.2 // indirect
@@ -40,5 +40,6 @@ require (
 	golang.org/x/image v0.27.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.25.0 // indirect
+	golang.org/x/tools v0.33.0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 )

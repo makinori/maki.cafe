@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"maki.cafe/src/render"
+	"github.com/makinori/emgotion"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -15,7 +15,7 @@ func SpriteSheetGrid(
 	columns int, items []Node,
 ) Node {
 	return Div(
-		Class(render.SCSS(ctx, `
+		Class(emgotion.SCSS(ctx, `
 			display: grid;
 			grid-template-columns: repeat(`+strconv.Itoa(columns)+`, 1fr);
 			grid-gap: 8px;

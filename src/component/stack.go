@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"maki.cafe/src/render"
+	"github.com/makinori/emgotion"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/components"
 	. "maragu.dev/gomponents/html"
@@ -13,12 +13,12 @@ import (
 func HStack(ctx context.Context, args []Node, extraSCSS ...string) Node {
 	return Div(
 		Classes{
-			render.SCSS(ctx, `
+			emgotion.SCSS(ctx, `
 				display: flex;
 				flex-direction: row;
 				gap: 8px;
 			`): true,
-			render.SCSS(ctx, strings.Join(extraSCSS, "\n")): true,
+			emgotion.SCSS(ctx, strings.Join(extraSCSS, "\n")): true,
 		},
 		Group(args),
 	)
@@ -27,12 +27,12 @@ func HStack(ctx context.Context, args []Node, extraSCSS ...string) Node {
 func VStack(ctx context.Context, args []Node, extraSCSS ...string) Node {
 	return Div(
 		Classes{
-			render.SCSS(ctx, `
+			emgotion.SCSS(ctx, `
 				display: flex;
 				flex-direction: column;
 				gap: 8px;
 			`): true,
-			render.SCSS(ctx, strings.Join(extraSCSS, "\n")): true,
+			emgotion.SCSS(ctx, strings.Join(extraSCSS, "\n")): true,
 		},
 		Group(args),
 	)

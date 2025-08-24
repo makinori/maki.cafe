@@ -13,11 +13,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/makinori/emgotion"
 	"maki.cafe/src/config"
 	"maki.cafe/src/data"
 	"maki.cafe/src/lint"
 	"maki.cafe/src/page"
-	"maki.cafe/src/render"
 	"maki.cafe/src/template"
 	"maki.cafe/src/util"
 	"maragu.dev/gomponents"
@@ -74,7 +74,12 @@ func Main() {
 	}
 
 	data.InitData()
-	render.InitSass()
+
+	err := emgotion.InitSCSS()
+	if err != nil {
+		slog.Error("failed to start scss transpiler", "err", err.Error())
+		os.Exit(1)
+	}
 
 	// no need to cause sass and gomponents are already mostly minified
 	// render.InitMinifier()

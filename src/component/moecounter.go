@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/makinori/emgotion"
 	"maki.cafe/src/data"
-	"maki.cafe/src/render"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -16,7 +16,7 @@ func MoeCounter(ctx context.Context) Node {
 	length := 6
 	chars := fmt.Sprintf("%d", data.ReadCounter())
 
-	anchorClass := render.SCSS(ctx, `
+	anchorClass := emgotion.SCSS(ctx, `
 		margin: 0;
 		padding: 0;
 		background: none;
