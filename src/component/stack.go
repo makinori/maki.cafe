@@ -6,34 +6,31 @@ import (
 
 	"github.com/makinori/emgotion"
 	. "maragu.dev/gomponents"
-	. "maragu.dev/gomponents/components"
 	. "maragu.dev/gomponents/html"
 )
 
-func HStack(ctx context.Context, args []Node, extraSCSS ...string) Node {
+func stack(
+	ctx context.Context, flexDir string, args []Node, extraSCSS ...string,
+) Node {
+	class := emgotion.SCSS(ctx, `
+		display: flex;
+		flex-direction: `+flexDir+`;
+		gap: 8px;
+	`)
+
+	if len(extraSCSS) > 0 {
+		class += " " + emgotion.SCSS(ctx, strings.Join(extraSCSS, "\n"))
+	}
+
 	return Div(
-		Classes{
-			emgotion.SCSS(ctx, `
-				display: flex;
-				flex-direction: row;
-				gap: 8px;
-			`): true,
-			emgotion.SCSS(ctx, strings.Join(extraSCSS, "\n")): true,
-		},
+		Class(class),
 		Group(args),
 	)
 }
+func HStack(ctx context.Context, args []Node, extraSCSS ...string) Node {
+	return stack(ctx, "row", args, extraSCSS...)
+}
 
 func VStack(ctx context.Context, args []Node, extraSCSS ...string) Node {
-	return Div(
-		Classes{
-			emgotion.SCSS(ctx, `
-				display: flex;
-				flex-direction: column;
-				gap: 8px;
-			`): true,
-			emgotion.SCSS(ctx, strings.Join(extraSCSS, "\n")): true,
-		},
-		Group(args),
-	)
+	return stack(ctx, "column", args, extraSCSS...)
 }
