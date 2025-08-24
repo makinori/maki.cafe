@@ -136,9 +136,9 @@ func Webring(ctx context.Context) Group {
 		Br(),
 		Div(
 			Class(gridClass),
+			webringIcon(ctx, "0x0ade.gif", "0x0a.de"),
 			webringIcon(ctx, "lemon.png", "lemon.horse"),
 			webringIcon(ctx, "cmtaz.png", "cmtaz.net"),
-			webringIcon(ctx, "!0x0a.de", "0x0a.de"),
 			webringIcon(ctx, "micaela.gif", "micae.la"),
 			webringIcon(ctx, "kayla.gif", "kayla.moe"),
 			webringIcon(ctx, "kneesox.png", "kneesox.moe"),

@@ -59,4 +59,5 @@ updatewebring:
 	curl -o anonfilly.png https://anonfilly.horse/anonfilly%20sight.png
 	curl -o kayla.gif https://kayla.moe/button.gif
 	curl -o yno.png https://kayla.moe/buttons/yno.png # dont know the source
+	curl -o 0x0ade.gif https://0x0a.de/index/88x31/0x0a.de.gif
 	
