@@ -145,14 +145,17 @@ func Index(ctx context.Context) Group {
 	}), "align-items: start;")
 
 	return Group{
-		H3(Text("software engineer")),
-		H3(Text("game developer")),
-		H3(Text("server admin")),
+		H2(Text("software engineer")),
+		H2(Text("game developer")),
+		H2(Text("server admin")),
 		Br(),
 		social,
 		Br(),
 		H2(Text("worked on")),
 		Br(),
 		workedOn,
+		Br(),
+		P(Text("may revert back to a new")),
+		P(Text("variant of the old page")),
 	}
 }

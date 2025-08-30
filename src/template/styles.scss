@@ -1,4 +1,4 @@
-@use "fonts.scss";
+@use "font.scss";
 
 * {
 	margin: 0;
@@ -13,8 +13,9 @@ body {
 	background-color: #111;
 	color: #fff;
 	margin: $page-margin;
-	font-family: "Maki Libertinus Mono", serif;
-	font-size: 20px;
+	// font-family: "Maki Libertinus Mono", serif;
+	font-family: "Maple Mono NL", serif;
+	font-size: 16px;
 	// image has dithering to prevent banding
 	// therefore a fixed height is necessary
 	background-image: url("/images/pines-1080-blur8.jpg");
@@ -38,7 +39,7 @@ a {
 	color: #fff;
 	background: #ff1744;
 	// padding: 0px 4px;
-	padding: 2px 6px;
+	padding: 3px 6px;
 	display: inline-block;
 	font-weight: 600;
 	// margin: 8px 0;
@@ -47,8 +48,11 @@ a {
 	align-items: center;
 	gap: 6px;
 
+	border-radius: 4px;
+
 	> img {
 		height: 20px;
+		margin-top: -2px;
 	}
 
 	&.muted {
@@ -64,15 +68,15 @@ a {
 }
 
 h1 {
-	font-size: 32px;
-}
-
-h2 {
 	font-size: 28px;
 }
 
-h3 {
+h2 {
 	font-size: 24px;
+}
+
+h3 {
+	font-size: 20px;
 }
 
 h4,
@@ -82,12 +86,22 @@ h6 {
 	display: none;
 }
 
+@mixin maki-letter-spacing {
+	letter-spacing: -0.06em;
+	// letter spacing behaves differently in chrome and firefox
+	.k {
+		margin-left: -0.03em;
+	}
+	.i {
+		margin-left: -0.03em;
+	}
+}
+
 .page-header-title {
-	font-size: 104px;
+	font-size: 100px;
 	font-weight: bold;
-	line-height: 104px;
+	line-height: 100px;
 	color: white;
-	letter-spacing: 4px;
 	margin-top: -8px;
 	// margin-bottom: 8px;
 	gap: 24px;
@@ -95,13 +109,7 @@ h6 {
 	flex-direction: row;
 	align-items: flex-end;
 
-	// letter spacing behaves differently in chrome and firefox
-	.k {
-		margin-left: -2px;
-	}
-	.i {
-		margin-left: -6px;
-	}
+	@include maki-letter-spacing;
 
 	> .pony {
 		height: 128px;
@@ -126,22 +134,15 @@ h6 {
 	}
 
 	h1 {
-		font-size: 64px;
+		font-size: 60px;
 		margin-right: 8px;
-		margin-bottom: -4px;
-		letter-spacing: 2px;
-
-		.k {
-			margin-left: -1px;
-		}
-		.i {
-			margin-left: -3px;
-		}
+		margin-bottom: -9px;
+		@include maki-letter-spacing;
 	}
 
 	h2 {
-		font-size: 32px;
-		margin-bottom: 4px;
+		font-size: 28px;
+		margin-bottom: 3px;
 		font-weight: 600;
 		letter-spacing: 0px;
 		// opacity: 0.5;
@@ -201,5 +202,6 @@ hr {
 		color: #fff;
 		// padding-left: 3px;
 		// padding-right: 3px;
+		border-radius: 0;
 	}
 }

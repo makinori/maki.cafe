@@ -53,6 +53,7 @@ func webringIcon(
 				align-items: flex-start;
 				justify-content: flex-start;
 				> img {
+					margin: 0;
 					width: 88px;
 					height: auto; 
 				}
@@ -124,10 +125,11 @@ func Webring(ctx context.Context) Group {
 		> a {
 			image-rendering: pixelated;
 			overflow: hidden;
-			font-size: 14px;
+			font-size: 11px;
 			display: inline-flex;
 			font-weight: 600;
 			padding: 0;
+			border-radius: 0;
 		}
 	`)
 
@@ -163,6 +165,7 @@ func Webring(ctx context.Context) Group {
 		Br(),
 		// sillyWebring(ctx, gridClass),
 		P(Text("feel free to use my button")),
+		P(Text("although it needs to be updated")),
 		Br(),
 		Div(
 			Class(gridClass),

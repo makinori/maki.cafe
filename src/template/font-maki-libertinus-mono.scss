@@ -3,7 +3,8 @@ $sizes: 400 "Regular", 500 "Medium", 600 "SemiBold", 700 "Bold";
 @each $weight, $name in $sizes {
 	@font-face {
 		font-family: "Maki Libertinus Mono";
-		src: url(/fonts/MakiLibertinusMono-#{$name}.woff2) format(woff2);
+		src: url(/fonts/maki-libertinus-mono/MakiLibertinusMono-#{$name}.woff2)
+			format(woff2);
 		font-weight: $weight;
 		font-style: normal;
 		font-display: swap;
@@ -11,7 +12,8 @@ $sizes: 400 "Regular", 500 "Medium", 600 "SemiBold", 700 "Bold";
 
 	@font-face {
 		font-family: "Maki Libertinus Mono";
-		src: url(/fonts/MakiLibertinusMono-#{$name}Italic.woff2) format(woff2);
+		src: url(/fonts/maki-libertinus-mono/MakiLibertinusMono-#{$name}Italic.woff2)
+			format(woff2);
 		font-weight: $weight;
 		font-style: italic;
 		font-display: swap;

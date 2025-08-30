@@ -13,10 +13,10 @@ import (
 )
 
 var (
-	//go:embed style.scss
-	styleSCSS string
-	//go:embed fonts.scss
-	fontsSCSS string
+	//go:embed styles.scss
+	stylesSCSS string
+	//go:embed font-maple-mono-maki.scss
+	fontSCSS string
 )
 
 func RenderPage(
@@ -64,8 +64,8 @@ func RenderPage(
 
 	pageSCSS := emgotion.GetPageSCSS(ctx)
 
-	finalCSS, err := emgotion.RenderSCSS(styleSCSS+"\n"+pageSCSS,
-		emgotion.SassImport{Filename: "fonts.scss", Content: fontsSCSS},
+	finalCSS, err := emgotion.RenderSCSS(stylesSCSS+"\n"+pageSCSS,
+		emgotion.SassImport{Filename: "font.scss", Content: fontSCSS},
 	)
 
 	if err != nil {
