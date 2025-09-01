@@ -34,6 +34,7 @@ func SpriteSheetGrid(
 					background-color: #222;
 					background-image: url("`+imageURL+`");
 					background-size: `+size+`;
+					border-radius: 4px;
 				}
 				
 				> p {
