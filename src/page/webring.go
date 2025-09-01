@@ -13,17 +13,28 @@ import (
 // TODO: optimize use of render sscss
 
 func webringIcon(
-	ctx context.Context, filename string, url string, extraClasses ...string,
+	ctx context.Context, filename string, url string, webringAttrs ...string,
 ) Node {
 	attrs := Group{}
 
 	if url != "" {
-		attrs = append(attrs, Title(url), Href("https://"+url))
+		attrs = append(attrs, Href("https://"+url))
 	}
 
-	classesSuffix := strings.Join(extraClasses, " ")
-	if classesSuffix != "" {
-		classesSuffix = " " + classesSuffix
+	classesSuffix := ""
+	hasTitle := false
+
+	for _, webringAttr := range webringAttrs {
+		if webringAttr == "transparent" {
+			classesSuffix += " transparent"
+		} else if strings.HasPrefix(webringAttr, "title:") {
+			attrs = append(attrs, Title(webringAttr[6:]))
+			hasTitle = true
+		}
+	}
+
+	if !hasTitle {
+		attrs = append(attrs, Title(url))
 	}
 
 	if strings.HasPrefix(filename, "!") {
@@ -169,7 +180,7 @@ func Webring(ctx context.Context) Group {
 		Br(),
 		Div(
 			Class(gridClass),
-			webringIcon(ctx, "maki.gif", "maki.cafe"),
+			webringIcon(ctx, "maki.gif", "maki.cafe", "title:or use maki@2x.gif"),
 		),
 		// Br(),
 		// Br(),

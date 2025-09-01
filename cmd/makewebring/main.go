@@ -2,19 +2,18 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strconv"
-	"sync"
 
+	"github.com/chromedp/chromedp"
 	"github.com/disintegration/imaging"
-	"github.com/go-rod/rod"
-	"github.com/go-rod/rod/lib/launcher"
-	"github.com/go-rod/rod/lib/proto"
 	"github.com/schollz/progressbar/v3"
+	"golang.org/x/sync/semaphore"
 )
 
 const (
@@ -31,17 +30,11 @@ var (
 	// should be less than render scale
 	scales = []uint{1, 2}
 
-	htmlPath    string
-	localPath   string
-	browserPool rod.Pool[rod.Browser]
-	progress    *progressbar.ProgressBar
+	htmlPath  string
+	localPath string
+	chromeCtx context.Context
+	progress  *progressbar.ProgressBar
 )
-
-func createBrowser() (*rod.Browser, error) {
-	return rod.New().ControlURL(
-		launcher.New().Headless(true).MustLaunch(),
-	).MustConnect(), nil
-}
 
 func getFramesDir(scale uint) string {
 	if scale > 1 {
@@ -56,25 +49,19 @@ func getFrameFilePath(i int, scale uint) string {
 }
 
 func doFrame(i int, scales []uint) {
-	browser, err := browserPool.Get(createBrowser)
-	if err != nil {
-		panic(err)
-	}
-	defer browserPool.Put(browser)
+	ctx, cancel := chromedp.NewContext(chromeCtx)
+	defer cancel()
 
-	page := browser.MustPage("file://" + htmlPath + "?go")
-	defer page.Close()
+	var screenshotData []byte
 
-	page.MustSetViewport(buttonWidth, buttonHeight, renderScale, false)
-	page.MustWaitStable()
-	page.MustEval("updateFrame", i)
-
-	screenshotData, err := page.Screenshot(false, &proto.PageCaptureScreenshot{
-		Format: proto.PageCaptureScreenshotFormatPng,
+	chromedp.Run(ctx, chromedp.Tasks{
+		chromedp.Navigate("file://" + htmlPath + "?go"),
+		chromedp.EmulateViewport(buttonWidth, buttonHeight,
+			chromedp.EmulateScale(renderScale),
+		),
+		chromedp.Evaluate(fmt.Sprintf("updateFrame(%d)", i), nil),
+		chromedp.FullScreenshot(&screenshotData, 100),
 	})
-	if err != nil {
-		panic(err)
-	}
 
 	frame, err := imaging.Decode(bytes.NewReader(screenshotData))
 	if err != nil {
@@ -105,14 +92,17 @@ func doFrame(i int, scales []uint) {
 }
 
 func main() {
-	browserPool = rod.NewBrowserPool(runtime.NumCPU())
+	var cancel context.CancelFunc
+	chromeCtx, cancel = chromedp.NewExecAllocator(
+		context.Background(),
+		chromedp.Headless,
+	)
+	defer cancel()
 
 	_, goFilename, _, _ := runtime.Caller(0)
 	localPath = filepath.Dir(filepath.Clean(goFilename))
 
 	htmlPath = filepath.Join(localPath, "index.html")
-
-	wg := sync.WaitGroup{}
 
 	// gifs are max 50 fps
 	totalFrames := fps * length
@@ -122,18 +112,23 @@ func main() {
 
 	for _, scale := range scales {
 		os.Mkdir(getFramesDir(scale), 0755)
-		os.Mkdir(getFramesDir(scale), 0755)
 	}
 
-	for i := range totalFrames {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			doFrame(i, scales)
-		}()
-	}
+	{
+		workers := int64(runtime.NumCPU())
+		sem := semaphore.NewWeighted(workers)
+		ctx := context.Background()
 
-	wg.Wait()
+		for i := range totalFrames {
+			sem.Acquire(ctx, 1)
+			go func() {
+				defer sem.Release(1)
+				doFrame(i, scales)
+			}()
+		}
+
+		sem.Acquire(ctx, workers)
+	}
 
 	// gifski
 
