@@ -18,10 +18,10 @@ body {
 	font-size: 16px;
 	// image has dithering to prevent banding
 	// therefore a fixed height is necessary
-	background-image: url("/images/pines-1080-blur8.jpg");
-	background-size: auto 1080px;
+	background-image: url("/images/samoa-blur8.jpg");
+	background-size: 1770px auto;
 	background-repeat: no-repeat;
-	background-position: -600px 8px; // top strip
+	background-position: 0 8px; // top strip is 8px
 	min-width: $page-width;
 	max-width: $page-width;
 
@@ -30,7 +30,7 @@ body {
 	}
 
 	&.noblur {
-		background-image: url("/images/pines-1080-noblur.jpg");
+		background-image: url("/images/samoa-noblur.jpg");
 	}
 }
 

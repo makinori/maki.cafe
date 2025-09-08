@@ -19,18 +19,41 @@ alias u := update
 update:
 	git pull
 	docker compose up -d --build
+# 
+[group("dev")]
+favicon:
+	#!/bin/bash
+
+	rm -rf favicon/
+	mkdir favicon/
+
+	magick assets/pony.jpg \
+	-gravity Center \
+	\( -size 2048x2048 xc:Black -fill White \
+		-draw 'circle 1024 1024 1024 1' -alpha Copy \
+	\) -compose CopyOpacity -composite \
+	-trim favicon/circle.png
+
+	for size in 16 32 48 64; do
+		magick favicon/circle.png -resize ${size}x${size} -filter Lanczos2 \
+		favicon/${size}.bmp
+	done
+	magick favicon/*.bmp src/public/favicon.ico
+
+	rm -rf favicon/
 
 # generate assets
 [group("dev")]
-generate:
+generate: favicon
 	#!/bin/bash
 
-	echo "for pine background: use gimp to resize to target dimensions,"
-	echo "encoding to 8-bit with blue noise, export as jpg with 100% quality"
+	echo "for background: use gimp to resize,"
+	echo "encode to 8-bit with blue noise,"
+	echo "export as jpg with 100% quality"
 
 	magick assets/pony-cutout.png \
 	-filter Lanczos2 -resize x128 \
-	-fx "u*1.2" \
+	-fx "u*1.12" \
 	src/public/images/pony.png
 
 	cp src/public/images/pony.png cmd/makewebring/pony.png
