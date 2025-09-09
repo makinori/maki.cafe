@@ -185,7 +185,7 @@ var games = []gameCategory{
 		Games: []game{
 			{
 				SteamID: 2357570,
-				Image:   "games/overwatch.png",
+				Image:   "games/overwatch-2.png",
 			},
 			{
 				Image: "games/vintage-story.png",
