@@ -53,7 +53,7 @@ generate: favicon
 
 	magick assets/pony-cutout.png \
 	-filter Lanczos2 -resize x128 \
-	-fx "u*1.12" \
+	-fx "u*1.15" \
 	src/public/images/pony.png
 
 	cp src/public/images/pony.png cmd/makewebring/pony.png
