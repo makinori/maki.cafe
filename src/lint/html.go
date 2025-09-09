@@ -13,8 +13,8 @@ import (
 
 var cssURLHttpRegexp = regexp.MustCompile(`(?i)(http.+?)["')]`)
 
-func LintHTML(inputHTML []byte) {
-	doc, err := html.Parse(bytes.NewBuffer(inputHTML))
+func LintHTML(inputHTML string) {
+	doc, err := html.Parse(bytes.NewBuffer([]byte(inputHTML)))
 	if err != nil {
 		slog.Error("failed to parse html", "err", err)
 		return

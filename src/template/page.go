@@ -22,7 +22,7 @@ var (
 func RenderPage(
 	pageFn func(context.Context) Group,
 	r *http.Request,
-) ([]byte, error) {
+) (string, error) {
 	ctx := emgotion.InitContext(context.Background())
 
 	currentPagePath := r.URL.Path
@@ -69,7 +69,7 @@ func RenderPage(
 	)
 
 	if err != nil {
-		return []byte{}, err
+		return "", err
 	}
 
 	site := Group{Doctype(
@@ -90,10 +90,10 @@ func RenderPage(
 	siteBuf := bytes.NewBuffer(nil)
 	err = site.Render(siteBuf)
 	if err != nil {
-		return []byte{}, err
+		return "", err
 	}
 
 	// minify here. dont need to cause scss and gomponents minify
 
-	return siteBuf.Bytes(), nil
+	return siteBuf.String(), nil
 }

@@ -154,8 +154,8 @@ func Index(ctx context.Context) Group {
 		H2(Text("worked on")),
 		Br(),
 		workedOn,
-		Br(),
-		P(Text("may revert back to a new")),
-		P(Text("variant of the old page")),
+		// Br(),
+		// P(Text("may revert back to a new")),
+		// P(Text("variant of the old page")),
 	}
 }

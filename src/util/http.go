@@ -52,33 +52,37 @@ func HTTPWriteWithEncoding(w http.ResponseWriter, r *http.Request, data []byte) 
 }
 
 func HTTPServeOptimized(
-	w http.ResponseWriter, r *http.Request, data []byte, filename string,
+	w http.ResponseWriter, r *http.Request, data []byte, filename string, allowCache bool,
 ) {
 	contentType := w.Header().Get("Content-Type")
 
-	// unset content type incase etag matches
-	w.Header().Del("Content-Type")
+	if allowCache {
+		// unset content type incase etag matches
+		w.Header().Del("Content-Type")
 
-	// etag := fmt.Sprintf(`W/"%x"`, crc32.ChecksumIEEE(data))
-	etag := fmt.Sprintf(`"%x"`, crc32.ChecksumIEEE(data))
+		// etag := fmt.Sprintf(`W/"%x"`, crc32.ChecksumIEEE(data))
+		etag := fmt.Sprintf(`"%x"`, crc32.ChecksumIEEE(data))
 
-	ifMatch := r.Header.Get("If-Match")
-	if ifMatch != "" {
-		if !InCommaSeperated(ifMatch, etag) && !InCommaSeperated(ifMatch, "*") {
-			w.WriteHeader(http.StatusPreconditionFailed)
-			return
+		ifMatch := r.Header.Get("If-Match")
+		if ifMatch != "" {
+			if !InCommaSeperated(ifMatch, etag) && !InCommaSeperated(ifMatch, "*") {
+				w.WriteHeader(http.StatusPreconditionFailed)
+				return
+			}
 		}
-	}
 
-	ifNoneMatch := r.Header.Get("If-None-Match")
-	if ifNoneMatch != "" {
-		if InCommaSeperated(ifNoneMatch, etag) || InCommaSeperated(ifNoneMatch, "*") {
-			w.WriteHeader(http.StatusNotModified)
-			return
+		ifNoneMatch := r.Header.Get("If-None-Match")
+		if ifNoneMatch != "" {
+			if InCommaSeperated(ifNoneMatch, etag) || InCommaSeperated(ifNoneMatch, "*") {
+				w.WriteHeader(http.StatusNotModified)
+				return
+			}
 		}
-	}
 
-	w.Header().Add("ETag", etag)
+		w.Header().Add("ETag", etag)
+	} else {
+		w.Header().Add("Cache-Control", "no-store")
+	}
 
 	if contentType == "" {
 		contentType = mime.TypeByExtension(filepath.Ext(filename))
@@ -118,7 +122,7 @@ func HTTPFileServerOptimized(fs fs.FS) func(http.ResponseWriter, *http.Request) 
 			return
 		}
 
-		HTTPServeOptimized(w, r, data, filename)
+		HTTPServeOptimized(w, r, data, filename, true)
 	}
 }
 

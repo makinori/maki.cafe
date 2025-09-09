@@ -41,16 +41,18 @@ func handlePage(pageFn func(context.Context) gomponents.Group) func(http.Respons
 			slog.Error("failed to render", "err", err.Error())
 		}
 
-		renderTime := time.Now().Sub(start)
+		renderTime := time.Since(start)
+		renderTimeStr := util.ShortDuration(renderTime)
 
 		if util.ENV_IS_DEV {
-			slog.Debug("render", "path", r.URL.Path, "time", renderTime)
+			slog.Debug("render", "path", r.URL.Path, "time", renderTimeStr)
 			lint.LintHTML(html)
 		}
 
-		w.Header().Set("X-Render-Time", strings.ReplaceAll(renderTime.String(), "µ", "u"))
+		// w.Header().Set("X-Render-Time", strings.ReplaceAll(renderTimeStr, "µ", "u"))
+		html = strings.ReplaceAll(html, "{{.RenderTime}}", renderTimeStr)
 
-		util.HTTPServeOptimized(w, r, html, ".html")
+		util.HTTPServeOptimized(w, r, []byte(html), ".html", false)
 	}
 }
 

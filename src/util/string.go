@@ -35,3 +35,16 @@ func ShortDate(date time.Time) string {
 func ShortDateWithYear(date time.Time) string {
 	return ShortDate(date) + " '" + strconv.Itoa(date.Year())[2:]
 }
+
+func ShortDuration(duration time.Duration) string {
+	if duration < time.Microsecond {
+		return fmt.Sprintf("%dns", duration.Nanoseconds())
+	} else if duration < time.Millisecond {
+		return fmt.Sprintf("%dµs", duration.Microseconds())
+	} else if duration < time.Second {
+		return fmt.Sprintf("%.1fms", duration.Seconds()*1000)
+	} else if duration < time.Second*10 {
+		return fmt.Sprintf("%.1fs", duration.Seconds())
+	}
+	return fmt.Sprintf("%.0fs", duration.Seconds())
+}

@@ -2,6 +2,7 @@ package template
 
 import (
 	"context"
+	"runtime"
 
 	"maki.cafe/src/component"
 	"maki.cafe/src/config"
@@ -60,7 +61,12 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 		hr,
 		Div(
 			Class("page-footer-pages"),
+			Style("align-items: center"),
 			footerLink("", config.GitHubURL+"/maki.cafe", "source code"),
+			P(
+				Style("font-size: 0.8em; margin-left: 4px"),
+				Text(runtime.Version()+", {{.RenderTime}}"),
+			),
 		),
 		Br(),
 		component.MoeCounter(ctx),
