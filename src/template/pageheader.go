@@ -3,6 +3,7 @@ package template
 import (
 	"net/http"
 
+	"maki.cafe/src/component"
 	"maki.cafe/src/util"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -23,19 +24,17 @@ func pageHeader(info pageHeaderInfo, r *http.Request) Group {
 
 	if info.Big {
 		return Group{
-			H1(
+			Div(
 				Class("page-header-title"),
-				Span(
-					Text("ma"),
-					Span(Class("k"), Text("k")),
-					Span(Class("i"), Text("i")),
+				component.Maki(
+					Attr("fill", "#fff"),
+					Height("80"),
 				),
 				ponyImg,
 				notabotPixel,
 			),
 			Hr(
-				Class("page-header-hr"),
-				Style("height: 4px; width: 360px; margin-bottom: 18px"),
+				Style("height: 4px; width: 335px; margin-bottom: 18px"),
 			),
 			// Br(),
 		}
@@ -48,10 +47,9 @@ func pageHeader(info pageHeaderInfo, r *http.Request) Group {
 			Class("page-header-small"),
 			A(
 				Href("/"),
-				H1(
-					Text("ma"),
-					Span(Class("k"), Text("k")),
-					Span(Class("i"), Text("i")),
+				component.Maki(
+					Attr("fill", "#fff"),
+					Height("50"),
 				),
 			),
 			A(

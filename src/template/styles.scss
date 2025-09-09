@@ -86,17 +86,6 @@ h6 {
 	display: none;
 }
 
-@mixin maki-letter-spacing {
-	letter-spacing: -0.06em;
-	// letter spacing behaves differently in chrome and firefox
-	.k {
-		margin-left: -0.03em;
-	}
-	.i {
-		margin-left: -0.03em;
-	}
-}
-
 .page-header-title {
 	font-size: 100px;
 	font-weight: bold;
@@ -109,7 +98,9 @@ h6 {
 	flex-direction: row;
 	align-items: flex-end;
 
-	@include maki-letter-spacing;
+	> svg {
+		margin-bottom: 12px;
+	}
 
 	> .pony {
 		height: 128px;
@@ -133,11 +124,9 @@ h6 {
 		margin-top: -8px;
 	}
 
-	h1 {
-		font-size: 60px;
-		margin-right: 8px;
-		margin-bottom: -9px;
-		@include maki-letter-spacing;
+	svg {
+		margin-right: 6px;
+		margin-bottom: 8px;
 	}
 
 	h2 {
@@ -165,6 +154,7 @@ hr {
 	border: none;
 	height: 2px;
 	background-color: white;
+	border-radius: 999px;
 
 	// &.faded {
 	// 	background-color: transparent;
@@ -196,12 +186,25 @@ hr {
 
 	a.active {
 		font-weight: 700;
-		border-bottom: solid 2px white;
-		margin-bottom: -2px;
+		// border-bottom: solid 2px white;
+		// margin-bottom: -2px;
 		background: transparent;
 		color: #fff;
 		// padding-left: 3px;
 		// padding-right: 3px;
-		border-radius: 0;
+		// border-radius: 0;
+		position: relative;
+
+		&::after {
+			content: "";
+			margin: auto;
+			position: absolute;
+			bottom: -2px;
+			left: 0;
+			right: 0;
+			height: 2px;
+			background-color: #fff;
+			border-radius: 999px;
+		}
 	}
 }

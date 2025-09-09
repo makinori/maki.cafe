@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1920"
+   height="1080"
+   viewBox="0 0 507.99999 285.75"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   sodipodi:docname="maki-inkscape.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.7714787"
+     inkscape:cx="622.8299"
+     inkscape:cy="541.81664"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="50.36,102.44491"
+       up_right_point="132.83734,102.44491"
+       down_left_point="50.255668,133.84558"
+       down_right_point="132.83734,133.84558"
+       id="path-effect7"
+       is_visible="true"
+       lpeversion="1"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-weight:500;font-size:40.5694px;line-height:1;font-family:Figtree;-inkscape-font-specification:'Figtree Medium';text-align:center;letter-spacing:-2.64583px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+       x="26.182703"
+       y="154.91534"
+       id="text1"
+       transform="skewX(10)"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-style:italic;font-variant:normal;font-weight:600;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Semi-Bold Italic';text-align:start;letter-spacing:-2.64583px;text-anchor:start;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+         x="26.182703"
+         y="154.91534"><tspan
+           style="letter-spacing:-2.91042px"
+           id="tspan12">m</tspan><tspan
+           id="tspan11"
+           style="letter-spacing:-6.08542px">a</tspan><tspan
+           id="tspan15"
+           style="letter-spacing:-5.02708px">k</tspan><tspan
+           style="letter-spacing:0px"
+           id="tspan3">i</tspan></tspan></text>
+    <path
+       id="text1-0"
+       style="font-weight:500;font-size:40.5694px;line-height:1;font-family:Figtree;-inkscape-font-specification:'Figtree Medium';text-align:center;letter-spacing:-2.64583px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+       d="m 220.83019,125.88536 c -1.94733,0 -3.1745,1.09539 -3.1843,2.88045 -0.017,1.74448 1.22406,2.79931 3.17139,2.79931 1.9879,0 3.2216,-1.05483 3.23855,-2.79931 -0.0308,-1.78506 -1.23774,-2.88045 -3.22564,-2.88045 z m -25.30956,0.9741 c -1.58221,0 -2.29821,0.77063 -2.30322,2.35283 l -0.009,25.72091 c 0.002,1.62278 0.73962,2.35335 2.32183,2.35335 1.62277,0 2.34619,-0.73057 2.34404,-2.35335 l 0.003,-5.27409 c 0.69682,0.0406 1.42664,0.0406 2.14973,0 l 6.04407,6.20737 c 0.99023,1.01423 2.07597,1.42007 3.65818,1.42007 2.23132,0 2.75661,-0.93338 0.8382,-2.84014 l -5.70973,-5.92315 c 0.11455,-0.0406 0.22901,-0.0811 0.3364,-0.16227 2.8138,-1.29822 4.82566,-3.69172 4.85242,-7.22126 -0.0376,-3.89466 -1.8672,-6.45077 -6.41097,-6.45077 -1.90676,0 -3.5802,0.40611 -5.01934,1.2175 -0.25536,0.16227 -0.51073,0.32451 -0.72553,0.48679 l -0.008,-7.18096 c 0.0456,-1.5822 -0.73936,-2.35283 -2.36213,-2.35283 z m -43.30899,7.3024 c -1.25765,0 -2.15717,0.6492 -1.47484,1.98799 0.24097,0.44627 0.35988,0.89241 0.32401,1.37925 l -0.0145,17.4041 c -0.0193,1.50107 0.94273,2.35335 2.28152,2.35335 1.33879,0 2.19528,-0.89259 2.25515,-2.39366 l -0.0171,-14.36191 c -0.0261,-1.29822 0.43009,-2.39365 1.85002,-2.39365 0.68968,0 1.15249,0.32475 1.43402,0.77101 0.24096,0.44626 0.3819,1.01435 0.37465,1.66347 l 0.0119,14.56448 c -0.0336,1.41993 0.86625,2.15026 2.1239,2.15026 1.25765,0 2.14299,-0.73033 2.17661,-2.15026 l -0.0191,-14.60531 c -0.0189,-1.25765 0.47015,-2.39365 1.76837,-2.39365 1.41993,0 1.78261,1.13625 1.80867,2.43448 l 0.01,14.32108 c -0.0193,1.50107 0.94944,2.39366 2.28824,2.39366 1.33879,0 2.2436,-0.85228 2.2629,-2.35335 l 0.007,-15.3758 c -0.0234,-3.12385 -1.35703,-5.39554 -4.39973,-5.39554 -2.47473,0 -3.75866,1.4605 -4.11448,3.12384 -0.28614,-1.62278 -1.56534,-3.12384 -3.8778,-3.12384 -2.27188,0 -3.28136,1.17651 -3.78995,3.12384 0.0573,-0.36512 -0.0953,-0.77072 -0.32194,-1.13585 -0.68233,-1.33879 -1.60832,-1.98799 -2.94711,-1.98799 z m 30.07258,0 c -6.16654,0 -9.32001,6.04475 -9.32345,13.38781 -0.0392,7.14022 3.38034,9.73688 7.275,9.73688 1.4605,0 2.69448,-0.36556 3.70882,-1.05524 1.30313,-0.89252 2.20982,-2.19066 2.90215,-4.01629 0.17169,0.97367 0.38417,1.94734 0.60358,2.96158 0.37208,1.41993 1.30496,2.10995 2.80603,2.10995 1.50107,0 1.95484,-0.64945 1.65675,-2.10995 -1.70527,-7.14022 -1.50881,-12.69793 -0.5271,-18.86448 0.22931,-1.4605 -0.33862,-2.15026 -1.83969,-2.15026 -0.73025,0 -1.31033,0.16224 -1.73994,0.48679 -0.61099,0.44627 -0.85215,1.37942 -0.99787,2.39365 -0.33876,-0.77081 -0.81827,-1.42028 -1.43868,-1.94768 -0.75641,-0.60854 -1.78738,-0.93276 -3.0856,-0.93276 z m 36.76934,0.84698 c -0.33447,0.0166 -0.68465,0.0706 -1.048,0.16691 l -5.66581,1.46089 c -1.39611,0.36513 -1.75908,1.29826 -1.22473,2.71819 0.57493,1.41992 1.58933,2.10945 2.83032,1.7849 l 3.02152,-0.81132 c 0.6205,-0.16228 1.10443,0.2839 1.0232,0.97358 l -0.74569,8.88473 c -0.46126,4.74662 2.30651,7.09983 6.20117,7.09983 3.69182,0 5.57518,-1.05527 7.16493,-3.77342 0.63256,-1.01423 0.42505,-2.19049 -0.65112,-3.00188 -1.069,-0.77082 -2.00949,-0.81115 -2.79,0.28422 -0.91419,1.25765 -1.94732,2.06861 -3.28611,2.06861 -0.68968,0 -1.21981,-0.24334 -1.57768,-0.89245 -0.35787,-0.64911 -0.46947,-1.74418 -0.31884,-3.65094 l 0.69298,-9.41235 c 0.27386,-2.27189 -1.28484,-4.01543 -3.62614,-3.8995 z m -35.98954,3.57497 c 2.921,0 3.14705,3.12411 3.1347,6.04511 0.0637,5.19289 -2.40195,8.23516 -5.20123,8.23516 -2.27189,0 -3.31902,-2.0283 -3.34243,-5.15214 -0.0422,-5.07118 2.16341,-9.12813 5.40896,-9.12813 z m 20.2582,0.77102 c 1.33879,0 1.94004,0.64893 1.91358,2.10943 -0.0121,0.85195 -0.41771,1.54172 -1.17668,2.06912 -1.55848,1.05481 -3.68229,1.6632 -5.81101,1.78491 -0.11456,0.0406 -0.23641,0.0408 -0.35812,0.0408 l -0.0212,-2.88044 c 1.29136,-2.10961 3.79006,-3.12384 5.45341,-3.12384 z"
+       inkscape:export-filename="maki.svg"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       xml:space="preserve"
+       style="font-weight:500;font-size:40.5694px;line-height:1;font-family:Figtree;-inkscape-font-specification:'Figtree Medium';text-align:center;letter-spacing:-2.64583px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+       x="32.599571"
+       y="115.6227"
+       id="text1-5"
+       transform="skewX(10)"><tspan
+         sodipodi:role="line"
+         id="tspan1-0"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Italic';text-align:start;letter-spacing:-2.64583px;text-anchor:start;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+         x="32.599571"
+         y="115.6227"><tspan
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Italic';letter-spacing:-3.70417px"
+           id="tspan12-3">m</tspan><tspan
+           id="tspan11-6"
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Italic';letter-spacing:-6.87917px">a</tspan><tspan
+           id="tspan15-10"
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Italic';letter-spacing:-5.82083px">k</tspan><tspan
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Italic';letter-spacing:0px"
+           id="tspan3-6">i</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:500;font-size:40.5694px;line-height:1;font-family:Figtree;-inkscape-font-specification:'Figtree Medium';text-align:center;letter-spacing:-2.64583px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+       x="39.213917"
+       y="76.727844"
+       id="text1-5-1"
+       transform="skewX(10)"><tspan
+         sodipodi:role="line"
+         id="tspan1-0-5"
+         style="font-style:italic;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Light Italic';text-align:start;letter-spacing:-2.64583px;text-anchor:start;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+         x="39.213917"
+         y="76.727844"><tspan
+           style="font-style:italic;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Light Italic';letter-spacing:-3.96875px"
+           id="tspan12-3-5">m</tspan><tspan
+           id="tspan11-6-4"
+           style="font-style:italic;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Light Italic';letter-spacing:-7.14375px">a</tspan><tspan
+           id="tspan15-10-7"
+           style="font-style:italic;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Light Italic';letter-spacing:-6.08542px">k</tspan><tspan
+           style="font-style:italic;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Light Italic';letter-spacing:0px"
+           id="tspan3-6-6">i</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:500;font-size:40.5694px;line-height:1;font-family:Figtree;-inkscape-font-specification:'Figtree Medium';text-align:center;letter-spacing:-2.64583px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+       x="18.517355"
+       y="193.60913"
+       id="text1-1"
+       transform="skewX(10)"><tspan
+         sodipodi:role="line"
+         id="tspan1-2"
+         style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Bold Italic';text-align:start;letter-spacing:-2.64583px;text-anchor:start;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+         x="18.517355"
+         y="193.60913"><tspan
+           style="letter-spacing:-2.11667px"
+           id="tspan16">m</tspan><tspan
+           id="tspan11-3"
+           style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Bold Italic';letter-spacing:-5.29167px">a</tspan><tspan
+           id="tspan15-1"
+           style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Bold Italic';letter-spacing:-4.23333px">k</tspan><tspan
+           style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maple Mono NL';-inkscape-font-specification:'Maple Mono NL Bold Italic';letter-spacing:0px"
+           id="tspan3-9">i</tspan></tspan></text>
+  </g>
+</svg>
