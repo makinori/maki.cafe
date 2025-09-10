@@ -19,9 +19,10 @@ alias u := update
 update:
 	git pull
 	docker compose up -d --build
-# 
+
+[private]
 [group("dev")]
-favicon:
+generate-favicon:
 	#!/bin/bash
 
 	rm -rf favicon/
@@ -44,7 +45,7 @@ favicon:
 
 # generate assets
 [group("dev")]
-generate: favicon
+generate: generate-favicon
 	#!/bin/bash
 
 	echo "for background: use gimp to resize,"
@@ -55,8 +56,6 @@ generate: favicon
 	-filter Lanczos2 -resize x128 \
 	-fx "u*1.15" \
 	src/public/images/pony.png
-
-	cp src/public/images/pony.png cmd/makewebring/pony.png
 
 # download icons and emojis
 [group("cmd")]
