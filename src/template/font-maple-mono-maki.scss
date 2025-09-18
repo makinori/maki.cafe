@@ -3,7 +3,7 @@ $sizes: 100 "Thin", 200 "ExtraLight", 300 "Light", 400 "Regular", 500 "Medium",
 
 @each $weight, $name in $sizes {
 	@font-face {
-		font-family: "Maple Mono NL";
+		font-family: "Maple Mono Maki";
 		src: url(/fonts/maple-mono-maki/MapleMonoNL-#{$name}.ttf.woff2)
 			format(woff2);
 		font-weight: $weight;
@@ -12,7 +12,7 @@ $sizes: 100 "Thin", 200 "ExtraLight", 300 "Light", 400 "Regular", 500 "Medium",
 	}
 
 	@font-face {
-		font-family: "Maple Mono NL";
+		font-family: "Maple Mono Maki";
 		@if $weight == 400 {
 			src: url(/fonts/maple-mono-maki/MapleMonoNL-Italic.ttf.woff2)
 				format(woff2);

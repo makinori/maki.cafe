@@ -57,7 +57,7 @@ func RenderPage(
 			height: 8px;
 			background-color: #ff1744;
 		`))),
-		pageHeader(pageHeaderInfo, r),
+		pageHeader(ctx, pageHeaderInfo, r),
 		pageFn(ctx),
 		pageFooter(ctx, currentPagePath),
 	)

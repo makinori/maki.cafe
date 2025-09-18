@@ -1,8 +1,10 @@
 package template
 
 import (
+	"context"
 	"net/http"
 
+	"github.com/makinori/emgotion"
 	"maki.cafe/src/component"
 	"maki.cafe/src/util"
 	. "maragu.dev/gomponents"
@@ -14,7 +16,7 @@ type pageHeaderInfo struct {
 	PagePath string
 }
 
-func pageHeader(info pageHeaderInfo, r *http.Request) Group {
+func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group {
 	// make sure to set height to avoid flickering
 	ponyImg := Img(Class("pony"), Src("/images/pony.png"))
 
@@ -25,7 +27,32 @@ func pageHeader(info pageHeaderInfo, r *http.Request) Group {
 	if info.Big {
 		return Group{
 			Div(
-				Class("page-header-title"),
+				Class(emgotion.SCSS(ctx, `
+					font-size: 100px;
+					font-weight: bold;
+					line-height: 100px;
+					color: white;
+					margin-top: -8px;
+					// margin-bottom: 8px;
+					gap: 24px;
+					display: flex;
+					flex-direction: row;
+					align-items: flex-end;
+
+					> svg {
+						margin-bottom: 12px;
+					}
+
+					> .pony {
+						height: 128px;
+						margin-top: -24px;
+					}
+
+					@media (max-width: $page-break-width) {
+						margin-top: 0px;
+						padding-top: 24px;
+					}
+				`)),
 				component.Maki(
 					Attr("fill", "#fff"),
 					Height("80"),
@@ -44,7 +71,41 @@ func pageHeader(info pageHeaderInfo, r *http.Request) Group {
 
 	return Group{
 		Div(
-			Class("page-header-small"),
+			Class(emgotion.SCSS(ctx, `
+				display: flex;
+				flex-direction: row;
+				align-items: flex-end;
+				// gap: 8px;
+				margin-top: -16px;
+
+				@media (max-width: $page-break-width) {
+					margin-top: -8px;
+				}
+
+				svg {
+					margin-right: 6px;
+					margin-bottom: 8px;
+				}
+
+				h2 {
+					font-size: 28px;
+					margin-bottom: 3px;
+					font-weight: 600;
+					letter-spacing: 0px;
+					// opacity: 0.5;
+				}
+
+				> a {
+					background-color: transparent;
+					color: #fff;
+					padding: inherit;
+				}
+
+				> .pony {
+					// height: 64px;
+					height: 80px;
+				}
+			`)),
 			A(
 				Href("/"),
 				component.Maki(
