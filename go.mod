@@ -9,7 +9,7 @@ require (
 	github.com/disintegration/imaging v1.6.2
 	github.com/hasura/go-graphql-client v0.14.4
 	github.com/klauspost/compress v1.18.0 // for zstd
-	github.com/makinori/emgotion v0.0.0-20250830150410-3f02219f090f
+	github.com/makinori/goemo v0.0.0-20250923140711-bdf6363179d8
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/tdewolff/parse/v2 v2.8.3
 	golang.org/x/net v0.43.0
@@ -17,7 +17,7 @@ require (
 	maragu.dev/gomponents v1.2.0
 )
 
-// replace github.com/makinori/emgotion => ../emgotion
+// replace github.com/makinori/goemo => ../goemo
 
 require (
 	dario.cat/mergo v1.0.2 // indirect

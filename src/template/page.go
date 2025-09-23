@@ -6,7 +6,7 @@ import (
 	_ "embed"
 	"net/http"
 
-	"github.com/makinori/emgotion"
+	"github.com/makinori/goemo"
 	"maki.cafe/src/config"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -23,7 +23,7 @@ func RenderPage(
 	pageFn func(context.Context) Group,
 	r *http.Request,
 ) (string, error) {
-	ctx := emgotion.InitContext(context.Background())
+	ctx := goemo.InitContext(context.Background())
 
 	currentPagePath := r.URL.Path
 
@@ -48,7 +48,7 @@ func RenderPage(
 
 	body := Body(
 		Class(bodyClass),
-		Div(Class(emgotion.SCSS(ctx, `
+		Div(Class(goemo.SCSS(ctx, `
 			position: absolute;
 			margin: auto;
 			top: 0;
@@ -62,10 +62,10 @@ func RenderPage(
 		pageFooter(ctx, currentPagePath),
 	)
 
-	pageSCSS := emgotion.GetPageSCSS(ctx)
+	pageSCSS := goemo.GetPageSCSS(ctx)
 
-	finalCSS, err := emgotion.RenderSCSS(stylesSCSS+"\n"+pageSCSS,
-		emgotion.SassImport{Filename: "font.scss", Content: fontSCSS},
+	finalCSS, err := goemo.RenderSCSS(stylesSCSS+"\n"+pageSCSS,
+		goemo.SassImport{Filename: "font.scss", Content: fontSCSS},
 	)
 
 	if err != nil {

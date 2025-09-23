@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/makinori/emgotion"
+	"github.com/makinori/goemo"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -40,7 +40,7 @@ func webringIcon(
 	if strings.HasPrefix(filename, "!") {
 		// not an image
 		attrs = append(attrs, Text(filename[1:]), Class(
-			emgotion.SCSS(ctx, `
+			goemo.SCSS(ctx, `
 				width: 84px;
 				height: 27px;
 				border: solid 2px hsl(0deg, 0%, 20%);
@@ -54,7 +54,7 @@ func webringIcon(
 			// Style(fmt.Sprintf(
 			// 	`background-image: url("/webring/%s")`, filename,
 			// )),
-			Class(emgotion.SCSS(ctx, `
+			Class(goemo.SCSS(ctx, `
 				width: 88px;
 				height: 31px;
 				background-color: #fff;
@@ -124,7 +124,7 @@ func sillyWebring(ctx context.Context, gridClass string) Group {
 }
 
 func Webring(ctx context.Context) Group {
-	gridClass := emgotion.SCSS(ctx, `
+	gridClass := goemo.SCSS(ctx, `
 		display: inline-grid;
 		grid-gap: 8px;
 		grid-template-columns: repeat(4, 1fr);

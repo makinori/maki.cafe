@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/makinori/emgotion"
+	"github.com/makinori/goemo"
 	"maki.cafe/src/component"
 	"maki.cafe/src/util"
 	. "maragu.dev/gomponents"
@@ -27,7 +27,7 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 	if info.Big {
 		return Group{
 			Div(
-				Class(emgotion.SCSS(ctx, `
+				Class(goemo.SCSS(ctx, `
 					font-size: 100px;
 					font-weight: bold;
 					line-height: 100px;
@@ -71,7 +71,7 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 
 	return Group{
 		Div(
-			Class(emgotion.SCSS(ctx, `
+			Class(goemo.SCSS(ctx, `
 				display: flex;
 				flex-direction: row;
 				align-items: flex-end;

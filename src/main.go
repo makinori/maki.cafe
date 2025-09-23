@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/makinori/emgotion"
+	"github.com/makinori/goemo"
 	"maki.cafe/src/config"
 	"maki.cafe/src/data"
 	"maki.cafe/src/lint"
@@ -77,7 +77,7 @@ func Main() {
 
 	data.InitData()
 
-	err := emgotion.InitSCSS()
+	err := goemo.InitSCSS()
 	if err != nil {
 		slog.Error("failed to start scss transpiler", "err", err.Error())
 		os.Exit(1)

@@ -4,7 +4,7 @@ import (
 	"context"
 	"runtime"
 
-	"github.com/makinori/emgotion"
+	"github.com/makinori/goemo"
 	"maki.cafe/src/component"
 	"maki.cafe/src/config"
 	. "maragu.dev/gomponents"
@@ -40,7 +40,7 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 	hr := Hr(Style("width: 250px"))
 	subPageStyle := Style("margin-top: 3px;")
 
-	pagesClass := emgotion.SCSS(ctx, `
+	pagesClass := goemo.SCSS(ctx, `
 		margin-top: 8px;
 		margin-bottom: 8px;
 		display: flex;

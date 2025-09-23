@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/makinori/emgotion"
+	"github.com/makinori/goemo"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -12,14 +12,14 @@ import (
 func stack(
 	ctx context.Context, flexDir string, args []Node, extraSCSS ...string,
 ) Node {
-	class := emgotion.SCSS(ctx, `
+	class := goemo.SCSS(ctx, `
 		display: flex;
 		flex-direction: `+flexDir+`;
 		gap: 8px;
 	`)
 
 	if len(extraSCSS) > 0 {
-		class += " " + emgotion.SCSS(ctx, strings.Join(extraSCSS, "\n"))
+		class += " " + goemo.SCSS(ctx, strings.Join(extraSCSS, "\n"))
 	}
 
 	return Div(
