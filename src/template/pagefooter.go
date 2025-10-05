@@ -2,11 +2,11 @@ package template
 
 import (
 	"context"
-	"runtime"
 
 	"github.com/makinori/goemo"
 	"maki.cafe/src/component"
 	"maki.cafe/src/config"
+	"maki.cafe/src/util"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -108,7 +108,7 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 			footerLink("", config.GitHubURL+"/maki.cafe", "source code"),
 			P(
 				Style("font-size: 0.8em; margin-left: 4px"),
-				Text(runtime.Version()+", {{.RenderTime}}"),
+				Text(util.GetGoVersion()+", {{.RenderTime}}"),
 			),
 		),
 		Br(),

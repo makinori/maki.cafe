@@ -8,7 +8,6 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
-	"runtime"
 	"strconv"
 	"strings"
 	"time"
@@ -129,7 +128,7 @@ func Main() {
 	// middleware
 
 	wrappedMux := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Server", runtime.Version()) // hell yeah
+		w.Header().Set("Server", util.GetGoVersion()) // hell yeah
 		mux.ServeHTTP(w, r)
 	})
 
