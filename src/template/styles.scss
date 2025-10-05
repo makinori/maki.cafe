@@ -9,6 +9,9 @@ $page-margin: 96px;
 
 $page-break-width: $page-width + $page-margin * 2;
 
+$bg-blur: "/images/the-witness-1080-blur8.jpg";
+$bg-noblur: "/images/the-witness-1080-noblur.jpg";
+
 body {
 	background-color: #111;
 	color: #fff;
@@ -18,10 +21,10 @@ body {
 	font-size: 16px;
 	// image has dithering to prevent banding
 	// therefore a fixed height is necessary
-	background-image: url("/images/pines-1080-blur8.jpg");
+	background-image: url($bg-blur);
 	background-size: auto 1080px;
 	background-repeat: no-repeat;
-	background-position: -600px 8px; // top strip
+	background-position: -200px 8px; // top strip
 	min-width: $page-width;
 	max-width: $page-width;
 
@@ -30,7 +33,17 @@ body {
 	}
 
 	&.noblur {
-		background-image: url("/images/pines-1080-noblur.jpg");
+		background-image: url($bg-noblur);
+	}
+
+	// preload images
+	&::before {
+		position: absolute;
+		width: 0;
+		height: 0;
+		overflow: hidden;
+		z-index: -1;
+		content: url($bg-blur) url($bg-noblur);
 	}
 }
 
