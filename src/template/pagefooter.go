@@ -83,13 +83,26 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 	`)
 
 	var ipv6Div Node
-	if ctx.Value(usingIPv6Key) == true {
+	if ctx.Value(usingIPv6Key) == true || util.ENV_IS_DEV {
 		ipv6Div = Div(
 			Class(pagesClass),
-			Style("align-items: center"),
+			Style("align-items: center; column-gap: 4px;"),
+			// get it, cause interplanetary
+			Img(Src("/icons/emoji/rocket.svg"), Height("20")),
+			Img(Src("/icons/emoji/milkyway.svg"), Height("20")),
 			P(
-				Style("font-size: 0.8em; margin-left: 4px"),
-				Text("yay! you're using ipv6!"),
+				Class(goemo.SCSS(ctx, `
+					font-size: 0.8em;
+					font-weight: 600;
+					margin-left: 2px;
+					background-image: linear-gradient(90deg, colors.$gnomeDarkStripesTwoWayFlipped);
+					background-size: 100% 100%;
+					padding-bottom: 2px;
+					padding-left: 4px;
+					padding-right: 4px;
+					border-radius: 4px;
+				`)),
+				Text("yay! you're on ipv6!"),
 			),
 		)
 	}
@@ -116,15 +129,15 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 		hr,
 		Div(
 			Class(pagesClass),
-			Style("align-items: center"),
+			Style("align-items: center; row-gap: 0px;"),
 			footerLink("", config.GitHubURL+"/maki.cafe", "source code"),
 			P(
 				Style("font-size: 0.8em; margin-left: 4px"),
 				Text(util.GetGoVersion()+", {{.RenderTime}}"),
 			),
 		),
-		ipv6Div,
 		Br(),
 		component.MoeCounter(ctx),
+		ipv6Div,
 	}
 }

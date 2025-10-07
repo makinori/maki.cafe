@@ -1,0 +1,43 @@
+@use "sass:list";
+@use "utils";
+
+// https://github.com/makinori/twinkly-shaders/blob/main/src/twinkly.ts
+
+// gnome dark stripes color
+$gdsc0: #241f31;
+$gdsc1: #30223b;
+$gdsc2: #4e254a;
+$gdsc3: #56244b;
+$gdsc4: #5f244c;
+$gdsc5: #67234d;
+$gdsc6: #70234e;
+$gdsc7: #921f48;
+$gdsc8: #af2438;
+$gdsc9: #b32931;
+$gdsc10: #b82e2a;
+$gdsc11: #bc3323;
+$gdsc12: #c1381d;
+$gdsc13: #c64600;
+$gdsc14: #e66100;
+
+// 32 colors
+$gnomeDarkStripes:
+	// 2, 4
+	$gdsc0, $gdsc0, $gdsc1, $gdsc1, $gdsc1, $gdsc1,
+	// 1, 1, 1, 1
+	$gdsc2,
+	$gdsc3, $gdsc4, $gdsc5,
+	// 4, 4
+	$gdsc6,
+	$gdsc6, $gdsc6, $gdsc6, $gdsc7, $gdsc7, $gdsc7, $gdsc7,
+	// 1, 1, 1, 1
+	$gdsc8,
+	$gdsc9, $gdsc10, $gdsc11,
+	// 4, 4, 2
+	$gdsc12,
+	$gdsc12, $gdsc12, $gdsc12, $gdsc13, $gdsc13, $gdsc13, $gdsc13, $gdsc14,
+	$gdsc14;
+
+$gnomeDarkStripesReverse: utils.reverse($gnomeDarkStripes, comma);
+$gnomeDarkStripesTwoWay: $gnomeDarkStripes, $gnomeDarkStripesReverse;
+$gnomeDarkStripesTwoWayFlipped: $gnomeDarkStripesReverse, $gnomeDarkStripes;

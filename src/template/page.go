@@ -14,6 +14,10 @@ import (
 )
 
 var (
+	//go:embed utils.scss
+	utilsSCSS string
+	//go:embed colors.scss
+	colorsSCSS string
 	//go:embed styles.scss
 	stylesSCSS string
 	//go:embed font-maple-mono-maki.scss
@@ -81,6 +85,8 @@ func RenderPage(
 	pageSCSS := goemo.GetPageSCSS(ctx)
 
 	finalCSS, err := goemo.RenderSCSS(stylesSCSS+"\n"+pageSCSS,
+		goemo.SassImport{Filename: "utils.scss", Content: utilsSCSS},
+		goemo.SassImport{Filename: "colors.scss", Content: colorsSCSS},
 		goemo.SassImport{Filename: "font.scss", Content: fontSCSS},
 	)
 

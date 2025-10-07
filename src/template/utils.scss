@@ -1,0 +1,20 @@
+@use "sass:list";
+@use "sass:meta";
+
+// https://kittygiraudel.com/2013/08/08/advanced-sass-list-functions
+
+@function reverse($list, $separator, $recursive: false) {
+	$result: ();
+	@for $i from list.length($list) * -1 through -1 {
+		@if meta.type-of(list.nth($list, abs($i))) == list and $recursive {
+			$result: list.append(
+				$result,
+				reverse(nth($list, abs($i)), $recursive),
+				$separator
+			);
+		} @else {
+			$result: list.append($result, list.nth($list, abs($i)), $separator);
+		}
+	}
+	@return $result;
+}

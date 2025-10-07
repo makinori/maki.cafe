@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/bep/godartsass/v2"
 	"github.com/makinori/goemo"
 	"maki.cafe/src/config"
 	"maki.cafe/src/data"
@@ -76,7 +77,18 @@ func Main() {
 
 	data.InitData()
 
-	err := goemo.InitSCSS()
+	err := goemo.InitSCSS(godartsass.Options{
+		LogEventHandler: func(e godartsass.LogEvent) {
+			switch e.Type {
+			case godartsass.LogEventTypeWarning:
+				slog.Warn("sass: " + e.Message)
+			case godartsass.LogEventTypeDeprecated:
+				slog.Warn("sass deprecated: " + e.Message)
+			case godartsass.LogEventTypeDebug:
+				slog.Debug("sass debug: " + e.Message)
+			}
+		},
+	})
 	if err != nil {
 		slog.Error("failed to start scss transpiler", "err", err.Error())
 		os.Exit(1)

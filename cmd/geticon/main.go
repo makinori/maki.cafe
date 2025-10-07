@@ -58,7 +58,7 @@ func minifySVG(data []byte) ([]byte, error) {
 
 var usage = strings.TrimSpace(`
 usage:
-    emoji <name> <emoji> <provider>
+    emoji <name> <emoji> <noto/twemoji>
     fa <name> <pack>
 `)
 
