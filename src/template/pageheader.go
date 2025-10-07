@@ -18,7 +18,7 @@ type pageHeaderInfo struct {
 
 func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group {
 	// make sure to set height to avoid flickering
-	ponyImg := Img(Class("pony"), Src("/images/pony.png"))
+	ponyImg := Img(Class("pony"), Src("/images/pony-header.png"))
 
 	// dont want to add css to hide incase browsers dont render it
 

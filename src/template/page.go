@@ -22,6 +22,14 @@ var (
 	usingIPv6Key string = "usingIPv6"
 )
 
+func metaTagWithName(name, content string) Node {
+	return Meta(Name(name), Content(content))
+}
+
+func metaTagWithProperty(name, content string) Node {
+	return Meta(Attr("property", name), Content(content))
+}
+
 func RenderPage(
 	pageFn func(context.Context) Group,
 	r *http.Request,
@@ -80,17 +88,32 @@ func RenderPage(
 		return "", err
 	}
 
+	head := Group{
+		TitleEl(Text(title)),
+		// primary
+		metaTagWithName("title", title),
+		metaTagWithName("description", config.Description),
+		// open graph
+		metaTagWithProperty("og:type", "website"),
+		metaTagWithProperty("og:url", "https://maki.cafe"),
+		metaTagWithProperty("og:title", title),
+		metaTagWithProperty("og:description", config.Description),
+		metaTagWithProperty("og:image", config.SiteImage),
+		// twitter
+		metaTagWithProperty("twitter:card", "summary"), // summary_large_image
+		metaTagWithProperty("twitter:url", "https://maki.cafe"),
+		metaTagWithProperty("twitter:title", title),
+		metaTagWithProperty("twitter:description", config.Description),
+		metaTagWithProperty("twitter:image", config.SiteImage),
+		// rest
+		metaTagWithName("viewport", "width=device-width, initial-scale=0.6"),
+		extraHeadNodes,
+		StyleEl(Raw(finalCSS)),
+	}
+
 	site := Group{Doctype(
 		HTML(
-			Head(
-				TitleEl(Text(title)),
-				Meta(
-					Name("viewport"),
-					Content("width=device-width, initial-scale=0.6"),
-				),
-				extraHeadNodes,
-				StyleEl(Raw(finalCSS)),
-			),
+			Head(head),
 			body,
 		),
 	)}

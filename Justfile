@@ -55,7 +55,9 @@ generate: generate-favicon
 	magick assets/pony-cutout.png \
 	-filter Lanczos2 -resize x128 \
 	-fx "u*1.15" \
-	src/public/images/pony.png
+	src/public/images/pony-header.png
+
+	cp assets/pony.jpg src/public/images/pony.jpg
 
 # download icons and emojis
 [group("cmd")]
