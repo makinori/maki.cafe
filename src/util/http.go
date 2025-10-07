@@ -13,47 +13,21 @@ import (
 	"net/url"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strings"
 )
 
-func HTTPWriteWithEncoding(w http.ResponseWriter, r *http.Request, data []byte) {
-	// go tool air proxy wont work if encoding
-	if ENV_IS_DEV {
-		w.Write(data)
-		return
-	}
-
-	acceptEncoding := r.Header.Get("Accept-Encoding")
-
-	switch {
-	case strings.Contains(acceptEncoding, "zstd"):
-		data, err := EncodeZstd(data)
-		if err != nil {
-			slog.Error(err.Error())
-			break
-		}
-		w.Header().Add("Content-Encoding", "zstd")
-		w.Write(data)
-		return
-
-	case strings.Contains(acceptEncoding, "br"):
-		data, err := EncodeBrotli(data)
-		if err != nil {
-			slog.Error(err.Error())
-			break
-		}
-		w.Header().Add("Content-Encoding", "br")
-		w.Write(data)
-		return
-
-	}
-
-	w.Write(data)
+var ignoreEncoding = []string{
+	"image/png",
+	"image/jpg",
+	"image/jpeg",
 }
 
 func HTTPServeOptimized(
-	w http.ResponseWriter, r *http.Request, data []byte, filename string, allowCache bool,
+	w http.ResponseWriter, r *http.Request, data []byte,
+	filename string, allowCache bool,
 ) {
+	// incase it was already set
 	contentType := w.Header().Get("Content-Type")
 
 	if allowCache {
@@ -93,7 +67,55 @@ func HTTPServeOptimized(
 
 	w.Header().Add("Content-Type", contentType)
 
-	HTTPWriteWithEncoding(w, r, data)
+	// rest is encoding related
+
+	if slices.Contains(ignoreEncoding, contentType) {
+		w.Write(data)
+		return
+	}
+
+	var err error
+	var compressed []byte
+	contentEncoding := ""
+
+	acceptEncoding := r.Header.Get("Accept-Encoding")
+
+	if strings.Contains(acceptEncoding, "zstd") {
+		contentEncoding = "zstd"
+		compressed, err = EncodeZstd(data)
+	} else if strings.Contains(acceptEncoding, "br") {
+		contentEncoding = "br"
+		compressed, err = EncodeBrotli(data)
+	}
+
+	if err != nil {
+		slog.Error("failed to encode", "name", filename, "err", err.Error())
+		w.Write(data)
+		return
+	}
+
+	if contentEncoding == "" || len(compressed) == 0 {
+		w.Write(data)
+		return
+	}
+
+	if len(compressed) < len(data) {
+		// go tool air proxy wont work if encoding
+		if ENV_IS_DEV {
+			w.Write(data)
+			return
+		}
+		w.Header().Add("Content-Encoding", contentEncoding)
+		w.Write(compressed)
+		return
+	}
+
+	slog.Warn(
+		"ineffecient compression!", "name", filename,
+		"type", contentType,
+	)
+
+	w.Write(data)
 }
 
 func HTTPFileServerOptimized(fs fs.FS) func(http.ResponseWriter, *http.Request) {
