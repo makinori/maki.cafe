@@ -7,6 +7,7 @@ tool github.com/air-verse/air
 require (
 	github.com/andybalholm/brotli v1.2.0
 	github.com/bep/godartsass/v2 v2.5.0
+	github.com/cespare/xxhash/v2 v2.3.0
 	github.com/disintegration/imaging v1.6.2
 	github.com/hasura/go-graphql-client v0.14.5
 	github.com/klauspost/compress v1.18.0 // for zstd

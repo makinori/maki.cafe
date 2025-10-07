@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"hash/crc32"
 	"io"
 	"io/fs"
 	"log/slog"
@@ -15,6 +14,8 @@ import (
 	"regexp"
 	"slices"
 	"strings"
+
+	"github.com/cespare/xxhash/v2"
 )
 
 var ignoreEncoding = []string{
@@ -34,8 +35,8 @@ func HTTPServeOptimized(
 		// unset content type incase etag matches
 		w.Header().Del("Content-Type")
 
-		// etag := fmt.Sprintf(`W/"%x"`, crc32.ChecksumIEEE(data))
-		etag := fmt.Sprintf(`"%x"`, crc32.ChecksumIEEE(data))
+		// etag := fmt.Sprintf(`W/"%x"`, xxhash.Sum64(data))
+		etag := fmt.Sprintf(`"%x"`, xxhash.Sum64(data))
 
 		ifMatch := r.Header.Get("If-Match")
 		if ifMatch != "" {
