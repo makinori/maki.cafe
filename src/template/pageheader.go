@@ -18,7 +18,7 @@ type pageHeaderInfo struct {
 
 func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group {
 	// make sure to set height to avoid flickering
-	ponyImg := Img(Class("pony"), Src("/images/pony-header.png"))
+	ponyImg := Img(Class("maki-pony"), Src("/images/pony-header.png"))
 
 	// dont want to add css to hide incase browsers dont render it
 
@@ -43,7 +43,7 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 						margin-bottom: 12px;
 					}
 
-					> .pony {
+					> .maki-pony {
 						height: 128px;
 						margin-top: -24px;
 					}
@@ -101,7 +101,7 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 					padding: inherit;
 				}
 
-				> .pony {
+				> .maki-pony {
 					// height: 64px;
 					height: 80px;
 				}

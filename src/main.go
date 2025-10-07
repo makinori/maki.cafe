@@ -3,6 +3,7 @@ package src
 import (
 	"context"
 	"embed"
+	"encoding/json"
 	"fmt"
 	"io/fs"
 	"log/slog"
@@ -28,6 +29,11 @@ var (
 	staticContent embed.FS
 	//go:embed 1x1.gif
 	gif1x1 []byte
+
+	// https://gist.github.com/borlaym/585e2e09dd6abd9b0d0a
+	// instead compiled my own with https://emojipedia.org/nature#list
+	//go:embed animals.json
+	animalsJSON []byte
 )
 
 func handlePage(pageFn func(context.Context) gomponents.Group) func(http.ResponseWriter, *http.Request) {
@@ -93,6 +99,16 @@ func Main() {
 		slog.Error("failed to start scss transpiler", "err", err.Error())
 		os.Exit(1)
 	}
+
+	var animals []string
+	err = json.Unmarshal(animalsJSON, &animals)
+	if err != nil {
+		slog.Error("failed to parse animals json", "err", animals)
+		os.Exit(1)
+	}
+
+	// silly
+	goemo.UseWords(animals, time.Now().Format(time.DateOnly))
 
 	// no need to cause sass and gomponents are already mostly minified
 	// render.InitMinifier()
