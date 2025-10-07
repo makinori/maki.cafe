@@ -10,10 +10,10 @@ require (
 	github.com/disintegration/imaging v1.6.2
 	github.com/hasura/go-graphql-client v0.14.5
 	github.com/klauspost/compress v1.18.0 // for zstd
-	github.com/makinori/goemo v0.0.0-20251007174807-16a1aae89df7
+	github.com/makinori/goemo v0.0.0-20251007210223-530c65a36632
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/tdewolff/parse/v2 v2.8.3
-	golang.org/x/net v0.44.0
+	golang.org/x/net v0.45.0
 	golang.org/x/sync v0.17.0
 	maragu.dev/gomponents v1.2.0
 )

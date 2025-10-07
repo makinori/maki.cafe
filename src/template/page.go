@@ -4,7 +4,11 @@ import (
 	"bytes"
 	"context"
 	_ "embed"
+	"encoding/json"
+	"log/slog"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/makinori/goemo"
 	"maki.cafe/src/config"
@@ -23,8 +27,22 @@ var (
 	//go:embed font-maple-mono-maki.scss
 	fontSCSS string
 
+	// https://gist.github.com/borlaym/585e2e09dd6abd9b0d0a
+	// instead compiled my own with https://emojipedia.org/nature#list
+	//go:embed animals.json
+	animalsJSON []byte
+	animals     []string
+
 	usingIPv6Key string = "usingIPv6"
 )
+
+func init() {
+	err := json.Unmarshal(animalsJSON, &animals)
+	if err != nil {
+		slog.Error("failed to parse animals json", "err", animals)
+		os.Exit(1)
+	}
+}
 
 func metaTagWithName(name, content string) Node {
 	return Meta(Name(name), Content(content))
@@ -39,6 +57,8 @@ func RenderPage(
 	r *http.Request,
 ) (string, error) {
 	ctx := goemo.InitContext(context.Background())
+
+	ctx = goemo.UseWords(ctx, animals, time.Now().Format(time.DateOnly))
 
 	ip := util.HTTPGetIPAddress(r)
 	if util.IsValidIPv6(ip) {
