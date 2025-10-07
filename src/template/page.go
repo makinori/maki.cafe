@@ -8,6 +8,7 @@ import (
 
 	"github.com/makinori/goemo"
 	"maki.cafe/src/config"
+	"maki.cafe/src/util"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -17,6 +18,8 @@ var (
 	stylesSCSS string
 	//go:embed font-maple-mono-maki.scss
 	fontSCSS string
+
+	usingIPv6Key string = "usingIPv6"
 )
 
 func RenderPage(
@@ -24,6 +27,11 @@ func RenderPage(
 	r *http.Request,
 ) (string, error) {
 	ctx := goemo.InitContext(context.Background())
+
+	ip := util.HTTPGetIPAddress(r)
+	if util.IsValidIPv6(ip) {
+		ctx = context.WithValue(ctx, usingIPv6Key, true)
+	}
 
 	currentPagePath := r.URL.Path
 

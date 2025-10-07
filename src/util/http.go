@@ -133,10 +133,15 @@ func HTTPGetIPAddress(r *http.Request) string {
 	if ipAddress != "" {
 		ipAddress = strings.Split(ipAddress, ",")[0]
 		ipAddress = strings.TrimSpace(ipAddress)
-		return portRegexp.ReplaceAllString(ipAddress, "")
+	} else {
+		ipAddress = r.RemoteAddr // from connection
 	}
 
-	return portRegexp.ReplaceAllString(r.RemoteAddr, "")
+	ipAddress = portRegexp.ReplaceAllString(ipAddress, "")
+	ipAddress = strings.TrimPrefix(ipAddress, "[")
+	ipAddress = strings.TrimSuffix(ipAddress, "]")
+
+	return ipAddress
 }
 
 func HTTPGetFullURL(r *http.Request) url.URL {

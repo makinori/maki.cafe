@@ -82,6 +82,18 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 		}
 	`)
 
+	var ipv6Div Node
+	if ctx.Value(usingIPv6Key) == true {
+		ipv6Div = Div(
+			Class(pagesClass),
+			Style("align-items: center"),
+			P(
+				Style("font-size: 0.8em; margin-left: 4px"),
+				Text("yay! you're using ipv6!"),
+			),
+		)
+	}
+
 	return Group{
 		Div(Style("margin-top: 100px")),
 		hr,
@@ -111,6 +123,7 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 				Text(util.GetGoVersion()+", {{.RenderTime}}"),
 			),
 		),
+		ipv6Div,
 		Br(),
 		component.MoeCounter(ctx),
 	}
