@@ -22,8 +22,8 @@ const (
 	renderScale  = 8
 
 	// lower fps feels nicer for an 88x31
-	fps    = 25 // 50 is max
-	length = 4  // seconds
+	fps    = 20 // 50 is max
+	length = 2  // seconds
 )
 
 var (
