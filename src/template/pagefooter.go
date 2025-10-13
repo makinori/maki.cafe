@@ -86,7 +86,7 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 	if ctx.Value(usingIPv6Key) == true || util.ENV_IS_DEV {
 		ipv6Div = Div(
 			Class(pagesClass),
-			Style("align-items: center; column-gap: 4px;"),
+			Style("align-items: center; column-gap: 4px; opacity: 0.7"),
 			// get it, cause interplanetary
 			Img(Src("/icons/emoji/rocket.svg"), Height("20")),
 			Img(Src("/icons/emoji/milkyway.svg"), Height("20")),
@@ -105,6 +105,7 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 				Text("yay! you're on ipv6!"),
 			),
 		)
+
 	}
 
 	return Group{
