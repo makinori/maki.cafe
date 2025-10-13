@@ -10,9 +10,8 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
-func SpriteSheetGrid(
-	ctx context.Context, imageURL string, size string, aspectRatio string,
-	columns int, items []Node,
+func Grid(
+	ctx context.Context, columns int, items []Node, itemSCSS string,
 ) Node {
 	return Div(
 		Class(goemo.SCSS(ctx, `
@@ -26,19 +25,17 @@ func SpriteSheetGrid(
 				flex-direction: column;
 				gap: 4px;
 				background-color: transparent;
+				
+				> p {
+					font-size: 14px;
+				}
 
 				> div {
 					width: 100%;
 					padding: 0;
-					aspect-ratio: `+aspectRatio+`;
-					background-color: #222;
-					background-image: url("`+imageURL+`");
-					background-size: `+size+`;
 					border-radius: 4px;
-				}
-				
-				> p {
-					font-size: 14px;
+					background-size: cover;
+					`+itemSCSS+`
 				}
 			}
 		`)),
@@ -46,8 +43,8 @@ func SpriteSheetGrid(
 	)
 }
 
-func SpriteSheetGridItem(
-	name string, href string, position string, nodes ...Node,
+func GridItem(
+	name string, href string, itemStyle string, nodes ...Node,
 ) Node {
 	var props []Node
 
@@ -59,11 +56,32 @@ func SpriteSheetGridItem(
 	}
 
 	props = append(props,
-		Div(Style(fmt.Sprintf(
-			`background-position: %s;`, position,
-		))),
+		Div(Style(itemStyle)),
 		Group(nodes),
 	)
 
 	return A(Group(props))
+}
+
+func SpriteSheetGrid(
+	ctx context.Context, imageURL string, size string, aspectRatio string,
+	columns int, items []Node,
+) Node {
+	return Grid(
+		ctx, columns, items,
+		`
+			aspect-ratio: `+aspectRatio+`;
+			background-color: #222;
+			background-image: url("`+imageURL+`");
+			background-size: `+size+`;
+		`,
+	)
+}
+
+func SpriteSheetGridItem(
+	name string, href string, position string, nodes ...Node,
+) Node {
+	return GridItem(name, href, fmt.Sprintf(
+		`background-position: %s;`, position,
+	), nodes...)
 }

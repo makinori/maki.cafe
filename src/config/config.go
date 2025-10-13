@@ -22,6 +22,9 @@ const (
 	MatrixUsername = "@maki:hotmilk.space"
 	MatrixURL      = "https://matrix.to/#/" + MatrixUsername
 
+	SquirrelsUsername = "@sotd@hotmilk.space"
+	SquirrelsURL      = "https://mastodon.hotmilk.space/@sotd"
+
 	// BackloggdUsername = "maki_nori"
 	// BackloggdURL      = "https://backloggd.com/u/" + BackloggdUsername
 )

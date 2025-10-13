@@ -115,6 +115,7 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 
 			P(Text("/"), subPageStyle),
 			footerLink(currentPagePath, "/", "index"),
+			footerLink(currentPagePath, "/squirrels", "squirrels"),
 			footerLink(currentPagePath, "/webring", "webring"),
 			Div(Class("break")),
 

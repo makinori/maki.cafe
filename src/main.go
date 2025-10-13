@@ -113,11 +113,11 @@ func Main() {
 
 	// register pages
 
-	hP := handlePage
-	mux.HandleFunc("GET /{$}", hP(page.Index))
-	mux.HandleFunc("GET /webring", hP(page.Webring))
-	mux.HandleFunc("GET /fav/anime", hP(page.FavAnime))
-	mux.HandleFunc("GET /fav/games", hP(page.FavGames))
+	mux.HandleFunc("GET /{$}", handlePage(page.Index))
+	mux.HandleFunc("GET /squirrels", handlePage(page.Squirrels))
+	mux.HandleFunc("GET /webring", handlePage(page.Webring))
+	mux.HandleFunc("GET /fav/anime", handlePage(page.FavAnime))
+	mux.HandleFunc("GET /fav/games", handlePage(page.FavGames))
 
 	// register assets
 
