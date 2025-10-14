@@ -26,12 +26,13 @@ func Squirrels(ctx context.Context) Group {
 	}
 
 	return Group{
+		component.HStack(ctx, []Node{
+			Img(Src("/icons/emoji/squirrel.svg"), Height("24")),
+			Text("try to take picture of a squirrel everyday,"),
+		}, "align-items:center"),
 		P(
-			component.HStack(ctx, []Node{
-				Img(Src("/icons/emoji/squirrel.svg"), Height("24")),
-				Text("take picture of a squirrel, "),
-				I(Text("hopefully everyday")),
-			}, "align-items:center"),
+
+			I(Text("that is if any can be found")),
 		),
 		Br(),
 		component.Grid(ctx, columns, items, `
