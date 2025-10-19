@@ -211,6 +211,7 @@ var games = []gameCategory{
 		Title: "chill",
 		Games: []game{
 			{SteamID: 1868140}, // dave the diver
+			{SteamID: 1562430}, // dredge
 			{
 				Image: "games/tropix-2.png",
 				// TODO: replace with my link?
