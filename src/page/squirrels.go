@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/makinori/goemo/emohtml"
 	"github.com/mergestat/timediff"
 	"maki.cafe/src/component"
 	"maki.cafe/src/config"
@@ -26,7 +27,7 @@ func Squirrels(ctx context.Context) Group {
 	}
 
 	return Group{
-		component.HStack(ctx, []Node{
+		emohtml.HStack(ctx, []Node{
 			Img(Src("/icons/emoji/squirrel.svg"), Height("24")),
 			Text("try to take picture of a squirrel everyday"),
 		}, "align-items:center"),

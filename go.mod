@@ -9,7 +9,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0
 	github.com/disintegration/imaging v1.6.2
 	github.com/hasura/go-graphql-client v0.14.5
-	github.com/makinori/goemo v0.0.0-20251027170153-48a79f5fb995
+	github.com/makinori/goemo v0.0.0-20251027175224-864b17ac3090
 	github.com/mergestat/timediff v0.0.4
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/tdewolff/parse/v2 v2.8.4

@@ -3,7 +3,7 @@ package page
 import (
 	"context"
 
-	"maki.cafe/src/component"
+	"github.com/makinori/goemo/emohtml"
 	"maki.cafe/src/config"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -60,8 +60,8 @@ func makeLinks(links []link) Group {
 }
 
 func Index(ctx context.Context) Group {
-	social := component.VStack(ctx, Group{
-		component.HStack(ctx, makeLinks([]link{
+	social := emohtml.VStack(ctx, Group{
+		emohtml.HStack(ctx, makeLinks([]link{
 			{
 				Name:  "email",
 				URL:   "/email",
@@ -87,7 +87,7 @@ func Index(ctx context.Context) Group {
 				Color: "#0dbd8b",
 			},
 		})),
-		component.HStack(ctx, makeLinks([]link{
+		emohtml.HStack(ctx, makeLinks([]link{
 			{
 				Name:  "mastodon",
 				URL:   config.MastodonURL,
@@ -103,7 +103,7 @@ func Index(ctx context.Context) Group {
 		})),
 	})
 
-	workedOn := component.VStack(ctx, makeLinks([]link{
+	workedOn := emohtml.VStack(ctx, makeLinks([]link{
 		{
 			Name:  "tivoli cloud vr",
 			Color: "#e91e63",
