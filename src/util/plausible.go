@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/makinori/goemo"
+	"github.com/makinori/goemo/emohttp"
 )
 
 var ignorePlausibleUserAgents = []string{
@@ -38,7 +38,7 @@ func HTTPPlausibleEventFromImg(incomingReq *http.Request) bool {
 
 	// https://plausible.io/docs/events-api
 
-	fullUrl := goemo.HTTPGetFullURL(incomingReq)
+	fullUrl := emohttp.GetFullURL(incomingReq)
 	fullUrl.Path = notabot.Path
 	fullUrl.RawQuery = ""
 
@@ -62,7 +62,7 @@ func HTTPPlausibleEventFromImg(incomingReq *http.Request) bool {
 	plausibleReq.Header.Add("User-Agent", userAgent)
 	plausibleReq.Header.Add("Content-Type", "application/json")
 
-	ipAddress := goemo.HTTPGetIPAddress(incomingReq)
+	ipAddress := emohttp.GetIPAddress(incomingReq)
 	if ipAddress != "" {
 		// traefik will rewrite this
 		// plausibleReq.Header.Add("X-Forwarded-For", ipAddress)

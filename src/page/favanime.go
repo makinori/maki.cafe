@@ -21,7 +21,7 @@ func animeTitle(title data.AniListTitle) string {
 }
 
 func FavAnime(ctx context.Context) Group {
-	anilistData := data.Anilist.Data
+	anilistData := data.Anilist.Current
 
 	var current, completed, favoriteAnime, favoriteCharacters Group
 

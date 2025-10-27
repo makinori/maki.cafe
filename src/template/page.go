@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/makinori/goemo"
+	"github.com/makinori/goemo/emohttp"
 	"maki.cafe/src/config"
 	"maki.cafe/src/util"
 	. "maragu.dev/gomponents"
@@ -60,7 +61,7 @@ func RenderPage(
 
 	ctx = goemo.UseWords(ctx, animals, time.Now().Format(time.DateOnly))
 
-	ip := goemo.HTTPGetIPAddress(r)
+	ip := emohttp.GetIPAddress(r)
 	if util.IsValidIPv6(ip) {
 		ctx = context.WithValue(ctx, usingIPv6Key, true)
 	}

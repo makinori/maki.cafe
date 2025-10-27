@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/makinori/goemo/emocache"
 	"maki.cafe/src/config"
 )
 
@@ -67,8 +68,8 @@ func getSquirrels() ([]squirrelImage, error) {
 	return squirrelImages, nil
 }
 
-var Squirrels = cachedData[[]squirrelImage]{
+var Squirrels = emocache.Data[[]squirrelImage]{
 	Key:      "squirrels",
 	CronSpec: "0 0 * * *", // once a day
-	retrieve: getSquirrels,
+	Retrieve: getSquirrels,
 }

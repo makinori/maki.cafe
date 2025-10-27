@@ -14,6 +14,7 @@ import (
 
 	"github.com/bep/godartsass/v2"
 	"github.com/makinori/goemo"
+	"github.com/makinori/goemo/emohttp"
 	"maki.cafe/src/config"
 	"maki.cafe/src/data"
 	"maki.cafe/src/lint"
@@ -52,7 +53,7 @@ func handlePage(pageFn func(context.Context) gomponents.Group) func(http.Respons
 		// w.Header().Set("X-Render-Time", strings.ReplaceAll(renderTimeStr, "µ", "u"))
 		html = strings.ReplaceAll(html, "{{.RenderTime}}", renderTimeStr)
 
-		goemo.HTTPServeOptimized(w, r, []byte(html), ".html", false)
+		emohttp.ServeOptimized(w, r, []byte(html), ".html", false)
 	}
 }
 
@@ -73,12 +74,12 @@ func Main() {
 	if util.ENV_IS_DEV {
 		slog.Info("in developer mode")
 		slog.SetLogLoggerLevel(slog.LevelDebug)
-		goemo.DisableContentEncodingForHTML = true
+		emohttp.DisableContentEncodingForHTML = true
 	}
 
-	data.InitData()
+	data.Init()
 
-	err := goemo.InitSCSS(godartsass.Options{
+	err := goemo.InitSCSS(&godartsass.Options{
 		LogEventHandler: func(e godartsass.LogEvent) {
 			switch e.Type {
 			case godartsass.LogEventTypeWarning:
@@ -123,20 +124,18 @@ func Main() {
 	// register assets
 
 	mux.HandleFunc(
-		"GET /cache/{file...}", goemo.HTTPFileServerOptimized(
+		"GET /cache/{file...}", emohttp.FileServerOptimized(
 			os.DirFS("cache/public"),
 		),
 	)
 
-	publicFs, err := fs.Sub(staticContent, "public")
+	publicFS, err := fs.Sub(staticContent, "public")
 	if err != nil {
 		slog.Error(err.Error())
 		os.Exit(1)
 	}
 
-	mux.HandleFunc(
-		"GET /{file...}", goemo.HTTPFileServerOptimized(publicFs),
-	)
+	mux.HandleFunc("GET /{file...}", emohttp.FileServerOptimized(publicFS))
 
 	// middleware
 

@@ -17,7 +17,7 @@ func Squirrels(ctx context.Context) Group {
 
 	var items []Node
 
-	for _, squirrel := range data.Squirrels.Data {
+	for _, squirrel := range data.Squirrels.Current {
 		title := "squirrel " + timediff.TimeDiff(squirrel.Date)
 		items = append(items, component.GridItem(
 			title, squirrel.Link,

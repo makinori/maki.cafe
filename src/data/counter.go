@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/makinori/goemo"
+	"github.com/makinori/goemo/emohttp"
 	"github.com/robfig/cron/v3"
 )
 
@@ -61,7 +61,7 @@ func ReadCounter() uint64 {
 }
 
 func AddOneToCounter(r *http.Request) {
-	ip := goemo.HTTPGetIPAddress(r)
+	ip := emohttp.GetIPAddress(r)
 
 	expireTime, ok := ipExpireMap[ip]
 	if ok && time.Now().Before(expireTime) {
