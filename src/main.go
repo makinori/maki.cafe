@@ -52,7 +52,7 @@ func handlePage(pageFn func(context.Context) gomponents.Group) func(http.Respons
 		// w.Header().Set("X-Render-Time", strings.ReplaceAll(renderTimeStr, "µ", "u"))
 		html = strings.ReplaceAll(html, "{{.RenderTime}}", renderTimeStr)
 
-		util.HTTPServeOptimized(w, r, []byte(html), ".html", false)
+		goemo.HTTPServeOptimized(w, r, []byte(html), ".html", false)
 	}
 }
 
@@ -73,6 +73,7 @@ func Main() {
 	if util.ENV_IS_DEV {
 		slog.Info("in developer mode")
 		slog.SetLogLoggerLevel(slog.LevelDebug)
+		goemo.DisableContentEncodingForHTML = true
 	}
 
 	data.InitData()
@@ -122,7 +123,7 @@ func Main() {
 	// register assets
 
 	mux.HandleFunc(
-		"GET /cache/{file...}", util.HTTPFileServerOptimized(
+		"GET /cache/{file...}", goemo.HTTPFileServerOptimized(
 			os.DirFS("cache/public"),
 		),
 	)
@@ -134,7 +135,7 @@ func Main() {
 	}
 
 	mux.HandleFunc(
-		"GET /{file...}", util.HTTPFileServerOptimized(publicFs),
+		"GET /{file...}", goemo.HTTPFileServerOptimized(publicFs),
 	)
 
 	// middleware

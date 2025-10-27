@@ -60,7 +60,7 @@ func RenderPage(
 
 	ctx = goemo.UseWords(ctx, animals, time.Now().Format(time.DateOnly))
 
-	ip := util.HTTPGetIPAddress(r)
+	ip := goemo.HTTPGetIPAddress(r)
 	if util.IsValidIPv6(ip) {
 		ctx = context.WithValue(ctx, usingIPv6Key, true)
 	}

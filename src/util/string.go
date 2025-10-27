@@ -3,21 +3,8 @@ package util
 import (
 	"fmt"
 	"strconv"
-	"strings"
 	"time"
 )
-
-func InCommaSeperated(commaSeparated string, needle string) bool {
-	if commaSeparated == "" {
-		return needle == ""
-	}
-	for v := range strings.SplitSeq(commaSeparated, ",") {
-		if needle == strings.TrimSpace(v) {
-			return true
-		}
-	}
-	return false
-}
 
 func ShortDate(date time.Time) string {
 	var months = []string{

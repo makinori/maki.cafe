@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/makinori/goemo"
 	"github.com/robfig/cron/v3"
-	"maki.cafe/src/util"
 )
 
 const (
@@ -61,7 +61,7 @@ func ReadCounter() uint64 {
 }
 
 func AddOneToCounter(r *http.Request) {
-	ip := util.HTTPGetIPAddress(r)
+	ip := goemo.HTTPGetIPAddress(r)
 
 	expireTime, ok := ipExpireMap[ip]
 	if ok && time.Now().Before(expireTime) {
