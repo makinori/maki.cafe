@@ -5,11 +5,14 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Launch file",
+			"name": "Run maki.cafe",
 			"type": "go",
 			"request": "launch",
 			"mode": "debug",
-			"program": "${file}"
+			"program": "${workspaceFolder}/main.go",
+			"env": {
+				"DEV": "1"
+			}
 		}
 	]
 }

@@ -60,7 +60,7 @@ func makeLinks(links []link) Group {
 }
 
 func Index(ctx context.Context) Group {
-	social := emohtml.VStack(ctx, Group{
+	social := emohtml.VStack(ctx,
 		emohtml.HStack(ctx, makeLinks([]link{
 			{
 				Name:  "email",
@@ -101,48 +101,53 @@ func Index(ctx context.Context) Group {
 				Color: "#333",
 			},
 		})),
-	})
+	)
 
-	workedOn := emohtml.VStack(ctx, makeLinks([]link{
-		{
-			Name:  "tivoli cloud vr",
-			Color: "#e91e63",
-			URL:   "https://github.com/tivolicloud",
-			Icon:  "/icons/tivoli.svg",
-		},
-		{
-			Name:  "blahaj quest",
-			Color: "#3c8ea7",
-			URL:   "https://blahaj.quest",
-			Icon:  "/icons/emoji/shark.svg",
-		},
-		{
-			Name:  "baltimare leaderboard",
-			Color: "#689F38",
-			URL:   "https://baltimare.hotmilk.space",
-			Icon:  "/icons/happy-anonfilly.png",
-		},
-		{
-			Name:  "melon prime ds",
-			Color: "#dd2e44",
-			URL:   config.GitHubURL + "/melonPrimeDS",
-			Icon:  "/icons/metroid.png",
-		},
-		{Break: true},
-		{
-			Name:  "old page",
-			Color: "#fff",
-			URL:   "https://old.maki.cafe",
-			Muted: true,
-		},
-		{
-			Name:  "dots",
-			Color: "#fff",
-			URL:   config.GitHubURL + "/dots",
-			Icon:  "/icons/arch.svg",
-			Muted: true,
-		},
-	}), "align-items: start;")
+	workedOn := emohtml.VStack(ctx,
+		emohtml.StackSCSS(`
+			align-items: start;
+		`),
+		makeLinks([]link{
+			{
+				Name:  "tivoli cloud vr",
+				Color: "#e91e63",
+				URL:   "https://github.com/tivolicloud",
+				Icon:  "/icons/tivoli.svg",
+			},
+			{
+				Name:  "blahaj quest",
+				Color: "#3c8ea7",
+				URL:   "https://blahaj.quest",
+				Icon:  "/icons/emoji/shark.svg",
+			},
+			{
+				Name:  "baltimare leaderboard",
+				Color: "#689F38",
+				URL:   "https://baltimare.hotmilk.space",
+				Icon:  "/icons/happy-anonfilly.png",
+			},
+			{
+				Name:  "melon prime ds",
+				Color: "#dd2e44",
+				URL:   config.GitHubURL + "/melonPrimeDS",
+				Icon:  "/icons/metroid.png",
+			},
+			{Break: true},
+			{
+				Name:  "old page",
+				Color: "#fff",
+				URL:   "https://old.maki.cafe",
+				Muted: true,
+			},
+			{
+				Name:  "dots",
+				Color: "#fff",
+				URL:   config.GitHubURL + "/dots",
+				Icon:  "/icons/arch.svg",
+				Muted: true,
+			},
+		}),
+	)
 
 	return Group{
 		H2(Text("software engineer")),

@@ -27,8 +27,6 @@ import (
 var (
 	//go:embed public
 	staticContent embed.FS
-	//go:embed 1x1.gif
-	gif1x1 []byte
 )
 
 func handlePage(pageFn func(context.Context) gomponents.Group) func(http.ResponseWriter, *http.Request) {
@@ -57,17 +55,6 @@ func handlePage(pageFn func(context.Context) gomponents.Group) func(http.Respons
 	}
 }
 
-func handleNotabotGif(w http.ResponseWriter, r *http.Request) {
-	// respond immediately
-	w.Header().Add("Cache-Control", "no-store")
-	w.Write(gif1x1)
-
-	go func() {
-		data.AddOneToCounter(r)
-		util.HTTPPlausibleEventFromImg(r)
-	}()
-}
-
 func Main() {
 	// initialization
 
@@ -75,7 +62,11 @@ func Main() {
 		slog.Info("in developer mode")
 		slog.SetLogLoggerLevel(slog.LevelDebug)
 		emohttp.DisableContentEncodingForHTML = true
+		emohttp.PlausibleDisable = true
 	}
+
+	emohttp.PlausibleDomain = "maki.cafe"
+	emohttp.PlausibleBaseURL = "https://ithelpsme.hotmilk.space"
 
 	data.Init()
 
@@ -111,7 +102,12 @@ func Main() {
 		http.Redirect(w, r, "xmpp:"+config.XMPP, http.StatusTemporaryRedirect)
 	})
 
-	mux.HandleFunc("GET /notabot.gif", handleNotabotGif)
+	mux.HandleFunc("GET /notabot.gif", emohttp.HandleNotABotGif(
+		func(r *http.Request) {
+			data.AddOneToCounter(r)
+			emohttp.PlausibleEventFromNotABot(r)
+		},
+	))
 
 	// register pages
 

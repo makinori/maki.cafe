@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/makinori/goemo"
+	"github.com/makinori/goemo/emohttp"
 	"maki.cafe/src/component"
-	"maki.cafe/src/util"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -22,7 +22,7 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 
 	// dont want to add css to hide incase browsers dont render it
 
-	notabotPixel := Img(Src("/notabot.gif?" + util.NotabotEncode(r)))
+	notabotPixel := Img(Src("/notabot.gif?" + emohttp.NotABotURLQuery(r)))
 
 	if info.Big {
 		return Group{
