@@ -25,6 +25,10 @@ const (
 	SquirrelsUsername = "@squirrels@hotmilk.space"
 	SquirrelsURL      = "https://mastodon.hotmilk.space/@squirrels"
 
+	SecondLifeName = "norimaki.resident"
+	SecondLifeUUID = "b7c5f366-7a39-4289-8157-d3a8ae6d57f4"
+	SecondLifeURL  = "secondlife:///app/agent/" + SecondLifeUUID + "/about"
+
 	// BackloggdUsername = "maki_nori"
 	// BackloggdURL      = "https://backloggd.com/u/" + BackloggdUsername
 )

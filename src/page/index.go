@@ -60,6 +60,8 @@ func makeLinks(links []link) Group {
 }
 
 func Index(ctx context.Context) Group {
+	// TODO: add icons?
+
 	social := emohtml.VStack(ctx,
 		emohtml.HStack(ctx, makeLinks([]link{
 			{
@@ -99,6 +101,14 @@ func Index(ctx context.Context) Group {
 				URL:   config.GitHubURL,
 				Title: config.GitHubUsername,
 				Color: "#333",
+			},
+		})),
+		emohtml.HStack(ctx, makeLinks([]link{
+			{
+				Name:  "second life",
+				URL:   config.SecondLifeURL,
+				Title: config.SecondLifeName,
+				Color: "#00bfff",
 			},
 		})),
 	)
@@ -150,9 +160,18 @@ func Index(ctx context.Context) Group {
 	)
 
 	return Group{
-		H2(Text("software engineer")),
-		H2(Text("game developer")),
-		H2(Text("server admin")),
+		H2(
+			Text("write software, make games"),
+			Br(),
+			Text("and run servers"),
+		),
+		H3(
+			Style("margin-top: 16px; margin-bottom: 4px"),
+			Text("also a cute fox girl"),
+			Br(),
+			Text("she/they"),
+			Img(Src("/icons/trans-heart.svg"), Class("icon")),
+		),
 		Br(),
 		social,
 		Br(),
