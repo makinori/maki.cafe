@@ -18,7 +18,7 @@ type pageHeaderInfo struct {
 
 func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group {
 	// make sure to set height to avoid flickering
-	ponyImg := Img(Class("maki-pony"), Src("/images/pony-header.png"))
+	ponyImg := Img(Class("maki-img"), Src("/images/maki-header.png"))
 
 	// dont want to add css to hide incase browsers dont render it
 
@@ -32,9 +32,9 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 					font-weight: bold;
 					line-height: 100px;
 					color: white;
-					margin-top: -8px;
+					margin-top: -32px;
 					// margin-bottom: 8px;
-					gap: 24px;
+					gap: 32px;
 					display: flex;
 					flex-direction: row;
 					align-items: flex-end;
@@ -43,8 +43,8 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 						margin-bottom: 12px;
 					}
 
-					> .maki-pony {
-						height: 128px;
+					> .maki-img {
+						height: 160px;
 						margin-top: -24px;
 					}
 
@@ -61,7 +61,7 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 				notabotPixel,
 			),
 			Hr(
-				Style("height: 4px; width: 335px; margin-bottom: 18px"),
+				Style("height: 4px; width: 380px; margin-bottom: 18px"),
 			),
 			// Br(),
 		}
@@ -76,7 +76,7 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 				flex-direction: row;
 				align-items: flex-end;
 				// gap: 8px;
-				margin-top: -16px;
+				margin-top: -32px;
 
 				@media (max-width: $page-break-width) {
 					margin-top: -8px;
@@ -101,9 +101,9 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 					padding: inherit;
 				}
 
-				> .maki-pony {
+				> .maki-img {
 					// height: 64px;
-					height: 80px;
+					height: 96px;
 				}
 			`)),
 			A(

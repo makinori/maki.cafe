@@ -28,10 +28,14 @@ generate-favicon:
 	rm -rf favicon/
 	mkdir favicon/
 
-	magick assets/pony.jpg \
+	IMAGE=assets/maki.jpg
+	WIDTH=$(magick identify -ping -format "%w" $IMAGE)
+	HALF_WIDTH=$(($WIDTH/2))
+
+	magick $IMAGE \
 	-gravity Center \
-	\( -size 2048x2048 xc:Black -fill White \
-		-draw 'circle 1024 1024 1024 1' -alpha Copy \
+	\( -size ${WIDTH}x${WIDTH} xc:Black -fill White \
+		-draw "circle $HALF_WIDTH $HALF_WIDTH $HALF_WIDTH 1" -alpha Copy \
 	\) -compose CopyOpacity -composite \
 	-trim favicon/circle.png
 
@@ -52,12 +56,12 @@ generate: generate-favicon
 	echo "encode to 8-bit with blue noise,"
 	echo "export as jpg with 100% quality"
 
-	magick assets/pony-cutout.png \
-	-filter Lanczos2 -resize x128 \
+	magick assets/maki-cutout.png \
+	-filter Lanczos2 -resize x160 \
 	-fx "u*1.15" \
-	src/public/images/pony-header.png
+	src/public/images/maki-header.png
 
-	cp assets/pony.jpg src/public/images/pony.jpg
+	cp assets/maki.jpg src/public/images/maki.jpg
 
 # download icons and emojis
 [group("cmd")]

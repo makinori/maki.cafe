@@ -2,7 +2,7 @@ package config
 
 const (
 	Description = "site of maki"
-	SiteImage   = "https://maki.cafe/images/pony.jpg"
+	SiteImage   = "https://maki.cafe/images/maki.jpg"
 
 	Email = "maki@hotmilk.space"
 	XMPP  = "maki@hotmilk.space"
