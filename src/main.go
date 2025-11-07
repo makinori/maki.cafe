@@ -131,7 +131,11 @@ func Main() {
 		os.Exit(1)
 	}
 
-	mux.HandleFunc("GET /{file...}", foxhttp.FileServerOptimized(publicFS))
+	mux.HandleFunc("GET /{file...}", foxhttp.FileServerOptimized(publicFS,
+		func(w http.ResponseWriter, r *http.Request) {
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		},
+	))
 
 	// middleware
 
