@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/makinori/goemo"
+	"github.com/makinori/foxlib/foxcss"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -14,7 +14,7 @@ func Grid(
 	ctx context.Context, columns int, items []Node, itemSCSS string,
 ) Node {
 	return Div(
-		Class(goemo.SCSS(ctx, `
+		Class(foxcss.Class(ctx, `
 			display: grid;
 			grid-template-columns: repeat(`+strconv.Itoa(columns)+`, 1fr);
 			grid-gap: 8px;

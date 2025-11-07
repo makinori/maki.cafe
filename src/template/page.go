@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/makinori/goemo"
-	"github.com/makinori/goemo/emohttp"
+	"github.com/makinori/foxlib/foxcss"
+	"github.com/makinori/foxlib/foxhttp"
 	"maki.cafe/src/config"
 	"maki.cafe/src/util"
 	. "maragu.dev/gomponents"
@@ -40,13 +40,13 @@ func RenderPage(
 	pageFn func(context.Context) Group,
 	r *http.Request,
 ) (string, error) {
-	ctx := goemo.InitContext(context.Background())
+	ctx := foxcss.InitContext(context.Background())
 
-	ctx = goemo.UseWords(
-		ctx, goemo.AnimalWords, time.Now().Format(time.DateOnly),
+	ctx = foxcss.UseWords(
+		ctx, foxcss.AnimalWords, time.Now().Format(time.DateOnly),
 	)
 
-	ip := emohttp.GetIPAddress(r)
+	ip := foxhttp.GetIPAddress(r)
 	if util.IsValidIPv6(ip) {
 		ctx = context.WithValue(ctx, usingIPv6Key, true)
 	}
@@ -74,7 +74,7 @@ func RenderPage(
 
 	body := Body(
 		Class(bodyClass),
-		Div(Class(goemo.SCSS(ctx, `
+		Div(Class(foxcss.Class(ctx, `
 			position: absolute;
 			margin: auto;
 			top: 0;
@@ -90,12 +90,12 @@ func RenderPage(
 		pageFooter(ctx, currentPagePath),
 	)
 
-	pageSCSS := goemo.GetPageSCSS(ctx)
+	pageSCSS := foxcss.GetPageSCSS(ctx)
 
-	finalCSS, err := goemo.RenderSCSS(stylesSCSS+"\n"+pageSCSS,
-		goemo.SassImport{Filename: "utils.scss", Content: utilsSCSS},
-		goemo.SassImport{Filename: "colors.scss", Content: colorsSCSS},
-		goemo.SassImport{Filename: "font.scss", Content: fontSCSS},
+	finalCSS, err := foxcss.RenderSCSS(stylesSCSS+"\n"+pageSCSS,
+		foxcss.SassImport{Filename: "utils.scss", Content: utilsSCSS},
+		foxcss.SassImport{Filename: "colors.scss", Content: colorsSCSS},
+		foxcss.SassImport{Filename: "font.scss", Content: fontSCSS},
 	)
 
 	if err != nil {

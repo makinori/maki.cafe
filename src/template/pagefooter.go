@@ -3,7 +3,7 @@ package template
 import (
 	"context"
 
-	"github.com/makinori/goemo"
+	"github.com/makinori/foxlib/foxcss"
 	"maki.cafe/src/component"
 	"maki.cafe/src/config"
 	"maki.cafe/src/util"
@@ -40,7 +40,7 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 	hr := Hr(Style("width: 250px"))
 	subPageStyle := Style("margin-top: 3px;")
 
-	pagesClass := goemo.SCSS(ctx, `
+	pagesClass := foxcss.Class(ctx, `
 		margin-top: 8px;
 		margin-bottom: 8px;
 		display: flex;
@@ -91,7 +91,7 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 			Img(Src("/icons/emoji/rocket.svg"), Height("20")),
 			Img(Src("/icons/emoji/milkyway.svg"), Height("20")),
 			P(
-				Class(goemo.SCSS(ctx, `
+				Class(foxcss.Class(ctx, `
 					font-size: 0.8em;
 					font-weight: 600;
 					margin-left: 2px;

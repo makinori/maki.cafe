@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/hasura/go-graphql-client"
-	"github.com/makinori/goemo/emocache"
+	"github.com/makinori/foxlib/foxcache"
 	"maki.cafe/src/config"
 )
 
@@ -182,7 +182,7 @@ func getAniList() (aniListResult, error) {
 	return result, nil
 }
 
-var Anilist = emocache.Data[aniListResult]{
+var Anilist = foxcache.Data[aniListResult]{
 	Key:      "anilist",
 	CronSpec: "0 0 * * *", // once a day
 	Retrieve: getAniList,

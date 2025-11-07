@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/makinori/goemo/emohtml"
+	"github.com/makinori/foxlib/foxhtml"
 	"github.com/mergestat/timediff"
 	"maki.cafe/src/component"
 	"maki.cafe/src/config"
@@ -27,8 +27,8 @@ func Squirrels(ctx context.Context) Group {
 	}
 
 	return Group{
-		emohtml.HStack(ctx,
-			emohtml.StackSCSS(`
+		foxhtml.HStack(ctx,
+			foxhtml.StackSCSS(`
 				align-items: center
 			`),
 			Img(Src("/icons/emoji/squirrel.svg"), Height("24")),

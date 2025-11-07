@@ -13,8 +13,8 @@ import (
 	"time"
 
 	"github.com/bep/godartsass/v2"
-	"github.com/makinori/goemo"
-	"github.com/makinori/goemo/emohttp"
+	"github.com/makinori/foxlib/foxcss"
+	"github.com/makinori/foxlib/foxhttp"
 	"maki.cafe/src/config"
 	"maki.cafe/src/data"
 	"maki.cafe/src/lint"
@@ -51,7 +51,7 @@ func handlePage(pageFn func(context.Context) gomponents.Group) func(http.Respons
 		// w.Header().Set("X-Render-Time", strings.ReplaceAll(renderTimeStr, "µ", "u"))
 		html = strings.ReplaceAll(html, "{{.RenderTime}}", renderTimeStr)
 
-		emohttp.ServeOptimized(w, r, []byte(html), ".html", false)
+		foxhttp.ServeOptimized(w, r, []byte(html), ".html", false)
 	}
 }
 
@@ -61,16 +61,16 @@ func Main() {
 	if util.ENV_IS_DEV {
 		slog.Info("in developer mode")
 		slog.SetLogLoggerLevel(slog.LevelDebug)
-		emohttp.DisableContentEncodingForHTML = true
-		emohttp.PlausibleDisable = true
+		foxhttp.DisableContentEncodingForHTML = true
+		foxhttp.PlausibleDisable = true
 	}
 
-	emohttp.PlausibleDomain = "maki.cafe"
-	emohttp.PlausibleBaseURL = "https://ithelpsme.hotmilk.space"
+	foxhttp.PlausibleDomain = "maki.cafe"
+	foxhttp.PlausibleBaseURL = "https://ithelpsme.hotmilk.space"
 
 	data.Init()
 
-	err := goemo.InitSCSS(&godartsass.Options{
+	err := foxcss.InitSCSS(&godartsass.Options{
 		LogEventHandler: func(e godartsass.LogEvent) {
 			switch e.Type {
 			case godartsass.LogEventTypeWarning:
@@ -102,10 +102,10 @@ func Main() {
 		http.Redirect(w, r, "xmpp:"+config.XMPP, http.StatusTemporaryRedirect)
 	})
 
-	mux.HandleFunc("GET /notabot.gif", emohttp.HandleNotABotGif(
+	mux.HandleFunc("GET /notabot.gif", foxhttp.HandleNotABotGif(
 		func(r *http.Request) {
 			data.AddOneToCounter(r)
-			emohttp.PlausibleEventFromNotABot(r)
+			foxhttp.PlausibleEventFromNotABot(r)
 		},
 	))
 
@@ -120,7 +120,7 @@ func Main() {
 	// register assets
 
 	mux.HandleFunc(
-		"GET /cache/{file...}", emohttp.FileServerOptimized(
+		"GET /cache/{file...}", foxhttp.FileServerOptimized(
 			os.DirFS("cache/public"),
 		),
 	)
@@ -131,7 +131,7 @@ func Main() {
 		os.Exit(1)
 	}
 
-	mux.HandleFunc("GET /{file...}", emohttp.FileServerOptimized(publicFS))
+	mux.HandleFunc("GET /{file...}", foxhttp.FileServerOptimized(publicFS))
 
 	// middleware
 

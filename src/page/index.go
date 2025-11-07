@@ -3,7 +3,7 @@ package page
 import (
 	"context"
 
-	"github.com/makinori/goemo/emohtml"
+	"github.com/makinori/foxlib/foxhtml"
 	"maki.cafe/src/config"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -62,8 +62,8 @@ func makeLinks(links []link) Group {
 func Index(ctx context.Context) Group {
 	// TODO: add icons?
 
-	social := emohtml.VStack(ctx,
-		emohtml.HStack(ctx, makeLinks([]link{
+	social := foxhtml.VStack(ctx,
+		foxhtml.HStack(ctx, makeLinks([]link{
 			{
 				Name:  "email",
 				URL:   "/email",
@@ -89,7 +89,7 @@ func Index(ctx context.Context) Group {
 				Color: "#0dbd8b",
 			},
 		})),
-		emohtml.HStack(ctx, makeLinks([]link{
+		foxhtml.HStack(ctx, makeLinks([]link{
 			{
 				Name:  "mastodon",
 				URL:   config.MastodonURL,
@@ -103,7 +103,7 @@ func Index(ctx context.Context) Group {
 				Color: "#333",
 			},
 		})),
-		emohtml.HStack(ctx, makeLinks([]link{
+		foxhtml.HStack(ctx, makeLinks([]link{
 			{
 				Name:  "second life",
 				URL:   config.SecondLifeURL,
@@ -113,8 +113,8 @@ func Index(ctx context.Context) Group {
 		})),
 	)
 
-	workedOn := emohtml.VStack(ctx,
-		emohtml.StackSCSS(`
+	workedOn := foxhtml.VStack(ctx,
+		foxhtml.StackSCSS(`
 			align-items: start;
 		`),
 		makeLinks([]link{

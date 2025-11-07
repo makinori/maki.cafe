@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/makinori/goemo"
-	"github.com/makinori/goemo/emohttp"
+	"github.com/makinori/foxlib/foxcss"
+	"github.com/makinori/foxlib/foxhttp"
 	"maki.cafe/src/component"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
@@ -22,12 +22,12 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 
 	// dont want to add css to hide incase browsers dont render it
 
-	notabotPixel := Img(Src("/notabot.gif?" + emohttp.NotABotURLQuery(r)))
+	notabotPixel := Img(Src("/notabot.gif?" + foxhttp.NotABotURLQuery(r)))
 
 	if info.Big {
 		return Group{
 			Div(
-				Class(goemo.SCSS(ctx, `
+				Class(foxcss.Class(ctx, `
 					font-size: 100px;
 					font-weight: bold;
 					line-height: 100px;
@@ -71,7 +71,7 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 
 	return Group{
 		Div(
-			Class(goemo.SCSS(ctx, `
+			Class(foxcss.Class(ctx, `
 				display: flex;
 				flex-direction: row;
 				align-items: flex-end;
