@@ -62,7 +62,7 @@ func Main() {
 		slog.Info("in developer mode")
 		slog.SetLogLoggerLevel(slog.LevelDebug)
 		foxhttp.DisableContentEncodingForHTML = true
-		foxhttp.PlausibleDisable = true
+		foxhttp.ReportWarnings = true
 	}
 
 	foxhttp.PlausibleDomain = "maki.cafe"
@@ -105,7 +105,9 @@ func Main() {
 	mux.HandleFunc("GET /notabot.gif", foxhttp.HandleNotABotGif(
 		func(r *http.Request) {
 			data.AddOneToCounter(r)
-			foxhttp.PlausibleEventFromNotABot(r)
+			if !util.ENV_IS_DEV {
+				foxhttp.PlausibleEventFromNotABot(r)
+			}
 		},
 	))
 

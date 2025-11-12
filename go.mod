@@ -8,13 +8,13 @@ require (
 	github.com/bep/godartsass/v2 v2.5.0
 	github.com/cespare/xxhash/v2 v2.3.0
 	github.com/disintegration/imaging v1.6.2
-	github.com/hasura/go-graphql-client v0.14.5
-	github.com/makinori/foxlib v0.0.0-20251107005508-c450af69c0b5
+	github.com/hasura/go-graphql-client v0.15.0
+	github.com/makinori/foxlib v0.0.0-20251112182322-b46ba12dfdf7
 	github.com/mergestat/timediff v0.0.4
 	github.com/robfig/cron/v3 v3.0.1
-	github.com/tdewolff/parse/v2 v2.8.4
-	golang.org/x/net v0.46.0
-	golang.org/x/sync v0.17.0
+	github.com/tdewolff/parse/v2 v2.8.5
+	golang.org/x/net v0.47.0
+	golang.org/x/sync v0.18.0
 	maragu.dev/gomponents v1.2.0
 )
 
@@ -39,8 +39,8 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/spf13/afero v1.14.0 // indirect
 	github.com/spf13/cast v1.9.2 // indirect
-	golang.org/x/image v0.32.0 // indirect
-	golang.org/x/sys v0.37.0 // indirect
-	golang.org/x/text v0.30.0 // indirect
+	golang.org/x/image v0.33.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 	google.golang.org/protobuf v1.36.10 // indirect
 )
