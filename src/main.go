@@ -2,9 +2,7 @@ package src
 
 import (
 	"context"
-	"embed"
 	"fmt"
-	"io/fs"
 	"log/slog"
 	"net/http"
 	"os"
@@ -19,14 +17,10 @@ import (
 	"maki.cafe/src/data"
 	"maki.cafe/src/lint"
 	"maki.cafe/src/page"
+	"maki.cafe/src/public"
 	"maki.cafe/src/template"
 	"maki.cafe/src/util"
 	"maragu.dev/gomponents"
-)
-
-var (
-	//go:embed public
-	staticContent embed.FS
 )
 
 func handlePage(pageFn func(context.Context) gomponents.Group) func(http.ResponseWriter, *http.Request) {
@@ -115,6 +109,7 @@ func Main() {
 
 	mux.HandleFunc("GET /{$}", handlePage(page.Index))
 	mux.HandleFunc("GET /squirrels", handlePage(page.Squirrels))
+	mux.HandleFunc("GET /overwatch", handlePage(page.Overwatch))
 	mux.HandleFunc("GET /webring", handlePage(page.Webring))
 	mux.HandleFunc("GET /fav/anime", handlePage(page.FavAnime))
 	mux.HandleFunc("GET /fav/games", handlePage(page.FavGames))
@@ -127,17 +122,17 @@ func Main() {
 		),
 	)
 
-	publicFS, err := fs.Sub(staticContent, "public")
-	if err != nil {
-		slog.Error(err.Error())
-		os.Exit(1)
+	redirToIndex := func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 	}
 
-	mux.HandleFunc("GET /{file...}", foxhttp.FileServerOptimized(publicFS,
-		func(w http.ResponseWriter, r *http.Request) {
-			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
-		},
-	))
+	mux.HandleFunc("GET /overwatch/{file...}",
+		foxhttp.FileServerOptimized(os.DirFS("overwatch"), redirToIndex),
+	)
+
+	mux.HandleFunc("GET /{file...}",
+		foxhttp.FileServerOptimized(public.FS, redirToIndex),
+	)
 
 	// middleware
 

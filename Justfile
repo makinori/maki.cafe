@@ -88,4 +88,31 @@ updatewebring:
 	curl -o kayla.gif https://kayla.moe/button.gif
 	curl -o yno.png https://kayla.moe/buttons/yno.png # dont know the source
 	curl -o 0x0ade.gif https://0x0a.de/index/88x31/0x0a.de.gif
-	
+
+# make thumbnail for video
+[group("util")]
+thumbnail videoPath:
+	#!/bin/bash
+	set -euo pipefail
+
+	seconds=$(ffprobe -loglevel error -show_entries format=duration \
+	-of default=noprint_wrappers=1:nokey=1 "{{videoPath}}")
+
+	half_seconds=$(echo "scale=3;$seconds*0.5" | bc)
+
+	filePath="{{videoPath}}"
+	ffmpeg -y -loglevel error -i "{{videoPath}}" \
+		-vf "select='gte(t,${half_seconds})',scale=-1:720" \
+		-frames:v 1 -q:v 10 "${filePath%.*}.jpg"
+
+# transcode and save overwatch highlight
+[group("util")]
+overwatch input ss name:
+	ffmpeg -i "{{input}}" -ss 00:00:{{ss}} -t 00:00:25 \
+	-c:v libsvtav1 -crf 35 "overwatch/{{name}}.webm"
+	just thumbnail "overwatch/{{name}}.webm"
+
+# syncs /overwatch to server
+[group("server")]
+sync:
+	rsync -a --info=progress2 ./overwatch/ hakua:~/maki.cafe/overwatch/

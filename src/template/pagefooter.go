@@ -37,7 +37,6 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 	// 	return Group{}
 	// }
 
-	hr := Hr(Style("width: 250px"))
 	subPageStyle := Style("margin-top: 3px;")
 
 	pagesClass := foxcss.Class(ctx, `
@@ -110,13 +109,14 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 
 	return Group{
 		Div(Style("margin-top: 100px")),
-		hr,
+		Hr(Style("width: 400px")),
 		Div(
 			Class(pagesClass),
 
 			P(Text("/"), subPageStyle),
 			footerLink(currentPagePath, "/", "index"),
 			footerLink(currentPagePath, "/squirrels", "squirrels"),
+			footerLink(currentPagePath, "/overwatch", "overwatch"),
 			footerLink(currentPagePath, "/webring", "webring"),
 			Div(Class("break")),
 
@@ -128,7 +128,7 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 			// P(Text("/past/"), subPageStyle),
 			// footerLink(currentPagePath, "/past/avatars", "avatars"),
 		),
-		hr,
+		Hr(Style("width: 300px")),
 		Div(
 			Class(pagesClass),
 			Style("align-items: center; row-gap: 0px;"),

@@ -8,6 +8,7 @@ services:
         volumes:
             - ./cache:/app/cache
             - ./data:/app/data
+            - ./overwatch:/app/overwatch # many video files
         # environment:
         #     PLAUSIBLE_DEBUG: 1
         labels:
