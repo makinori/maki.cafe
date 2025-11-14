@@ -1,2 +1,5 @@
 .git
-tmp
+/tmp
+/cache
+/data
+/overwatch
