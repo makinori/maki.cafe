@@ -95,14 +95,14 @@ thumbnail videoPath:
 	#!/bin/bash
 	set -euo pipefail
 
-	seconds=$(ffprobe -loglevel error -show_entries format=duration \
-	-of default=noprint_wrappers=1:nokey=1 "{{videoPath}}")
-
-	half_seconds=$(echo "scale=3;$seconds*0.5" | bc)
+	# seconds=$(ffprobe -loglevel error -show_entries format=duration \
+	# -of default=noprint_wrappers=1:nokey=1 "{{videoPath}}")
+	# half_seconds=$(echo "scale=3;$seconds*0.5" | bc)
+	seconds_in=1
 
 	filePath="{{videoPath}}"
 	ffmpeg -y -loglevel error -i "{{videoPath}}" \
-		-vf "select='gte(t,${half_seconds})',scale=-1:720" \
+		-vf "select='gte(t,${seconds_in})',scale=-1:720" \
 		-frames:v 1 -q:v 10 "${filePath%.*}.jpg"
 
 # transcode and save overwatch highlight
