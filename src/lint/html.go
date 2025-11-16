@@ -9,6 +9,7 @@ import (
 	"github.com/tdewolff/parse/v2"
 	"github.com/tdewolff/parse/v2/css"
 	"golang.org/x/net/html"
+	"maki.cafe/src/config"
 )
 
 var cssURLHttpRegexp = regexp.MustCompile(`(?i)(http.+?)["')]`)
@@ -20,7 +21,19 @@ func LintHTML(inputHTML string) {
 		return
 	}
 
-	extHTTPResource := "external http resource"
+	printWarn := func(where string, tag string, url string) {
+		// last universal filter
+		if strings.Contains(url, config.Domain) {
+			return
+		}
+
+		message := "external http resources"
+		if where != "" {
+			message += " in " + where
+		}
+
+		slog.Warn(message, "tag", tag, "url", url)
+	}
 
 	parseStyleAttr := func(tag string, style string) {
 		l := css.NewLexer(parse.NewInputString(style))
@@ -39,11 +52,7 @@ func LintHTML(inputHTML string) {
 					url = matches[1]
 				}
 
-				slog.Warn(
-					extHTTPResource+" in style",
-					"tag", tag, "url", url,
-				)
-
+				printWarn("style", tag, url)
 			case css.ErrorToken:
 				return
 			}
@@ -61,10 +70,7 @@ func LintHTML(inputHTML string) {
 			} else if strings.HasPrefix(
 				strings.ToLower(attr.Val), "http",
 			) {
-				slog.Warn(
-					extHTTPResource,
-					"tag", tag, "url", attr.Val,
-				)
+				printWarn(attr.Key, tag, attr.Val)
 			}
 		}
 	}
