@@ -45,7 +45,7 @@ func handlePage(pageFn func(context.Context) gomponents.Group) func(http.Respons
 		// w.Header().Set("X-Render-Time", strings.ReplaceAll(renderTimeStr, "µ", "u"))
 		html = strings.ReplaceAll(html, "{{.RenderTime}}", renderTimeStr)
 
-		foxhttp.ServeOptimized(w, r, []byte(html), ".html", false)
+		foxhttp.ServeOptimized(w, r, ".html", time.Unix(0, 0), []byte(html), false)
 	}
 }
 
