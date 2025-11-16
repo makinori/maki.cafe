@@ -57,7 +57,7 @@ func RenderPage(
 		PagePath: currentPagePath,
 	}
 
-	title := "maki.cafe"
+	title := config.Domain
 	bodyClass := ""
 	var extraHeadNodes Group
 
@@ -66,7 +66,7 @@ func RenderPage(
 		bodyClass = "noblur"
 		extraHeadNodes = append(extraHeadNodes, Meta(
 			Name("go-import"),
-			Content("maki.cafe git "+config.GitHubURL+"/maki.cafe"),
+			Content(config.Domain+" git "+config.GitHubURL+"/"+config.Domain),
 		))
 	} else {
 		title += currentPagePath
@@ -109,13 +109,13 @@ func RenderPage(
 		metaTagWithName("description", config.Description),
 		// open graph
 		metaTagWithProperty("og:type", "website"),
-		metaTagWithProperty("og:url", "https://maki.cafe"),
+		metaTagWithProperty("og:url", "https://"+config.Domain),
 		metaTagWithProperty("og:title", title),
 		metaTagWithProperty("og:description", config.Description),
 		metaTagWithProperty("og:image", config.SiteImage),
 		// twitter
 		metaTagWithProperty("twitter:card", "summary"), // summary_large_image
-		metaTagWithProperty("twitter:url", "https://maki.cafe"),
+		metaTagWithProperty("twitter:url", "https://"+config.Domain),
 		metaTagWithProperty("twitter:title", title),
 		metaTagWithProperty("twitter:description", config.Description),
 		metaTagWithProperty("twitter:image", config.SiteImage),

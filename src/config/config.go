@@ -1,8 +1,10 @@
 package config
 
 const (
+	Domain = "maki.cafe"
+
 	Description = "site of maki"
-	SiteImage   = "https://maki.cafe/images/maki.jpg"
+	SiteImage   = "https://" + Domain + "/images/maki.jpg"
 
 	Email = "maki@hotmilk.space"
 	XMPP  = "maki@hotmilk.space"

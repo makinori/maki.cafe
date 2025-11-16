@@ -59,7 +59,7 @@ func Main() {
 		foxhttp.ReportWarnings = true
 	}
 
-	foxhttp.PlausibleDomain = "maki.cafe"
+	foxhttp.PlausibleDomain = config.Domain
 	foxhttp.PlausibleBaseURL = "https://ithelpsme.hotmilk.space"
 
 	data.Init()

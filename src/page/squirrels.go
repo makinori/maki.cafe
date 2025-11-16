@@ -82,7 +82,7 @@ func Squirrels(ctx context.Context) Group {
 		// Br(),
 		// Div(
 		// 	Class(gridClass),
-		// 	webringIcon(ctx, "maki.gif", "maki.cafe", "title:or use maki@2x.gif"),
+		// 	webringIcon(ctx, "maki.gif", config.Domain, "title:or use maki@2x.gif"),
 		// ),
 		// // Br(),
 		// // Br(),
