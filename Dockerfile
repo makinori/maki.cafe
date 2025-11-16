@@ -1,4 +1,4 @@
-FROM golang:1.25.3 AS build
+FROM docker.io/golang:1.25.3 AS build
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ strip maki.cafe
 
 # create final image
 
-FROM alpine:edge
+FROM docker.io/alpine:edge
 
 WORKDIR /app
 

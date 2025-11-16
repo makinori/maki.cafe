@@ -18,7 +18,7 @@ alias u := update
 [group("server")]
 update:
 	git pull
-	docker compose up -d --build
+	podman compose up -d --build
 
 [private]
 [group("dev")]

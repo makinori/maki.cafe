@@ -21,14 +21,12 @@ services:
             - traefik.http.routers.maki-cafe.entrypoints=websecure
             - traefik.http.routers.maki-cafe.service=maki-cafe
             - traefik.http.routers.maki-cafe.middlewares=www-to-maki-cafe
-            - traefik.http.routers.maki-cafe.tls.certResolver=le
             - traefik.http.services.maki-cafe.loadbalancer.server.port=8080
 
-            - traefik.http.middlewares.www-to-maki-cafe.redirectregex.regex=^https?://(?:www\.)?(.+)
+            - traefik.http.middlewares.www-to-maki-cafe.redirectregex.regex=^https?://(?:www\.)(.+)
             - traefik.http.middlewares.www-to-maki-cafe.redirectregex.replacement=https://$${1}
             - traefik.http.middlewares.www-to-maki-cafe.redirectregex.permanent=true
 
             - traefik.docker.network=traefik
         networks:
-            - default
             - traefik
