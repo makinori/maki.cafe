@@ -32,7 +32,7 @@ const (
 	bannerHeight  = 87
 	bannerPadding = 4
 
-	sheetWidth  = 5
+	sheetWidth  = 6
 	sheetHeight = 12
 )
 
@@ -210,8 +210,8 @@ var games = []gameCategory{
 	{
 		Title: "chill",
 		Games: []game{
+			{SteamID: 2749770}, // galaxy burger
 			{SteamID: 1868140}, // dave the diver
-			{SteamID: 1562430}, // dredge
 			{
 				Image: "games/tropix-2.png",
 				// TODO: replace with my link?
@@ -221,8 +221,9 @@ var games = []gameCategory{
 				Image: "games/animal-crossing-cropped.png",
 				URL:   "https://animalcrossing.nintendo.com",
 			},
-			{SteamID: 413150}, // stardew valley
-			{SteamID: 650700}, // yume nikki
+			{SteamID: 413150},  // stardew valley
+			{SteamID: 1562430}, // dredge
+			{SteamID: 650700},  // yume nikki
 			{
 				Image: "games/universal-paperclips.png",
 				URL:   "https://www.decisionproblem.com/paperclips/",

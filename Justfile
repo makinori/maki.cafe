@@ -66,15 +66,18 @@ generate: generate-favicon
 # download icons and emojis
 [group("cmd")]
 icon +args: 
+	go mod tidy
 	cd cmd && go run ./geticon {{args}}
 
 # update favorite games
 [group("cmd")]
 makegames: 
+	go mod tidy
 	cd cmd && go run ./makegames
 
 [group("cmd")]
 makewebring: 
+	go mod tidy
 	cd cmd && go run ./makewebring
 
 # download fresh

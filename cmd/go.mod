@@ -1,6 +1,6 @@
 module maki.cafe/cmd
 
-go 1.25.2
+go 1.25.3
 
 require (
 	github.com/chromedp/chromedp v0.14.1
@@ -8,7 +8,7 @@ require (
 	github.com/disintegration/imaging v1.6.2
 	github.com/schollz/progressbar/v3 v3.18.0
 	github.com/tdewolff/minify/v2 v2.24.0
-	golang.org/x/sync v0.17.0
+	golang.org/x/sync v0.18.0
 	maki.cafe v0.0.0
 )
 
@@ -23,8 +23,8 @@ require (
 	github.com/gobwas/ws v1.4.0 // indirect
 	github.com/mitchellh/colorstring v0.0.0-20190213212951-d06e56a500db // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
-	github.com/tdewolff/parse/v2 v2.8.3 // indirect
-	golang.org/x/image v0.31.0 // indirect
-	golang.org/x/sys v0.36.0 // indirect
+	github.com/tdewolff/parse/v2 v2.8.5 // indirect
+	golang.org/x/image v0.33.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/term v0.34.0 // indirect
 )
