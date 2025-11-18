@@ -1,0 +1,46 @@
+[Unit]
+Description=maki.cafe
+Wants=network-online.target
+After=network-online.target
+After=local-fs.target
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target
+
+[Container]
+HostName=maki-cafe
+Image=maki.cafe.build
+# AutoUpdate=registry
+
+Volume=./cache:/app/cache
+Volume=./data:/app/data
+# many video files
+Volume=./overwatch:/app/overwatch
+
+# Environment=PLAUSIBLE_DEBUG=1
+
+Label=traefik.enable=true
+
+Label="traefik.http.routers.maki-cafe.rule=\
+Host(`maki.cafe`) || Host(`www.maki.cafe`)"
+Label=traefik.http.routers.maki-cafe.entrypoints=websecure
+Label=traefik.http.routers.maki-cafe.service=maki-cafe
+Label=traefik.http.routers.maki-cafe.middlewares=www-to-maki-cafe
+Label=traefik.http.services.maki-cafe.loadbalancer.server.port=8080
+
+Label=traefik.http.middlewares.www-to-maki-cafe.redirectregex.regex=^https?://(?:www\\.)(.+)
+Label=traefik.http.middlewares.www-to-maki-cafe.redirectregex.replacement=https://$${1}
+Label=traefik.http.middlewares.www-to-maki-cafe.redirectregex.permanent=true
+
+Label=traefik.docker.network=traefik
+
+Label=homepage.group=Sites
+Label=homepage.name=maki.cafe
+Label=homepage.icon=https://maki.cafe/favicon.ico
+Label=homepage.href=https://maki.cafe
+
+Network=traefik

@@ -14,11 +14,13 @@ start:
 	-build.exclude_dir cache,cmd,tmp
 
 alias u := update
-# git pull and docker compose up
+# git pull, build and restart quadlet
 [group("server")]
 update:
-	git pull
-	podman compose up -d --build
+	# git pull
+	systemctl --user daemon-reload
+	systemctl --user start maki.cafe-build
+	systemctl --user restart maki.cafe
 
 [private]
 [group("dev")]
