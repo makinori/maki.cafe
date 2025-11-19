@@ -118,4 +118,4 @@ overwatch input ss name:
 # syncs /overwatch to server
 [group("server")]
 sync:
-	rsync -a --info=progress2 ./overwatch/ hakua:~/maki.cafe/overwatch/
+	rsync -a --info=progress2 ./overwatch/ hakua:~/quadlets/maki.cafe/overwatch/
