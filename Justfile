@@ -110,8 +110,8 @@ thumbnail videoPath:
 
 # transcode and save overwatch highlight
 [group("util")]
-overwatch input ss name:
-	ffmpeg -i "{{input}}" -ss 00:00:{{ss}} -t 00:00:25 \
+overwatch input seconds name:
+	ffmpeg -i "{{input}}" -ss {{ss}} -t 25 \
 	-c:v libsvtav1 -crf 35 "overwatch/{{name}}.webm"
 	just thumbnail "overwatch/{{name}}.webm"
 
