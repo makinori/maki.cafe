@@ -17,7 +17,7 @@ alias u := update
 # git pull, build and restart quadlet
 [group("server")]
 update:
-	# git pull
+	git pull
 	systemctl --user daemon-reload
 	systemctl --user start maki.cafe-build
 	systemctl --user restart maki.cafe
