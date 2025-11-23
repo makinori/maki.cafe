@@ -121,3 +121,4 @@ overwatch input seconds name:
 [group("server")]
 sync:
 	rsync -a --info=progress2 ./overwatch/ hakua:~/quadlets/maki.cafe/overwatch/
+	rsync -a --info=progress2 ./anime-themes/ hakua:~/quadlets/maki.cafe/anime-themes/
