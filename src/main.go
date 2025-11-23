@@ -112,6 +112,7 @@ func Main() {
 	mux.HandleFunc("GET /overwatch", handlePage(page.Overwatch))
 	mux.HandleFunc("GET /webring", handlePage(page.Webring))
 	mux.HandleFunc("GET /fav/anime", handlePage(page.FavAnime))
+	mux.HandleFunc("GET /fav/anime-themes", handlePage(page.FavAnimeThemes))
 	mux.HandleFunc("GET /fav/games", handlePage(page.FavGames))
 
 	// register assets
@@ -126,9 +127,15 @@ func Main() {
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 	}
 
-	mux.HandleFunc("GET /overwatch/{file...}",
-		foxhttp.FileServerOptimized(os.DirFS("overwatch"), redirToIndex),
-	)
+	localDirs := []string{
+		"overwatch", "anime-themes",
+	}
+
+	for _, localDir := range localDirs {
+		mux.HandleFunc(fmt.Sprintf("GET /%s/{file...}", localDir),
+			foxhttp.FileServerOptimized(os.DirFS(localDir), redirToIndex),
+		)
+	}
 
 	mux.HandleFunc("GET /{file...}",
 		foxhttp.FileServerOptimized(public.FS, redirToIndex),
