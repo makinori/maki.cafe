@@ -20,6 +20,7 @@ Volume=./cache:/app/cache
 Volume=./data:/app/data
 # many video files
 Volume=./overwatch:/app/overwatch
+Volume=./anime-themes:/app/anime-themes
 
 # Environment=PLAUSIBLE_DEBUG=1
 
