@@ -51,6 +51,9 @@ body {
 a {
 	text-decoration: inherit;
 	color: #fff;
+}
+
+a {
 	background: #ff1744;
 	// padding: 0px 4px;
 	padding: 3px 6px;
@@ -63,6 +66,11 @@ a {
 	gap: 6px;
 
 	border-radius: 4px;
+
+	&.plain {
+		background: none;
+		padding: 0;
+	}
 
 	> img {
 		height: 20px;

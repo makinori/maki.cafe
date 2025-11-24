@@ -122,7 +122,6 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 
 			P(Text("/fav/"), subPageStyle),
 			footerLink(currentPagePath, "/fav/anime", "anime"),
-			footerLink(currentPagePath, "/fav/anime-themes", "anime-themes"),
 			footerLink(currentPagePath, "/fav/games", "games"),
 			// Div(Class("break")),
 

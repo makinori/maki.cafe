@@ -29,7 +29,6 @@ func FavAnimeThemes(ctx context.Context) Group {
 			Text("in no particular order. videos from "),
 			A(Href("https://animethemes.moe"), Text("animethemes.moe")),
 		),
-		Br(),
 	}
 
 	videoFilenames := []string{}
@@ -46,19 +45,41 @@ func FavAnimeThemes(ctx context.Context) Group {
 	videoClass := foxcss.Class(ctx, `
 		width: 100%;
 		border-radius: 8px;
-		margin-bottom: 16px;
 	`)
 
 	for _, filename := range videoFilenames {
+		filenameNoExt := strings.TrimSuffix(
+			filename, path.Ext(filename),
+		)
+
+		title := ""
+		link := ""
+
+		info, err := os.ReadFile("anime-themes/" + filenameNoExt + ".txt")
+		if err == nil {
+			lines := strings.Split(string(info), "\n")
+			title = strings.ToLower(strings.TrimSpace(lines[0]))
+			link = strings.TrimSpace(lines[1])
+		}
+
 		page = append(page,
+			H3(
+				Class(foxcss.Class(ctx, `
+					margin-top: 24px;
+					margin-bottom: 8px;
+				`)),
+				A(
+					Class("plain"),
+					Href(link),
+					Text(title),
+				),
+			),
 			Video(
 				Controls(),
 				Class(videoClass),
 				Preload("none"),
 				Src("/anime-themes/"+filename),
-				Poster("/anime-themes/"+strings.TrimSuffix(
-					filename, path.Ext(filename),
-				)+".jpg"),
+				Poster("/anime-themes/"+filenameNoExt+".jpg"),
 			),
 		)
 	}

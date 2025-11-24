@@ -68,6 +68,14 @@ func FavAnime(ctx context.Context) Group {
 		P(
 			Text("see my "),
 			A(
+				Href("/fav/anime/themes"),
+				Text("favorite themes"),
+			),
+			Text(" (openings/endings)"),
+			Br(),
+			Br(),
+			Text("and my "),
+			A(
 				Href(config.AniListURL),
 				Text("anilist"),
 			),
