@@ -107,6 +107,20 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 
 	}
 
+	version := util.GetGoVersion()
+
+	var greenTeaGCImg Node
+	if version.GreenTeaGC {
+		greenTeaGCImg = A(
+			Class("plain"),
+			Href("https://go.dev/blog/greenteagc"),
+			Img(
+				Style("height: 24px"),
+				Src("/icons/emoji/tea.svg"),
+			),
+		)
+	}
+
 	return Group{
 		Div(Style("margin-top: 100px")),
 		Hr(Style("width: 400px")),
@@ -133,9 +147,10 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 			Class(pagesClass),
 			Style("align-items: center; row-gap: 0px;"),
 			footerLink("", config.GitHubURL+"/maki.cafe", "source code"),
+			greenTeaGCImg,
 			P(
-				Style("font-size: 0.8em; margin-left: 4px"),
-				Text(util.GetGoVersion()+", {{.RenderTime}}"),
+				Style("font-size: 0.8em"),
+				Text(version.Version+", {{.RenderTime}}"),
 			),
 		),
 		Br(),
