@@ -16,8 +16,6 @@ HostName=maki-cafe
 Image=maki.cafe.build
 # AutoUpdate=registry
 
-Volume=./cache:/app/cache
-Volume=./data:/app/data
 Volume=./data.db:/app/data.db
 # many video files
 Volume=./overwatch:/app/overwatch
