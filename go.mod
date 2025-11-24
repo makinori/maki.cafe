@@ -1,6 +1,6 @@
 module maki.cafe
 
-go 1.25.3
+go 1.25.4
 
 tool github.com/air-verse/air
 
@@ -9,10 +9,11 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0
 	github.com/disintegration/imaging v1.6.2
 	github.com/hasura/go-graphql-client v0.15.0
-	github.com/makinori/foxlib v0.0.0-20251116190006-ffb9960a46a2
+	github.com/makinori/foxlib v0.0.0-20251124091232-dbad65dd5c13
 	github.com/mergestat/timediff v0.0.4
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/tdewolff/parse/v2 v2.8.5
+	go.etcd.io/bbolt v1.4.3
 	golang.org/x/net v0.47.0
 	golang.org/x/sync v0.18.0
 	maragu.dev/gomponents v1.2.0

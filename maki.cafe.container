@@ -18,6 +18,7 @@ Image=maki.cafe.build
 
 Volume=./cache:/app/cache
 Volume=./data:/app/data
+Volume=./data.db:/app/data.db
 # many video files
 Volume=./overwatch:/app/overwatch
 Volume=./anime-themes:/app/anime-themes

@@ -1,15 +1,15 @@
 package data
 
 import (
+	"errors"
 	"log/slog"
 	"net/http"
-	"os"
 	"strconv"
-	"sync"
 	"time"
 
 	"github.com/makinori/foxlib/foxhttp"
 	"github.com/robfig/cron/v3"
+	"go.etcd.io/bbolt"
 )
 
 const (
@@ -17,14 +17,11 @@ const (
 )
 
 var (
-	counterMutex sync.RWMutex
-	// save this?
+	// TODO: save this?
 	ipExpireMap = map[string]time.Time{}
 )
 
 func init() {
-	os.Mkdir("data", 0755)
-
 	// reap once an hour
 	c := cron.New()
 	c.AddFunc("0 * * * *", func() {
@@ -40,20 +37,37 @@ func init() {
 }
 
 func ReadCounter() uint64 {
-	counterMutex.RLock()
-	data, err := os.ReadFile("data/counter.txt")
-	counterMutex.RUnlock()
-
-	if err != nil {
+	if Database == nil {
+		slog.Error(
+			"database not initialized for counter",
+		)
 		return 0
 	}
 
-	value, err := strconv.ParseUint(string(data), 10, 64)
+	var value uint64
+
+	err := Database.View(func(tx *bbolt.Tx) error {
+		bucket := tx.Bucket(STATS_BUCKET)
+		if bucket == nil {
+			return errors.New("stats bucket not found")
+		}
+
+		counterBytes := bucket.Get([]byte("counter"))
+		if len(counterBytes) == 0 {
+			return nil
+		}
+
+		var err error
+		value, err = strconv.ParseUint(string(counterBytes), 10, 64)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+
 	if err != nil {
-		slog.Error(
-			"failed to parse counter.txt",
-			"err", err, "data", string(data),
-		)
+		slog.Error("failed to read counter", "err", err)
 		return 0
 	}
 
@@ -73,11 +87,21 @@ func AddOneToCounter(r *http.Request) {
 	value := ReadCounter()
 	value++
 
+	data := []byte(strconv.FormatUint(value, 10))
+
 	ipExpireMap[ip] = time.Now().Add(ipExpireDuration)
 
-	counterMutex.Lock()
-	os.WriteFile(
-		"data/counter.txt", []byte(strconv.FormatUint(value, 10)), 0644,
-	)
-	counterMutex.Unlock()
+	err := Database.Update(func(tx *bbolt.Tx) error {
+		bucket := tx.Bucket(STATS_BUCKET)
+		if bucket == nil {
+			return errors.New("stats bucket not found")
+		}
+
+		return bucket.Put([]byte("counter"), data)
+	})
+
+	if err != nil {
+		slog.Error("failed to add one to counter", "err", err)
+		return
+	}
 }

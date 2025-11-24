@@ -128,7 +128,7 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 			// P(Text("/past/"), subPageStyle),
 			// footerLink(currentPagePath, "/past/avatars", "avatars"),
 		),
-		Hr(Style("width: 300px")),
+		Hr(Style("width: 400px")),
 		Div(
 			Class(pagesClass),
 			Style("align-items: center; row-gap: 0px;"),

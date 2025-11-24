@@ -62,9 +62,13 @@ func Main() {
 	foxhttp.PlausibleDomain = config.Domain
 	foxhttp.PlausibleBaseURL = "https://ithelpsme.hotmilk.space"
 
-	data.Init()
+	err := data.Init()
+	if err != nil {
+		slog.Error("failed to init data", "err", err.Error())
+		os.Exit(1)
+	}
 
-	err := foxcss.InitSCSS(&godartsass.Options{
+	err = foxcss.InitSCSS(&godartsass.Options{
 		LogEventHandler: func(e godartsass.LogEvent) {
 			switch e.Type {
 			case godartsass.LogEventTypeWarning:
@@ -119,7 +123,7 @@ func Main() {
 
 	mux.HandleFunc(
 		"GET /cache/{file...}", foxhttp.FileServerOptimized(
-			os.DirFS("cache/public"),
+			data.CacheFilesFS,
 		),
 	)
 

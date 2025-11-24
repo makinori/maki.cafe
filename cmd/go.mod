@@ -1,6 +1,6 @@
 module maki.cafe/cmd
 
-go 1.25.3
+go 1.25.4
 
 require (
 	github.com/chromedp/chromedp v0.14.1
@@ -8,6 +8,7 @@ require (
 	github.com/disintegration/imaging v1.6.2
 	github.com/schollz/progressbar/v3 v3.18.0
 	github.com/tdewolff/minify/v2 v2.24.0
+	go.etcd.io/bbolt v1.4.3
 	golang.org/x/sync v0.18.0
 	maki.cafe v0.0.0
 )

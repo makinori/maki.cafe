@@ -40,7 +40,7 @@ func makeCachedSpriteSheet[T any](
 	}
 
 	filePath := name + ".jpg"
-	err = writeCachePublic(filePath, jpg.Bytes())
+	_, err = CacheFilesFS.WriteFile(filePath, jpg.Bytes())
 	if err != nil {
 		return CachedSpriteSheet{}, err
 	}

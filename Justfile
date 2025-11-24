@@ -65,22 +65,31 @@ generate: generate-favicon
 
 	cp assets/maki.jpg src/public/images/maki.jpg
 
+[group("cmd")]
+[working-directory: "cmd"]
+clearcache: 
+	go mod tidy
+	go run ./clearcache
+
 # download icons and emojis
 [group("cmd")]
+[working-directory: "cmd"]
 icon +args: 
 	go mod tidy
-	cd cmd && go run ./geticon {{args}}
+	go run ./geticon {{args}}
 
 # update favorite games
 [group("cmd")]
+[working-directory: "cmd"]
 makegames: 
 	go mod tidy
-	cd cmd && go run ./makegames
+	go run ./makegames
 
 [group("cmd")]
+[working-directory: "cmd"]
 makewebring: 
 	go mod tidy
-	cd cmd && go run ./makewebring
+	go run ./makewebring
 
 # download fresh
 [group("util")]

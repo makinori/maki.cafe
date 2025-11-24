@@ -1,4 +1,4 @@
-FROM docker.io/golang:1.25.3 AS build
+FROM docker.io/golang:1.25.4 AS build
 
 WORKDIR /app
 
@@ -8,6 +8,7 @@ RUN go mod download
 COPY ./ ./
 
 RUN \
+GOEXPERIMENT=greenteagc \
 CGO_ENABLED=0 GOOS=linux \
 go build -ldflags="-s -w" -o maki.cafe && \
 strip maki.cafe
