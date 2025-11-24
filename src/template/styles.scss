@@ -73,8 +73,11 @@ a {
 	}
 
 	> img {
-		height: 20px;
+		height: 16px;
 		margin-top: -2px;
+		&.bigger {
+			height: 20px;
+		}
 	}
 
 	&.muted {

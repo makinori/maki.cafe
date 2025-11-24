@@ -14,6 +14,7 @@ import (
 	"github.com/disintegration/imaging"
 	"github.com/schollz/progressbar/v3"
 	"golang.org/x/sync/semaphore"
+	"maki.cafe/cmd"
 )
 
 const (
@@ -139,7 +140,7 @@ func main() {
 		}
 
 		outputGifFilePath := filepath.Join(
-			localPath, "../../src/public/webring/", filename,
+			cmd.GetRootDir(), "src/public/webring/", filename,
 		)
 
 		gifskArgs := []string{

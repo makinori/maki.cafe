@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"runtime"
 
 	"go.etcd.io/bbolt"
+	"maki.cafe/cmd"
 )
 
 func exists(path string) bool {
@@ -17,14 +17,7 @@ func exists(path string) bool {
 }
 
 func main() {
-	_, goFilePath, _, ok := runtime.Caller(0)
-	if !ok {
-		fmt.Println("failed to get caller file")
-		os.Exit(1)
-	}
-
-	rootDir := filepath.Join(filepath.Dir(goFilePath), "../..")
-	databasePath := filepath.Join(rootDir, "data.db")
+	databasePath := filepath.Join(cmd.GetRootDir(), "data.db")
 
 	fmt.Println("opening: " + databasePath)
 

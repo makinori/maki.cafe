@@ -10,13 +10,14 @@ import (
 )
 
 type link struct {
-	Name  string
-	Color string
-	URL   string
-	Icon  string
-	Muted bool
-	Break bool
-	Title string
+	Name       string
+	Color      string
+	URL        string
+	Icon       string
+	IconBigger bool
+	Muted      bool
+	Break      bool
+	Title      string
 }
 
 func makeLinks(links []link) Group {
@@ -48,7 +49,11 @@ func makeLinks(links []link) Group {
 		}
 
 		if item.Icon != "" {
-			params = append(params, Img(Src(item.Icon)))
+			imgParams := []Node{Src(item.Icon)}
+			if item.IconBigger {
+				imgParams = append(imgParams, Class("bigger"))
+			}
+			params = append(params, Img(imgParams...))
 		}
 
 		params = append(params, Text(item.Name))
@@ -69,24 +74,28 @@ func Index(ctx context.Context) Group {
 				URL:   "/email",
 				Title: config.Email,
 				// Color: "#333",
+				Icon: "/icons/fa/envelope.svg",
 			},
 			{
 				Name:  "xmpp",
 				URL:   "/xmpp",
 				Title: config.XMPP,
 				Color: "#227ee1",
+				Icon:  "/icons/xmpp.svg",
 			},
 			{
 				Name:  "tox",
 				URL:   config.ToxURI,
 				Title: config.Tox,
 				Color: "#ff8f00",
+				Icon:  "/icons/tox.svg",
 			},
 			{
 				Name:  "matrix",
 				URL:   config.MatrixURL,
 				Title: config.MatrixUsername,
 				Color: "#0dbd8b",
+				Icon:  "/icons/element.svg",
 			},
 		})),
 		foxhtml.HStack(ctx, makeLinks([]link{
@@ -95,12 +104,14 @@ func Index(ctx context.Context) Group {
 				URL:   config.MastodonURL,
 				Title: config.MastodonUsername,
 				Color: "#6364ff",
+				Icon:  "/icons/fa/mastodon.svg",
 			},
 			{
 				Name:  "github",
 				URL:   config.GitHubURL,
 				Title: config.GitHubUsername,
 				Color: "#333",
+				Icon:  "/icons/fa/github.svg",
 			},
 		})),
 		foxhtml.HStack(ctx, makeLinks([]link{
@@ -109,38 +120,43 @@ func Index(ctx context.Context) Group {
 				URL:   config.SecondLifeURL,
 				Title: config.SecondLifeName,
 				Color: "#00bfff",
+				Icon:  "/icons/second-life.svg",
 			},
 		})),
 	)
 
 	workedOn := foxhtml.VStack(ctx,
 		foxhtml.StackSCSS(`
-			align-items: start;
+		align-items: start;
 		`),
 		makeLinks([]link{
 			{
-				Name:  "tivoli cloud vr",
-				Color: "#e91e63",
-				URL:   "https://github.com/tivolicloud",
-				Icon:  "/icons/tivoli.svg",
+				Name:       "tivoli cloud vr",
+				Color:      "#e91e63",
+				URL:        "https://github.com/tivolicloud",
+				Icon:       "/icons/tivoli.svg",
+				IconBigger: true,
 			},
 			{
-				Name:  "blahaj quest",
-				Color: "#3c8ea7",
-				URL:   "https://blahaj.quest",
-				Icon:  "/icons/emoji/shark.svg",
+				Name:       "blahaj quest",
+				Color:      "#3c8ea7",
+				URL:        "https://blahaj.quest",
+				Icon:       "/icons/emoji/shark.svg",
+				IconBigger: true,
 			},
 			{
-				Name:  "baltimare leaderboard",
-				Color: "#689F38",
-				URL:   "https://baltimare.hotmilk.space",
-				Icon:  "/icons/happy-anonfilly.png",
+				Name:       "baltimare leaderboard",
+				Color:      "#689F38",
+				URL:        "https://baltimare.hotmilk.space",
+				Icon:       "/icons/happy-anonfilly.png",
+				IconBigger: true,
 			},
 			{
-				Name:  "melon prime ds",
-				Color: "#dd2e44",
-				URL:   config.GitHubURL + "/melonPrimeDS",
-				Icon:  "/icons/metroid.png",
+				Name:       "melon prime ds",
+				Color:      "#dd2e44",
+				URL:        config.GitHubURL + "/melonPrimeDS",
+				Icon:       "/icons/metroid.png",
+				IconBigger: true,
 			},
 			{Break: true},
 			{

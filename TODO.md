@@ -1,4 +1,4 @@
--   embed svgs
+-   embed svgs as nodes so you can change their color and such
 -   refactor spritesheet stuff into more types
 -   improve page footer
 -   page with all previous profile pictures
