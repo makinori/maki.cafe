@@ -144,6 +144,7 @@ var games = []gameCategory{
 			{SteamID: 1055540}, // a short hike
 			{SteamID: 1332010}, // stray
 			{SteamID: 447040},  // watch dogs 2
+			{SteamID: 219680},  // proteus
 
 		},
 	},
