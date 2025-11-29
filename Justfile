@@ -60,9 +60,9 @@ generate: generate-favicon
 	echo "export as jpg with 100% quality"
 
 	magick assets/maki-cutout.png \
-	-filter Lanczos2 -resize x160 \
-	-fx "u*1.15" \
+	-filter Lanczos2 -resize x320 \
 	src/public/images/maki-header.png
+	# -fx "u*1.15" \
 
 	cp assets/maki.jpg src/public/images/maki.jpg
 
