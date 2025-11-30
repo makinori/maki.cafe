@@ -73,8 +73,7 @@ func Index(ctx context.Context) Group {
 				Name:  "email",
 				URL:   "/email",
 				Title: config.Email,
-				// Color: "#333",
-				Icon: "/icons/fa/envelope.svg",
+				Icon:  "/icons/fa/envelope.svg",
 			},
 			{
 				Name:  "xmpp",
@@ -113,6 +112,13 @@ func Index(ctx context.Context) Group {
 				Color: "#333",
 				Icon:  "/icons/fa/github.svg",
 			},
+			// {
+			// 	Name:  "forgejo",
+			// 	URL:   config.ForgejoURL,
+			// 	Title: config.ForgejoDomain,
+			// 	Color: "#ff5500",
+			// 	Icon:  "/icons/forgejo.svg",
+			// },
 		})),
 		foxhtml.HStack(ctx, makeLinks([]link{
 			{
@@ -181,13 +187,13 @@ func Index(ctx context.Context) Group {
 			Br(),
 			Text("and run servers"),
 		),
-		H3(
-			Style("margin-top: 16px; margin-bottom: 4px"),
-			Text("also a cute fox girl"),
-			Br(),
-			Text("she/they"),
-			Img(Src("/icons/trans-heart.svg"), Class("icon")),
-		),
+		// H3(
+		// 	Style("margin-top: 16px; margin-bottom: 4px"),
+		// 	Text("also a cute fox girl"),
+		// 	Br(),
+		// 	Text("she/they"),
+		// 	Img(Src("/icons/trans-heart.svg"), Class("icon")),
+		// ),
 		Br(),
 		social,
 		Br(),

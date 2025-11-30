@@ -15,6 +15,9 @@ const (
 	GitHubUsername = "makinori"
 	GitHubURL      = "https://github.com/" + GitHubUsername
 
+	ForgejoDomain = "git.hotmilk.space"
+	ForgejoURL    = "https://" + ForgejoDomain + "/explore/repos"
+
 	AniListUsername = "makinori"
 	AniListURL      = "https://anilist.co/user/" + AniListUsername
 

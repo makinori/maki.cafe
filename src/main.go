@@ -148,7 +148,7 @@ func Main() {
 	// middleware
 
 	wrappedMux := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Server", util.GetGoVersion().Full) // hell yeah
+		w.Header().Set("Server", util.GetGoVersion()) // hell yeah
 		mux.ServeHTTP(w, r)
 	})
 
