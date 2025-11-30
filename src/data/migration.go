@@ -13,6 +13,25 @@ func migrateCounterTxtToDatabase() error {
 		return errors.New("database is nil")
 	}
 
+	foundInDatabase := false
+
+	err := Database.View(func(tx *bbolt.Tx) error {
+		statsBucket := tx.Bucket(STATS_BUCKET)
+		if statsBucket == nil {
+			return errors.New("failed to find stats bucket")
+		}
+		counterBytes := statsBucket.Get([]byte("counter"))
+		if len(counterBytes) > 0 {
+			foundInDatabase = true
+		}
+		return nil
+	})
+
+	if foundInDatabase {
+		// dont want to overwrite any data
+		return nil
+	}
+
 	oldCounterBytes, err := os.ReadFile("data/counter.txt")
 	if err != nil {
 		// file doesnt exist, already migrated
