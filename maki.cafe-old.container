@@ -1,0 +1,33 @@
+[Unit]
+Description=maki.cafe old
+Wants=network-online.target
+After=network-online.target
+After=local-fs.target
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target
+
+[Container]
+HostName=maki-cafe-old
+Image=maki.cafe-old.build
+# AutoUpdate=registry
+
+Volume=./cache.d:/app/cache
+
+Label=traefik.enable=true
+Label=traefik.http.routers.old-maki-cafe.rule=Host(`old.maki.cafe`)
+Label=traefik.http.routers.old-maki-cafe.entrypoints=websecure
+Label=traefik.http.routers.old-maki-cafe.service=old-maki-cafe
+Label=traefik.http.services.old-maki-cafe.loadbalancer.server.port=3000
+Label=traefik.docker.network=traefik
+
+Label=homepage.group=Sites
+Label="homepage.name=maki.cafe (old)"
+Label=homepage.icon=https://old.maki.cafe/favicon.ico
+Label=homepage.href=https://old.maki.cafe
+
+Network=traefik

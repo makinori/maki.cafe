@@ -1,0 +1,3 @@
+[Build]
+ImageTag=maki.cafe-old
+SetWorkingDirectory=.
