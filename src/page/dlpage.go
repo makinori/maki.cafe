@@ -103,9 +103,14 @@ func dlPage(
 			)),
 			P(B(Text("last updated: "+meta["updated"].(string)))),
 			Br(),
-			P(Raw(html)),
-			Br(),
 		)
+
+		if html != "" {
+			nodes = append(nodes,
+				Raw(html),
+				Br(),
+			)
+		}
 
 		files, ok := meta["files"].([]any)
 		if ok {
