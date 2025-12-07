@@ -112,9 +112,13 @@ func Main() {
 	// register pages
 
 	mux.HandleFunc("GET /{$}", handlePage(page.Index))
+
 	mux.HandleFunc("GET /squirrels", handlePage(page.Squirrels))
 	mux.HandleFunc("GET /overwatch", handlePage(page.Overwatch))
 	mux.HandleFunc("GET /webring", handlePage(page.Webring))
+
+	mux.HandleFunc("GET /dl/blender", handlePage(page.DlBlender))
+
 	mux.HandleFunc("GET /fav/anime", handlePage(page.FavAnime))
 	mux.HandleFunc("GET /fav/anime/themes", handlePage(page.FavAnimeThemes))
 	mux.HandleFunc("GET /fav/games", handlePage(page.FavGames))
@@ -132,7 +136,7 @@ func Main() {
 	}
 
 	localDirs := []string{
-		"overwatch", "anime-themes",
+		"overwatch", "anime-themes", "blender",
 	}
 
 	for _, localDir := range localDirs {

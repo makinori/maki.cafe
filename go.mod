@@ -13,6 +13,8 @@ require (
 	github.com/mergestat/timediff v0.0.4
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/tdewolff/parse/v2 v2.8.5
+	github.com/yuin/goldmark v1.7.13
+	github.com/yuin/goldmark-meta v1.1.0
 	go.etcd.io/bbolt v1.4.3
 	golang.org/x/net v0.47.0
 	golang.org/x/sync v0.18.0
@@ -44,4 +46,5 @@ require (
 	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/text v0.31.0 // indirect
 	google.golang.org/protobuf v1.36.10 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

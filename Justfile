@@ -11,7 +11,7 @@ start:
 	-proxy.app_port=1234 \
 	-proxy.proxy_port=8080 \
 	-build.delay=10 \
-	-build.include_ext go,html,css,scss,png,jpg,gif,svg \
+	-build.include_ext go,html,css,scss,png,jpg,gif,svg,md \
 	-build.exclude_dir cache,cmd,tmp
 
 alias u := update
@@ -126,6 +126,9 @@ overwatch input seconds name:
 	ffmpeg -i "{{input}}" -ss {{seconds}} -t 25 \
 	-c:v libsvtav1 -crf 35 "overwatch/{{name}}.webm"
 	just thumbnail "overwatch/{{name}}.webm"
+
+# big folder gets backed up as it lives on my server
+# would keep it on the repo though, especially the markdown files
 
 # mounts big folder locally
 [group("mount")]
