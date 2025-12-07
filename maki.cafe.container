@@ -17,9 +17,7 @@ Image=maki.cafe.build
 # AutoUpdate=registry
 
 Volume=./data.db:/app/data.db
-# many video files
-Volume=./overwatch:/app/overwatch
-Volume=./anime-themes:/app/anime-themes
+Volume=./big:/app/big
 
 # Environment=PLAUSIBLE_DEBUG=1
 
