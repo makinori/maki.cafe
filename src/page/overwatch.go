@@ -14,6 +14,7 @@ import (
 
 	"github.com/makinori/foxlib/foxcss"
 	"github.com/makinori/foxlib/foxhtml"
+	"maki.cafe/src/component"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -35,7 +36,8 @@ func Overwatch(ctx context.Context) Group {
 	}
 
 	page := Group{
-		H2(Text("highlights from over the years")),
+		component.IconHeader(ctx, "highlights from over the years", "/icons/overwatch.svg"),
+		// H2(Text("highlights from over the years")),
 	}
 
 	videoFilenames := []string{}
@@ -99,7 +101,7 @@ func Overwatch(ctx context.Context) Group {
 					margin-top: 24px;
 					margin-bottom: 8px;
 				`),
-				H3(Text(text)),
+				H2(Text(text)),
 				Div(Style("flex-grow:1")),
 				H3(Text(date)),
 			),

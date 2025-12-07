@@ -137,7 +137,9 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 			Class(pagesClass),
 			Style("align-items: center; row-gap: 0px;"),
 			footerLink("", config.GitHubURL+"/maki.cafe", "source code"),
-			P(
+			A(
+				Class("plain"),
+				Href("https://go.dev/blog/greenteagc"),
 				Style("font-size: 0.8em; margin-left: 4px"),
 				Text(util.GetGoVersion()+", {{.RenderTime}}"),
 			),

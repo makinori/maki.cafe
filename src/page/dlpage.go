@@ -14,6 +14,7 @@ import (
 	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/renderer/html"
 	"github.com/yuin/goldmark/text"
+	"maki.cafe/src/component"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -33,7 +34,7 @@ var (
 
 func dlPage(
 	ctx context.Context,
-	markdownDir, dlPath, title, description string,
+	markdownDir, dlPath, title, description, icon string,
 ) Group {
 	allFiles, err := os.ReadDir(markdownDir)
 	if err != nil {
@@ -130,7 +131,7 @@ func dlPage(
 	}
 
 	return Group{
-		H1(Text(title)),
+		component.IconHeader(ctx, title, icon),
 		Br(),
 		P(Text(description)),
 		Br(),

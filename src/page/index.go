@@ -3,6 +3,7 @@ package page
 import (
 	"context"
 
+	"github.com/makinori/foxlib/foxcss"
 	"github.com/makinori/foxlib/foxhtml"
 	"maki.cafe/src/config"
 	. "maragu.dev/gomponents"
@@ -18,9 +19,10 @@ type link struct {
 	Muted      bool
 	Break      bool
 	Title      string
+	SideText   string
 }
 
-func makeLinks(links []link) Group {
+func makeLinks(ctx context.Context, links []link) Group {
 	var output Group
 
 	for _, item := range links {
@@ -58,7 +60,21 @@ func makeLinks(links []link) Group {
 
 		params = append(params, Text(item.Name))
 
-		output = append(output, A(params))
+		if item.SideText == "" {
+			output = append(output, A(params))
+			continue
+		}
+
+		output = append(output, foxhtml.HStack(ctx,
+			foxhtml.StackSCSS(`
+				align-items: center;
+				gap: 8px;
+			`),
+			A(params),
+			P(Text(item.SideText), Class(foxcss.Class(ctx, `
+				opacity: 0.5;
+			`))),
+		))
 	}
 
 	return output
@@ -68,7 +84,7 @@ func Index(ctx context.Context) Group {
 	// TODO: add icons?
 
 	social := foxhtml.VStack(ctx,
-		foxhtml.HStack(ctx, makeLinks([]link{
+		foxhtml.HStack(ctx, makeLinks(ctx, []link{
 			{
 				Name:  "email",
 				URL:   "/email",
@@ -97,7 +113,7 @@ func Index(ctx context.Context) Group {
 				Icon:  "/icons/element.svg",
 			},
 		})),
-		foxhtml.HStack(ctx, makeLinks([]link{
+		foxhtml.HStack(ctx, makeLinks(ctx, []link{
 			{
 				Name:  "mastodon",
 				URL:   config.MastodonURL,
@@ -120,7 +136,7 @@ func Index(ctx context.Context) Group {
 			// 	Icon:  "/icons/forgejo.svg",
 			// },
 		})),
-		foxhtml.HStack(ctx, makeLinks([]link{
+		foxhtml.HStack(ctx, makeLinks(ctx, []link{
 			{
 				Name:  "second life",
 				URL:   config.SecondLifeURL,
@@ -131,17 +147,20 @@ func Index(ctx context.Context) Group {
 		})),
 	)
 
-	workedOn := foxhtml.VStack(ctx,
-		foxhtml.StackSCSS(`
+	stackedLinks := foxhtml.StackSCSS(`
 		align-items: start;
-		`),
-		makeLinks([]link{
+	`)
+
+	workedOn := foxhtml.VStack(ctx,
+		stackedLinks,
+		makeLinks(ctx, []link{
 			{
-				Name:       "tivoli cloud vr",
+				Name:       "tivoli",
 				Color:      "#e91e63",
 				URL:        "https://github.com/tivolicloud",
 				Icon:       "/icons/tivoli.svg",
 				IconBigger: true,
+				SideText:   "(archived)",
 			},
 			{
 				Name:       "blahaj quest",
@@ -151,7 +170,7 @@ func Index(ctx context.Context) Group {
 				IconBigger: true,
 			},
 			{
-				Name:       "baltimare leaderboard",
+				Name:       "balti leaderboard",
 				Color:      "#689F38",
 				URL:        "https://baltimare.hotmilk.space",
 				Icon:       "/icons/happy-anonfilly.png",
@@ -164,7 +183,24 @@ func Index(ctx context.Context) Group {
 				Icon:       "/icons/metroid.png",
 				IconBigger: true,
 			},
-			{Break: true},
+		}),
+	)
+
+	downloads := foxhtml.VStack(ctx,
+		stackedLinks,
+		makeLinks(ctx, []link{
+			{
+				Name:  "blender",
+				Color: "#f4792b",
+				URL:   "/dl/blender",
+				Icon:  "/icons/blender.svg",
+			},
+		}),
+	)
+
+	otherLinks := foxhtml.VStack(ctx,
+		stackedLinks,
+		makeLinks(ctx, []link{
 			{
 				Name:  "old page",
 				Color: "#fff",
@@ -200,8 +236,13 @@ func Index(ctx context.Context) Group {
 		H2(Text("worked on")),
 		Br(),
 		workedOn,
-		// Br(),
-		// P(Text("may revert back to a new")),
-		// P(Text("variant of the old page")),
+		Br(),
+		H2(Text("downloads")),
+		Br(),
+		downloads,
+		Br(),
+		H2(Text("other")),
+		Br(),
+		otherLinks,
 	}
 }
