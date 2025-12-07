@@ -127,14 +127,13 @@ overwatch input seconds name:
 	-c:v libsvtav1 -crf 35 "overwatch/{{name}}.webm"
 	just thumbnail "overwatch/{{name}}.webm"
 
-# syncs folders to server
-[group("server")]
-syncto:
-	rsync -a --info=progress2 ./overwatch/ hakua:~/quadlets/maki.cafe/overwatch/
-	rsync -a --info=progress2 ./anime-themes/ hakua:~/quadlets/maki.cafe/anime-themes/
+# mounts big folder locally
+[group("mount")]
+mountbig:
+	mkdir -p big
+	sshfs mihari:quadlets/maki.cafe/big big
 
-# syncs folders from server
-[group("server")]
-syncfrom:
-	rsync -a --info=progress2 hakua:~/quadlets/maki.cafe/overwatch/ ./overwatch/
-	rsync -a --info=progress2 hakua:~/quadlets/maki.cafe/anime-themes/ ./anime-themes/
+# unmounts big folder locally
+[group("mount")]
+unmountbig:
+	umount big
