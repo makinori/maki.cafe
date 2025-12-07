@@ -131,8 +131,15 @@ func dlPage(
 
 	}
 
+	var header Node
+	if icon == "" {
+		header = H1(Text(title))
+	} else {
+		header = component.IconHeader(ctx, H1(Text(title)), icon)
+	}
+
 	return Group{
-		component.IconHeader(ctx, title, icon),
+		header,
 		Br(),
 		P(Text(description)),
 		Br(),

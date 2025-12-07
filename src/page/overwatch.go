@@ -36,8 +36,10 @@ func Overwatch(ctx context.Context) Group {
 	}
 
 	page := Group{
-		component.IconHeader(ctx, "highlights from over the years", "/icons/overwatch.svg"),
-		// H2(Text("highlights from over the years")),
+		component.IconHeader(ctx,
+			H2(Text("highlights from over the years")),
+			"/icons/overwatch.svg",
+		),
 	}
 
 	videoFilenames := []string{}

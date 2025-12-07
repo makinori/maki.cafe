@@ -8,18 +8,15 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
-func IconHeader(ctx context.Context, title, icon string) Node {
-	heading := H1(Text(title))
-	if icon == "" {
-		return heading
-	}
-
+func IconHeader(
+	ctx context.Context, header Node, icon string,
+) Node {
 	return foxhtml.HStack(ctx,
 		foxhtml.StackSCSS(`
 			gap: 16px;
 			align-items: center;
 		`),
 		Img(Src(icon), Height("32")),
-		heading,
+		header,
 	)
 }
