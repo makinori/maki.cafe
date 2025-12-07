@@ -126,8 +126,16 @@ func dlPage(
 
 		image, ok := meta["image"].(string)
 		if ok {
+			imgSrc := dlPath + "/" + image
 			nodes = append(nodes,
-				Img(Src(dlPath+"/"+image), Width("100%")),
+				A(
+					Class("plain"),
+					Href(imgSrc),
+					Img(
+						Src(imgSrc), Width("100%"),
+						Style("border-radius:8px"),
+					),
+				),
 				Br(),
 				Br(),
 				Div(Class(spacer)),

@@ -67,17 +67,20 @@ a {
 
 	border-radius: 4px;
 
-	&.plain {
-		background: none;
-		padding: 0;
-		font-weight: inherit;
-	}
-
 	> img {
 		height: 16px;
 		margin-top: -2px;
 		&.bigger {
 			height: 20px;
+		}
+	}
+
+	&.plain {
+		background: none;
+		padding: 0;
+		font-weight: inherit;
+		> img {
+			height: initial;
 		}
 	}
 
