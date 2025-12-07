@@ -78,8 +78,8 @@ func FavAnimeThemes(ctx context.Context) Group {
 				Controls(),
 				Class(videoClass),
 				Preload("none"),
-				Src("/anime-themes/"+filename),
-				Poster("/anime-themes/"+filenameNoExt+".jpg"),
+				Src("/fav/anime/themes/"+filename),
+				Poster("/fav/anime/themes/"+filenameNoExt+".jpg"),
 			),
 		)
 	}

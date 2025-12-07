@@ -23,6 +23,11 @@ import (
 	"maragu.dev/gomponents"
 )
 
+type LocalDir struct {
+	LocalDir  string
+	ServePath string
+}
+
 func handlePage(pageFn func(context.Context) gomponents.Group) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
@@ -135,15 +140,17 @@ func Main() {
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 	}
 
-	localDirs := []string{
-		"overwatch", "anime-themes", "blender",
+	localDirs := []LocalDir{
+		{LocalDir: "big/overwatch", ServePath: "/overwatch"},
+		{LocalDir: "big/anime-themes", ServePath: "/fav/anime/themes"},
+		{LocalDir: "big/blender", ServePath: "/dl/blender"},
 	}
 
-	for _, localDir := range localDirs {
+	for i := range localDirs {
 		mux.HandleFunc(
-			fmt.Sprintf("GET /%s/{file...}", localDir),
+			fmt.Sprintf("GET %s/{file...}", localDirs[i].ServePath),
 			foxhttp.FileServerOptimized(
-				os.DirFS("big/"+localDir), redirToIndex,
+				os.DirFS(localDirs[i].LocalDir), redirToIndex,
 			),
 		)
 	}

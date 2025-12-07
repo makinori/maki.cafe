@@ -9,9 +9,9 @@ import (
 
 func DlBlender(ctx context.Context) Group {
 	return dlPage(
-		ctx, "big/blender", "/blender",
+		ctx, "big/blender", "/dl/blender",
+		"/icons/blender.svg",
 		"blender goodies to download",
 		"things i've made or ported and such",
-		"/icons/blender.svg",
 	)
 }

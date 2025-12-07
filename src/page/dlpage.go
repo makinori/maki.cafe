@@ -34,7 +34,8 @@ var (
 
 func dlPage(
 	ctx context.Context,
-	markdownDir, dlPath, title, description, icon string,
+	markdownDir, dlPath, icon,
+	title, description string,
 ) Group {
 	allFiles, err := os.ReadDir(markdownDir)
 	if err != nil {
