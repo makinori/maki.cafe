@@ -26,7 +26,7 @@ var (
 
 func Overwatch(ctx context.Context) Group {
 	// allFiles, err := public.FS.ReadDir("overwatch")
-	allFiles, err := os.ReadDir("overwatch")
+	allFiles, err := os.ReadDir("big/overwatch")
 	if err != nil {
 		return Group{
 			H2(Text("failed to get highlights")),

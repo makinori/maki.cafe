@@ -14,7 +14,7 @@ import (
 )
 
 func FavAnimeThemes(ctx context.Context) Group {
-	allFiles, err := os.ReadDir("anime-themes")
+	allFiles, err := os.ReadDir("big/anime-themes")
 	if err != nil {
 		return Group{
 			H2(Text("failed to get anime themes")),
@@ -55,7 +55,7 @@ func FavAnimeThemes(ctx context.Context) Group {
 		title := ""
 		link := ""
 
-		info, err := os.ReadFile("anime-themes/" + filenameNoExt + ".txt")
+		info, err := os.ReadFile("big/anime-themes/" + filenameNoExt + ".txt")
 		if err == nil {
 			lines := strings.Split(string(info), "\n")
 			title = strings.ToLower(strings.TrimSpace(lines[0]))

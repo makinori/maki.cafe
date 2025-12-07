@@ -136,8 +136,11 @@ func Main() {
 	}
 
 	for _, localDir := range localDirs {
-		mux.HandleFunc(fmt.Sprintf("GET /%s/{file...}", localDir),
-			foxhttp.FileServerOptimized(os.DirFS(localDir), redirToIndex),
+		mux.HandleFunc(
+			fmt.Sprintf("GET /%s/{file...}", localDir),
+			foxhttp.FileServerOptimized(
+				os.DirFS("big/"+localDir), redirToIndex,
+			),
 		)
 	}
 
