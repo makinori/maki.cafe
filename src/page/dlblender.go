@@ -13,5 +13,6 @@ func DlBlender(ctx context.Context) Group {
 		"/icons/blender.svg",
 		"blender goodies to download",
 		"things i've made or ported and such",
+		false,
 	)
 }

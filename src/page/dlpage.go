@@ -7,6 +7,9 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
+	"regexp"
+	"slices"
+	"sort"
 	"strings"
 
 	"github.com/makinori/foxlib/foxcss"
@@ -30,12 +33,15 @@ var (
 			),
 		),
 	)
+
+	dlPageIDPrefixRegexp = regexp.MustCompile(`^[0-9]+-`)
 )
 
 func dlPage(
 	ctx context.Context,
 	markdownDir, dlPath, icon,
 	title, description string,
+	descending bool,
 ) Group {
 	allFiles, err := os.ReadDir(markdownDir)
 	if err != nil {
@@ -51,25 +57,35 @@ func dlPage(
 		margin: 32px 0;
 	`)
 
-	for _, mdFile := range allFiles {
-		ext := filepath.Ext(mdFile.Name())
+	var mdFiles []string
+	for _, file := range allFiles {
+		ext := filepath.Ext(file.Name())
 		if ext != ".md" {
 			continue
 		}
+		mdFiles = append(mdFiles, strings.TrimSuffix(file.Name(), ext))
+	}
 
-		id := strings.TrimSuffix(mdFile.Name(), ext)
+	sort.Strings(mdFiles)
+	if descending {
+		slices.Reverse(mdFiles)
+	}
+
+	for _, id := range mdFiles {
+		fileName := id + ".md"
+		id = dlPageIDPrefixRegexp.ReplaceAllString(id, "")
 
 		htmlError := func(err error) {
 			if err != nil {
 				slog.Error(err.Error())
 				nodes = append(nodes,
-					P(Text("failed to render: "+mdFile.Name())), Br(),
+					P(Text("failed to render: "+id)), Br(),
 				)
 			}
 		}
 
 		markdown, err := os.ReadFile(
-			filepath.Join(markdownDir, mdFile.Name()),
+			filepath.Join(markdownDir, fileName),
 		)
 		if err != nil {
 			htmlError(err)
