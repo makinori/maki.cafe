@@ -4,6 +4,14 @@ default:
 alias s := start
 [group("dev")]
 start:
+	#!/bin/bash
+	set -euo pipefail
+
+	which air &> /dev/null || {
+		echo "please go install github.com/air-verse/air@latest" >&2
+		exit 1
+	}
+
 	GOEXPERIMENT=greenteagc \
 	CI=true CLICOLOR_FORCE=1 \
 	DEV=1 PORT=1234 go tool air \
