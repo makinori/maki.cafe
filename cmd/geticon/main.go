@@ -70,14 +70,16 @@ usage:
 
 func getNextArgOrUsage(i *int) string {
 	if *i >= len(os.Args) {
-		panic(usage)
+		fmt.Println(usage)
+		os.Exit(1)
 	}
 
 	val := os.Args[*i]
 	*i++
 
 	if len(val) == 0 {
-		panic(usage)
+		fmt.Println(usage)
+		os.Exit(1)
 	}
 
 	return val
@@ -116,7 +118,8 @@ func main() {
 			"/svgs/" + pack + "/" + name + ".svg"
 
 	default:
-		panic(usage)
+		fmt.Println(usage)
+		os.Exit(1)
 	}
 
 	outputDir := filepath.Join(cmd.GetRootDir(), "src/public/icons/"+tool)

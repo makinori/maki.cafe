@@ -75,7 +75,7 @@ clearcache:
 # download icons and emojis
 [group("cmd")]
 [working-directory: "cmd"]
-icon +args: 
+icon *args: 
 	go mod tidy
 	go run ./geticon {{args}}
 
