@@ -23,7 +23,7 @@ var (
 
 func Init() error {
 	var err error
-	Database, err = bbolt.Open("data.db", 0644, nil)
+	Database, err = bbolt.Open("data.db", 0600, nil)
 	if err != nil {
 		return errors.New("failed to open database: " + err.Error())
 	}

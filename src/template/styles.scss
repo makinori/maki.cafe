@@ -10,8 +10,8 @@ $page-margin: 96px;
 
 $page-break-width: $page-width + $page-margin * 2;
 
-$bg-blur: "/images/the-witness-1080-blur8.jpg";
-$bg-noblur: "/images/the-witness-1080-noblur.jpg";
+$bg-blur: "/backgrounds/reimu-blur.webp";
+$bg: "/backgrounds/reimu.webp";
 
 body {
 	background-color: #111;
@@ -34,7 +34,7 @@ body {
 	}
 
 	&.noblur {
-		background-image: url($bg-noblur);
+		background-image: url($bg);
 	}
 
 	// preload images
@@ -44,7 +44,7 @@ body {
 		height: 0;
 		overflow: hidden;
 		z-index: -1;
-		content: url($bg-blur) url($bg-noblur);
+		content: url($bg-blur) url($bg);
 	}
 }
 

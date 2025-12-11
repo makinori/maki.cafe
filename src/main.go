@@ -72,6 +72,7 @@ func Main() {
 		slog.Error("failed to init data", "err", err.Error())
 		os.Exit(1)
 	}
+	defer data.Database.Close()
 
 	err = foxcss.InitSCSS(&godartsass.Options{
 		LogEventHandler: func(e godartsass.LogEvent) {

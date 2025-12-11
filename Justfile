@@ -14,7 +14,7 @@ start:
 
 	GOEXPERIMENT=greenteagc \
 	CI=true CLICOLOR_FORCE=1 \
-	DEV=1 PORT=1234 go tool air \
+	DEV=1 PORT=1234 air \
 	-proxy.enabled=true \
 	-proxy.app_port=1234 \
 	-proxy.proxy_port=8080 \
@@ -35,6 +35,7 @@ update:
 [group("dev")]
 generate-favicon:
 	#!/bin/bash
+	set -euo pipefail
 
 	rm -rf favicon/
 	mkdir favicon/
@@ -58,14 +59,11 @@ generate-favicon:
 
 	rm -rf favicon/
 
-# generate assets
+# generate favicon and header image
 [group("dev")]
 generate: generate-favicon
 	#!/bin/bash
-
-	echo "for background: use gimp to resize,"
-	echo "encode to 8-bit with blue noise,"
-	echo "export as jpg with 100% quality"
+	set -euo pipefail
 
 	magick assets/maki-cutout.png \
 	-filter Lanczos2 -resize x320 \
@@ -73,6 +71,77 @@ generate: generate-favicon
 	# -fx "u*1.15" \
 
 	cp assets/maki.jpg src/public/images/maki.jpg
+
+# generate background
+[group("dev")]
+genbg input dither opacity name:
+	#!/bin/bash
+	set -euo pipefail
+
+	quality=
+	dither={{dither}}
+	if [[ "${dither,,}" =~ ^(0|false|off|n|no)$ ]]; then
+		dither=0
+		echo "will not dither. might not look good"
+	else
+		dither=1
+		echo "will dither. file might be large"
+	fi
+
+	output=src/public/backgrounds/{{name}}.webp
+	output_blur=src/public/backgrounds/{{name}}-blur.webp
+
+	tmp=$(mktemp -u tmp.XXXXXX)
+	rm -rf $tmp
+	mkdir -p $tmp
+
+	# still not exactly the same as gimp
+	# something to do with perceptual colors
+	# also file size is like 1 mb
+	# should this be a go script?
+
+	magick "{{input}}" -filter Lanczos2 -resize 1920x $tmp/input.png
+	w=$(magick identify -format "%w" $tmp/input.png)
+	h=$(magick identify -format "%h" $tmp/input.png)
+
+	magick \
+	-size ${w}x${h} gradient:none-\#111 \
+	\( -size ${h}x${w} gradient:none-\#111 -rotate -90 \) \
+	-compose over -composite \
+	-depth 16 -define png:bit-depth=16 -colorspace sRGB $tmp/grad.png
+
+	magick $tmp/input.png \
+	\( -clone 0 -fill "#111" -colorize {{opacity}} \) \
+	-compose over -composite \
+	$tmp/grad.png \
+	-compose over -composite  \
+	-depth 16 -define png:bit-depth=16 -colorspace sRGB $tmp/output16.png
+
+	magick $tmp/output16.png -blur 0x12 \
+	-depth 16 -define png:bit-depth=16 -colorspace sRGB $tmp/blur16.png
+
+	if [ "$dither" = 0 ]; then
+		echo "saving 16 bit directly to 8 bit with 90% quality"
+		magick $tmp/output16.png -quality 90 $output
+		magick $tmp/blur16.png -quality 90 $output_blur
+		rm -rf $tmp
+		exit 0
+	fi
+
+	gegl $tmp/output16.png -- \
+		gegl:dither red-levels=256 green-levels=256 blue-levels=256 \
+			dither-method=blue-noise \
+		gegl:png-save bitdepth=8 path=$tmp/output8.png
+
+	gegl $tmp/blur16.png -- \
+		gegl:dither red-levels=256 green-levels=256 blue-levels=256 \
+			dither-method=blue-noise \
+		gegl:png-save bitdepth=8 path=$tmp/blur8.png
+
+	echo "saving 16 bit dithered to 8 bit with 100% quality"
+	magick $tmp/output8.png -quality 100 $output
+	magick $tmp/blur8.png -quality 100 $output_blur
+	rm -rf $tmp
 
 [group("cmd")]
 [working-directory: "cmd"]
