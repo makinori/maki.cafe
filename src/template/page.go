@@ -10,7 +10,6 @@ import (
 	"github.com/makinori/foxlib/foxcss"
 	"github.com/makinori/foxlib/foxhttp"
 	"maki.cafe/src/config"
-	"maki.cafe/src/util"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -47,7 +46,7 @@ func RenderPage(
 	)
 
 	ip := foxhttp.GetIPAddress(r)
-	if util.IsValidIPv6(ip) {
+	if foxhttp.IsValidIPv6(ip) {
 		ctx = context.WithValue(ctx, usingIPv6Key, true)
 	}
 
