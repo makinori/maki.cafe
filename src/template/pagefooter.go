@@ -144,6 +144,15 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 				Text(util.GetGoVersion()+", {{.RenderTime}}"),
 			),
 		),
+		A(
+			Class("muted "+foxcss.Class(ctx, `
+				opacity: 0.5;
+				font-size: 0.8em;
+			`)),
+			Href("https://www.zerochan.net/4547526"),
+			Text("wallpaper"),
+		),
+		Br(),
 		Br(),
 		component.MoeCounter(ctx),
 		ipv6Div,
