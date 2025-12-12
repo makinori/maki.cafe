@@ -16,8 +16,8 @@ HostName=maki-cafe
 Image=maki.cafe.build
 # AutoUpdate=registry
 
-Volume=./data.db:/app/data.db
-Volume=./big:/app/big
+Volume=./data.db:/data.db
+Volume=./big:/big
 
 # Environment=PLAUSIBLE_DEBUG=1
 
