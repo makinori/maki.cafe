@@ -1,11 +1,23 @@
-FROM docker.io/golang:1.25-alpine AS build
+# compile sass
 
-ARG SASS_VER=1.96.0
-ARG SASS_FILE=dart-sass-${SASS_VER}-linux-x64-musl.tar.gz
+ARG SASS_VERSION=1.96.0
 
-WORKDIR /
-ADD https://github.com/sass/dart-sass/releases/download/${SASS_VER}/${SASS_FILE} /
-RUN tar xzvf ${SASS_FILE} && rm -f ${SASS_FILE}
+FROM docker.io/bufbuild/buf:latest AS buf
+FROM ghcr.io/dart-musl/dart:latest AS dart
+
+COPY --from=buf /usr/local/bin/buf /usr/local/bin/
+
+RUN \
+git clone https://github.com/sass/dart-sass.git /dart-sass && \
+cd /dart-sass && \
+git checkout ${SASS_VERSION} && \
+dart pub get && \
+dart run grinder protobuf && \
+dart compile exe bin/sass.dart -o sass
+
+# compile site
+
+FROM docker.io/golang:alpine AS build
 
 WORKDIR /app
 
@@ -19,17 +31,19 @@ GOEXPERIMENT=greenteagc \
 CGO_ENABLED=0 GOOS=linux \
 go build -ldflags="-s -w" -o maki.cafe
 
-# create final image
+# create image
 
-FROM docker.io/alpine:latest
+FROM scratch
 
-WORKDIR /app
+WORKDIR /
+ENV PATH=/:$PATH
 
-# COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+# should only be one file
+COPY --from=dart /lib/ld-musl-*.so.1 /lib/
+COPY --from=dart /dart-sass/sass /sass
 
-ENV PATH=/dart-sass:$PATH
-COPY --from=build /dart-sass /dart-sass
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-COPY --from=build /app/maki.cafe /app/maki.cafe
+COPY --from=build /app/maki.cafe /maki.cafe
 
-ENTRYPOINT ["/app/maki.cafe"]
+CMD ["/maki.cafe"]
