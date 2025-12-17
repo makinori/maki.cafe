@@ -48,6 +48,13 @@ func Init() error {
 		return errors.New("failed to migrate: " + err.Error())
 	}
 
+	// err = Database.Update(func(tx *bbolt.Tx) error {
+	// 	return tx.DeleteBucket(CACHE_BUCKET)
+	// })
+	// if err != nil {
+	// 	return errors.New("failed to delete for testing: " + err.Error())
+	// }
+
 	// init cache
 	err = foxcache.Init(Database, CACHE_BUCKET, []foxcache.DataInterface{
 		&Anilist, &Squirrels,

@@ -3,6 +3,7 @@ package page
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"time"
 
 	"maki.cafe/src/component"
@@ -13,24 +14,26 @@ import (
 	. "maragu.dev/gomponents/html"
 )
 
-func animeTitle(title data.AniListTitle) string {
-	if title.English != "" {
-		return title.English
-	}
-	return title.Romaji
-}
-
 func FavAnime(ctx context.Context) Group {
 	anilistData := data.Anilist.Current
 
 	var current, completed, favoriteAnime, favoriteCharacters Group
 
 	for i, anime := range anilistData.Current {
+		var totalEpisodesStr string
+		if anime.Media.Episodes > 0 {
+			totalEpisodesStr = strconv.Itoa(anime.Media.Episodes)
+		} else {
+			totalEpisodesStr = strconv.Itoa(
+				anime.Media.NextAiringEpisode.Episode,
+			) + "+"
+		}
+
 		current = append(current, component.SpriteSheetGridItem(
-			animeTitle(anime.Media.Title), anime.Media.SiteURL,
+			anime.Media.Title.String(), anime.Media.SiteURL,
 			anilistData.CurrentImage.Positions[i],
 			P(Text(
-				fmt.Sprintf("%d/%d", anime.Progress, anime.Media.Episodes),
+				fmt.Sprintf("%d/%s", anime.Progress, totalEpisodesStr),
 			)),
 		))
 	}
@@ -44,7 +47,7 @@ func FavAnime(ctx context.Context) Group {
 		)
 
 		completed = append(completed, component.SpriteSheetGridItem(
-			animeTitle(anime.Media.Title), anime.Media.SiteURL,
+			anime.Media.Title.String(), anime.Media.SiteURL,
 			anilistData.CompletedImage.Positions[i],
 			P(Text(util.ShortDateWithYear(completedAt))),
 		))
@@ -52,7 +55,7 @@ func FavAnime(ctx context.Context) Group {
 
 	for i, anime := range anilistData.FavoriteAnime {
 		favoriteAnime = append(favoriteAnime, component.SpriteSheetGridItem(
-			animeTitle(anime.Title), anime.SiteURL,
+			anime.Title.String(), anime.SiteURL,
 			anilistData.FavoriteAnimeImage.Positions[i],
 		))
 	}
