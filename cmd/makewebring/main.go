@@ -49,20 +49,35 @@ func getFrameFilePath(i int, scale uint) string {
 	return filepath.Join(getFramesDir(scale), fmt.Sprintf("%04d", i)+".png")
 }
 
-func doFrame(i int, scales []uint) {
+func doFrame(i int) {
 	ctx, cancel := chromedp.NewContext(chromeCtx)
 	defer cancel()
 
 	var screenshotData []byte
 
-	chromedp.Run(ctx, chromedp.Tasks{
+	tasks := chromedp.Tasks{
 		chromedp.Navigate("file://" + htmlPath + "?go"),
 		chromedp.EmulateViewport(buttonWidth, buttonHeight,
 			chromedp.EmulateScale(renderScale),
 		),
-		chromedp.Evaluate(fmt.Sprintf("updateFrame(%d)", i), nil),
+	}
+
+	if i > -1 {
+		tasks = append(tasks,
+			chromedp.Evaluate(fmt.Sprintf("updateFrame(%d)", i), nil),
+		)
+	} else {
+		i = 0
+	}
+
+	tasks = append(tasks,
 		chromedp.FullScreenshot(&screenshotData, 100),
-	})
+	)
+
+	err := chromedp.Run(ctx, tasks)
+	if err != nil {
+		panic(err)
+	}
 
 	frame, err := imaging.Decode(bytes.NewReader(screenshotData))
 	if err != nil {
@@ -89,31 +104,17 @@ func doFrame(i int, scales []uint) {
 		}
 	}
 
-	progress.Add(1)
+	if progress != nil {
+		progress.Add(1)
+	}
 }
 
-func main() {
-	var cancel context.CancelFunc
-	chromeCtx, cancel = chromedp.NewExecAllocator(
-		context.Background(),
-		chromedp.Headless,
-	)
-	defer cancel()
-
-	_, goFilename, _, _ := runtime.Caller(0)
-	localPath = filepath.Dir(filepath.Clean(goFilename))
-
-	htmlPath = filepath.Join(localPath, "index.html")
-
+func makeGifAnimation() {
 	// gifs are max 50 fps
 	totalFrames := fps * length
 
 	fmt.Println("rendering frames")
 	progress = progressbar.Default(int64(totalFrames))
-
-	for _, scale := range scales {
-		os.Mkdir(getFramesDir(scale), 0755)
-	}
 
 	{
 		workers := int64(runtime.NumCPU())
@@ -124,7 +125,7 @@ func main() {
 			sem.Acquire(ctx, 1)
 			go func() {
 				defer sem.Release(1)
-				doFrame(i, scales)
+				doFrame(i)
 			}()
 		}
 
@@ -164,4 +165,56 @@ func main() {
 			panic(err)
 		}
 	}
+}
+
+func makeGifSingle() {
+	doFrame(-1)
+
+	// gifski
+
+	for _, scale := range scales {
+		filename := "maki.gif"
+		if scale > 1 {
+			filename = fmt.Sprintf("maki@%dx.gif", scale)
+		}
+
+		outputGifFilePath := filepath.Join(
+			cmd.GetRootDir(), "src/public/webring/", filename,
+		)
+
+		magickArgs := []string{
+			getFrameFilePath(0, scale),
+			outputGifFilePath,
+		}
+
+		cmd := exec.Command("magick", magickArgs...)
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+
+		err := cmd.Run()
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
+func main() {
+	var cancel context.CancelFunc
+	chromeCtx, cancel = chromedp.NewExecAllocator(
+		context.Background(),
+		chromedp.Headless,
+	)
+	defer cancel()
+
+	_, goFilename, _, _ := runtime.Caller(0)
+	localPath = filepath.Dir(filepath.Clean(goFilename))
+
+	htmlPath = filepath.Join(localPath, "index.html")
+
+	for _, scale := range scales {
+		os.RemoveAll(getFramesDir(scale))
+		os.Mkdir(getFramesDir(scale), 0755)
+	}
+
+	makeGifSingle()
 }
