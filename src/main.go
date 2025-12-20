@@ -171,7 +171,7 @@ func Main() {
 
 	port := 8080
 
-	portStr := os.Getenv("PORT")
+	portStr := util.ENV_PORT
 	if portStr != "" {
 		var err error
 		port, err = strconv.Atoi(portStr)
