@@ -9,10 +9,14 @@ RUN go mod download
 
 COPY ./ ./
 
+ARG GIT_COMMIT=""
+
 RUN \
 GOEXPERIMENT=greenteagc \
 CGO_ENABLED=0 GOOS=linux \
-go build -ldflags="-s -w" -o maki.cafe
+go build -ldflags="-s -w \
+-X 'maki.cafe/src/config.GitCommit=$GIT_COMMIT'\
+" -o maki.cafe
 
 # create image
 

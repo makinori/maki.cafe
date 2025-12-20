@@ -1,10 +1,6 @@
 package config
 
-import (
-	"log/slog"
-	"runtime/debug"
-	"time"
-)
+import "log/slog"
 
 const (
 	Domain = "maki.cafe"
@@ -44,25 +40,33 @@ const (
 	// BackloggdURL      = "https://backloggd.com/u/" + BackloggdUsername
 )
 
-func getGitCommitAndBuildDate() (gitCommit string, gitTime time.Time) {
-	info, _ := debug.ReadBuildInfo()
-	for _, setting := range info.Settings {
-		switch setting.Key {
-		case "vcs.revision":
-			gitCommit = setting.Value[:min(8, len(setting.Value))]
-		case "vcs.time":
-			var err error
-			gitTime, err = time.Parse(time.RFC3339, setting.Value)
-			if err != nil {
-				panic("failed to parse vcs.time: " + err.Error())
-			}
-		}
-	}
-	slog.Info("git", "commit", gitCommit, "time", gitTime)
-	return
-}
+// func getGitCommitAndTime() (gitCommit string, gitTime time.Time) {
+// 	info, _ := debug.ReadBuildInfo()
+// 	for _, setting := range info.Settings {
+// 		switch setting.Key {
+// 		case "vcs.revision":
+// 			gitCommit = setting.Value[:min(8, len(setting.Value))]
+// 		case "vcs.time":
+// 			var err error
+// 			gitTime, err = time.Parse(time.RFC3339, setting.Value)
+// 			if err != nil {
+// 				panic("failed to parse vcs.time: " + err.Error())
+// 			}
+// 		}
+// 	}
+// 	slog.Info("git", "commit", gitCommit, "time", gitTime)
+// 	return
+// }
 
 var (
-	GitCommit, GitTime = getGitCommitAndBuildDate()
-	SiteImage          = siteImage + "?" + GitCommit
+	// GitCommit, GitTime = getGitCommitAndTime()
+
+	// -ldflags "-X 'maki.cafe/src/config.GitCommit=$(git rev-parse HEAD | head -c 8)'"
+	GitCommit string
+
+	SiteImage = siteImage + "?" + GitCommit
 )
+
+func init() {
+	slog.Info("git", "commit", GitCommit)
+}

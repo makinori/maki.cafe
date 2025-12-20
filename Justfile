@@ -1,6 +1,12 @@
 default:
 	@just --list
 
+[private]
+air-build out_path:
+	GOEXPERIMENT=greenteagc CGO_ENABLED=0 go build -ldflags "\
+	-X 'maki.cafe/src/config.GitCommit=$(git rev-parse HEAD | head -c 8)'\
+	" -o "{{out_path}}" . 
+
 alias s := start
 [group("dev")]
 start:
@@ -12,7 +18,6 @@ start:
 		exit 1
 	}
 
-	GOEXPERIMENT=greenteagc \
 	CI=true CLICOLOR_FORCE=1 \
 	DEV=1 PORT=1234 air \
 	-proxy.enabled=true \
@@ -20,7 +25,8 @@ start:
 	-proxy.proxy_port=8080 \
 	-build.delay=10 \
 	-build.include_ext go,html,css,scss,png,jpg,gif,svg,md \
-	-build.exclude_dir cache,cmd,tmp
+	-build.exclude_dir cache,cmd,tmp \
+	-build.cmd "just air-build ./tmp/main"
 
 alias u := update
 # git pull, build and restart quadlet

@@ -1,3 +1,4 @@
 [Build]
 ImageTag=maki.cafe
 SetWorkingDirectory=.
+PodmanArgs="--build-arg $(git rev-parse HEAD | head -c 8)"
