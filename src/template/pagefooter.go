@@ -101,7 +101,7 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 					padding-right: 4px;
 					border-radius: 4px;
 				`)),
-				Text("yay! you're on ipv6!"),
+				Text("you're on ipv6!"),
 			),
 		)
 
@@ -146,11 +146,11 @@ func pageFooter(ctx context.Context, currentPagePath string) Group {
 		),
 		A(
 			Class("muted "+foxcss.Class(ctx, `
-				opacity: 0.5;
+				opacity: 1;
 				font-size: 0.8em;
 			`)),
 			Href("https://www.zerochan.net/4547526"),
-			Text("wallpaper"),
+			Text("wallpaper source"),
 		),
 		Br(),
 		Br(),

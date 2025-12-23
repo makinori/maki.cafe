@@ -77,7 +77,7 @@ func FavAnime(ctx context.Context) Group {
 			Text(" (openings/endings)"),
 			Br(),
 			Br(),
-			Text("and my "),
+			Text("or "),
 			A(
 				Href(config.AniListURL),
 				Text("anilist"),
@@ -123,6 +123,7 @@ func FavAnime(ctx context.Context) Group {
 			anilistData.FavoriteCharactersImage.Size,
 			data.AniListRatio, data.AniListGridWidthSmall, favoriteCharacters,
 		),
+		Br(),
 		Br(),
 		P(
 			Text("check out my silly "),

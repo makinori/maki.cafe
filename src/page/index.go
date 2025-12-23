@@ -2,6 +2,7 @@ package page
 
 import (
 	"context"
+	"strings"
 
 	"github.com/makinori/foxlib/foxcss"
 	"github.com/makinori/foxlib/foxhtml"
@@ -65,15 +66,22 @@ func makeLinks(ctx context.Context, links []link) Group {
 			continue
 		}
 
+		// side text only
+
+		var sideTextParams Node
+		if strings.HasPrefix(item.SideText, "(") {
+			sideTextParams = Class(foxcss.Class(ctx, `
+				opacity: 0.5;
+			`))
+		}
+
 		output = append(output, foxhtml.HStack(ctx,
 			foxhtml.StackSCSS(`
 				align-items: center;
-				gap: 8px;
+				gap: 12px;
 			`),
 			A(params),
-			P(Text(item.SideText), Class(foxcss.Class(ctx, `
-				opacity: 0.5;
-			`))),
+			P(Text(item.SideText), sideTextParams),
 		))
 	}
 
@@ -83,7 +91,7 @@ func makeLinks(ctx context.Context, links []link) Group {
 func Index(ctx context.Context) Group {
 	// TODO: add icons?
 
-	social := foxhtml.VStack(ctx,
+	reachMe := foxhtml.VStack(ctx,
 		foxhtml.HStack(ctx, makeLinks(ctx, []link{
 			{
 				Name:  "email",
@@ -113,38 +121,24 @@ func Index(ctx context.Context) Group {
 				Icon:  "/icons/element.svg",
 			},
 		})),
-		foxhtml.HStack(ctx, makeLinks(ctx, []link{
-			{
-				Name:  "mastodon",
-				URL:   config.MastodonURL,
-				Title: config.MastodonUsername,
-				Color: "#6364ff",
-				Icon:  "/icons/fa/mastodon.svg",
-			},
-			{
-				Name:  "github",
-				URL:   config.GitHubURL,
-				Title: config.GitHubUsername,
-				Color: "#333",
-				Icon:  "/icons/fa/github.svg",
-			},
-			// {
-			// 	Name:  "forgejo",
-			// 	URL:   config.ForgejoURL,
-			// 	Title: config.ForgejoDomain,
-			// 	Color: "#ff5500",
-			// 	Icon:  "/icons/forgejo.svg",
-			// },
-		})),
-		foxhtml.HStack(ctx, makeLinks(ctx, []link{
-			{
-				Name:  "second life",
-				URL:   config.SecondLifeURL,
-				Title: config.SecondLifeName,
-				Color: "#00bfff",
-				Icon:  "/icons/second-life.svg",
-			},
-		})),
+		// foxhtml.HStack(ctx, makeLinks(ctx, []link{
+		// 	{
+		// 		Name:  "forgejo",
+		// 		URL:   config.ForgejoURL,
+		// 		Title: config.ForgejoDomain,
+		// 		Color: "#ff5500",
+		// 		Icon:  "/icons/forgejo.svg",
+		// 	},
+		// })),
+		// foxhtml.HStack(ctx, makeLinks(ctx, []link{
+		// 	{
+		// 		Name:  "second life",
+		// 		URL:   config.SecondLifeURL,
+		// 		Title: config.SecondLifeName,
+		// 		Color: "#00bfff",
+		// 		Icon:  "/icons/second-life.svg",
+		// 	},
+		// })),
 	)
 
 	stackedLinks := foxhtml.StackSCSS(`
@@ -160,7 +154,7 @@ func Index(ctx context.Context) Group {
 				URL:        "https://github.com/tivolicloud",
 				Icon:       "/icons/tivoli.svg",
 				IconBigger: true,
-				SideText:   "(archived)",
+				SideText:   "(archive)",
 			},
 			{
 				Name:       "blahaj quest",
@@ -186,6 +180,23 @@ func Index(ctx context.Context) Group {
 		}),
 	)
 
+	findMore := foxhtml.HStack(ctx, makeLinks(ctx, []link{
+		{
+			Name:  "github",
+			URL:   config.GitHubURL,
+			Title: config.GitHubUsername,
+			Color: "#333",
+			Icon:  "/icons/fa/github.svg",
+		},
+		{
+			Name:  "mastodon",
+			URL:   config.MastodonURL,
+			Title: config.MastodonUsername,
+			Color: "#6364ff",
+			Icon:  "/icons/fa/mastodon.svg",
+		},
+	}))
+
 	downloads := foxhtml.VStack(ctx,
 		stackedLinks,
 		makeLinks(ctx, []link{
@@ -198,24 +209,24 @@ func Index(ctx context.Context) Group {
 		}),
 	)
 
-	otherLinks := foxhtml.VStack(ctx,
-		stackedLinks,
-		makeLinks(ctx, []link{
-			{
-				Name:  "old page",
-				Color: "#fff",
-				URL:   "https://old.maki.cafe",
-				Muted: true,
-			},
-			{
-				Name:  "dots",
-				Color: "#fff",
-				URL:   config.GitHubURL + "/dots",
-				Icon:  "/icons/arch.svg",
-				Muted: true,
-			},
-		}),
-	)
+	// otherLinks := foxhtml.VStack(ctx,
+	// 	stackedLinks,
+	// 	makeLinks(ctx, []link{
+	// 		// {
+	// 		// 	Name:  "old page",
+	// 		// 	Color: "#fff",
+	// 		// 	URL:   "https://old.maki.cafe",
+	// 		// 	Muted: true,
+	// 		// },
+	// 		{
+	// 			Name:  "dots",
+	// 			Color: "#fff",
+	// 			URL:   config.GitHubURL + "/dots",
+	// 			Icon:  "/icons/arch.svg",
+	// 			Muted: true,
+	// 		},
+	// 	}),
+	// )
 
 	return Group{
 		H2(
@@ -223,26 +234,25 @@ func Index(ctx context.Context) Group {
 			Br(),
 			Text("and run servers"),
 		),
-		// H3(
-		// 	Style("margin-top: 16px; margin-bottom: 4px"),
-		// 	Text("also a cute fox girl"),
-		// 	Br(),
-		// 	Text("she/they"),
-		// 	Img(Src("/icons/trans-heart.svg"), Class("icon")),
-		// ),
 		Br(),
-		social,
+		H2(Text("reach me")),
+		Br(),
+		reachMe,
 		Br(),
 		H2(Text("worked on")),
 		Br(),
 		workedOn,
 		Br(),
+		H2(Text("find more")),
+		Br(),
+		findMore,
+		Br(),
 		H2(Text("downloads")),
 		Br(),
 		downloads,
-		Br(),
-		H2(Text("other")),
-		Br(),
-		otherLinks,
+		// Br(),
+		// H2(Text("other")),
+		// Br(),
+		// otherLinks,
 	}
 }

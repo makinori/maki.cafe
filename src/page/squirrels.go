@@ -39,7 +39,7 @@ func Squirrels(ctx context.Context) Group {
 		`),
 		Br(),
 		P(
-			Text("find more at my "),
+			Text("find more on my "),
 			A(Href(config.SquirrelsURL), Text("mastodon page")),
 		),
 

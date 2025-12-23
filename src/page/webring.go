@@ -177,7 +177,6 @@ func Webring(ctx context.Context) Group {
 		Br(),
 		// sillyWebring(ctx, gridClass),
 		P(Text("feel free to use my button")),
-		P(Text("although it needs to be updated")),
 		Br(),
 		Div(
 			Class(gridClass),

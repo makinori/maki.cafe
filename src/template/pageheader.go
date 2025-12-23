@@ -7,6 +7,7 @@ import (
 	"github.com/makinori/foxlib/foxcss"
 	"github.com/makinori/foxlib/foxhttp"
 	"maki.cafe/src/component"
+	"maki.cafe/src/config"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )
@@ -17,8 +18,19 @@ type pageHeaderInfo struct {
 }
 
 func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group {
-	// make sure to set height to avoid flickering
-	makiImg := Img(Class("maki-img"), Src("/images/maki-header.png"))
+	makiImageAnchorArgs := Group{}
+	if info.Big {
+		makiImageAnchorArgs = Group{Href(config.SecondLifeURL)}
+	}
+
+	// make sure to set height to avoid page height changing
+	makiImage := A(
+		makiImageAnchorArgs,
+		Class("maki-img plain"),
+		Img(
+			Src("/images/maki-header.png"),
+		),
+	)
 
 	// dont want to add css to hide incase browsers dont render it
 
@@ -43,7 +55,7 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 						margin-bottom: 12px;
 					}
 
-					> .maki-img {
+					> .maki-img > img {
 						height: 160px;
 						margin-top: -24px;
 						image-rendering: optimizequality;
@@ -58,7 +70,7 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 					Attr("fill", "#fff"),
 					Height("80"),
 				),
-				makiImg,
+				makiImage,
 				notabotPixel,
 			),
 			Hr(
@@ -102,7 +114,7 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 					padding: inherit;
 				}
 
-				> .maki-img {
+				> .maki-img > img {
 					// height: 64px;
 					height: 96px;
 					image-rendering: optimizequality;
@@ -121,7 +133,7 @@ func pageHeader(ctx context.Context, info pageHeaderInfo, r *http.Request) Group
 			),
 			Div(Style("flex-grow:1")),
 			notabotPixel,
-			makiImg,
+			makiImage,
 		),
 		Hr(Style("height: 3px; margin-bottom: 28px")),
 	}

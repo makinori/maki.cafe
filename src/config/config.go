@@ -34,10 +34,11 @@ const (
 
 	SecondLifeName = "norimaki.resident"
 	SecondLifeUUID = "b7c5f366-7a39-4289-8157-d3a8ae6d57f4"
-	SecondLifeURL  = "secondlife:///app/agent/" + SecondLifeUUID + "/about"
+	SecondLifeURI  = "secondlife:///app/agent/" + SecondLifeUUID + "/about"
+	SecondLifeURL  = "https://world.secondlife.com/resident/" + SecondLifeUUID
 
-	// BackloggdUsername = "maki_nori"
-	// BackloggdURL      = "https://backloggd.com/u/" + BackloggdUsername
+	SteamUsername = "maki_nori"
+	SteamURL      = "https://steamcommunity.com/id/" + SteamUsername
 )
 
 // func getGitCommitAndTime() (gitCommit string, gitTime time.Time) {
