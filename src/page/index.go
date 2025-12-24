@@ -197,7 +197,7 @@ func Index(ctx context.Context) Group {
 		},
 	}))
 
-	downloads := foxhtml.VStack(ctx,
+	goodiesFor := foxhtml.VStack(ctx,
 		stackedLinks,
 		makeLinks(ctx, []link{
 			{
@@ -247,9 +247,9 @@ func Index(ctx context.Context) Group {
 		Br(),
 		findMore,
 		Br(),
-		H2(Text("downloads")),
+		H2(Text("goodies for")),
 		Br(),
-		downloads,
+		goodiesFor,
 		// Br(),
 		// H2(Text("other")),
 		// Br(),
