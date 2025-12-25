@@ -92,6 +92,9 @@ func Index(ctx context.Context) Group {
 	// TODO: add icons?
 
 	reachMe := foxhtml.VStack(ctx,
+		foxhtml.StackSCSS(`
+			margin-bottom: 8px;
+		`),
 		foxhtml.HStack(ctx, makeLinks(ctx, []link{
 			{
 				Name:  "email",
@@ -238,6 +241,17 @@ func Index(ctx context.Context) Group {
 		H2(Text("reach me")),
 		Br(),
 		reachMe,
+		P(
+			Text("or "),
+			Code(Text("makinori")),
+			Text(" on "),
+			A(
+				Class("plain"),
+				Style("font-weight:600"),
+				Href("https://libera.chat"),
+				Text("irc.libera.chat"),
+			),
+		),
 		Br(),
 		H2(Text("worked on")),
 		Br(),

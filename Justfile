@@ -217,7 +217,7 @@ overwatch input seconds name:
 [group("mount")]
 mountbig:
 	mkdir -p big
-	sshfs mihari:quadlets/maki.cafe/big big
+	sshfs yukari:quadlets/maki.cafe/big big
 
 # unmounts big folder locally
 [group("mount")]

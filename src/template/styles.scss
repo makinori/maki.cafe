@@ -53,19 +53,27 @@ a {
 	color: #fff;
 }
 
-a {
-	background: #ff1744;
+a,
+code {
 	// padding: 0px 4px;
 	padding: 3px 6px;
-	display: inline-block;
 	font-weight: 600;
 	// margin: 8px 0;
+	border-radius: 4px;
+}
+
+code {
+	// background: #222;
+	// outline: solid 2px #444;
+	background: #333;
+}
+
+a {
+	background: #ff1744;
 	display: inline-flex;
 	flex-direction: row;
 	align-items: center;
 	gap: 6px;
-
-	border-radius: 4px;
 
 	> img {
 		height: 16px;
