@@ -243,13 +243,20 @@ func Index(ctx context.Context) Group {
 		reachMe,
 		P(
 			Text("or "),
-			Code(Text("makinori")),
+			Code(Text("maki")),
 			Text(" on "),
 			A(
 				Class("plain"),
 				Style("font-weight:600"),
 				Href("https://libera.chat"),
-				Text("irc.libera.chat"),
+				Text("libera"),
+			),
+			Text(" or "),
+			A(
+				Class("plain"),
+				Style("font-weight:600"),
+				Href("https://rizon.net"),
+				Text("rizon"),
 			),
 		),
 		Br(),
