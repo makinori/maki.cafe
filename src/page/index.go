@@ -231,6 +231,15 @@ func Index(ctx context.Context) Group {
 	// 	}),
 	// )
 
+	ircLink := func(name string, domain string) Node {
+		return A(
+			Class("plain"),
+			Style("font-weight:600"),
+			Href("https://"+domain),
+			Text(name),
+		)
+	}
+
 	return Group{
 		H2(
 			Text("write software, make games"),
@@ -245,19 +254,11 @@ func Index(ctx context.Context) Group {
 			Text("or "),
 			Code(Text("maki")),
 			Text(" on "),
-			A(
-				Class("plain"),
-				Style("font-weight:600"),
-				Href("https://libera.chat"),
-				Text("libera"),
-			),
+			ircLink("libera", "libera.chat"),
+			Text(", "),
+			ircLink("rizon", "rizon.net"),
 			Text(" or "),
-			A(
-				Class("plain"),
-				Style("font-weight:600"),
-				Href("https://rizon.net"),
-				Text("rizon"),
-			),
+			ircLink("t420", "t420.net"),
 		),
 		Br(),
 		H2(Text("worked on")),
